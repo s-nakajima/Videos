@@ -7,14 +7,13 @@
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
- * @package app.Plugin.Videos.Test.Model.Fixture
  */
 
 /**
  * VideoFixture
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
- * @package app.Plugin.Videos.Model
+ * @package NetCommons\Videos\Test\Fixture
  */
 class VideoFixture extends CakeTestFixture {
 

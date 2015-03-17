@@ -1,11 +1,6 @@
 <?php
 /**
- * Video Model
- *
- * @property Video $Video
- * @property Language $Language
- * @property Block $Block
- * @property Part $Part
+ * VideoFrameSetting Model
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -17,12 +12,12 @@
 App::uses('VideosAppModel', 'Videos.Model');
 
 /**
- * Video Model
+ * VideoFrameSetting Model
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Model
  */
-class Video extends VideosAppModel {
+class VideoFrameSetting extends VideosAppModel {
 
 /**
  * Use database config
@@ -37,7 +32,7 @@ class Video extends VideosAppModel {
  * @var array
  */
 	public $validate = array(
-		'key' => array(
+		'frame_key' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
@@ -47,67 +42,7 @@ class Video extends VideosAppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'block_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'video_time' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'play_number' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'comments_number' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'likes_number' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'unlikes_number' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'is_auto_translated' => array(
+		'display_like' => array(
 			'boolean' => array(
 				'rule' => array('boolean'),
 				//'message' => 'Your custom message here',
@@ -117,43 +52,135 @@ class Video extends VideosAppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-	);
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'Block' => array(
-			'className' => 'Block',
-			'foreignKey' => 'block_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
+		'display_unlike' => array(
+			'boolean' => array(
+				'rule' => array('boolean'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
 		),
-		'Mp4' => array(
-			'className' => 'Mp4',
-			'foreignKey' => 'mp4_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
+		'display_comment' => array(
+			'boolean' => array(
+				'rule' => array('boolean'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
 		),
-		'Ogg' => array(
-			'className' => 'Ogg',
-			'foreignKey' => 'ogg_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
+		'videos_number' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
 		),
-		'Thumbnail' => array(
-			'className' => 'Thumbnail',
-			'foreignKey' => 'thumbnail_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
+		'files_size' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'agree' => array(
+			'boolean' => array(
+				'rule' => array('boolean'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'mail_notice' => array(
+			'boolean' => array(
+				'rule' => array('boolean'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'auto_video_convert' => array(
+			'boolean' => array(
+				'rule' => array('boolean'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'video_player' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'auto_play' => array(
+			'boolean' => array(
+				'rule' => array('boolean'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'buffer_time' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'comment_agree' => array(
+			'boolean' => array(
+				'rule' => array('boolean'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'comment_agree_mail_notice' => array(
+			'boolean' => array(
+				'rule' => array('boolean'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'display_number' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
 	);
 }

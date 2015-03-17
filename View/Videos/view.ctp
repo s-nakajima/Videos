@@ -7,8 +7,8 @@
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
- * @package app.Plugin.Videos.View.Videos
+ * @package NetCommons\Videos\View\Videos
  */
 ?>
 
-Videos view
+videos view

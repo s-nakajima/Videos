@@ -1,6 +1,6 @@
 <?php
 /**
- * Videos Controller
+ * VideoFrameSettings Controller
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -12,12 +12,12 @@
 App::uses('VideosAppController', 'Videos.Controller');
 
 /**
- * Videos Controller
+ * VideoFrameSettings Controller
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Controller
  */
-class VideosController extends VideosAppController {
+class VideoFrameSettingsController extends VideosAppController {
 
 /**
  * use model
@@ -25,23 +25,6 @@ class VideosController extends VideosAppController {
  * @var array
  */
 	//public $uses = array();
-
-/**
- * use components
- *
- * @var array
- */
-	public $components = array(
-		/* 'NetCommons.NetCommonsBlock', */
-		'NetCommons.NetCommonsFrame',
-		'NetCommons.NetCommonsWorkflow',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'contentEditable' => array('edit')
-			),
-		),
-	);
 
 /**
  * beforeFilter
@@ -54,25 +37,20 @@ class VideosController extends VideosAppController {
 	}
 
 /**
- * index
+ * use component
  *
- * @return void
+ * @var array
  */
-	public function index() {
-		$this->view = 'Videos/view';
-		$this->view();
-	}
-
-/**
- * view
- *
- * @return CakeResponse
- */
-	public function view() {
-		if ($this->viewVars['contentEditable']) {
-			$this->view = 'Videos/viewForEditor';
-		}
-	}
+	public $components = array(
+		'NetCommons.NetCommonsBlock',
+		'NetCommons.NetCommonsFrame',
+		'NetCommons.NetCommonsRoomRole' => array(
+			//コンテンツの権限設定
+			'allowedActions' => array(
+				'contentPublishable' => array('edit')
+			),
+		),
+	);
 
 /**
  * edit
