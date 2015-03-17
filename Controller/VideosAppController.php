@@ -11,7 +11,6 @@
  */
 
 App::uses('AppController', 'Controller');
-App::uses('NetCommonsFrameAppController', 'NetCommons.Controller');
 
 /**
  * VideosApp Controller
@@ -19,12 +18,11 @@ App::uses('NetCommonsFrameAppController', 'NetCommons.Controller');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package app.Plugin.Videos.Controller
  */
-class VideosAppController extends NetCommonsFrameAppController {
+class VideosAppController extends AppController {
 
 /**
  * use component
  *
- * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @var array
  */
 	public $components = array(

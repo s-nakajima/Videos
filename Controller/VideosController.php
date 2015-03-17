@@ -10,7 +10,11 @@
  * @package app.Plugin.Videos.Controller
  */
 
-App::uses('VideosAppController', 'Videos.Controller');
+App::uses(
+	'VideosAppController',
+	'Videos.Controller',
+	'Videos.Video'
+);
 
 /**
  * Videos Controller
@@ -23,7 +27,6 @@ class VideosController extends VideosAppController {
 /**
  * use model
  *
- * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @var array
  */
 	//public $uses = array();
@@ -31,7 +34,6 @@ class VideosController extends VideosAppController {
 /**
  * beforeFilter
  *
- * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @return void
  */
 	public function beforeFilter() {
@@ -42,29 +44,18 @@ class VideosController extends VideosAppController {
 /**
  * index
  *
- * @param int $frameId frames.id
- * @param string $lang language
- * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @return CakeResponse
  */
-	public function index($frameId = 0, $lang = '') {
-		//フレーム初期化処理
-		if (! $this->_initializeFrame($frameId, $lang)) {
-			return $this->render(false);
-		}
-
+	public function index() {
 		return $this->render('Videos/index');
 	}
 
 /**
  * view
  *
- * @param int $frameId frames.id
- * @param string $lang language
- * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @return CakeResponse
  */
-	public function view($frameId = 0, $lang = '') {
+	public function view() {
 		return $this->render('Videos/view');
 	}
 

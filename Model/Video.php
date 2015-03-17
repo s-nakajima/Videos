@@ -32,7 +32,6 @@ class Video extends VideosAppModel {
 /**
  * Use database config
  *
- * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @var string
  */
 	public $useDbConfig = 'master';
@@ -40,55 +39,126 @@ class Video extends VideosAppModel {
 /**
  * Validation rules
  *
- * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @var array
  */
 	public $validate = array(
-		'videos_block_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				'message' => 'Security Error! Unauthorized input.',
+		'key' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'status' => array(
+		'block_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				'message' => 'Security Error! Unauthorized input.',
-			),
-			'range' => array(
-				'rule' => array('range', 0, 4),
-				'message' => 'Security Error! Unauthorized input.',
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'language_id' => array(
+		'video_time' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				'message' => 'Security Error! Unauthorized input.',
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'play_number' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'comments_number' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'likes_number' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'unlikes_number' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'is_auto_translated' => array(
+			'boolean' => array(
+				'rule' => array('boolean'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 	);
 
+	//The Associations below have been created with all possible keys, those that are not needed can be removed
+
 /**
  * belongsTo associations
  *
- * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @var array
  */
 	public $belongsTo = array(
-		'VideosBlock' => array(
-			'className' => 'VideosBlock',
-			'foreignKey' => 'videos_block_id',
+		'Block' => array(
+			'className' => 'Block',
+			'foreignKey' => 'block_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Language' => array(
-			'className' => 'Language',
-			'foreignKey' => 'language_id',
+		'Mp4' => array(
+			'className' => 'Mp4',
+			'foreignKey' => 'mp4_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Ogg' => array(
+			'className' => 'Ogg',
+			'foreignKey' => 'ogg_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Thumbnail' => array(
+			'className' => 'Thumbnail',
+			'foreignKey' => 'thumbnail_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		)
 	);
-
 }
