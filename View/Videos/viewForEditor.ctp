@@ -28,3 +28,4 @@
 	</div>
 </div>
 
+<?php echo $this->element('Videos/view_contents'); ?>

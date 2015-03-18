@@ -11,4 +11,4 @@
  */
 ?>
 
-videos view
+<?php echo $this->element('Videos/view_contents'); ?>

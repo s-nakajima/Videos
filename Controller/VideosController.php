@@ -32,7 +32,7 @@ class VideosController extends VideosAppController {
  * @var array
  */
 	public $components = array(
-		/* 'NetCommons.NetCommonsBlock', */
+		'NetCommons.NetCommonsBlock',
 		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
