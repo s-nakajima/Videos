@@ -5,13 +5,13 @@
 
 
 /**
- * Videos Javascript
+ * VideoFrameSettings Javascript
  *
  * @param {string} Controller name
- * @param {function($scope, NetCommonsTab, NetCommonsWorkflow)} Controller
+ * @param {function($scope, NetCommonsTab)} Controller
  */
-NetCommonsApp.controller('Videos',
-  function($scope, NetCommonsTab, NetCommonsWorkflow) {
+NetCommonsApp.controller('VideoFrameSettings',
+  function($scope, NetCommonsTab) {
 
     /**
      * tab
@@ -19,13 +19,6 @@ NetCommonsApp.controller('Videos',
      * @type {object}
      */
     $scope.tab = NetCommonsTab.new();
-
-    /**
-     * workflow
-     *
-     * @type {object}
-     */
-    $scope.workflow = NetCommonsWorkflow.new($scope);
 
     /**
      * Initialize

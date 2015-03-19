@@ -53,10 +53,34 @@ class VideoFrameSettingsController extends VideosAppController {
 	);
 
 /**
- * edit
+ * 一覧表示
  *
  * @return CakeResponse
  */
-	public function edit() {
+	public function index() {
+	}
+
+/**
+ * 表示方法変更
+ *
+ * @return CakeResponse
+ */
+	public function display() {
+	}
+
+/**
+ * コンテンツ
+ *
+ * @return CakeResponse
+ */
+	public function content() {
+	}
+
+/**
+ * 権限設定
+ *
+ * @return CakeResponse
+ */
+	public function authority() {
 	}
 }

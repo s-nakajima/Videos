@@ -25,6 +25,13 @@ App::uses('VideosAppModel', 'Videos.Model');
 class Video extends VideosAppModel {
 
 /**
+ * input name
+ *
+ * @var string
+ */
+	const AVATAR_INPUT = 'avatar';
+
+/**
  * Use database config
  *
  * @var string

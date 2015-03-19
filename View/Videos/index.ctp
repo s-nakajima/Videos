@@ -1,111 +1,132 @@
 <?php
 /**
- * view_contents template
+ * index template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
- * @package NetCommons\Videos\View\Elements\Videos
  */
 ?>
 
+<?php /* 上部ボタン */ ?>
+<?php if ($contentEditable): ?>
+	<div class="row">
+		<div class="col-xs-12 text-right">
+			<span class="nc-tooltip" tooltip="<?php echo h(__d('net_commons', 'Add')); ?>">
+				<a href="<?php echo $this->Html->url('/videos/videos/add/' . $frameId) ?>" class="btn btn-success">
+					<span class="glyphicon glyphicon-plus"> </span>
+				</a>
+			</span>
+			<span>
+				<a href="<?php echo $this->Html->url('/videos/videoFrameSettings/index/' . $frameId) ?>" class="btn btn-default">
+					<span class="glyphicon glyphicon-cog"> </span>
+				</a>
+			</span>
+		</div>
+	</div>
+<?php endif; ?>
+
+<?php /* 検索 */ ?>
 <p>
 <div class="row">
 	<div class="col-xs-12">
-
 		<div class="panel panel-default">
 			<div class="panel-heading">
+				<?php echo $this->Form->create('Videos', array(
+					'name' => 'form',
+					'url' => '/videos/videos/index/' . $frameId,
+					'type' => 'get',
+					'novalidate' => true
+				)); ?>
 
-		<div class="input-group">
-			<label class="sr-only"><?php echo h(__d('videos', 'Search')); ?></label>
-			<input type="text" class="form-control" placeholder="<?php echo h(__d('videos', 'Search')); ?>">
-			<span class="input-group-btn">
-				<span class="nc-tooltip" tooltip="<?php echo __d('videos', 'Search'); ?>">
-					<button type="submit" class="btn btn-primary">
-						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					</button>
-				</span>
-			</span>
-		</div>
+				<div class="input-group">
+					<label class="sr-only"><?php echo h(__d('videos', 'Search')); ?></label>
+					<?php echo $this->Form->input('search',
+						array(
+							'label' => false,
+							'class' => 'form-control',
+							'placeholder' => h(__d('videos', 'Search')),
+							'autofocus' => true,
+						)) ?>
+					<span class="input-group-btn">
+							<span class="nc-tooltip" tooltip="<?php echo h(__d('videos', 'Search')); ?>">
+								<?php echo $this->Form->button('<span class="glyphicon glyphicon-search" aria-hidden="true"></span>',
+									array(
+										'class' => 'btn btn-primary',
+									)) ?>
+							</span>
+						</span>
+				</div>
 
-		<div class="checkbox">
-			<label><input type="checkbox"><?php echo h(__d('videos', 'title')); ?></label>
-			<label><input type="checkbox"><?php echo h(__d('videos', 'description')); ?></label>
-			<label><input type="checkbox"><?php echo h(__d('videos', 'tag')); ?></label>
-		</div>
+				<div class="checkbox">
+					<label><input type="checkbox"><?php echo h(__d('videos', 'title')); ?></label>
+					<label><input type="checkbox"><?php echo h(__d('videos', 'description')); ?></label>
+					<label><input type="checkbox"><?php echo h(__d('videos', 'tag')); ?></label>
+				</div>
 
+				<?php echo $this->Form->end(); ?>
 			</div>
 		</div>
-
 	</div>
 </div>
 </p>
+
+<?php /* 件数、ソート順、表示件数 */ ?>
 <p>
 <div class="row">
-	<div class="col-xs-6">
-		<div class="form-inline text-left">
-			<strong>999件</strong>
+	<div class="col-xs-3">
+		<div class="form-inline text-left text-nowrap">
+			<strong><?php echo h(__d('videos', '999件')); ?></strong>
 		</div>
 	</div>
-	<div class="col-xs-6">
+	<div class="col-xs-9">
 		<div class="form-inline text-right">
 
-			<div class="btn-group">
-				<button class="btn btn-default" type="button">新着順</button>
-				<button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-					<span class="caret"></span>
-					<span class="sr-only">並び替え</span>
-				</button>
-				<ul role="menu" class="dropdown-menu">
-					<li>
-						<a href="#">新着順</a>
-					</li>
-					<li>
-						<a href="#">タイトル順</a>
-					</li>
-					<li>
-						<a href="#">再生回数順</a>
-					</li>
-					<li>
-						<a href="#">評価順</a>
-					</li>
-				</ul>
+			<div class="form-group">
+				<span class="sr-only"><?php echo h(__d('videos', '表示順')); ?></span>
+				<?php echo $this->Form->input('displayOrder',
+					array(
+						'label' => false,
+						'type' => 'select',
+						'class' => 'form-control',
+						'options' => array(
+							'new' => h(__d('videos', '新着順')),
+							'title' => h(__d('videos', 'タイトル順')),
+							'play' => h(__d('videos', '再生回数順')),
+							'like' => h(__d('videos', '評価順')),
+						),
+						'selected' => 'new',
+					)) ?>
 			</div>
 
-			<div class="btn-group">
-				<button class="btn btn-default" type="button">5件</button>
-				<button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-					<span class="caret"></span>
-					<span class="sr-only">表示件数</span>
-				</button>
-				<ul role="menu" class="dropdown-menu">
-					<li>
-						<a href="#">1件</a>
-					</li>
-					<li>
-						<a href="#">5件</a>
-					</li>
-					<li>
-						<a href="#">10件</a>
-					</li>
-					<li>
-						<a href="#">20件</a>
-					</li>
-					<li>
-						<a href="#">50件</a>
-					</li>
-					<li>
-						<a href="#">100件</a>
-					</li>
-				</ul>
+			<div class="form-group">
+				<span class="sr-only"><?php echo h(__d('videos', '表示件数')); ?></span>
+				<?php echo $this->Form->input('displayNumber',
+					array(
+						'label' => false,
+						'type' => 'select',
+						'class' => 'form-control',
+						'options' => array(
+							1 => h(__d('videos', '1件')),
+							5 => h(__d('videos', '5件')),
+							10 => h(__d('videos', '10件')),
+							20 => h(__d('videos', '20件')),
+							50 => h(__d('videos', '50件')),
+							100 => h(__d('videos', '100件')),
+						),
+						'selected' => 5,
+						'autofocus' => true,
+					)) ?>
 			</div>
 
 		</div>
 	</div>
 </div>
 </p>
+
+<?php /* 動画一覧 */ ?>
 <p>
 <div class="row">
 
@@ -113,7 +134,8 @@
 		<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
 			<div class="pull-left" style="margin: 5px;">
 				<div>
-					<a href="#">
+					<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
+					<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
 						<?php echo $this->Html->image('/videos/img/thumbnail.jpg', array('class' => 'img-responsive','alt' => '動画タイトル動画タイトル動画タイトル動画タイトル')); ?>
 					</a>
 				</div>
@@ -122,7 +144,8 @@
 				</div>
 			</div>
 			<div class="pull-left" style="margin-top: 5px;">
-				<a href="#">
+				<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
+				<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
 					<strong>動画タイトル動画タイトル動画タイトル動画タイトル</strong>
 				</a>
 				<br />
@@ -137,7 +160,7 @@
 				<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> 999
 			</div>
 
-			<!-- ステータス -->
+			<?php /* ステータス */ ?>
 			<?php echo $this->element('NetCommons.status_label',
 				array('status' => '')); ?>
 
@@ -149,7 +172,8 @@
 		<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
 			<div class="pull-left" style="margin: 5px;">
 				<div>
-					<a href="#">
+					<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
+					<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
 						<?php echo $this->Html->image('/videos/img/thumbnail.jpg', array('class' => 'img-responsive','alt' => '動画タイトル動画タイトル動画タイトル動画タイトル')); ?>
 					</a>
 				</div>
@@ -158,7 +182,8 @@
 				</div>
 			</div>
 			<div class="pull-left" style="margin-top: 5px;">
-				<a href="#">
+				<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
+				<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
 					<strong>動画タイトル動画タイトル動画タイトル動画タイトル</strong>
 				</a>
 				<br />
@@ -173,18 +198,20 @@
 				<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> 999
 			</div>
 
-			<!-- ステータス -->
+			<?php /* ステータス */ ?>
 			<?php echo $this->element('NetCommons.status_label',
 				array('status' => '')); ?>
 
 			<div class="clearfix"></div>
 		</div>
 	</div>
+
 	<div class="col-md-4 col-xs-12">
 		<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
 			<div class="pull-left" style="margin: 5px;">
 				<div>
-					<a href="#">
+					<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
+					<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
 						<?php echo $this->Html->image('/videos/img/thumbnail.jpg', array('class' => 'img-responsive','alt' => '動画タイトル動画タイトル動画タイトル動画タイトル')); ?>
 					</a>
 				</div>
@@ -193,7 +220,8 @@
 				</div>
 			</div>
 			<div class="pull-left" style="margin-top: 5px;">
-				<a href="#">
+				<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
+				<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
 					<strong>動画タイトル動画タイトル動画タイトル動画タイトル</strong>
 				</a>
 				<br />
@@ -208,18 +236,20 @@
 				<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> 999
 			</div>
 
-			<!-- ステータス -->
+			<?php /* ステータス */ ?>
 			<?php echo $this->element('NetCommons.status_label',
 				array('status' => '')); ?>
 
 			<div class="clearfix"></div>
 		</div>
 	</div>
+
 	<div class="col-md-4 col-xs-12">
 		<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
 			<div class="pull-left" style="margin: 5px;">
 				<div>
-					<a href="#">
+					<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
+					<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
 						<?php echo $this->Html->image('/videos/img/thumbnail.jpg', array('class' => 'img-responsive','alt' => '動画タイトル動画タイトル動画タイトル動画タイトル')); ?>
 					</a>
 				</div>
@@ -228,7 +258,8 @@
 				</div>
 			</div>
 			<div class="pull-left" style="margin-top: 5px;">
-				<a href="#">
+				<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
+				<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
 					<strong>動画タイトル動画タイトル動画タイトル動画タイトル</strong>
 				</a>
 				<br />
@@ -243,18 +274,20 @@
 				<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> 999
 			</div>
 
-			<!-- ステータス -->
+			<?php /* ステータス */ ?>
 			<?php echo $this->element('NetCommons.status_label',
 				array('status' => '')); ?>
 
 			<div class="clearfix"></div>
 		</div>
 	</div>
+
 	<div class="col-md-4 col-xs-12">
 		<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
 			<div class="pull-left" style="margin: 5px;">
 				<div>
-					<a href="#">
+					<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
+					<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
 						<?php echo $this->Html->image('/videos/img/thumbnail.jpg', array('class' => 'img-responsive','alt' => '動画タイトル動画タイトル動画タイトル動画タイトル')); ?>
 					</a>
 				</div>
@@ -263,7 +296,8 @@
 				</div>
 			</div>
 			<div class="pull-left" style="margin-top: 5px;">
-				<a href="#">
+				<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
+				<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
 					<strong>動画タイトル動画タイトル動画タイトル動画タイトル</strong>
 				</a>
 				<br />
@@ -278,7 +312,7 @@
 				<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> 999
 			</div>
 
-			<!-- ステータス -->
+			<?php /* ステータス */ ?>
 			<?php echo $this->element('NetCommons.status_label',
 				array('status' => '')); ?>
 
@@ -288,6 +322,8 @@
 
 </div>
 </p>
+
+<?php /* ページャ */ ?>
 <p>
 <div class="row">
 	<div class="col-xs-12">

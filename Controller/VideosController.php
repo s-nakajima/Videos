@@ -24,7 +24,9 @@ class VideosController extends VideosAppController {
  *
  * @var array
  */
-	//public $uses = array();
+	public $uses = array(
+		'Comments.Comment',
+	);
 
 /**
  * use components
@@ -38,7 +40,7 @@ class VideosController extends VideosAppController {
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'contentEditable' => array('edit')
+				'contentEditable' => array('edit', 'delete')
 			),
 		),
 	);
@@ -54,31 +56,62 @@ class VideosController extends VideosAppController {
 	}
 
 /**
- * index
+ * 一覧表示
  *
  * @return void
  */
 	public function index() {
-		$this->view = 'Videos/view';
-		$this->view();
 	}
 
 /**
- * view
+ * 詳細表示
  *
  * @return CakeResponse
  */
 	public function view() {
-		if ($this->viewVars['contentEditable']) {
-			$this->view = 'Videos/viewForEditor';
-		}
 	}
 
 /**
- * edit
+ * 登録
+ *
+ * @return CakeResponse
+ */
+	public function add() {
+		$this->__init();
+	}
+
+/**
+ * 編集
  *
  * @return CakeResponse
  */
 	public function edit() {
+		$this->__init();
+	}
+
+/**
+ * 削除
+ *
+ * @return CakeResponse
+ */
+	public function delete() {
+	}
+
+/**
+ * __init
+ *
+ * @return array
+ */
+	private function __init() {
+		$comments = $this->Comment->getComments(
+			array(
+				'plugin_key' => 'videos',
+				'content_key' => null,
+			)
+		);
+		$results['comments'] = $comments;
+
+		$results['contentStatus'] = null;
+		$this->set($results);
 	}
 }
