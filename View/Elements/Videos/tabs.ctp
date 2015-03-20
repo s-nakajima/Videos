@@ -1,6 +1,6 @@
 <?php
 /**
- * tabs template
+ * 設定用タブ template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -10,22 +10,33 @@
  */
 ?>
 
+<?php /* 設定のタブ表示。コアで共通化の予定(*´ω｀) */ ?>
+
+<?php /* 下記は動画用に書いてみた('◇')ゞ */ ?>
 <?php $tabs = array(
-	array(
+	0 => array(
 		"tabName" => h(__d('videos', '一覧表示')),
 		"url" => '/videos/videoFrameSettings/index/' . $frameId,
 	),
-	array(
+	1 => array(
 		"tabName" => h(__d('videos', '表示方法変更')),
 		"url" => '/videos/videoFrameSettings/display/' . $frameId,
 	),
-	array(
+	2 => array(
 		"tabName" => h(__d('videos', 'コンテンツ')),
 		"url" => '/videos/videoFrameSettings/content/' . $frameId,
 	),
-	array(
+	3 => array(
 		"tabName" => h(__d('videos', '権限設定')),
 		"url" => '/videos/videoFrameSettings/authority/' . $frameId,
+	),
+	4 => array(
+		"tabName" => h(__d('videos', 'Video')),
+		"url" => '/videos/videoFrameSettings/video/' . $frameId,
+	),
+	5 => array(
+		"tabName" => h(__d('videos', 'Tag')),
+		"url" => '/videos/videoFrameSettings/tag/' . $frameId,
 	),
 ); ?>
 

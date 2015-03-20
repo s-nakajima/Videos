@@ -1,6 +1,6 @@
 <?php
 /**
- * edit template
+ * 表示方法変更 template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -31,7 +31,6 @@
 		<?php echo $this->Form->create('Videos', array(
 			'name' => 'form',
 			'novalidate' => true,
-			'type' => 'file'
 		)); ?>
 
 			<div class="panel panel-default">

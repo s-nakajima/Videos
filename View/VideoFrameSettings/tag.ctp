@@ -1,6 +1,6 @@
 <?php
 /**
- * コンテンツ template
+ * タグ template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -24,7 +24,7 @@
 
 		<?php echo $this->element('Videos/tabs',
 			array(
-				"activeTabIndex" => 2,
+				"activeTabIndex" => 5,
 			)
 		); ?>
 
@@ -37,19 +37,8 @@
 				<div class="panel-body has-feedback">
 
 					<?php //echo $this->element('VideoFrameSettings/edit_form'); ?>
-					content.ctp
+					tag.ctp
 
-				</div>
-				<div class="panel-footer text-center">
-					<a href="<?php echo $this->Html->url('/videos/videos/index/' . $frameId) ?>" class="btn btn-default">
-						<span class="glyphicon glyphicon-remove"></span><?php echo h(__d("net_commons", "Cancel")) ?>
-					</a>
-					<?php echo $this->Form->button(
-						__d('net_commons', 'OK'),
-						array(
-							'class' => 'btn btn-primary',
-							'name' => 'save_' . NetCommonsBlockComponent::STATUS_PUBLISHED,
-						)); ?>
 				</div>
 			</div>
 

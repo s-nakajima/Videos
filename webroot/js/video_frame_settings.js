@@ -1,5 +1,5 @@
 /**
- * @fileoverview Videos Javascript
+ * @fileoverview VideoFrameSettings Javascript
  * @author mutaguchi@opensource-workshop.jp (Mitsuru Mutaguchi)
  */
 

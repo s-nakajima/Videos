@@ -83,4 +83,20 @@ class VideoFrameSettingsController extends VideosAppController {
  */
 	public function authority() {
 	}
+
+/**
+ * 動画
+ *
+ * @return CakeResponse
+ */
+	public function video() {
+	}
+
+/**
+ * 動画
+ *
+ * @return CakeResponse
+ */
+	public function tag() {
+	}
 }

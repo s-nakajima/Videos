@@ -1,6 +1,6 @@
 <?php
 /**
- * tab template
+ * 登録・編集用タブ template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -9,6 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
+
+<?php /* 登録・編集時の画面上部表示。まだ暫定だよ(;'∀') */ ?>
 
 <?php $activeTabIndex = 0; ?>
 <?php $tabs = array(

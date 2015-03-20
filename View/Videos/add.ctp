@@ -1,6 +1,6 @@
 <?php
 /**
- * add template
+ * 登録 template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>

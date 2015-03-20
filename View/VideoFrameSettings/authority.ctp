@@ -1,6 +1,6 @@
 <?php
 /**
- * edit template
+ * 権限設定 template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -31,13 +31,13 @@
 		<?php echo $this->Form->create('Videos', array(
 			'name' => 'form',
 			'novalidate' => true,
-			'type' => 'file'
 		)); ?>
 
 			<div class="panel panel-default">
 				<div class="panel-body has-feedback">
 
 					<?php //echo $this->element('VideoFrameSettings/edit_form'); ?>
+					authority.ctp
 
 				</div>
 				<div class="panel-footer text-center">
