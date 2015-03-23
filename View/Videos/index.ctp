@@ -14,7 +14,7 @@
 <?php if ($contentEditable): ?>
 	<div class="row">
 		<div class="col-xs-12 text-right">
-			<span class="nc-tooltip" tooltip="<?php echo h(__d('net_commons', 'Add')); ?>">
+			<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Add'); ?>">
 				<a href="<?php echo $this->Html->url('/videos/videos/add/' . $frameId) ?>" class="btn btn-success">
 					<span class="glyphicon glyphicon-plus"> </span>
 				</a>
@@ -42,16 +42,16 @@
 				)); ?>
 
 				<div class="input-group">
-					<label class="sr-only"><?php echo h(__d('videos', 'Search')); ?></label>
+					<label class="sr-only"><?php echo __d('videos', 'Search'); ?></label>
 					<?php echo $this->Form->input('search',
 						array(
 							'label' => false,
 							'class' => 'form-control',
-							'placeholder' => h(__d('videos', 'Search')),
+							'placeholder' => __d('videos', 'Search'),
 							'autofocus' => true,
 						)) ?>
 					<span class="input-group-btn">
-							<span class="nc-tooltip" tooltip="<?php echo h(__d('videos', 'Search')); ?>">
+							<span class="nc-tooltip" tooltip="<?php echo __d('videos', 'Search'); ?>">
 								<?php echo $this->Form->button('<span class="glyphicon glyphicon-search" aria-hidden="true"></span>',
 									array(
 										'class' => 'btn btn-primary',
@@ -61,9 +61,9 @@
 				</div>
 
 				<div class="checkbox">
-					<label><input type="checkbox"><?php echo h(__d('videos', 'title')); ?></label>
-					<label><input type="checkbox"><?php echo h(__d('videos', 'description')); ?></label>
-					<label><input type="checkbox"><?php echo h(__d('videos', 'tag')); ?></label>
+					<label><input type="checkbox"><?php echo __d('videos', 'title'); ?></label>
+					<label><input type="checkbox"><?php echo __d('videos', 'description'); ?></label>
+					<label><input type="checkbox"><?php echo __d('videos', 'tag'); ?></label>
 				</div>
 
 				<?php echo $this->Form->end(); ?>
@@ -78,43 +78,43 @@
 <div class="row">
 	<div class="col-xs-3">
 		<div class="form-inline text-left text-nowrap">
-			<strong><?php echo h(__d('videos', '999件')); ?></strong>
+			<strong><?php echo __d('videos', '999件'); ?></strong>
 		</div>
 	</div>
 	<div class="col-xs-9">
 		<div class="form-inline text-right">
 
 			<div class="form-group">
-				<span class="sr-only"><?php echo h(__d('videos', '表示順')); ?></span>
+				<span class="sr-only"><?php echo __d('videos', '表示順'); ?></span>
 				<?php echo $this->Form->input('displayOrder',
 					array(
 						'label' => false,
 						'type' => 'select',
 						'class' => 'form-control',
 						'options' => array(
-							'new' => h(__d('videos', '新着順')),
-							'title' => h(__d('videos', 'タイトル順')),
-							'play' => h(__d('videos', '再生回数順')),
-							'like' => h(__d('videos', '評価順')),
+							'new' => __d('videos', '新着順'),
+							'title' => __d('videos', 'タイトル順'),
+							'play' => __d('videos', '再生回数順'),
+							'like' => __d('videos', '評価順'),
 						),
 						'selected' => 'new',
 					)) ?>
 			</div>
 
 			<div class="form-group">
-				<span class="sr-only"><?php echo h(__d('videos', '表示件数')); ?></span>
+				<span class="sr-only"><?php echo __d('videos', '表示件数'); ?></span>
 				<?php echo $this->Form->input('displayNumber',
 					array(
 						'label' => false,
 						'type' => 'select',
 						'class' => 'form-control',
 						'options' => array(
-							1 => h(__d('videos', '1件')),
-							5 => h(__d('videos', '5件')),
-							10 => h(__d('videos', '10件')),
-							20 => h(__d('videos', '20件')),
-							50 => h(__d('videos', '50件')),
-							100 => h(__d('videos', '100件')),
+							1 => __d('videos', '1件'),
+							5 => __d('videos', '5件'),
+							10 => __d('videos', '10件'),
+							20 => __d('videos', '20件'),
+							50 => __d('videos', '50件'),
+							100 => __d('videos', '100件'),
 						),
 						'selected' => 5,
 						'autofocus' => true,

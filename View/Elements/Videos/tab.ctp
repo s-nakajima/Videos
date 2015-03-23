@@ -39,7 +39,4 @@
 	<ul class="nav nav-tabs" role="tablist">
 		<?php echo $tabs; ?>
 	</ul>
-	<br />
-	<?php $tabId = $this->fetch('tabIndex'); ?>
-	<div class="tab-content" ng-init="tab.setTab(<?php echo (int)$tabId; ?>)"></div>
 <?php endif; ?>

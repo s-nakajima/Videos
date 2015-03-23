@@ -17,7 +17,7 @@
 
 	<?php echo $this->element('Videos/plugin_name',
 		array(
-			"pluginName" => h(__d('videos', 'Plugin name')),
+			"pluginName" => __d('videos', 'Plugin name'),
 		)
 	); ?>
 
@@ -25,7 +25,7 @@
 
 		<?php echo $this->element('Videos/tab',
 			array(
-				"tabName" => h(__d('videos', 'Video add')),
+				"tabName" => __d('videos', 'Video add'),
 			)
 		); ?>
 
@@ -34,21 +34,21 @@
 			'novalidate' => true,
 		)); ?>
 
-		<div class="panel panel-default">
-			<div class="panel-body has-feedback">
+			<div class="panel panel-default" style="border-top: none; border-radius: 0;">
+				<div class="panel-body has-feedback">
 
-				<?php echo $this->element('Videos/add_form'); ?>
+					<?php echo $this->element('Videos/add_form'); ?>
 
-				<hr />
+					<hr />
 
-				<?php echo $this->element('Comments.form'); ?>
+					<?php echo $this->element('Comments.form'); ?>
 
+				</div>
+				<div class="panel-footer text-center">
+					<?php echo $this->element('NetCommons.workflow_buttons'); ?>
+				</div>
 			</div>
-			<div class="panel-footer text-center">
-				<?php echo $this->element('NetCommons.workflow_buttons'); ?>
-			</div>
-		</div>
-		<?php echo $this->element('Comments.index'); ?>
+			<?php echo $this->element('Comments.index'); ?>
 
 		<?php echo $this->Form->end(); ?>
 	</div>

@@ -24,7 +24,9 @@ class VideoFrameSettingsController extends VideosAppController {
  *
  * @var array
  */
-	//public $uses = array();
+	public $uses = array(
+		'Videos.VideoFrameSetting',
+	);
 
 /**
  * beforeFilter
@@ -47,7 +49,14 @@ class VideoFrameSettingsController extends VideosAppController {
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'contentPublishable' => array('edit')
+				'contentPublishable' => array(
+					'index',
+					'display',
+					'content',
+					'authority',
+					'video',
+					'tag',
+				)
 			),
 		),
 	);
@@ -66,6 +75,29 @@ class VideoFrameSettingsController extends VideosAppController {
  * @return CakeResponse
  */
 	public function display() {
+		// 取得
+		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
+			$this->viewVars['frameKey']);
+
+		if ($this->request->isPost()) {
+
+			// 作成時間,更新時間を再セット
+			unset($videoFrameSetting['VideoFrameSetting']['created'], $videoFrameSetting['VideoFrameSetting']['modified']);
+			$data = Hash::merge($videoFrameSetting, $this->data);
+
+			// 保存
+			if (!$videoFrameSetting = $this->VideoFrameSetting->saveVideoFrameSetting($data)) {
+				if (!$this->handleValidationError($this->VideoFrameSetting->validationErrors)) {
+					return;
+				}
+			}
+		}
+
+		$results = array(
+			'videoFrameSetting' => $videoFrameSetting['VideoFrameSetting'],
+		);
+
+		$this->set($results);
 	}
 
 /**

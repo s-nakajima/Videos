@@ -15,27 +15,27 @@
 <?php /* 下記は動画用に書いてみた('◇')ゞ */ ?>
 <?php $tabs = array(
 	0 => array(
-		"tabName" => h(__d('videos', '一覧表示')),
+		"tabName" => __d('videos', '一覧表示'),
 		"url" => '/videos/videoFrameSettings/index/' . $frameId,
 	),
 	1 => array(
-		"tabName" => h(__d('videos', '表示方法変更')),
+		"tabName" => __d('videos', '表示方法変更'),
 		"url" => '/videos/videoFrameSettings/display/' . $frameId,
 	),
 	2 => array(
-		"tabName" => h(__d('videos', 'コンテンツ')),
+		"tabName" => __d('videos', 'コンテンツ'),
 		"url" => '/videos/videoFrameSettings/content/' . $frameId,
 	),
 	3 => array(
-		"tabName" => h(__d('videos', '権限設定')),
+		"tabName" => __d('videos', '権限設定'),
 		"url" => '/videos/videoFrameSettings/authority/' . $frameId,
 	),
 	4 => array(
-		"tabName" => h(__d('videos', 'Video')),
+		"tabName" => __d('videos', 'Video'),
 		"url" => '/videos/videoFrameSettings/video/' . $frameId,
 	),
 	5 => array(
-		"tabName" => h(__d('videos', 'Tag')),
+		"tabName" => __d('videos', 'Tag'),
 		"url" => '/videos/videoFrameSettings/tag/' . $frameId,
 	),
 ); ?>
@@ -59,7 +59,4 @@
 	<ul class="nav nav-tabs" role="tablist">
 		<?php echo $tabs; ?>
 	</ul>
-	<br />
-	<?php $tabId = $this->fetch('tabIndex'); ?>
-	<div class="tab-content" ng-init="tab.setTab(<?php echo (int)$tabId; ?>)"></div>
 <?php endif; ?>

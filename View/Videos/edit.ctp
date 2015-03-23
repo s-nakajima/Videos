@@ -18,7 +18,7 @@
 
 	<?php echo $this->element('Videos/plugin_name',
 		array(
-			"pluginName" => h(__d('videos', 'Plugin name')),
+			"pluginName" => __d('videos', 'Plugin name'),
 		)
 	); ?>
 
@@ -26,7 +26,7 @@
 
 		<?php echo $this->element('Videos/tab',
 			array(
-				"tabName" => h(__d('videos', 'Video edit')),
+				"tabName" => __d('videos', 'Video edit'),
 			)
 		); ?>
 
@@ -35,7 +35,7 @@
 			'novalidate' => true,
 		)); ?>
 
-			<div class="panel panel-default">
+			<div class="panel panel-default" style="border-top: none; border-radius: 0;">
 				<div class="panel-body has-feedback">
 
 					<?php echo $this->element('Videos/add_form'); ?>
@@ -53,7 +53,7 @@
 				<div class="panel-footer">
 					<div class="text-center">
 						<a href="<?php echo $this->Html->url('/videos/videos/delete/' . $frameId) ?>" class="btn btn-danger">
-							<?php echo h(__d('videos', 'Delete')) ?>
+							<?php echo __d('videos', 'Delete') ?>
 						</a>
 					</div>
 				</div>

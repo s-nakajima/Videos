@@ -16,7 +16,7 @@
 
 	<?php echo $this->element('Videos/plugin_name',
 		array(
-			"pluginName" => h(__d('videos', 'Plugin name')),
+			"pluginName" => __d('videos', 'Plugin name'),
 		)
 	); ?>
 
@@ -28,53 +28,52 @@
 			)
 		); ?>
 
-		<?php echo $this->Form->create('Videos', array(
+		<?php echo $this->Form->create('VideoFrameSetting', array(
 			'name' => 'form',
 			'novalidate' => true,
 		)); ?>
-
-			<div class="panel panel-default">
+			<div class="panel panel-default" style="border-top: none; border-radius: 0;">
 				<div class="panel-body has-feedback">
 
 					<div class="form-group">
-						<?php echo $this->Form->input('displayOrder',
+						<?php echo $this->Form->input('display_order',
 							array(
-								'label' => h(__d('videos', '表示順')),
+								'label' => __d('videos', '表示順'),
 								'type' => 'select',
 								'class' => 'form-control',
 								'options' => array(
-									'new' => h(__d('videos', '新着順')),
-									'title' => h(__d('videos', 'タイトル順')),
-									'play' => h(__d('videos', '再生回数順')),
-									'like' => h(__d('videos', '評価順')),
+									'new' => __d('videos', '新着順'),
+									'title' => __d('videos', 'タイトル順'),
+									'play' => __d('videos', '再生回数順'),
+									'like' => __d('videos', '評価順'),
 								),
-								'selected' => 'new',
+								'selected' => $videoFrameSetting['display_order'],
 								'autofocus' => true,
 							)) ?>
 					</div>
 
 					<div class="form-group">
-						<?php echo $this->Form->input('displayNumber',
+						<?php echo $this->Form->input('display_number',
 							array(
-								'label' => h(__d('videos', '表示件数')),
+								'label' => __d('videos', '表示件数'),
 								'type' => 'select',
 								'class' => 'form-control',
 								'options' => array(
-									1 => h(__d('videos', '1件')),
-									5 => h(__d('videos', '5件')),
-									10 => h(__d('videos', '10件')),
-									20 => h(__d('videos', '20件')),
-									50 => h(__d('videos', '50件')),
-									100 => h(__d('videos', '100件')),
+									1 => sprintf(__d('videos', '%s'), '1'),
+									5 => sprintf(__d('videos', '%s'), '5'),
+									10 => sprintf(__d('videos', '%s'), '10'),
+									20 => sprintf(__d('videos', '%s'), '20'),
+									50 => sprintf(__d('videos', '%s'), '50'),
+									100 => sprintf(__d('videos', '%s'), '100'),
 								),
-								'selected' => 5,
+								'selected' => $videoFrameSetting['display_number'],
 							)) ?>
 					</div>
 
 				</div>
 				<div class="panel-footer text-center">
 					<a href="<?php echo $this->Html->url('/videos/videos/index/' . $frameId) ?>" class="btn btn-default">
-						<span class="glyphicon glyphicon-remove"></span><?php echo h(__d("net_commons", "Cancel")) ?>
+						<span class="glyphicon glyphicon-remove"></span><?php echo __d("net_commons", "Cancel") ?>
 					</a>
 					<?php echo $this->Form->button(
 						__d('net_commons', 'OK'),

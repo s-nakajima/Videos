@@ -38,19 +38,28 @@
 	});
 </script>
 
-<?php if ($contentEditable): ?>
-	<div class="row">
-		<div class="col-xs-12 text-right">
-			<span class="nc-tooltip" tooltip="<?php echo h(__d('net_commons', 'Edit')); ?>">
+<?php /* 上部ボタン */ ?>
+<p>
+<div class="row">
+	<div class="col-xs-6 text-left">
+		<a href="<?php echo $this->Html->url('/videos/videos/index/' . $frameId) ?>" class="btn btn-default">
+			<?php echo __d("videos", "一覧へ") ?>
+		</a>
+	</div>
+	<div class="col-xs-6 text-right">
+		<?php if ($contentEditable): ?>
+			<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
 				<a href="<?php echo $this->Html->url('/videos/videos/edit/' . $frameId) ?>" class="btn btn-primary">
 					<span class="glyphicon glyphicon-edit"> </span>
 				</a>
 			</span>
-		</div>
+		<?php endif; ?>
 	</div>
-<?php endif; ?>
+</div>
+</p>
 
 <?php /* 動画 */ ?>
+<p>
 <div id="jp_container_1" class="jp-video " role="application" aria-label="media player">
 	<div class="jp-type-single">
 		<div id="jquery_jplayer_1" class="jp-jplayer"></div>
@@ -94,3 +103,4 @@
 		</div>
 	</div>
 </div>
+</p>

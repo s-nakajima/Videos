@@ -24,7 +24,7 @@ class VideoFrameSetting extends VideosAppModel {
  *
  * @var string
  */
-	public $useDbConfig = 'master';
+	//	public $useDbConfig = 'master';
 
 /**
  * Validation rules
@@ -183,4 +183,74 @@ class VideoFrameSetting extends VideosAppModel {
 			),
 		),
 	);
+
+/**
+ * VideoFrameSettingデータ取得
+ *
+ * @param int $frameKey frames.key
+ * @return array
+ */
+	public function getVideoFrameSetting($frameKey) {
+		$conditions = array(
+			'frame_key' => $frameKey,
+		);
+		if (!$videoFrameSetting = $this->find('first', array(
+			'recursive' => -1,
+			'conditions' => $conditions,
+			'order' => 'VideoFrameSetting.id DESC'
+		))
+		) {
+			//初期値を設定
+			$videoFrameSetting = $this->create($conditions);
+			$this->saveVideoFrameSetting($videoFrameSetting);
+		}
+		return $videoFrameSetting;
+	}
+
+/**
+ * VideoFrameSettingデータ保存
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function saveVideoFrameSetting($data) {
+		$this->loadModels([
+			'VideoFrameSetting' => 'Videos.VideoFrameSetting',
+		]);
+
+		//トランザクションBegin
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			if (!$this->validateVideoFrameSetting($data)) {
+				return false;
+			}
+
+			$videoFrameSetting = $this->save(null, false);
+			if (!$videoFrameSetting) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			$dataSource->commit();
+		} catch (Exception $ex) {
+			$dataSource->rollback();
+			CakeLog::write(LOG_ERR, $ex);
+			throw $ex;
+		}
+		return $videoFrameSetting;
+	}
+
+/**
+ * validate VideoFrameSetting
+ *
+ * @param array $data received post data
+ * @return bool True on success, false on error
+ */
+	public function validateVideoFrameSetting($data) {
+		$this->set($data);
+		$this->validates();
+		return $this->validationErrors ? false : true;
+	}
 }

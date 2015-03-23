@@ -18,7 +18,7 @@
 <div class="form-group">
 	<?php echo $this->Form->input('title',
 		array(
-			'label' => h(__d('videos', 'Title')) . $this->element('NetCommons.required'),
+			'label' => __d('videos', 'Title') . $this->element('NetCommons.required'),
 			'class' => 'form-control',
 			'required' => 'required',
 			'autofocus' => true,
@@ -29,23 +29,23 @@
 	<?php echo $this->Form->input('videoFile',
 		array(
 			'type' => 'file',
-			'label' => h(__d('videos', 'Video file')) . $this->element('NetCommons.required'),
+			'label' => __d('videos', 'Video file') . $this->element('NetCommons.required'),
 			'required' => 'required',
 		)) ?>
-	<p class="help-block"><?php echo h(__d('videos', 'mpeg,avi,mov,wmv,flv,mpg,mp4に対応しています。')); ?></p>
+	<p class="help-block"><?php echo __d('videos', 'mpeg,avi,mov,wmv,flv,mpg,mp4に対応しています。'); ?></p>
 </div>
 
 <div class="form-group">
 	<?php echo $this->Form->input('thumbnail',
 		array(
 			'type' => 'file',
-			'label' => h(__d('videos', 'Thumbnail')),
+			'label' => __d('videos', 'Thumbnail'),
 		)) ?>
-	<p class="help-block"><?php echo h(__d('videos', 'サムネイルは自動で作成できます。変更したい場合に登録してください。')); ?></p>
+	<p class="help-block"><?php echo __d('videos', 'サムネイルは自動で作成できます。変更したい場合に登録してください。'); ?></p>
 </div>
 
 <label for="description">
-	<?php echo h(__d('videos', 'Description')); ?>
+	<?php echo __d('videos', 'Description'); ?>
 </label>
 <div class="nc-wysiwyg-alert">
 	<?php echo $this->Form->textarea('description',
@@ -59,7 +59,7 @@
 <div class="form-group"></div>
 <div class="form-group">
 	<label for="tag">
-		<?php echo h(__d('videos', 'Tag')); ?>
+		<?php echo __d('videos', 'Tag'); ?>
 	</label>
 	<div class="input-group">
 		<?php echo $this->Form->input('tag',
@@ -69,7 +69,7 @@
 				'id' => 'tag'
 			)) ?>
 		<span class="input-group-btn">
-			<?php echo $this->Form->button( h(__d('videos', 'タグを追加する')),
+			<?php echo $this->Form->button( __d('videos', 'タグを追加する'),
 				array(
 					'class' => 'btn',
 				)) ?>

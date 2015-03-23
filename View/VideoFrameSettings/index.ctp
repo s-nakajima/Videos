@@ -16,7 +16,7 @@
 
 	<?php echo $this->element('Videos/plugin_name',
 		array(
-			"pluginName" => h(__d('videos', 'Plugin name')),
+			"pluginName" => __d('videos', 'Plugin name'),
 		)
 	); ?>
 
@@ -33,7 +33,7 @@
 			'novalidate' => true,
 		)); ?>
 
-			<div class="panel panel-default">
+			<div class="panel panel-default" style="border-top: none; border-radius: 0;">
 				<div class="panel-body has-feedback">
 
 					<?php //echo $this->element('VideoFrameSettings/edit_form'); ?>
