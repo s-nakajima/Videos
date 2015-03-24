@@ -13,22 +13,19 @@
 <?php echo $this->Html->script('/net_commons/base/js/workflow.js', false); ?>
 <?php echo $this->Html->script('/videos/js/videos.js', false); ?>
 
-<div id="nc-videos-<?php echo (int)$frameId; ?>" ng-controller="Videos"
+<div id="nc-videos-<?php echo (int)$frameId; ?>"
+	 ng-controller="Videos"
 	 ng-init="initialize(<?php echo h(json_encode($this->viewVars)); ?>)">
 
-	<?php echo $this->element('Videos/plugin_name',
-		array(
+	<?php echo $this->element('Videos/plugin_name', array(
 			"pluginName" => __d('videos', 'Plugin name'),
-		)
-	); ?>
+	)); ?>
 
 	<div class="modal-body">
 
-		<?php echo $this->element('Videos/tab',
-			array(
-				"tabName" => __d('videos', 'Video edit'),
-			)
-		); ?>
+		<?php echo $this->element('Videos/tab', array(
+			"tabName" => __d('videos', 'Video edit'),
+		)); ?>
 
 		<?php echo $this->Form->create('Videos', array(
 			'name' => 'form',
@@ -52,8 +49,8 @@
 				</div>
 				<div class="panel-footer">
 					<div class="text-center">
-						<a href="<?php echo $this->Html->url('/videos/videos/delete/' . $frameId) ?>" class="btn btn-danger">
-							<?php echo __d('videos', 'Delete') ?>
+						<a href="<?php echo $this->Html->url('/videos/videos/delete/' . $frameId); ?>" class="btn btn-danger">
+							<?php echo __d('videos', 'Delete'); ?>
 						</a>
 					</div>
 				</div>

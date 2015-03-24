@@ -26,6 +26,8 @@ class VideosController extends VideosAppController {
  */
 	public $uses = array(
 		'Comments.Comment',
+		'Videos.Video',
+		'Videos.VideoFrameSetting',
 	);
 
 /**
@@ -78,6 +80,30 @@ class VideosController extends VideosAppController {
  */
 	public function add() {
 		$this->__init();
+
+		if ($this->request->isPost()) {
+			if (!$status = $this->NetCommonsWorkflow->parseStatus()) {
+				return;
+			}
+
+			$video = $this->Video->create(['key' => Security::hash('video' . mt_rand() . microtime(), 'md5')]);
+			$data = Hash::merge(
+				$video,
+				$this->data,
+				['Videos' => ['status' => $status]]
+			);
+
+			$video = $this->Video->saveVideo($data, false);
+			if (!$this->handleValidationError($this->Video->validationErrors)) {
+				return;
+			}
+			//			$this->set('blockId', $video['Video']['block_id']);
+			//			if (!$this->request->is('ajax')) {
+			//				$backUrl = CakeSession::read('backUrl');
+			//				CakeSession::delete('backUrl');
+			//				$this->redirect($backUrl);
+			//			}
+		}
 	}
 
 /**
@@ -109,6 +135,7 @@ class VideosController extends VideosAppController {
 				'content_key' => null,
 			)
 		);
+
 		$results['comments'] = $comments;
 
 		$results['contentStatus'] = null;

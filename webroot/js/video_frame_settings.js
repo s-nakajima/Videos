@@ -26,6 +26,7 @@ NetCommonsApp.controller('VideoFrameSettings',
      * @return {void}
      */
     $scope.initialize = function(data) {
-      $scope.videos = angular.copy(data.videos);
+      $scope.video_frame_settings = angular.copy(data);
     };
+
   });

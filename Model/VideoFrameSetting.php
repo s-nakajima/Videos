@@ -20,6 +20,48 @@ App::uses('VideosAppModel', 'Videos.Model');
 class VideoFrameSetting extends VideosAppModel {
 
 /**
+ * 表示順 新着順
+ *
+ * @var string
+ */
+	const DISPLAY_ORDER_NEW = 'new';
+
+/**
+ * 表示順 タイトル順
+ *
+ * @var string
+ */
+	const DISPLAY_ORDER_TITLE = 'title';
+
+/**
+ * 表示順 再生回数順
+ *
+ * @var string
+ */
+	const DISPLAY_ORDER_PLAY = 'play';
+
+/**
+ * 表示順 評価順
+ *
+ * @var string
+ */
+	const DISPLAY_ORDER_LIKE = 'like';
+
+/**
+ * 動画再生プレイヤー jPlayer
+ *
+ * @var int
+ */
+	const VIDEO_PLAYER_JPLAYER = 1;
+
+/**
+ * 動画再生プレイヤー HTML5
+ *
+ * @var int
+ */
+	const VIDEO_PLAYER_HTML5 = 2;
+
+/**
  * Use database config
  *
  * @var string
@@ -234,7 +276,7 @@ class VideoFrameSetting extends VideosAppModel {
 			}
 
 			$dataSource->commit();
-		} catch (Exception $ex) {
+		} catch (InternalErrorException $ex) {
 			$dataSource->rollback();
 			CakeLog::write(LOG_ERR, $ex);
 			throw $ex;

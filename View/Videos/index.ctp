@@ -15,12 +15,12 @@
 	<div class="row">
 		<div class="col-xs-12 text-right">
 			<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Add'); ?>">
-				<a href="<?php echo $this->Html->url('/videos/videos/add/' . $frameId) ?>" class="btn btn-success">
+				<a href="<?php echo $this->Html->url('/videos/videos/add/' . $frameId); ?>" class="btn btn-success">
 					<span class="glyphicon glyphicon-plus"> </span>
 				</a>
 			</span>
 			<span>
-				<a href="<?php echo $this->Html->url('/videos/videoFrameSettings/index/' . $frameId) ?>" class="btn btn-default">
+				<a href="<?php echo $this->Html->url('/videos/videoFrameSettings/index/' . $frameId); ?>" class="btn btn-default">
 					<span class="glyphicon glyphicon-cog"> </span>
 				</a>
 			</span>
@@ -43,27 +43,25 @@
 
 				<div class="input-group">
 					<label class="sr-only"><?php echo __d('videos', 'Search'); ?></label>
-					<?php echo $this->Form->input('search',
-						array(
-							'label' => false,
-							'class' => 'form-control',
-							'placeholder' => __d('videos', 'Search'),
-							'autofocus' => true,
-						)) ?>
+					<?php echo $this->Form->input('search', array(
+						'label' => false,
+						'class' => 'form-control',
+						'placeholder' => __d('videos', 'Search'),
+						'autofocus' => true,
+					)); ?>
 					<span class="input-group-btn">
 							<span class="nc-tooltip" tooltip="<?php echo __d('videos', 'Search'); ?>">
-								<?php echo $this->Form->button('<span class="glyphicon glyphicon-search" aria-hidden="true"></span>',
-									array(
-										'class' => 'btn btn-primary',
-									)) ?>
+								<?php echo $this->Form->button('<span class="glyphicon glyphicon-search" aria-hidden="true"></span>', array(
+									'class' => 'btn btn-primary',
+								)); ?>
 							</span>
 						</span>
 				</div>
 
 				<div class="checkbox">
-					<label><input type="checkbox"><?php echo __d('videos', 'title'); ?></label>
-					<label><input type="checkbox"><?php echo __d('videos', 'description'); ?></label>
-					<label><input type="checkbox"><?php echo __d('videos', 'tag'); ?></label>
+					<label><input type="checkbox"><?php echo __d('videos', 'Title'); ?></label>
+					<label><input type="checkbox"><?php echo __d('videos', 'Description'); ?></label>
+					<label><input type="checkbox"><?php echo __d('videos', 'Tag'); ?></label>
 				</div>
 
 				<?php echo $this->Form->end(); ?>
@@ -78,7 +76,7 @@
 <div class="row">
 	<div class="col-xs-3">
 		<div class="form-inline text-left text-nowrap">
-			<strong><?php echo __d('videos', '999件'); ?></strong>
+			<strong><?php echo sprintf(__d('videos', '%s'), '999'); ?></strong>
 		</div>
 	</div>
 	<div class="col-xs-9">
@@ -86,16 +84,16 @@
 
 			<div class="form-group">
 				<span class="sr-only"><?php echo __d('videos', '表示順'); ?></span>
-				<?php echo $this->Form->input('displayOrder',
+				<?php echo $this->Form->input('display_order',
 					array(
 						'label' => false,
 						'type' => 'select',
 						'class' => 'form-control',
 						'options' => array(
-							'new' => __d('videos', '新着順'),
-							'title' => __d('videos', 'タイトル順'),
-							'play' => __d('videos', '再生回数順'),
-							'like' => __d('videos', '評価順'),
+							VideoFrameSetting::DISPLAY_ORDER_NEW => __d('videos', '新着順'),
+							VideoFrameSetting::DISPLAY_ORDER_TITLE => __d('videos', 'タイトル順'),
+							VideoFrameSetting::DISPLAY_ORDER_PLAY => __d('videos', '再生回数順'),
+							VideoFrameSetting::DISPLAY_ORDER_LIKE => __d('videos', '評価順'),
 						),
 						'selected' => 'new',
 					)) ?>
@@ -103,18 +101,18 @@
 
 			<div class="form-group">
 				<span class="sr-only"><?php echo __d('videos', '表示件数'); ?></span>
-				<?php echo $this->Form->input('displayNumber',
+				<?php echo $this->Form->input('display_number',
 					array(
 						'label' => false,
 						'type' => 'select',
 						'class' => 'form-control',
 						'options' => array(
-							1 => __d('videos', '1件'),
-							5 => __d('videos', '5件'),
-							10 => __d('videos', '10件'),
-							20 => __d('videos', '20件'),
-							50 => __d('videos', '50件'),
-							100 => __d('videos', '100件'),
+							1 => sprintf(__d('videos', '%s'), '1'),
+							5 => sprintf(__d('videos', '%s'), '5'),
+							10 => sprintf(__d('videos', '%s'), '10'),
+							20 => sprintf(__d('videos', '%s'), '20'),
+							50 => sprintf(__d('videos', '%s'), '50'),
+							100 => sprintf(__d('videos', '%s'), '100'),
 						),
 						'selected' => 5,
 						'autofocus' => true,
@@ -161,8 +159,9 @@
 			</div>
 
 			<?php /* ステータス */ ?>
-			<?php echo $this->element('NetCommons.status_label',
-				array('status' => '')); ?>
+			<?php echo $this->element('NetCommons.status_label', array(
+				'status' => ''
+			)); ?>
 
 			<div class="clearfix"></div>
 		</div>
@@ -174,7 +173,10 @@
 				<div>
 					<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
 					<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
-						<?php echo $this->Html->image('/videos/img/thumbnail.jpg', array('class' => 'img-responsive','alt' => '動画タイトル動画タイトル動画タイトル動画タイトル')); ?>
+						<?php echo $this->Html->image('/videos/img/thumbnail.jpg', array(
+							'class' => 'img-responsive',
+							'alt' => '動画タイトル動画タイトル動画タイトル動画タイトル'
+						)); ?>
 					</a>
 				</div>
 				<div style="margin-top: -18px; height: 14px;text-align: right;">
@@ -199,8 +201,9 @@
 			</div>
 
 			<?php /* ステータス */ ?>
-			<?php echo $this->element('NetCommons.status_label',
-				array('status' => '')); ?>
+			<?php echo $this->element('NetCommons.status_label', array(
+				'status' => ''
+			)); ?>
 
 			<div class="clearfix"></div>
 		</div>

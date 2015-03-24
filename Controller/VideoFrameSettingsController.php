@@ -109,6 +109,15 @@ class VideoFrameSettingsController extends VideosAppController {
 	}
 
 /**
+ * コンテンツ削除
+ *
+ * @return CakeResponse
+ */
+	public function delete() {
+		$this->view = 'VideoFrameSettings/index';
+	}
+
+/**
  * 権限設定
  *
  * @return CakeResponse

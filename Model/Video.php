@@ -163,4 +163,73 @@ class Video extends VideosAppModel {
 			'order' => ''
 		)
 	);
+
+/**
+ * Videoデータ保存
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function saveVideo($data) {
+		//登録処理まだ実装途中 (;'∀')
+		$this->loadModels([
+			'Video' => 'Videos.Video',
+			'Comment' => 'Comments.Comment',
+		]);
+
+		//トランザクションBegin
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			if (!$this->validateVideo($data)) {
+				return false;
+			}
+			// ステータスチェック
+			if (!$this->Comment->validateByStatus($data, array('caller' => $this->name))) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
+				return false;
+			}
+
+			//ブロックの登録
+			// $block = $this->Block->saveByFrameId($data['Frame']['id'], $validate);
+
+			//動画の登録
+			// $this->data['Video']['block_id'] = (int)$block['Block']['id'];
+			$video = $this->save(null, false);
+			if (!$video) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+			//コメントの登録
+			if ($this->Comment->data) {
+				if (!$this->Comment->save(null, false)) {
+					// @codeCoverageIgnoreStart
+					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+					// @codeCoverageIgnoreEnd
+				}
+			}
+
+			$dataSource->commit();
+		} catch (InternalErrorException $ex) {
+			$dataSource->rollback();
+			CakeLog::write(LOG_ERR, $ex);
+			throw $ex;
+		}
+		return $video;
+	}
+
+/**
+ * validate Video
+ *
+ * @param array $data received post data
+ * @return bool True on success, false on error
+ */
+	public function validateVideo($data) {
+		$this->set($data);
+		$this->validates();
+		return $this->validationErrors ? false : true;
+	}
 }

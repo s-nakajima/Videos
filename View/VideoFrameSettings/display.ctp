@@ -14,19 +14,15 @@
 
 <div id="nc-videos-<?php echo (int)$frameId; ?>" ng-controller="VideoFrameSettings">
 
-	<?php echo $this->element('Videos/plugin_name',
-		array(
-			"pluginName" => __d('videos', 'Plugin name'),
-		)
-	); ?>
+	<?php echo $this->element('Videos/plugin_name', array(
+		"pluginName" => __d('videos', 'Plugin name'),
+	)); ?>
 
 	<div class="modal-body">
 
-		<?php echo $this->element('Videos/tabs',
-			array(
-				"activeTabIndex" => 1,
-			)
-		); ?>
+		<?php echo $this->element('Videos/tabs', array(
+			"activeTabIndex" => 1,
+		)); ?>
 
 		<?php echo $this->Form->create('VideoFrameSetting', array(
 			'name' => 'form',
@@ -36,51 +32,46 @@
 				<div class="panel-body has-feedback">
 
 					<div class="form-group">
-						<?php echo $this->Form->input('display_order',
-							array(
-								'label' => __d('videos', '表示順'),
-								'type' => 'select',
-								'class' => 'form-control',
-								'options' => array(
-									'new' => __d('videos', '新着順'),
-									'title' => __d('videos', 'タイトル順'),
-									'play' => __d('videos', '再生回数順'),
-									'like' => __d('videos', '評価順'),
-								),
-								'selected' => $videoFrameSetting['display_order'],
-								'autofocus' => true,
-							)) ?>
+						<?php echo $this->Form->input('display_order', array(
+							'label' => __d('videos', '表示順'),
+							'type' => 'select',
+							'class' => 'form-control',
+							'options' => array(
+								VideoFrameSetting::DISPLAY_ORDER_NEW => __d('videos', '新着順'),
+								VideoFrameSetting::DISPLAY_ORDER_TITLE => __d('videos', 'タイトル順'),
+								VideoFrameSetting::DISPLAY_ORDER_PLAY => __d('videos', '再生回数順'),
+								VideoFrameSetting::DISPLAY_ORDER_LIKE => __d('videos', '評価順'),
+							),
+							'selected' => $videoFrameSetting['display_order'],
+							'autofocus' => true,
+						)); ?>
 					</div>
-
 					<div class="form-group">
-						<?php echo $this->Form->input('display_number',
-							array(
-								'label' => __d('videos', '表示件数'),
-								'type' => 'select',
-								'class' => 'form-control',
-								'options' => array(
-									1 => sprintf(__d('videos', '%s'), '1'),
-									5 => sprintf(__d('videos', '%s'), '5'),
-									10 => sprintf(__d('videos', '%s'), '10'),
-									20 => sprintf(__d('videos', '%s'), '20'),
-									50 => sprintf(__d('videos', '%s'), '50'),
-									100 => sprintf(__d('videos', '%s'), '100'),
-								),
-								'selected' => $videoFrameSetting['display_number'],
-							)) ?>
+						<?php echo $this->Form->input('display_number', array(
+							'label' => __d('videos', '表示件数'),
+							'type' => 'select',
+							'class' => 'form-control',
+							'options' => array(
+								1 => sprintf(__d('videos', '%s'), '1'),
+								5 => sprintf(__d('videos', '%s'), '5'),
+								10 => sprintf(__d('videos', '%s'), '10'),
+								20 => sprintf(__d('videos', '%s'), '20'),
+								50 => sprintf(__d('videos', '%s'), '50'),
+								100 => sprintf(__d('videos', '%s'), '100'),
+							),
+							'selected' => $videoFrameSetting['display_number'],
+						)); ?>
 					</div>
 
 				</div>
 				<div class="panel-footer text-center">
-					<a href="<?php echo $this->Html->url('/videos/videos/index/' . $frameId) ?>" class="btn btn-default">
-						<span class="glyphicon glyphicon-remove"></span><?php echo __d("net_commons", "Cancel") ?>
+					<a href="<?php echo $this->Html->url('/videos/videos/index/' . $frameId); ?>" class="btn btn-default">
+						<span class="glyphicon glyphicon-remove"></span><?php echo __d("net_commons", "Cancel"); ?>
 					</a>
-					<?php echo $this->Form->button(
-						__d('net_commons', 'OK'),
-						array(
-							'class' => 'btn btn-primary',
-							'name' => 'save_' . NetCommonsBlockComponent::STATUS_PUBLISHED,
-						)); ?>
+					<?php echo $this->Form->button(__d('net_commons', 'OK'), array(
+						'class' => 'btn btn-primary',
+						'name' => 'save_' . NetCommonsBlockComponent::STATUS_PUBLISHED,
+					)); ?>
 				</div>
 			</div>
 

@@ -28,8 +28,8 @@
 			<?php endif; ?>
 		</div>
 		<div class="col-xs-6 text-right" style="display:table-cell;vertical-align:middle;">
-			<a href="<?php echo $this->Html->url('/videos/videos/index/' . $frameId) ?>" class="btn btn-default">
-				<?php echo __d("videos", "一覧へ") ?>
+			<a href="<?php echo $this->Html->url('/videos/videos/index/' . $frameId); ?>" class="btn btn-default">
+				<?php echo __d("videos", "一覧へ"); ?>
 			</a>
 		</div>
 	</div>

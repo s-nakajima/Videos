@@ -15,19 +15,15 @@
 
 <div id="nc-videos-<?php echo (int)$frameId; ?>" ng-controller="Videos">
 
-	<?php echo $this->element('Videos/plugin_name',
-		array(
-			"pluginName" => __d('videos', 'Plugin name'),
-		)
-	); ?>
+	<?php echo $this->element('Videos/plugin_name', array(
+		"pluginName" => __d('videos', 'Plugin name'),
+	)); ?>
 
 	<div class="modal-body">
 
-		<?php echo $this->element('Videos/tab',
-			array(
-				"tabName" => __d('videos', 'Video add'),
-			)
-		); ?>
+		<?php echo $this->element('Videos/tab', array(
+			"tabName" => __d('videos', 'Video add'),
+		)); ?>
 
 		<?php echo $this->Form->create('Videos', array(
 			'name' => 'form',
