@@ -52,14 +52,14 @@ class VideoFrameSetting extends VideosAppModel {
  *
  * @var int
  */
-	const VIDEO_PLAYER_JPLAYER = 1;
+	const VIDEO_PLAYER_JPLAYER = '1';
 
 /**
  * 動画再生プレイヤー HTML5
  *
  * @var int
  */
-	const VIDEO_PLAYER_HTML5 = 2;
+	const VIDEO_PLAYER_HTML5 = '2';
 
 /**
  * Use database config
@@ -257,18 +257,27 @@ class VideoFrameSetting extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function saveVideoFrameSetting($data) {
-		$this->loadModels([
+		$this->loadModels(array(
 			'VideoFrameSetting' => 'Videos.VideoFrameSetting',
-		]);
+			'Block' => 'Blocks.Block',
+		));
 
 		//トランザクションBegin
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 
 		try {
-			if (!$this->validateVideoFrameSetting($data)) {
+			// 値をセット
+			$this->set($data);
+
+			// 入力チェック
+			$this->validates();
+			if ($this->validationErrors) {
 				return false;
 			}
+
+			//ブロックの登録
+			$this->Block->saveByFrameId($data['Frame']['id'], false);
 
 			$videoFrameSetting = $this->save(null, false);
 			if (!$videoFrameSetting) {
@@ -282,17 +291,5 @@ class VideoFrameSetting extends VideosAppModel {
 			throw $ex;
 		}
 		return $videoFrameSetting;
-	}
-
-/**
- * validate VideoFrameSetting
- *
- * @param array $data received post data
- * @return bool True on success, false on error
- */
-	public function validateVideoFrameSetting($data) {
-		$this->set($data);
-		$this->validates();
-		return $this->validationErrors ? false : true;
 	}
 }

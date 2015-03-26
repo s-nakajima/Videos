@@ -15,6 +15,8 @@
  */
 
 App::uses('VideosAppModel', 'Videos.Model');
+//FileUpload
+App::uses('UploadBehavior', 'Upload.Model/Behavior');
 
 /**
  * Video Model
@@ -25,18 +27,35 @@ App::uses('VideosAppModel', 'Videos.Model');
 class Video extends VideosAppModel {
 
 /**
- * input name
+ * file field name 動画ファイル
  *
  * @var string
  */
-	const AVATAR_INPUT = 'avatar';
+	const VIDEO_FILE_FIELD = 'videoFile';
 
 /**
- * Use database config
+ * file field name サムネイル
  *
  * @var string
  */
-	public $useDbConfig = 'master';
+	const THUMBNAIL_FIELD = 'thumbnail';
+
+/**
+ * use behaviors
+ *
+ * @var array
+ */
+	public $actsAs = array(
+		//'NetCommons.Publishable',
+		'Files.YAUpload' => array(			// FileUpload
+			self::VIDEO_FILE_FIELD => array(
+				//UploadBefavior settings
+			),
+			self::THUMBNAIL_FIELD => array(
+				//UploadBefavior settings
+			),
+		),
+	);
 
 /**
  * Validation rules
@@ -165,6 +184,30 @@ class Video extends VideosAppModel {
 	);
 
 /**
+ * Videoデータ取得
+ *
+ * @param string $key videos.key
+ * @param bool $contentEditable true can edit the content, false not can edit the content.
+ * @return array
+ */
+	public function getVideo($key, $contentEditable) {
+		$conditions = array(
+			$this->alias . '.key' => $key,
+		);
+		if (! $contentEditable) {
+			$conditions[$this->alias . '.status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
+		}
+
+		$video = $this->find('first', array(
+			'recursive' => -1,
+			'conditions' => $conditions,
+			'order' => $this->alias . '.id DESC'
+		));
+
+		return $video;
+	}
+
+/**
  * Videoデータ保存
  *
  * @param array $data received post data
@@ -172,31 +215,56 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function saveVideo($data) {
-		//登録処理まだ実装途中 (;'∀')
-		$this->loadModels([
+		$this->loadModels(array(
 			'Video' => 'Videos.Video',
 			'Comment' => 'Comments.Comment',
-		]);
+			'FileModel' => 'Files.FileModel',
+			//'FilesPlugin' => 'Files.FilesPlugin',
+			//'FilesRoom' => 'Files.FilesRoom',
+			//'FilesUser' => 'Files.FilesUser',
+		));
 
 		//トランザクションBegin
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 
 		try {
-			if (!$this->validateVideo($data)) {
+			// 値をセット
+			$this->set($data);
+
+			// 入力チェック
+			$this->validates();
+			if ($this->validationErrors) {
 				return false;
 			}
+
+			// 1動画からogg, mp4と２つに変換するのでまだ仮(;'∀')
+			// ファイルチェック 動画ファイル
+			if (! $data = $this->validateVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0)) {
+				return false;
+			}
+
+			// ファイルチェック サムネイル
+			if (! $data = $this->validateVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1)) {
+				return false;
+			}
+
 			// ステータスチェック
 			if (!$this->Comment->validateByStatus($data, array('caller' => $this->name))) {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
 				return false;
 			}
 
-			//ブロックの登録
-			// $block = $this->Block->saveByFrameId($data['Frame']['id'], $validate);
+			// ファイルの登録 動画ファイル
+			$data = $this->saveVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 'FileModel0', 0);
 
-			//動画の登録
-			// $this->data['Video']['block_id'] = (int)$block['Block']['id'];
+			// ファイルの登録 サムネイル
+			$data = $this->saveVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 'FileModel1', 1);
+
+			// 値をセット
+			$this->set($data);
+
+			//登録
 			$video = $this->save(null, false);
 			if (!$video) {
 				// @codeCoverageIgnoreStart
@@ -222,14 +290,105 @@ class Video extends VideosAppModel {
 	}
 
 /**
- * validate Video
+ * ファイルチェック
+ * 共通化希望(*´ω｀)
  *
  * @param array $data received post data
- * @return bool True on success, false on error
+ * @param string $field ファイルのフィールド名
+ * @param string $modelAlias モデル名
+ * @param string $colom セットするDBカラム名
+ * @param int $index File inputのindex
+ * @return mixed Array on success, false on error
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity) 暫定対応(;'∀')
  */
-	public function validateVideo($data) {
-		$this->set($data);
-		$this->validates();
-		return $this->validationErrors ? false : true;
+	public function validateVideoFile($data, $field, $modelAlias, $colom, $index = 0) {
+		//古いファイルの削除準備
+		if (isset($data[$field]) && isset($data[$modelAlias][$colom]) && $data[$modelAlias][$colom] !== null) {
+			$data['DeleteFile'][$index]['File'] = array(
+				'id' => $data[$modelAlias][$colom]
+			);
+		}
+
+		//ファイル削除のvalidate
+		if (isset($data['DeleteFile']) && $data['DeleteFile'][$index]['File']['id'] > 0) {
+			if (! $deleteFile = $this->FileModel->validateDeletedFiles($data['DeleteFile'][$index]['File']['id'])) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->FileModel->validationErrors);
+				return false;
+			}
+			$data['DeleteFile'] = $deleteFile;
+		}
+
+		//ファイルのvalidate
+		if (isset($data[$field])) {
+			if (! $this->FileModel->validateFile($data[$field])) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->FileModel->validationErrors);
+				return false;
+			}
+			if (! $this->FileModel->validateFileAssociated($data[$field])) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->FileModel->validationErrors);
+				return false;
+			}
+		}
+
+		return $data;
+	}
+
+/**
+ * ファイルの登録
+ * 共通化希望(*´ω｀)
+ *
+ * @param array $data received post data
+ * @param string $field ファイルのフィールド名
+ * @param string $modelAlias 登録するモデル名
+ * @param string $colom 登録するDBカラム名
+ * @param int $index File inputのindex
+ * @return mixed Array on success, false on error
+ * @throws InternalErrorException
+ */
+	public function saveVideoFile($data, $field, $modelAlias, $colom, $index = 0) {
+		//ファイルの削除
+		if (isset($data['DeleteFile']) && $data['DeleteFile'][$index]['File']['id'] > 0) {
+			//データ削除
+			if (! $this->FileModel->deleteAll(['id' => $data['DeleteFile'][$index]['File']['id']], true, false)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+			if (! $this->FileModel->deleteFileAssociated($data['DeleteFile'][$index]['File']['id'])) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+			$folder = new Folder();
+			$folder->delete($data['DeleteFile'][$index]['File']['path']);
+
+			$data[$modelAlias][$colom] = 0;
+		}
+
+		//ファイルの登録
+		if (isset($data[$field])) {
+			// 新規作成
+			$this->FileModel->create();
+
+			if (! $file = $this->FileModel->save(
+				$data[$field],
+				array('validate' => false, 'callbacks' => 'before')
+			)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+			if (! $this->FileModel->saveFileAssociated($file)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+			$data[$field] = Hash::insert(
+				$data[$field], '{s}.id', (int)$file[$this->FileModel->alias]['id']
+			);
+			$data[$modelAlias][$colom] = $data[$field][$this->FileModel->alias]['id'];
+		}
+
+		return $data;
 	}
 }

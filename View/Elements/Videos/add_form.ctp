@@ -10,13 +10,14 @@
  */
 ?>
 
-<?php echo $this->Form->hidden('id'); ?>
+<?php /* echo $this->Form->hidden('id'); ?>
 <?php echo $this->Form->hidden('Block.id', array(
 	'value' => (int)$blockId,
-)); ?>
+)); */ ?>
 
 <div class="form-group">
 	<?php echo $this->Form->input('title', array(
+		'type' => 'text',
 		'label' => __d('videos', 'Title') . $this->element('NetCommons.required'),
 		'class' => 'form-control',
 		'required' => 'required',
@@ -24,23 +25,30 @@
 	)); ?>
 </div>
 
-<div class="form-group">
-	<?php echo $this->Form->input('videoFile', array(
-		'type' => 'file',
-		'label' => __d('videos', 'Video file') . $this->element('NetCommons.required'),
-		'required' => 'required',
-	)); ?>
-	<p class="help-block"><?php echo __d('videos', 'mpeg,avi,mov,wmv,flv,mpg,mp4に対応しています。'); ?></p>
-</div>
+<?php /* 'required' => 'required'まだ */ ?>
+<?php echo $this->element('Videos/file',  array(
+	'pluginName' => 'Videos',
+	'label' => __d('videos', 'Video file') . $this->element('NetCommons.required'),
+	'field' => Video::VIDEO_FILE_FIELD,
+	'fileAccept' => 'video/*',
+	'model' => 'Video',
+	'pluginKey' => 'video',
+	'index' => 0,
+	'helpBlockMessage' => __d('videos', 'mpeg,avi,mov,wmv,flv,mpg,mp4に対応しています。'),
+	'file' => $videoFile,
+)); ?>
 
-<div class="form-group">
-	<?php echo $this->Form->input('thumbnail',
-		array(
-			'type' => 'file',
-			'label' => __d('videos', 'Thumbnail'),
-		)) ?>
-	<p class="help-block"><?php echo __d('videos', 'サムネイルは自動で作成できます。変更したい場合に登録してください。'); ?></p>
-</div>
+<?php echo $this->element('Videos/file',  array(
+	'pluginName' => 'Videos',
+	'label' => __d('videos', 'Thumbnail'),
+	'field' => Video::THUMBNAIL_FIELD,
+	'fileAccept' => 'image/*',
+	'model' => 'Video',
+	'pluginKey' => 'video',
+	'index' => 1,
+	'helpBlockMessage' => __d('videos', 'サムネイルは自動で作成できます。変更したい場合に登録してください。'),
+	'file' => $thumbnail,
+)); ?>
 
 <label for="description">
 	<?php echo __d('videos', 'Description'); ?>
@@ -71,4 +79,3 @@
 		</span>
 	</div>
 </div>
-

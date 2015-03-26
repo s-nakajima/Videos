@@ -25,9 +25,11 @@
 			"tabName" => __d('videos', 'Video add'),
 		)); ?>
 
-		<?php echo $this->Form->create('Videos', array(
+		<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>
+		<?php echo $this->Form->create('Video', array(
 			'name' => 'form',
 			'novalidate' => true,
+			'type' => 'file',
 		)); ?>
 
 			<div class="panel panel-default" style="border-top: none; border-radius: 0;">

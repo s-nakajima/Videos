@@ -26,6 +26,7 @@ class VideosController extends VideosAppController {
  */
 	public $uses = array(
 		'Comments.Comment',
+		'Files.FileModel',		// FileUpload
 		'Videos.Video',
 		'Videos.VideoFrameSetting',
 	);
@@ -36,13 +37,14 @@ class VideosController extends VideosAppController {
  * @var array
  */
 	public $components = array(
+		'Files.FileUpload',		// FileUpload
 		'NetCommons.NetCommonsBlock',
 		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'contentEditable' => array('edit', 'delete')
+				'contentEditable' => array('edit', 'delete', 'add')
 			),
 		),
 	);
@@ -86,23 +88,42 @@ class VideosController extends VideosAppController {
 				return;
 			}
 
+			$data = $this->data;
+
+			// 動画ファイル
+			$data[Video::VIDEO_FILE_FIELD]['File'] = $this->FileUpload->upload($this->Video->alias, Video::VIDEO_FILE_FIELD);
+			if (! $data[Video::VIDEO_FILE_FIELD]['File']) {
+				unset($data[Video::VIDEO_FILE_FIELD]);
+			}
+
+			// サムネイル
+			$data[Video::THUMBNAIL_FIELD]['File'] = $this->FileUpload->upload($this->Video->alias, Video::THUMBNAIL_FIELD);
+			if (! $data[Video::THUMBNAIL_FIELD]['File']) {
+				unset($data[Video::THUMBNAIL_FIELD]);
+			}
+
+			// 登録データ作成
 			$video = $this->Video->create(['key' => Security::hash('video' . mt_rand() . microtime(), 'md5')]);
 			$data = Hash::merge(
 				$video,
-				$this->data,
-				['Videos' => ['status' => $status]]
+				$data,
+				array($this->Video->alias => array(
+					'status' => $status,
+					'block_id' => $this->viewVars['blockId'],
+				))
 			);
 
+			// 登録
 			$video = $this->Video->saveVideo($data, false);
 			if (!$this->handleValidationError($this->Video->validationErrors)) {
+				$this->log($this->validationErrors, 'debug');
 				return;
 			}
-			//			$this->set('blockId', $video['Video']['block_id']);
-			//			if (!$this->request->is('ajax')) {
-			//				$backUrl = CakeSession::read('backUrl');
-			//				CakeSession::delete('backUrl');
-			//				$this->redirect($backUrl);
-			//			}
+
+			//$this->__init();
+
+			// 一覧へ
+			$this->view = 'Videos/index';
 		}
 	}
 
@@ -124,21 +145,68 @@ class VideosController extends VideosAppController {
 	}
 
 /**
- * __init
+ * 初期値設定
  *
  * @return array
  */
 	private function __init() {
-		$comments = $this->Comment->getComments(
-			array(
-				'plugin_key' => 'videos',
-				'content_key' => null,
-			)
-		);
+		$videoKey = isset($this->viewVars['videoKey']) ? $this->viewVars['videoKey'] : null;
+
+		//取得
+		if (!$video = $this->Video->getVideo(
+			$videoKey,
+			$this->viewVars['contentEditable']
+		)) {
+			// 登録データ作成
+			$video = $this->Video->create(['key' => Security::hash('video' . mt_rand() . microtime(), 'md5')]);
+		}
+
+		$comments = $this->Comment->getComments(array(
+			'plugin_key' => 'videos',
+			//'content_key' => null,
+			'content_key' => $video['Video']['key'],
+		));
 
 		$results['comments'] = $comments;
-
 		$results['contentStatus'] = null;
+
+		// ファイル取得 動画ファイル
+		if (isset($video['Video']['mp4_id'])) {
+			if ($file = $this->FileModel->find('first', array(
+				'recursive' => -1,
+				'conditions' => array(
+					$this->FileModel->alias . '.id' => $video['Video']['mp4_id']
+					//$this->FileModel->alias . '.id' => 21
+				)
+			))) {
+				$results['videoFile'] = $file['File'];
+			} else {
+				$results['videoFile'] = null;
+			}
+		} else {
+			$results['videoFile'] = null;
+		}
+
+		//ファイル取得 サムネイル
+		if (isset($video['Video']['mp4_id'])) {
+			if ($file = $this->FileModel->find('first', array(
+				'recursive' => -1,
+				'conditions' => array(
+					$this->FileModel->alias . '.id' => $video['Video']['thumbnail_id']
+					//$this->FileModel->alias . '.id' => 23
+				)
+			))) {
+				$results['thumbnail'] = $file['File'];
+			} else {
+				$results['thumbnail'] = null;
+			}
+		} else {
+			$results['thumbnail'] = null;
+		}
+
+		// キーをキャメル変換
+		$results = $this->camelizeKeyRecursive($results);
+
 		$this->set($results);
 	}
 }

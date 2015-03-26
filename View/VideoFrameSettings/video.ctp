@@ -10,8 +10,13 @@
  */
 ?>
 
-<?php echo $this->Html->script('/videos/js/video_frame_settings.js', false); ?>
+<?php echo $this->Html->script('/videos/js/videos.js', false); ?>
 
+<!--
+<div id="nc-videos-<?php echo (int)$frameId; ?>"
+	 ng-controller="VideoFrameSettings"
+	 ng-init="initialize(<?php //echo h(json_encode($videoFrameSetting)); ?>)">
+-->
 <div id="nc-videos-<?php echo (int)$frameId; ?>" ng-controller="VideoFrameSettings">
 
 	<?php echo $this->element('Videos/plugin_name', array(
@@ -20,8 +25,8 @@
 
 	<div class="modal-body">
 
-		<?php echo $this->element('Videos/tabs', array(
-			"activeTabIndex" => 4,
+		<?php echo $this->element('VideoFrameSettings/tabs', array(
+			"activeTab" => 'video',
 		)); ?>
 
 		<?php echo $this->Form->create('Videos', array(

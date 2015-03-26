@@ -10,9 +10,11 @@
  */
 ?>
 
-<?php echo $this->Html->script('/videos/js/video_frame_settings.js', false); ?>
+<?php echo $this->Html->script('/videos/js/videos.js', false); ?>
 
-<div id="nc-videos-<?php echo (int)$frameId; ?>" ng-controller="VideoFrameSettings">
+<div id="nc-videos-<?php echo (int)$frameId; ?>"
+	 ng-controller="VideoFrameSettings"
+	 ng-init="initialize(<?php echo h(json_encode($videoFrameSetting)); ?>)">
 
 	<?php echo $this->element('Videos/plugin_name', array(
 		"pluginName" => __d('videos', 'Plugin name'),
@@ -20,8 +22,8 @@
 
 	<div class="modal-body">
 
-		<?php echo $this->element('Videos/tabs', array(
-			"activeTabIndex" => 1,
+		<?php echo $this->element('VideoFrameSettings/tabs', array(
+			"activeTab" => 'display',
 		)); ?>
 
 		<?php echo $this->Form->create('VideoFrameSetting', array(
@@ -42,7 +44,7 @@
 								VideoFrameSetting::DISPLAY_ORDER_PLAY => __d('videos', '再生回数順'),
 								VideoFrameSetting::DISPLAY_ORDER_LIKE => __d('videos', '評価順'),
 							),
-							'selected' => $videoFrameSetting['display_order'],
+							'selected' => $videoFrameSetting['displayOrder'],
 							'autofocus' => true,
 						)); ?>
 					</div>
@@ -59,7 +61,7 @@
 								50 => sprintf(__d('videos', '%s'), '50'),
 								100 => sprintf(__d('videos', '%s'), '100'),
 							),
-							'selected' => $videoFrameSetting['display_number'],
+							'selected' => $videoFrameSetting['displayNumber'],
 						)); ?>
 					</div>
 

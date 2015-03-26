@@ -27,7 +27,7 @@
 			"tabName" => __d('videos', 'Video edit'),
 		)); ?>
 
-		<?php echo $this->Form->create('Videos', array(
+		<?php echo $this->Form->create('Video', array(
 			'name' => 'form',
 			'novalidate' => true,
 		)); ?>

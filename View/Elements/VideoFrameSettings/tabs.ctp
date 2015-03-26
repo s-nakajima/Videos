@@ -14,27 +14,27 @@
 
 <?php /* 下記は動画用に書いてみた('◇')ゞ */ ?>
 <?php $tabs = array(
-	0 => array(
+	'index' => array(
 		"tabName" => __d('videos', '一覧表示'),
 		"url" => '/videos/videoFrameSettings/index/' . $frameId,
 	),
-	1 => array(
+	'display' => array(
 		"tabName" => __d('videos', '表示方法変更'),
 		"url" => '/videos/videoFrameSettings/display/' . $frameId,
 	),
-	2 => array(
+	'content' => array(
 		"tabName" => __d('videos', 'コンテンツ'),
 		"url" => '/videos/videoFrameSettings/content/' . $frameId,
 	),
-	3 => array(
+	'authority' => array(
 		"tabName" => __d('videos', '権限設定'),
 		"url" => '/videos/videoFrameSettings/authority/' . $frameId,
 	),
-	4 => array(
+	'video' => array(
 		"tabName" => __d('videos', 'Video'),
 		"url" => '/videos/videoFrameSettings/video/' . $frameId,
 	),
-	5 => array(
+	'tag' => array(
 		"tabName" => __d('videos', 'Tag'),
 		"url" => '/videos/videoFrameSettings/tag/' . $frameId,
 	),
@@ -42,7 +42,7 @@
 
 <?php $this->startIfEmpty('tabs'); ?>
 <?php foreach ($tabs as $key => $tab): ?>
-	<?php if ($key === $activeTabIndex) : ?>
+	<?php if ($key === $activeTab) : ?>
 	<li class="active">
 	<?php else: ?>
 	<li>
