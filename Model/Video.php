@@ -157,49 +157,67 @@ class Video extends VideosAppModel {
 			'className' => 'Block',
 			'foreignKey' => 'block_id',
 			'conditions' => '',
-			'fields' => '',
+			'fields' => 'language_id',
 			'order' => ''
 		),
-		'Mp4' => array(
-			'className' => 'Mp4',
+		'FileMp4' => array(
+			'className' => 'Files.FileModel',
 			'foreignKey' => 'mp4_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Ogg' => array(
-			'className' => 'Ogg',
+		'FileOgg' => array(
+			'className' => 'Files.FileModel',
 			'foreignKey' => 'ogg_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Thumbnail' => array(
-			'className' => 'Thumbnail',
+		'FileThumbnail' => array(
+			'className' => 'Files.FileModel',
 			'foreignKey' => 'thumbnail_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
 	);
 
 /**
  * Videoデータ取得
  *
  * @param string $key videos.key
+ * @param int $languageId languages.id
  * @param bool $contentEditable true can edit the content, false not can edit the content.
  * @return array
  */
-	public function getVideo($key, $contentEditable) {
+	public function getVideo($key, $languageId, $contentEditable) {
+		$this->loadModels(array(
+			'Block' => 'Blocks.Block',
+		));
+
 		$conditions = array(
 			$this->alias . '.key' => $key,
+			$this->Block->alias . '.language_id' => $languageId,
 		);
 		if (! $contentEditable) {
 			$conditions[$this->alias . '.status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
 		}
 
+		$joins = array(
+			array(
+				'type' => 'inner',
+				'table' => $this->Block->useTable,
+				'alias' => $this->Block->alias,
+				'conditions' => array(
+					$this->alias . '.block_id = ' . $this->Block->alias . '.id',
+				),
+			),
+		);
+
 		$video = $this->find('first', array(
-			'recursive' => -1,
+			'recursive' => 1,
+			'joins' => $joins,
 			'conditions' => $conditions,
 			'order' => $this->alias . '.id DESC'
 		));
@@ -310,7 +328,7 @@ class Video extends VideosAppModel {
 		}
 
 		//ファイル削除のvalidate
-		if (isset($data['DeleteFile']) && $data['DeleteFile'][$index]['File']['id'] > 0) {
+		if (isset($data['DeleteFile'][$index]['File']['id']) && $data['DeleteFile'][$index]['File']['id'] > 0) {
 			if (! $deleteFile = $this->FileModel->validateDeletedFiles($data['DeleteFile'][$index]['File']['id'])) {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->FileModel->validationErrors);
 				return false;
@@ -346,8 +364,8 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function saveVideoFile($data, $field, $modelAlias, $colom, $index = 0) {
-		//ファイルの削除
-		if (isset($data['DeleteFile']) && $data['DeleteFile'][$index]['File']['id'] > 0) {
+		//ファイル削除
+		if (isset($data['DeleteFile'][$index]['File']['id']) && $data['DeleteFile'][$index]['File']['id'] > 0) {
 			//データ削除
 			if (! $this->FileModel->deleteAll(['id' => $data['DeleteFile'][$index]['File']['id']], true, false)) {
 				// @codeCoverageIgnoreStart
@@ -365,7 +383,7 @@ class Video extends VideosAppModel {
 			$data[$modelAlias][$colom] = 0;
 		}
 
-		//ファイルの登録
+		//ファイル登録
 		if (isset($data[$field])) {
 			// 新規作成
 			$this->FileModel->create();

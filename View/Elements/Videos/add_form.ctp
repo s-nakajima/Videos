@@ -21,6 +21,7 @@
 		'label' => __d('videos', 'Title') . $this->element('NetCommons.required'),
 		'class' => 'form-control',
 		'required' => 'required',
+		'ng-model' => 'video.title',
 		'autofocus' => true,
 	)); ?>
 </div>
@@ -36,6 +37,7 @@
 	'index' => 0,
 	'helpBlockMessage' => __d('videos', 'mpeg,avi,mov,wmv,flv,mpg,mp4に対応しています。'),
 	'file' => $videoFile,
+	'deleteEnable' => false,
 )); ?>
 
 <?php echo $this->element('Videos/file',  array(
@@ -58,6 +60,7 @@
 		'class' => 'form-control',
 		'id' => 'description',
 		'rows' => 5,
+		'ng-model' => 'video.description',
 	)); ?>
 </div>
 
@@ -70,7 +73,8 @@
 		<?php echo $this->Form->input('tag', array(
 			'label' => false,
 			'class' => 'form-control',
-			'id' => 'tag'
+			'id' => 'tag',
+			//'ng-model' => 'video.tag',
 		)); ?>
 		<span class="input-group-btn">
 			<?php echo $this->Form->button( __d('videos', 'タグを追加する'), array(

@@ -27,4 +27,17 @@ class VideosAppController extends AppController {
 	public $components = array(
 		'Security'
 	);
+
+/**
+ * redirectBackUrl
+ * 共通化希望
+ *
+ * @throws BadRequestException
+ * @return mixed status on success, false on error
+ */
+	public function redirectBackUrl() {
+		$backUrl = CakeSession::read('backUrl');
+		CakeSession::delete('backUrl');
+		$this->redirect($backUrl);
+	}
 }

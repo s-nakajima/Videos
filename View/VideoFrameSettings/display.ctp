@@ -44,7 +44,7 @@
 								VideoFrameSetting::DISPLAY_ORDER_PLAY => __d('videos', '再生回数順'),
 								VideoFrameSetting::DISPLAY_ORDER_LIKE => __d('videos', '評価順'),
 							),
-							'selected' => $videoFrameSetting['displayOrder'],
+							'ng-model' => 'videoFrameSetting.displayOrder',
 							'autofocus' => true,
 						)); ?>
 					</div>
@@ -61,7 +61,7 @@
 								50 => sprintf(__d('videos', '%s'), '50'),
 								100 => sprintf(__d('videos', '%s'), '100'),
 							),
-							'selected' => $videoFrameSetting['displayNumber'],
+							'ng-model' => 'videoFrameSetting.displayNumber',
 						)); ?>
 					</div>
 

@@ -62,13 +62,6 @@ class VideoFrameSetting extends VideosAppModel {
 	const VIDEO_PLAYER_HTML5 = '2';
 
 /**
- * Use database config
- *
- * @var string
- */
-	//	public $useDbConfig = 'master';
-
-/**
  * Validation rules
  *
  * @var array
@@ -230,14 +223,33 @@ class VideoFrameSetting extends VideosAppModel {
  * VideoFrameSettingデータ取得
  *
  * @param int $frameKey frames.key
+ * @param int $roomId rooms.id
  * @return array
  */
-	public function getVideoFrameSetting($frameKey) {
+	public function getVideoFrameSetting($frameKey, $roomId) {
+		$this->loadModels(array(
+			'Frame' => 'Frames.Frame',
+		));
+
 		$conditions = array(
-			'frame_key' => $frameKey,
+			$this->alias . '.frame_key' => $frameKey,
 		);
+
+		$joins = array(
+			array(
+				'type' => 'inner',
+				'table' => $this->Frame->useTable,
+				'alias' => $this->Frame->alias,
+				'conditions' => array(
+					$this->alias . '.frame_key = ' . $this->Frame->alias . '.key',
+					$this->Frame->alias . '.room_id = ' . $roomId,
+				),
+			),
+		);
+
 		if (!$videoFrameSetting = $this->find('first', array(
 			'recursive' => -1,
+			'joins' => $joins,
 			'conditions' => $conditions,
 			'order' => 'VideoFrameSetting.id DESC'
 		))

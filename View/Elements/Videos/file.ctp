@@ -42,6 +42,9 @@ $file = $videoFile;
 // File inputを使う時に指定。2つFile Inputがあれば、1つ目は$index = 0;、2つ目は$index = 1;を指定する。
 $index = isset($index) ? $index : 0;
 
+// 削除有効フラグ
+$deleteEnable = isset($deleteEnable) ? $deleteEnable : true;
+
 // プラグイン名 小文字版
 $pluginNameLower = mb_strtolower($pluginName);
 
@@ -55,6 +58,7 @@ $labelDeleteFile = __d('videos', 'Delete file.');
 	</div>
 
 	<div>
+		<?php /* ファイルあり=編集時 サムネイル、削除チェックボックス */ ?>
 		<?php if (isset($file)) :?>
 			<?php if (isset($file['urlThumbnail'])) :?>
 				<?php echo $this->Html->image(h($file['urlThumbnail']), array(
@@ -67,11 +71,13 @@ $labelDeleteFile = __d('videos', 'Delete file.');
 				</span>
 			<?php endif; ?>
 
-			<?php echo $this->Form->checkbox('DeleteFile.'.$index.'.File.id', array(
-				'value' => $file['id'],
-				//'ng-model' => 'deleteFile'
-			)); ?>
-			<?php echo $this->Form->label('DeleteFile.'.$index.'.File.id', $labelDeleteFile); ?>
+			<?php if ($deleteEnable) :?>
+				<?php echo $this->Form->checkbox('DeleteFile.'.$index.'.File.id', array(
+					'value' => $file['id'],
+					//'ng-model' => 'deleteFile'
+				)); ?>
+				<?php echo $this->Form->label('DeleteFile.'.$index.'.File.id', $labelDeleteFile); ?>
+			<?php endif; ?>
 		<?php endif; ?>
 
 		<?php /* 必須は要検討 */ ?>

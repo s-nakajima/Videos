@@ -49,7 +49,7 @@
 	<div class="col-xs-6 text-right">
 		<?php if ($contentEditable): ?>
 			<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
-				<a href="<?php echo $this->Html->url('/videos/videos/edit/' . $frameId) ?>" class="btn btn-primary">
+				<a href="<?php echo $this->Html->url('/videos/videos/edit/' . $frameId . '/' . $video['video']['key']) ?>" class="btn btn-primary">
 					<span class="glyphicon glyphicon-edit"> </span>
 				</a>
 			</span>

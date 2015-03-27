@@ -32,8 +32,8 @@ NetCommonsApp.controller('Videos',
      *
      * @return {void}
      */
-    $scope.initialize = function(data) {
-      $scope.videos = angular.copy(data.videos);
+    $scope.initialize = function(video) {
+      $scope.video = angular.copy(video);
     };
   });
 
@@ -58,8 +58,8 @@ NetCommonsApp.controller('VideoFrameSettings',
      *
      * @return {void}
      */
-    $scope.initialize = function(data) {
-      $scope.video_frame_settings = angular.copy(data);
+    $scope.initialize = function(videoFrameSetting) {
+      $scope.videoFrameSetting = angular.copy(videoFrameSetting);
     };
 
   });
@@ -85,18 +85,18 @@ NetCommonsApp.controller('VideoFrameSettingsAuthority',
      *
      * @return {void}
      */
-    $scope.initialize = function(data) {
-      $scope.video_frame_setting = angular.copy(data);
+    $scope.initialize = function(videoFrameSetting) {
+      $scope.videoFrameSetting = angular.copy(videoFrameSetting);
 
       // authorityの定数。。。(;'∀')
       // 動画投稿権限
-      if ($scope.video_frame_setting.authority <= 2) {
+      if ($scope.videoFrameSetting.authority <= 2) {
         // 編集者、一般=ON
-        $scope.video_frame_setting.authority_editor = true;
-        $scope.video_frame_setting.authority_general = true;
-      } else if ($scope.video_frame_setting.authority <= 3) {
+        $scope.videoFrameSetting.authorityEditor = true;
+        $scope.videoFrameSetting.authorityGeneral = true;
+      } else if ($scope.videoFrameSetting.authority <= 3) {
         // 編集者=ON
-        $scope.video_frame_setting.authority_editor = true;
+        $scope.videoFrameSetting.authorityEditor = true;
       }
     };
 
@@ -107,9 +107,9 @@ NetCommonsApp.controller('VideoFrameSettingsAuthority',
      */
     $scope.changeEditor = function() {
       // 編集者=OFF
-      if ($scope.video_frame_setting.authority_editor == false) {
+      if ($scope.videoFrameSetting.authorityEditor == false) {
         // 一般=OFF
-        $scope.video_frame_setting.authority_general = false;
+        $scope.videoFrameSetting.authorityGeneral = false;
       }
     };
 
@@ -120,9 +120,9 @@ NetCommonsApp.controller('VideoFrameSettingsAuthority',
      */
     $scope.changeGeneral = function() {
       // 一般=ON
-      if ($scope.video_frame_setting.authority_general == true) {
+      if ($scope.videoFrameSetting.authorityGeneral == true) {
         // 編集者=ON
-        $scope.video_frame_setting.authority_editor = true;
+        $scope.videoFrameSetting.authorityEditor = true;
       }
     };
 

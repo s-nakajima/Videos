@@ -76,7 +76,7 @@
 <div class="row">
 	<div class="col-xs-3">
 		<div class="form-inline text-left text-nowrap">
-			<strong><?php echo sprintf(__d('videos', '%s'), '999'); ?></strong>
+			<strong><?php echo sprintf(__d('videos', '%s'), $this->Paginator->param('count')); ?></strong>
 		</div>
 	</div>
 	<div class="col-xs-9">
@@ -95,7 +95,7 @@
 							VideoFrameSetting::DISPLAY_ORDER_PLAY => __d('videos', '再生回数順'),
 							VideoFrameSetting::DISPLAY_ORDER_LIKE => __d('videos', '評価順'),
 						),
-						'selected' => 'new',
+						'selected' => $displayOrder,
 					)) ?>
 			</div>
 
@@ -114,8 +114,7 @@
 							50 => sprintf(__d('videos', '%s'), '50'),
 							100 => sprintf(__d('videos', '%s'), '100'),
 						),
-						'selected' => 5,
-						'autofocus' => true,
+						'selected' => $displayNumber,
 					)) ?>
 			</div>
 
@@ -127,202 +126,60 @@
 <?php /* 動画一覧 */ ?>
 <p>
 <div class="row">
-
-	<div class="col-md-4 col-xs-12">
-		<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
-			<div class="pull-left" style="margin: 5px;">
-				<div>
-					<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
-					<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
-						<?php echo $this->Html->image('/videos/img/thumbnail.jpg', array('class' => 'img-responsive','alt' => '動画タイトル動画タイトル動画タイトル動画タイトル')); ?>
+	<?php foreach ($videos as $video) : ?>
+		<div class="col-md-4 col-xs-12">
+			<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
+				<?php /* サムネイル */ ?>
+				<div class="pull-left" style="margin: 5px;">
+					<div style="height: 74px;">
+						<div>
+							<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $video['video']['key']); ?>">
+								<?php if (isset($video['fileThumbnail']['urlThumbnail'])) : ?>
+									<?php echo $this->Html->image($video['fileThumbnail']['urlThumbnail'], array('class' => 'img-responsive','alt' => $video['video']['title'])); ?>
+								<?php else : ?>
+									<?php /* サムネイルなし */ ?>
+									<?php echo $this->Html->image('/videos/img/noImage.png', array('class' => 'img-responsive','alt' => $video['video']['title'])); ?>
+								<?php endif; ?>
+							</a>
+						</div>
+						<div style="margin-top: -18px; height: 14px;text-align: right;">
+							<?php
+								$video_time = $video['video']['videoTime'];
+								$video_time = floor($video_time / 60) . ":" . floor($video_time - 60 * floor($video_time / 60));
+							?>
+							<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
+								<?php echo $video_time ?>
+							</span>
+						</div>
+					</div>
+				</div>
+				<?php /* タイトル、投稿者、各種回数 */ ?>
+				<div class="pull-left" style="margin-top: 5px;">
+					<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $video['video']['key']); ?>">
+						<strong><?php echo $video['video']['title'] ?></strong>
 					</a>
-				</div>
-				<div style="margin-top: -18px; height: 14px;text-align: right;">
-					<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">99:99</span>
-				</div>
-			</div>
-			<div class="pull-left" style="margin-top: 5px;">
-				<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
-				<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
-					<strong>動画タイトル動画タイトル動画タイトル動画タイトル</strong>
-				</a>
-				<br />
-				<span style="padding-right: 15px;">投稿者</span><a href="#">大学 太郎</a><br />
-				<span style="padding-right: 15px;">
-					<span class="glyphicon glyphicon-play" aria-hidden="true"></span> 999
-				</span>
-				<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 999<br>
-				<span style="padding-right: 15px;">
-					<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 999
-				</span>
-				<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> 999
-			</div>
+					<br />
+					<span style="padding-right: 15px;"><?php echo __d('videos', '投稿者'); ?></span><a href="#">大学 太郎</a><br />
+					<span style="padding-right: 15px;">
+						<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
+					</span>
+					<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo $video['video']['commentsNumber'] ?><br />
+					<span style="padding-right: 15px;">
+						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php echo $video['video']['likesNumber'] ?>
+					</span>
+					<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php echo $video['video']['unlikesNumber'] ?>
 
-			<?php /* ステータス */ ?>
-			<?php echo $this->element('NetCommons.status_label', array(
-				'status' => ''
-			)); ?>
-
-			<div class="clearfix"></div>
-		</div>
-	</div>
-
-	<div class="col-md-4 col-xs-12">
-		<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
-			<div class="pull-left" style="margin: 5px;">
-				<div>
-					<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
-					<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
-						<?php echo $this->Html->image('/videos/img/thumbnail.jpg', array(
-							'class' => 'img-responsive',
-							'alt' => '動画タイトル動画タイトル動画タイトル動画タイトル'
+					<div style="height: 20px;">
+						<?php /* ステータス */ ?>
+						<?php echo $this->element('NetCommons.status_label', array(
+							'status' => $video['video']['status']
 						)); ?>
-					</a>
+					</div>
 				</div>
-				<div style="margin-top: -18px; height: 14px;text-align: right;">
-					<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">99:99</span>
-				</div>
+				<div class="clearfix"></div>
 			</div>
-			<div class="pull-left" style="margin-top: 5px;">
-				<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
-				<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
-					<strong>動画タイトル動画タイトル動画タイトル動画タイトル</strong>
-				</a>
-				<br />
-				<span style="padding-right: 15px;">投稿者</span><a href="#">大学 太郎</a><br />
-				<span style="padding-right: 15px;">
-					<span class="glyphicon glyphicon-play" aria-hidden="true"></span> 999
-				</span>
-				<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 999<br>
-				<span style="padding-right: 15px;">
-					<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 999
-				</span>
-				<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> 999
-			</div>
-
-			<?php /* ステータス */ ?>
-			<?php echo $this->element('NetCommons.status_label', array(
-				'status' => ''
-			)); ?>
-
-			<div class="clearfix"></div>
 		</div>
-	</div>
-
-	<div class="col-md-4 col-xs-12">
-		<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
-			<div class="pull-left" style="margin: 5px;">
-				<div>
-					<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
-					<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
-						<?php echo $this->Html->image('/videos/img/thumbnail.jpg', array('class' => 'img-responsive','alt' => '動画タイトル動画タイトル動画タイトル動画タイトル')); ?>
-					</a>
-				</div>
-				<div style="margin-top: -18px; height: 14px;text-align: right;">
-					<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">99:99</span>
-				</div>
-			</div>
-			<div class="pull-left" style="margin-top: 5px;">
-				<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
-				<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
-					<strong>動画タイトル動画タイトル動画タイトル動画タイトル</strong>
-				</a>
-				<br />
-				<span style="padding-right: 15px;">投稿者</span><a href="#">大学 太郎</a><br />
-				<span style="padding-right: 15px;">
-					<span class="glyphicon glyphicon-play" aria-hidden="true"></span> 999
-				</span>
-				<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 999<br>
-				<span style="padding-right: 15px;">
-					<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 999
-				</span>
-				<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> 999
-			</div>
-
-			<?php /* ステータス */ ?>
-			<?php echo $this->element('NetCommons.status_label',
-				array('status' => '')); ?>
-
-			<div class="clearfix"></div>
-		</div>
-	</div>
-
-	<div class="col-md-4 col-xs-12">
-		<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
-			<div class="pull-left" style="margin: 5px;">
-				<div>
-					<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
-					<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
-						<?php echo $this->Html->image('/videos/img/thumbnail.jpg', array('class' => 'img-responsive','alt' => '動画タイトル動画タイトル動画タイトル動画タイトル')); ?>
-					</a>
-				</div>
-				<div style="margin-top: -18px; height: 14px;text-align: right;">
-					<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">99:99</span>
-				</div>
-			</div>
-			<div class="pull-left" style="margin-top: 5px;">
-				<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
-				<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
-					<strong>動画タイトル動画タイトル動画タイトル動画タイトル</strong>
-				</a>
-				<br />
-				<span style="padding-right: 15px;">投稿者</span><a href="#">大学 太郎</a><br />
-				<span style="padding-right: 15px;">
-					<span class="glyphicon glyphicon-play" aria-hidden="true"></span> 999
-				</span>
-				<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 999<br>
-				<span style="padding-right: 15px;">
-					<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 999
-				</span>
-				<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> 999
-			</div>
-
-			<?php /* ステータス */ ?>
-			<?php echo $this->element('NetCommons.status_label',
-				array('status' => '')); ?>
-
-			<div class="clearfix"></div>
-		</div>
-	</div>
-
-	<div class="col-md-4 col-xs-12">
-		<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
-			<div class="pull-left" style="margin: 5px;">
-				<div>
-					<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
-					<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
-						<?php echo $this->Html->image('/videos/img/thumbnail.jpg', array('class' => 'img-responsive','alt' => '動画タイトル動画タイトル動画タイトル動画タイトル')); ?>
-					</a>
-				</div>
-				<div style="margin-top: -18px; height: 14px;text-align: right;">
-					<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">99:99</span>
-				</div>
-			</div>
-			<div class="pull-left" style="margin-top: 5px;">
-				<!-- <a href="<?php //echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $videos['id']); ?>"> -->
-				<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/1' ); ?>">
-					<strong>動画タイトル動画タイトル動画タイトル動画タイトル</strong>
-				</a>
-				<br />
-				<span style="padding-right: 15px;">投稿者</span><a href="#">大学 太郎</a><br />
-				<span style="padding-right: 15px;">
-					<span class="glyphicon glyphicon-play" aria-hidden="true"></span> 999
-				</span>
-				<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 999<br>
-				<span style="padding-right: 15px;">
-					<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 999
-				</span>
-				<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> 999
-			</div>
-
-			<?php /* ステータス */ ?>
-			<?php echo $this->element('NetCommons.status_label',
-				array('status' => '')); ?>
-
-			<div class="clearfix"></div>
-		</div>
-	</div>
-
+	<?php endforeach; ?>
 </div>
 </p>
 
@@ -333,29 +190,33 @@
 		<div class="text-center">
 			<nav>
 				<ul class="pagination">
-					<li class="disabled">
-						<a aria-label="Previous" href=""><span aria-hidden="true">&laquo;</span></a>
-					</li>
-					<li class="active">
-						<a href="#">1<span class="sr-only">(current)</span></a>
-					</li>
-					<li>
-						<a href="#">2</a>
-					</li>
-					<li>
-						<a href="#">3</a>
-					</li>
-					<li>
-						<a href="#">4</a>
-					</li>
-					<li>
-						<a href="#">5</a>
-					</li>
-					<li>
-						<a aria-label="Next" href="#">
-							<span aria-hidden="true">&raquo;</span>
-						</a>
-					</li>
+					<?php echo $this->Paginator->first('«', array(
+						'tag' => 'li',
+						'url' => Hash::merge(
+							array('controller' => 'videos', 'action' => 'index', $frameId),
+							$this->Paginator->params['named']
+						)
+					)); ?>
+					<?php echo $this->Paginator->numbers(array(
+						'tag' => 'li',
+						'currentTag' => 'a',
+						'currentClass' => 'active',
+						'separator' => '',
+						'first' => false,
+						'last' => false,
+						'modulus' => '4',
+						'url' => Hash::merge(
+							array('controller' => 'videos', 'action' => 'index', $frameId),
+							$this->Paginator->params['named']
+						)
+					)); ?>
+					<?php echo $this->Paginator->last('»', array(
+						'tag' => 'li',
+						'url' => Hash::merge(
+							array('controller' => 'videos', 'action' => 'index', $frameId),
+							$this->Paginator->params['named']
+						)
+					)); ?>
 				</ul>
 			</nav>
 		</div>

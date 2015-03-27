@@ -78,7 +78,9 @@ class VideoFrameSettingsController extends VideosAppController {
 	public function display() {
 		// 取得
 		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
-			$this->viewVars['frameKey']);
+			$this->viewVars['frameKey'],
+			$this->viewVars['roomId']
+		);
 
 		if ($this->request->isPost()) {
 
@@ -116,7 +118,9 @@ class VideoFrameSettingsController extends VideosAppController {
 	public function content() {
 		// 取得
 		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
-			$this->viewVars['frameKey']);
+			$this->viewVars['frameKey'],
+			$this->viewVars['roomId']
+		);
 
 		// ブロック取得
 		$block = $this->Block->findById($this->viewVars['blockId']);
@@ -142,7 +146,9 @@ class VideoFrameSettingsController extends VideosAppController {
 			// $videoFrameSetting = $this->find('first', array()); の戻り値は、boolean型だとtrue,false。
 			// 暫定対応。再取得
 			$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
-				$this->viewVars['frameKey']);
+				$this->viewVars['frameKey'],
+				$this->viewVars['roomId']
+			);
 
 			/* アウチ！Blockモデルにsaveメソッドが無いよ(;'∀')
 			// --- Block
@@ -191,7 +197,9 @@ class VideoFrameSettingsController extends VideosAppController {
 	public function authority() {
 		// 取得
 		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
-			$this->viewVars['frameKey']);
+			$this->viewVars['frameKey'],
+			$this->viewVars['roomId']
+		);
 
 		if ($this->request->isPost()) {
 
@@ -245,7 +253,7 @@ class VideoFrameSettingsController extends VideosAppController {
 	}
 
 /**
- * 動画
+ * タグ
  *
  * @return CakeResponse
  */

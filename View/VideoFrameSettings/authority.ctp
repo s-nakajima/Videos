@@ -61,14 +61,14 @@
 								'div' => false,
 								'type' => 'checkbox',
 								'autofocus' => true,
-								'ng-model' => 'video_frame_setting.authority_editor',
+								'ng-model' => 'videoFrameSetting.authorityEditor',
 								'ng-change' => 'changeEditor()',
 							)); ?>
 							<?php echo $this->Form->input('authority.2', array(
 								'label' => __d('videos', 'General'),
 								'div' => false,
 								'type' => 'checkbox',
-								'ng-model' => 'video_frame_setting.authority_general',
+								'ng-model' => 'videoFrameSetting.authorityGeneral',
 								'ng-change' => 'changeGeneral()',
 							)); ?>
 						</div>
