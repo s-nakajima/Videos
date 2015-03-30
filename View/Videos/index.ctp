@@ -10,6 +10,14 @@
  */
 ?>
 
+<style>
+	@media (min-width: 800px) {
+		.videos-row-height {
+			height: 190px;
+		}
+	}
+</style>
+
 <?php /* 上部ボタン */ ?>
 <?php if ($contentEditable): ?>
 	<div class="row">
@@ -130,53 +138,61 @@
 		<div class="col-md-4 col-xs-12">
 			<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
 				<?php /* サムネイル */ ?>
-				<div class="pull-left" style="margin: 5px;">
-					<div style="height: 74px;">
+				<div class="row videos-row-height">
+					<div class="col-md-12 col-xs-4">
 						<div>
-							<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $video['video']['key']); ?>">
-								<?php if (isset($video['fileThumbnail']['urlThumbnail'])) : ?>
-									<?php echo $this->Html->image($video['fileThumbnail']['urlThumbnail'], array('class' => 'img-responsive','alt' => $video['video']['title'])); ?>
-								<?php else : ?>
-									<?php /* サムネイルなし */ ?>
-									<?php echo $this->Html->image('/videos/img/noImage.png', array('class' => 'img-responsive','alt' => $video['video']['title'])); ?>
-								<?php endif; ?>
-							</a>
-						</div>
-						<div style="margin-top: -18px; height: 14px;text-align: right;">
-							<?php
+							<div>
+								<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $video['video']['key']); ?>">
+									<?php if (isset($video['fileThumbnail']['urlThumbnail'])) : ?>
+										<?php echo $this->Html->image($video['fileThumbnail']['urlThumbnail'], array('alt' => $video['video']['title'])); ?>
+									<?php else : ?>
+										<?php /* サムネイルなし */ ?>
+										<?php echo $this->Html->image('/videos/img/noImage.png', array('alt' => $video['video']['title'])); ?>
+									<?php endif; ?>
+								</a>
+							</div>
+							<div style="margin-top: -18px; margin-left: 65px;">
+								<?php
 								$video_time = $video['video']['videoTime'];
 								$video_time = floor($video_time / 60) . ":" . floor($video_time - 60 * floor($video_time / 60));
-							?>
-							<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
-								<?php echo $video_time ?>
+								?>
+								<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
+									<?php echo $video_time ?>
+									</span>
+							</div>
+						</div>
+					</div>
+					<?php /* タイトル、投稿者、各種回数 */ ?>
+					<div class="col-md-12 col-xs-8">
+						<small>
+							<div>
+								<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $video['video']['key']); ?>">
+									<strong><?php echo $this->Text->Truncate($video['video']['title'], VIDEO::SHORT_TITLE_LENGTH); ?></strong>
+								</a>
+							</div>
+							<span style="padding-right: 15px;"><?php echo __d('videos', '投稿者'); ?></span><a href="#"><?php echo $video['userAttributesUser']['value'] ?></a><br />
+							<span style="padding-right: 15px;">
+								<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
 							</span>
+							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo $video['video']['commentsNumber'] ?><br />
+
+							<?php if ($videoFrameSetting['displayLike']) : ?>
+								<span style="padding-right: 15px;">
+									<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php echo $video['video']['likesNumber'] ?>
+								</span>
+								<?php if ($videoFrameSetting['displayUnlike']) : ?>
+									<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php echo $video['video']['unlikesNumber'] ?>
+								<?php endif; ?>
+							<?php endif; ?>
+						</small>
+						<div>
+							<?php /* ステータス */ ?>
+							<?php echo $this->element('NetCommons.status_label', array(
+								'status' => $video['video']['status']
+							)); ?>
 						</div>
 					</div>
 				</div>
-				<?php /* タイトル、投稿者、各種回数 */ ?>
-				<div class="pull-left" style="margin-top: 5px;">
-					<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $video['video']['key']); ?>">
-						<strong><?php echo $video['video']['title'] ?></strong>
-					</a>
-					<br />
-					<span style="padding-right: 15px;"><?php echo __d('videos', '投稿者'); ?></span><a href="#">大学 太郎</a><br />
-					<span style="padding-right: 15px;">
-						<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
-					</span>
-					<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo $video['video']['commentsNumber'] ?><br />
-					<span style="padding-right: 15px;">
-						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php echo $video['video']['likesNumber'] ?>
-					</span>
-					<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php echo $video['video']['unlikesNumber'] ?>
-
-					<div style="height: 20px;">
-						<?php /* ステータス */ ?>
-						<?php echo $this->element('NetCommons.status_label', array(
-							'status' => $video['video']['status']
-						)); ?>
-					</div>
-				</div>
-				<div class="clearfix"></div>
 			</div>
 		</div>
 	<?php endforeach; ?>

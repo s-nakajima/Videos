@@ -41,6 +41,13 @@ class Video extends VideosAppModel {
 	const THUMBNAIL_FIELD = 'thumbnail';
 
 /**
+ * file field name サムネイル
+ *
+ * @var string
+ */
+	const SHORT_TITLE_LENGTH = 25;
+
+/**
  * use behaviors
  *
  * @var array
@@ -154,7 +161,7 @@ class Video extends VideosAppModel {
  */
 	public $belongsTo = array(
 		'Block' => array(
-			'className' => 'Block',
+			'className' => 'Blocks.Block',
 			'foreignKey' => 'block_id',
 			'conditions' => '',
 			'fields' => 'language_id',
@@ -180,6 +187,24 @@ class Video extends VideosAppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+	);
+
+/**
+ * hasOne associations
+ *
+ * @var array
+ */
+	public $hasOne = array(
+		'UserAttributesUser' => array(
+			'className' => 'Users.UserAttributesUser',
+			'foreignKey' => false,
+			'conditions' => array(
+				'UserAttributesUser.user_id = Video.created_user',
+				'UserAttributesUser.language_id = Block.language_id',
+				'UserAttributesUser.key = "nickname"',
+			),
+			'fields' => 'value',
 		),
 	);
 
@@ -223,6 +248,50 @@ class Video extends VideosAppModel {
 		));
 
 		return $video;
+	}
+
+/**
+ * 複数Videoデータ取得
+ *
+ * @param int $blockId blocks.id
+ * @param bool $contentEditable true can edit the content, false not can edit the content.
+ * @return array
+ */
+	public function getVideos($blockId, $contentEditable) {
+		$this->loadModels(array(
+			'Block' => 'Blocks.Block',
+		));
+
+		// ログインユーザ情報取得
+		$auth = CakeSession::read('Auth');
+
+		$conditions = array(
+			$this->alias . '.block_id' => $blockId,
+			$this->alias . '.created_user' => $auth['User']['id'],
+		);
+		if (! $contentEditable) {
+			$conditions[$this->alias . '.status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
+		}
+
+		$joins = array(
+			array(
+				'type' => 'inner',
+				'table' => $this->Block->useTable,
+				'alias' => $this->Block->alias,
+				'conditions' => array(
+					$this->alias . '.block_id = ' . $this->Block->alias . '.id',
+				),
+			),
+		);
+
+		$videos = $this->find('all', array(
+			'recursive' => 1,
+			'joins' => $joins,
+			'conditions' => $conditions,
+			'order' => $this->alias . '.id DESC'
+		));
+
+		return $videos;
 	}
 
 /**

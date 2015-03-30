@@ -32,6 +32,15 @@ class VideosController extends VideosAppController {
 	);
 
 /**
+ * use helpers
+ *
+ * @var array
+ */
+	public $helpers = array(
+		'NetCommons.Date',
+	);
+
+/**
  * use components
  *
  * @var array
@@ -126,17 +135,27 @@ class VideosController extends VideosAppController {
  * @return CakeResponse
  */
 	public function view($frameId, $videoKey = null) {
-		// 登録・更新後の戻りURL設定
-		CakeSession::write('backUrl', $this->request->referer());
-
-		//取得
+		//動画の取得
 		$video = $this->Video->getVideo(
 			$videoKey,
 			$this->viewVars['languageId'],
 			$this->viewVars['contentEditable']
 		);
-
 		$results['video'] = $video;
+
+		//関連動画の取得
+		$relatedVideos = $this->Video->getVideos(
+			$this->viewVars['blockId'],
+			$this->viewVars['contentEditable']
+		);
+		$results['relatedVideos'] = $relatedVideos;
+
+		// 設定取得
+		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
+			$this->viewVars['frameKey'],
+			$this->viewVars['roomId']
+		);
+		$results['videoFrameSetting'] = $videoFrameSetting['VideoFrameSetting'];
 
 		// キーをキャメル変換
 		$results = $this->camelizeKeyRecursive($results);
