@@ -1,6 +1,6 @@
 <?php
 /**
- * タグ template
+ * 一覧表示 template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -19,17 +19,17 @@
 -->
 <div id="nc-videos-<?php echo (int)$frameId; ?>" ng-controller="VideoFrameSettings">
 
-	<?php echo $this->element('Videos/plugin_name', array(
+	<?php echo $this->element('plugin_name', array(
 		"pluginName" => __d('videos', 'Plugin name'),
 	)); ?>
 
 	<div class="modal-body">
 
-		<?php echo $this->element('VideoFrameSettings/tabs', array(
-			"activeTab" => 'tag',
+		<?php echo $this->element('tabs', array(
+			"activeTab" => 'index',
 		)); ?>
 
-		<?php echo $this->Form->create('Videos', array(
+		<?php echo $this->Form->create('VideoBlockSetting', array(
 			'name' => 'form',
 			'novalidate' => true,
 		)); ?>
@@ -37,8 +37,17 @@
 			<div class="panel panel-default" style="border-top: none; border-radius: 0;">
 				<div class="panel-body has-feedback">
 
-					<?php //echo $this->element('VideoFrameSettings/edit_form'); ?>
-					tag.ctp
+					<?php /* 上部ボタン */ ?>
+					<div class="row">
+						<div class="col-xs-12 text-right">
+							<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Add'); ?>">
+								<a href="<?php echo $this->Html->url('/videos/videoBlockSettings/content/' . $frameId); ?>" class="btn btn-success">
+									<span class="glyphicon glyphicon-plus"> </span>
+								</a>
+							</span>
+						</div>
+					</div>
+					index.ctp
 
 				</div>
 			</div>

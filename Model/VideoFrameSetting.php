@@ -48,20 +48,6 @@ class VideoFrameSetting extends VideosAppModel {
 	const DISPLAY_ORDER_LIKE = 'like';
 
 /**
- * 動画再生プレイヤー jPlayer
- *
- * @var int
- */
-	const VIDEO_PLAYER_JPLAYER = '1';
-
-/**
- * 動画再生プレイヤー HTML5
- *
- * @var int
- */
-	const VIDEO_PLAYER_HTML5 = '2';
-
-/**
  * Validation rules
  *
  * @var array
@@ -70,136 +56,6 @@ class VideoFrameSetting extends VideosAppModel {
 		'frame_key' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'display_like' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'display_unlike' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'display_comment' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'videos_number' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'files_size' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'agree' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'mail_notice' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'auto_video_convert' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'video_player' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'auto_play' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'buffer_time' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'comment_agree' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'comment_agree_mail_notice' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -220,17 +76,30 @@ class VideoFrameSetting extends VideosAppModel {
 	);
 
 /**
+ * belongsTo associations
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'Frame' => array(
+			'className' => 'Frames.Frame',
+			'foreignKey' => false,
+			'conditions' => array(
+				'Frame.key = VideoFrameSetting.frame_key',
+			),
+			'fields' => 'block_id',
+			'order' => ''
+		),
+	);
+
+/**
  * VideoFrameSettingデータ取得
  *
- * @param int $frameKey frames.key
+ * @param string $frameKey frames.key
  * @param int $roomId rooms.id
  * @return array
  */
 	public function getVideoFrameSetting($frameKey, $roomId) {
-		$this->loadModels(array(
-			'Frame' => 'Frames.Frame',
-		));
-
 		$conditions = array(
 			$this->alias . '.frame_key' => $frameKey,
 		);
@@ -238,26 +107,26 @@ class VideoFrameSetting extends VideosAppModel {
 		$joins = array(
 			array(
 				'type' => 'inner',
-				'table' => $this->Frame->useTable,
-				'alias' => $this->Frame->alias,
+				'table' => 'frames',
+				'alias' => 'Frame2',
 				'conditions' => array(
-					$this->alias . '.frame_key = ' . $this->Frame->alias . '.key',
-					$this->Frame->alias . '.room_id = ' . $roomId,
+					$this->alias . '.frame_key = Frame2.key',
+					'Frame2.room_id = ' . $roomId,
 				),
 			),
 		);
 
 		if (!$videoFrameSetting = $this->find('first', array(
-			'recursive' => -1,
+			'recursive' => 0,
 			'joins' => $joins,
 			'conditions' => $conditions,
-			'order' => 'VideoFrameSetting.id DESC'
+			'order' => $this->alias . '.id DESC'
 		))
 		) {
 			//初期値を設定
-			$videoFrameSetting = $this->create($conditions);
-			$this->saveVideoFrameSetting($videoFrameSetting);
+			$videoFrameSetting = $this->create();
 		}
+
 		return $videoFrameSetting;
 	}
 
@@ -288,15 +157,13 @@ class VideoFrameSetting extends VideosAppModel {
 				return false;
 			}
 
-			//ブロックの登録
-			$this->Block->saveByFrameId($data['Frame']['id'], false);
-
 			$videoFrameSetting = $this->save(null, false);
 			if (!$videoFrameSetting) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			$dataSource->commit();
+
 		} catch (InternalErrorException $ex) {
 			$dataSource->rollback();
 			CakeLog::write(LOG_ERR, $ex);

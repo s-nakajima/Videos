@@ -29,6 +29,7 @@ class VideosController extends VideosAppController {
 		'Files.FileModel',		// FileUpload
 		'Videos.Video',
 		'Videos.VideoFrameSetting',
+		'Videos.VideoBlockSetting',
 	);
 
 /**
@@ -78,15 +79,16 @@ class VideosController extends VideosAppController {
  * @return void
  */
 	public function index($frameId, $displayOrder = null, $displayNumber = null) {
-		// 登録・更新後の戻りURL設定
+		// 登録・更新後の戻りURL設定 暫定対応
 		CakeSession::write('backUrl', Router::url('', true));
 
-		// 設定取得
+		// 表示系(並び順、表示件数)の設定取得
 		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
 			$this->viewVars['frameKey'],
 			$this->viewVars['roomId']
 		);
 		$results['videoFrameSetting'] = $videoFrameSetting['VideoFrameSetting'];
+		$results['frame'] = $videoFrameSetting['Frame'];
 
 		// 並び順
 		if (empty($displayOrder)) {
@@ -101,9 +103,22 @@ class VideosController extends VideosAppController {
 			$results['displayNumber'] = $displayNumber;
 		}
 
+		// 利用系(コメント利用、高く評価を利用等)の設定取得
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
+			$this->viewVars['blockKey'],
+			$this->viewVars['roomId']
+		);
+		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
+
+		// block.id
+		if (empty($this->viewVars['blockId'])) {
+			$blockId = 'null';
+		} else {
+			$blockId = $this->viewVars['blockId'];
+		}
 		// ページャーで複数動画取得
 		$conditions = array(
-			'Block.id = ' . $this->viewVars['blockId'],
+			'Block.id = ' . $blockId,
 			'Block.id = ' . $this->Video->alias . '.block_id',
 			'Block.language_id = ' . $this->viewVars['languageId'],
 			'Block.room_id = ' . $this->viewVars['roomId'],
@@ -145,6 +160,7 @@ class VideosController extends VideosAppController {
 
 		//関連動画の取得
 		$relatedVideos = $this->Video->getVideos(
+			$video['Video']['created_user'],
 			$this->viewVars['blockId'],
 			$this->viewVars['contentEditable']
 		);

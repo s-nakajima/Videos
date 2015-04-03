@@ -1,6 +1,8 @@
 <?php
 /**
  * 権限設定 template
+ * 画面仕様未決定のため、暫定(;'∀')
+ * 権限設定はNC2の設定方法と異なるため、プラグイン側で権限設定は実装しないと予想。
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -16,13 +18,13 @@
 	 ng-controller="VideoFrameSettingsAuthority"
 	 ng-init="initialize(<?php echo h(json_encode($videoFrameSetting)); ?>)">
 
-	<?php echo $this->element('Videos/plugin_name', array(
+	<?php echo $this->element('plugin_name', array(
 		"pluginName" => __d('videos', 'Plugin name'),
 	)); ?>
 
 	<div class="modal-body">
 
-		<?php echo $this->element('VideoFrameSettings/tabs', array(
+		<?php echo $this->element('tabs', array(
 			"activeTab" => 'authority',
 		)); ?>
 

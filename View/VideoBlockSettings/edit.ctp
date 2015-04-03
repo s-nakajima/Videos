@@ -13,20 +13,20 @@
 <?php echo $this->Html->script('/videos/js/videos.js', false); ?>
 
 <div id="nc-videos-<?php echo (int)$frameId; ?>"
-	ng-controller="VideoFrameSettingsContent"
-	ng-init="initialize(<?php echo h(json_encode($videoFrameSetting)) .','. h(json_encode($block)); ?>)">
+	ng-controller="VideoBlockSettingsEdit"
+	ng-init="initialize(<?php echo h(json_encode($videoBlockSetting)) .','. h(json_encode($block)); ?>)">
 
-	<?php echo $this->element('Videos/plugin_name', array(
+	<?php echo $this->element('plugin_name', array(
 		"pluginName" => __d('videos', 'Plugin name'),
 	)); ?>
 
 	<div class="modal-body">
 
-		<?php echo $this->element('VideoFrameSettings/tabs', array(
+		<?php echo $this->element('tabs', array(
 			"activeTab" => 'content',
 		)); ?>
 
-		<?php echo $this->Form->create('VideoFrameSetting', array(
+		<?php echo $this->Form->create('VideoBlockSetting', array(
 			'name' => 'form',
 			'novalidate' => true,
 		)); ?>
@@ -34,7 +34,7 @@
 			<div class="panel panel-default" style="border-top: none; border-radius: 0;">
 				<div class="panel-body has-feedback">
 
-					<?php echo $this->element('VideoFrameSettings/block_form', array(
+					<?php echo $this->element('VideoBlockSettings/block_form', array(
 						"nameLabel" => __d('videos', 'チャンネル名') . $this->element('NetCommons.required'),
 					)); ?>
 
@@ -49,7 +49,7 @@
 								'label' => '<span class="glyphicon glyphicon-thumbs-up"> </span> ' . __d('videos', '高く評価を利用する'),
 								'div' => false,
 								'type' => 'checkbox',
-								'ng-model' => 'video_frame_setting.display_like',
+								'ng-model' => 'videoBlockSetting.useLike',
 							)); ?>
 						</div>
 						<div style="padding-left: 20px;">
@@ -57,8 +57,8 @@
 								'label' => '<span class="glyphicon glyphicon-thumbs-down"> </span> ' . __d('videos', '低く評価も利用する'),
 								'div' => false,
 								'type' => 'checkbox',
-								'ng-model' => 'video_frame_setting.display_unlike',
-								'ng-disabled' => '!video_frame_setting.display_like',
+								'ng-model' => 'videoBlockSetting.useUnlike',
+								'ng-disabled' => '!videoBlockSetting.useLike',
 							)); ?>
 						</div>
 					</div>
@@ -73,7 +73,7 @@
 								'label' => __d('videos', '動画投稿を自動的に承認する'),
 								'div' => false,
 								'type' => 'checkbox',
-								'ng-model' => 'video_frame_setting.agree',
+								'ng-model' => 'videoBlockSetting.agree',
 							)); ?>
 						</div>
 						<div>
@@ -81,7 +81,7 @@
 								'label' => __d('videos', '動画投稿をメールで通知する'),
 								'div' => false,
 								'type' => 'checkbox',
-								'ng-model' => 'video_frame_setting.mail_notice',
+								'ng-model' => 'videoBlockSetting.mailNotice',
 							)); ?>
 						</div>
 						<div>
@@ -89,7 +89,7 @@
 								'label' => __d('videos', '動画を自動変換する'),
 								'div' => false,
 								'type' => 'checkbox',
-								'ng-model' => 'video_frame_setting.auto_video_convert',
+								'ng-model' => 'videoBlockSetting.autoVideoConvert',
 							)); ?>
 						</div>
 					</div>
@@ -103,12 +103,12 @@
 							<?php echo $this->Form->input('video_player', array(
 								'type' => 'radio',
 								'options' => array(
-									VideoFrameSetting::VIDEO_PLAYER_JPLAYER => __d('blocks', 'jPlayer'),
-									VideoFrameSetting::VIDEO_PLAYER_HTML5 => __d('blocks', 'HTML5'),
+									VideoBlockSetting::VIDEO_PLAYER_JPLAYER => __d('blocks', 'jPlayer'),
+									VideoBlockSetting::VIDEO_PLAYER_HTML5 => __d('blocks', 'HTML5'),
 								),
 								'div' => false,
 								'legend' => false,
-								'ng-model' => 'video_frame_setting.video_player',
+								'ng-model' => 'videoBlockSetting.videoPlayer',
 							)); ?>
 						</div>
 						<div>
@@ -116,7 +116,7 @@
 								'label' => __d('videos', '自動再生する'),
 								'div' => false,
 								'type' => 'checkbox',
-								'ng-model' => 'video_frame_setting.auto_play',
+								'ng-model' => 'videoBlockSetting.autoPlay',
 							)); ?>
 						</div>
 					</div>
@@ -134,7 +134,7 @@
 								45 => sprintf(__d('videos', '%s秒'), '45'),
 								60 => sprintf(__d('videos', '%s秒'), '60'),
 							),
-							'ng-model' => 'video_frame_setting.buffer_time',
+							'ng-model' => 'videoBlockSetting.bufferTime',
 						)); ?>
 						<p class="help-block">
 							<?php echo __d('videos', '動画の再生が遅いときは、バッファ時間を長めに設定してください。'); ?>
@@ -151,7 +151,7 @@
 								'label' => __d('videos', 'コメントを利用する'),
 								'div' => false,
 								'type' => 'checkbox',
-								'ng-model' => 'video_frame_setting.display_comment',
+								'ng-model' => 'videoBlockSetting.useComment',
 							)); ?>
 						</div>
 						<div style="padding-left: 20px;">
@@ -159,9 +159,9 @@
 								'label' => __d('videos', 'コメントを自動的に承認する'),
 								'div' => false,
 								'type' => 'checkbox',
-								'checked' => $videoFrameSetting['comment_agree'],
-								'ng-model' => 'video_frame_setting.comment_agree',
-								'ng-disabled' => '!video_frame_setting.display_comment',
+								//'checked' => $videoBlockSetting['commentAgree'],
+								'ng-model' => 'videoBlockSetting.commentAgree',
+								'ng-disabled' => '!videoBlockSetting.useComment',
 							)); ?>
 						</div>
 						<div style="padding-left: 20px;">
@@ -169,9 +169,9 @@
 								'label' => __d('videos', 'コメントの承認完了通知をメールで通知する'),
 								'div' => false,
 								'type' => 'checkbox',
-								'checked' => $videoFrameSetting['comment_agree_mail_notice'],
-								'ng-model' => 'video_frame_setting.comment_agree_mail_notice',
-								'ng-disabled' => "!video_frame_setting.display_comment || video_frame_setting.comment_agree",
+								//'checked' => $videoBlockSetting['commentAgreeMailNotice'],
+								'ng-model' => 'videoBlockSetting.commentAgreeMailNotice',
+								'ng-disabled' => "!videoBlockSetting.useComment || videoBlockSetting.commentAgree",
 							)); ?>
 						</div>
 					</div>
@@ -182,7 +182,7 @@
 							<?php echo __d('videos', '危険領域'); ?>
 						</div>
 						<div class="panel-body text-right">
-							<a href="<?php echo $this->Html->url('/videos/videoFrameSettings/delete/' . $frameId); ?>" class="btn btn-danger">
+							<a href="<?php echo $this->Html->url('/videos/videoBlockSettings/delete/' . $frameId); ?>" class="btn btn-danger">
 								<?php echo __d('videos', 'Delete'); ?>
 							</a>
 						</div>

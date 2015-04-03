@@ -16,13 +16,13 @@
 	 ng-controller="VideoFrameSettings"
 	 ng-init="initialize(<?php echo h(json_encode($videoFrameSetting)); ?>)">
 
-	<?php echo $this->element('Videos/plugin_name', array(
+	<?php echo $this->element('plugin_name', array(
 		"pluginName" => __d('videos', 'Plugin name'),
 	)); ?>
 
 	<div class="modal-body">
 
-		<?php echo $this->element('VideoFrameSettings/tabs', array(
+		<?php echo $this->element('tabs', array(
 			"activeTab" => 'display',
 		)); ?>
 

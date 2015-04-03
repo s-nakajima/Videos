@@ -16,27 +16,23 @@
 <?php $tabs = array(
 	'index' => array(
 		"tabName" => __d('videos', '一覧表示'),
-		"url" => '/videos/videoFrameSettings/index/' . $frameId,
+		"url" => '/videos/videoBlockSettings/index/' . $frameId,
 	),
 	'display' => array(
 		"tabName" => __d('videos', '表示方法変更'),
-		"url" => '/videos/videoFrameSettings/display/' . $frameId,
+		"url" => '/videos/videoFrameSettings/index/' . $frameId,
 	),
 	'content' => array(
 		"tabName" => __d('videos', 'コンテンツ'),
-		"url" => '/videos/videoFrameSettings/content/' . $frameId,
-	),
-	'authority' => array(
-		"tabName" => __d('videos', '権限設定'),
-		"url" => '/videos/videoFrameSettings/authority/' . $frameId,
+		"url" => '/videos/videoBlockSettings/edit/' . $frameId,
 	),
 	'video' => array(
 		"tabName" => __d('videos', 'Video'),
-		"url" => '/videos/videoFrameSettings/video/' . $frameId,
+		"url" => '/videos/videoBlockSettings/video/' . $frameId,
 	),
 	'tag' => array(
 		"tabName" => __d('videos', 'Tag'),
-		"url" => '/videos/videoFrameSettings/tag/' . $frameId,
+		"url" => '/videos/videoTags/index/' . $frameId,
 	),
 ); ?>
 

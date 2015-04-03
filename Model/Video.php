@@ -110,36 +110,6 @@ class Video extends VideosAppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'comments_number' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'likes_number' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'unlikes_number' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
 		'is_auto_translated' => array(
 			'boolean' => array(
 				'rule' => array('boolean'),
@@ -188,6 +158,13 @@ class Video extends VideosAppModel {
 			'fields' => '',
 			'order' => ''
 		),
+		'Comment' => array(
+			'className' => 'Comments.Comment',
+			'foreignKey' => false,
+			'conditions' => 'Comment.content_key = Video.key',
+			'fields' => array('count(Comment.id) as comments_number'),
+			'order' => ''
+		),
 	);
 
 /**
@@ -217,10 +194,6 @@ class Video extends VideosAppModel {
  * @return array
  */
 	public function getVideo($key, $languageId, $contentEditable) {
-		$this->loadModels(array(
-			'Block' => 'Blocks.Block',
-		));
-
 		$conditions = array(
 			$this->alias . '.key' => $key,
 			$this->Block->alias . '.language_id' => $languageId,
@@ -253,21 +226,15 @@ class Video extends VideosAppModel {
 /**
  * 複数Videoデータ取得
  *
+ * @param int $createdUser videos.createdUser
  * @param int $blockId blocks.id
  * @param bool $contentEditable true can edit the content, false not can edit the content.
  * @return array
  */
-	public function getVideos($blockId, $contentEditable) {
-		$this->loadModels(array(
-			'Block' => 'Blocks.Block',
-		));
-
-		// ログインユーザ情報取得
-		$auth = CakeSession::read('Auth');
-
+	public function getVideos($createdUser, $blockId, $contentEditable) {
 		$conditions = array(
 			$this->alias . '.block_id' => $blockId,
-			$this->alias . '.created_user' => $auth['User']['id'],
+			$this->alias . '.created_user' => $createdUser,
 		);
 		if (! $contentEditable) {
 			$conditions[$this->alias . '.status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
@@ -302,13 +269,11 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function saveVideo($data) {
+		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
 		$this->loadModels(array(
 			'Video' => 'Videos.Video',
 			'Comment' => 'Comments.Comment',
 			'FileModel' => 'Files.FileModel',
-			//'FilesPlugin' => 'Files.FilesPlugin',
-			//'FilesRoom' => 'Files.FilesRoom',
-			//'FilesUser' => 'Files.FilesUser',
 		));
 
 		//トランザクションBegin

@@ -17,7 +17,7 @@
  * @package app.Plugin.Videos.Config.Schema
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class AppSchema extends CakeSchema {
+class VideosSchema extends CakeSchema {
 
 /**
  * Database connection
@@ -46,18 +46,16 @@ class AppSchema extends CakeSchema {
 	}
 
 /**
- * video_frame_settings table
+ * video_block_settings table
  *
  * @var array
  */
-	public $video_frame_settings = array(
+	public $video_block_settings = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID |  |  | '),
-		'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'comment' => 'frame key | フレームKey | frames.key | ', 'charset' => 'utf8'),
-		'display_like' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'display like | 高く評価を利用 |  | '),
-		'display_unlike' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => 'display like | 低く評価も利用 |  | '),
-		'display_comment' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'display comment | コメントを利用 |  | '),
-		'videos_number' => array('type' => 'integer', 'null' => false, 'default' => '0', 'comment' => 'video number | 動画数 | |'),
-		'files_size' => array('type' => 'integer', 'null' => false, 'default' => '0', 'comment' => 'file size | ファイル容量 | |'),
+		'block_key' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'comment' => 'block key | ブロックKey | blocks.key | ', 'charset' => 'utf8'),
+		'use_like' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'use like | 高く評価を利用 |  | '),
+		'use_unlike' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => 'use like | 低く評価も利用 |  | '),
+		'use_comment' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'use comment | コメントを利用 |  | '),
 		'agree' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'auto agree | 動画投稿の自動承認 |  | '),
 		'mail_notice' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => 'mail notice | メール通知 |  | '),
 		'auto_video_convert' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'auto video convert | 自動動画変換 |  | '),
@@ -66,9 +64,27 @@ class AppSchema extends CakeSchema {
 		'buffer_time' => array('type' => 'integer', 'null' => false, 'default' => '4', 'comment' => 'buffer time | バッファ時間(秒) |  | '),
 		'comment_agree' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'auto comment agree | コメントの自動承認 |  | '),
 		'comment_agree_mail_notice' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => 'comment agree mail notice | コメント承認メール通知 |  | '),
+		'created_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'created user | 作成者 | users.id | '),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 |  | '),
+		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'modified user | 更新者 | users.id | '),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 |  | '),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => 1),
+			'fk_video_block_settings_blocks1_idx' => array('column' => 'block_key', 'unique' => 0)
+		),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+
+/**
+ * video_frame_settings table
+ *
+ * @var array
+ */
+	public $video_frame_settings = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID |  |  | '),
+		'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'comment' => 'frame key | フレームKey | frames.key | ', 'charset' => 'utf8'),
 		'display_order' => array('type' => 'string', 'null' => true, 'default' => 'new', 'length' => 11, 'collate' => 'utf8_general_ci', 'comment' => 'display order | 表示順 new:新着順、title:タイトル順、play:再生回数順、like:評価順 |  | ', 'charset' => 'utf8'),
 		'display_number' => array('type' => 'integer', 'null' => false, 'default' => '5', 'comment' => 'display number | 表示件数 |  | '),
-		'authority' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4, 'comment' => 'authority | 動画投稿権限 |  | '),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'created user | 作成者 | users.id | '),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 |  | '),
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'modified user | 更新者 | users.id | '),
@@ -86,13 +102,15 @@ class AppSchema extends CakeSchema {
  * @var array
  */
 	public $video_view_logs = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID |  |  | '),
 		'video_key' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'comment' => 'video key | 動画key | videos.key | ', 'charset' => 'utf8'),
 		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'comment' => 'user id | ユーザID | users.id | '),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'created user | 作成者 | users.id | '),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 |  | '),
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'modified user | 更新者 | users.id | '),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 |  | '),
+		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'modified datetime | 更新日時 |  | '),
 		'indexes' => array(
+			'PRIMARY' => array('column' => array('id', 'modified'), 'unique' => 1),
 			'fk_video_view_logs_frames1_idx' => array('column' => 'video_key', 'unique' => 0),
 			'fk_video_view_logs1_idx' => array('column' => array('video_key', 'user_id'), 'unique' => 0)
 		),
@@ -110,15 +128,10 @@ class AppSchema extends CakeSchema {
 		'block_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index', 'comment' => 'block id |  ブロックID | blocks.id | '),
 		'title' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'title | タイトル |  | ', 'charset' => 'utf8'),
 		'mp4_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'mp4 id | MP4ファイルID |  | '),
-		'mp4_file_size' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'mp4 file size | MP4ファイル容量 |  | '),
 		'ogg_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'ogg id | OGGファイルID |  | '),
-		'ogg_file_size' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'ogg file size | OGGファイル容量 |  | '),
 		'thumbnail_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'thumbnail id | サムネイルファイルID |  | '),
 		'video_time' => array('type' => 'integer', 'null' => false, 'default' => '0', 'comment' => 'video time | 動画時間 |  | '),
 		'play_number' => array('type' => 'integer', 'null' => false, 'default' => '0', 'comment' => 'play number | 再生回数 |  | '),
-		'comments_number' => array('type' => 'integer', 'null' => false, 'default' => '0', 'comment' => 'comment number | コメント数 |  | '),
-		'likes_number' => array('type' => 'integer', 'null' => false, 'default' => '0', 'comment' => 'like number | 高く評価数 |  | '),
-		'unlikes_number' => array('type' => 'integer', 'null' => false, 'default' => '0', 'comment' => 'unlike number | 低く評価数 |  | '),
 		'description' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'description | 説明 |  | ', 'charset' => 'utf8'),
 		'is_auto_translated' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => 'translation type. 0:original , 1:auto translation | 翻訳タイプ  0:オリジナル、1:自動翻訳 |  | '),
 		'translation_engine' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'translation engine | 翻訳エンジン |  | ', 'charset' => 'utf8'),

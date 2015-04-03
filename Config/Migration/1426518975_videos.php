@@ -7,14 +7,13 @@
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
- * @package app.Plugin.Videos.Config.Migration
  */
 
 /**
  * Videos CakeMigration
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
- * @package app.Plugin.Videos.Config.Migration
+ * @package NetCommons\Videos\Config\Migration
  */
 class Videos extends CakeMigration {
 
@@ -108,7 +107,9 @@ class Videos extends CakeMigration {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'access_counter_frame_settings', 'access_counters', 'announcements', 'block_role_permissions', 'blocks', 'boxes', 'boxes_pages', 'comments', 'containers', 'containers_pages', 'default_role_permissions', 'edumap', 'edumap_social_media', 'edumap_students', 'edumap_visibility_settings', 'faq_categories', 'faq_category_orders', 'faq_frame_settings', 'faq_orders', 'faqs', 'files', 'files_plugins', 'files_rooms', 'files_users', 'frames', 'groups', 'groups_languages', 'groups_users', 'hello_worlds', 'iframe_frame_settings', 'iframes', 'languages', 'languages_pages', 'notepad_part_settings', 'notepad_settings', 'notepads', 'notepads_blocks', 'online_frame_settings', 'pages', 'plugins', 'plugins_roles', 'plugins_rooms', 'roles', 'roles_rooms', 'roles_rooms_users', 'roles_user_attributes', 'room_role_permissions', 'room_roles', 'rooms', 'rss_reader_frame_settings', 'rss_readers', 'site_settings', 'spaces', 'user_attributes', 'user_attributes_users', 'user_select_attributes', 'user_select_attributes_users', 'users', 'video_frame_settings', 'video_view_logs', 'videos'
+				'video_frame_settings',
+				'video_view_logs',
+				'videos',
 			),
 		),
 	);

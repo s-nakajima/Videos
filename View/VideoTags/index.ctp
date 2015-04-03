@@ -1,6 +1,6 @@
 <?php
 /**
- * 動画 template
+ * タグ template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -19,14 +19,14 @@
 -->
 <div id="nc-videos-<?php echo (int)$frameId; ?>" ng-controller="VideoFrameSettings">
 
-	<?php echo $this->element('Videos/plugin_name', array(
+	<?php echo $this->element('plugin_name', array(
 		"pluginName" => __d('videos', 'Plugin name'),
 	)); ?>
 
 	<div class="modal-body">
 
-		<?php echo $this->element('VideoFrameSettings/tabs', array(
-			"activeTab" => 'video',
+		<?php echo $this->element('tabs', array(
+			"activeTab" => 'tag',
 		)); ?>
 
 		<?php echo $this->Form->create('Videos', array(
@@ -38,7 +38,7 @@
 				<div class="panel-body has-feedback">
 
 					<?php //echo $this->element('VideoFrameSettings/edit_form'); ?>
-					video.ctp
+					tag.ctp
 
 				</div>
 			</div>

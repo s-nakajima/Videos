@@ -129,12 +129,12 @@ NetCommonsApp.controller('VideoFrameSettingsAuthority',
   });
 
 /**
- * VideoFrameSettings コンテンツ Javascript
+ * VideoBlockSettings コンテンツ Javascript
  *
  * @param {string} Controller name
  * @param {function($scope, NetCommonsTab)} Controller
  */
-NetCommonsApp.controller('VideoFrameSettingsContent',
+NetCommonsApp.controller('VideoBlockSettingsEdit',
   function($scope, NetCommonsTab) {
 
     /**
@@ -149,9 +149,10 @@ NetCommonsApp.controller('VideoFrameSettingsContent',
      *
      * @return {void}
      */
-    $scope.initialize = function(video_frame_setting, block) {
-      $scope.video_frame_setting = angular.copy(video_frame_setting);
+    $scope.initialize = function(videoBlockSetting, block) {
+      $scope.videoBlockSetting = angular.copy(videoBlockSetting);
       $scope.block = angular.copy(block);
+console.debug($scope.videoBlockSetting);
     };
 
   });

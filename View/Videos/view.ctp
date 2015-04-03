@@ -223,7 +223,7 @@
 									<div style="margin-top: -18px; margin-left: 65px;">
 										<?php
 										$video_time = $relatedVideo['video']['videoTime'];
-										$video_time = floor($video_time / 60) . ":" . floor($video_time - 60 * floor($video_time / 60));
+										$video_time = floor($video_time / 60) . ":" . str_pad(floor($video_time - 60 * floor($video_time / 60)), 2, '0');
 										?>
 										<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
 									<?php echo $video_time ?>

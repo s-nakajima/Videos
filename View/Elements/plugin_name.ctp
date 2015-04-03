@@ -19,18 +19,13 @@
 
 <div class="modal-header">
 	<div class="row">
-		<div class="col-xs-6 text-left">
+		<div class="text-left">
 			<?php $title = $this->fetch('title'); ?>
 			<?php if ($title) : ?>
 				<?php echo $title; ?>
 			<?php else : ?>
 				<br />
 			<?php endif; ?>
-		</div>
-		<div class="col-xs-6 text-right" style="display:table-cell;vertical-align:middle;">
-			<a href="<?php echo $this->Html->url('/videos/videos/index/' . $frameId); ?>" class="btn btn-default">
-				<?php echo __d("videos", "一覧へ"); ?>
-			</a>
 		</div>
 	</div>
 </div>
