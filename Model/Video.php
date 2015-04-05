@@ -196,26 +196,14 @@ class Video extends VideosAppModel {
 	public function getVideo($key, $languageId, $contentEditable) {
 		$conditions = array(
 			$this->alias . '.key' => $key,
-			$this->Block->alias . '.language_id' => $languageId,
+			'Block.language_id' => $languageId,
 		);
 		if (! $contentEditable) {
 			$conditions[$this->alias . '.status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
 		}
 
-		$joins = array(
-			array(
-				'type' => 'inner',
-				'table' => $this->Block->useTable,
-				'alias' => $this->Block->alias,
-				'conditions' => array(
-					$this->alias . '.block_id = ' . $this->Block->alias . '.id',
-				),
-			),
-		);
-
 		$video = $this->find('first', array(
 			'recursive' => 1,
-			'joins' => $joins,
 			'conditions' => $conditions,
 			'order' => $this->alias . '.id DESC'
 		));
@@ -240,20 +228,8 @@ class Video extends VideosAppModel {
 			$conditions[$this->alias . '.status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
 		}
 
-		$joins = array(
-			array(
-				'type' => 'inner',
-				'table' => $this->Block->useTable,
-				'alias' => $this->Block->alias,
-				'conditions' => array(
-					$this->alias . '.block_id = ' . $this->Block->alias . '.id',
-				),
-			),
-		);
-
 		$videos = $this->find('all', array(
 			'recursive' => 1,
-			'joins' => $joins,
 			'conditions' => $conditions,
 			'order' => $this->alias . '.id DESC'
 		));

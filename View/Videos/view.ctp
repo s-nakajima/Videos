@@ -23,7 +23,7 @@
 					//m4v: "http://www.jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v",
 					//ogv: "http://www.jplayer.org/video/ogv/Big_Buck_Bunny_Trailer.ogv",
 					//poster: "http://www.jplayer.org/video/poster/Big_Buck_Bunny_Trailer_480x270.png"
-					title: "<?php echo $video['video']['title']; ?>",
+					//title: "<?php //echo $video['video']['title']; ?>",
 					m4v: "<?php echo $fileMp4Url = isset($video['fileMp4']['url']) ? $this->Html->url($video['fileMp4']['url']) : ''; ?>",
 					ogv: "<?php echo $fileOggUrl = isset($video['fileOgg']['url']) ? $this->Html->url($video['fileOgg']['url']) : ''; ?>",
 					poster: "<?php echo $fileThumbnailUrlMedium = isset($video['fileThumbnail']['urlMedium']) ? $this->Html->url($video['fileThumbnail']['urlMedium']) : ''; ?>",
@@ -45,12 +45,7 @@
 <?php /* 上部ボタン */ ?>
 <p>
 <div class="row">
-	<div class="col-xs-6 text-left">
-		<a href="<?php echo $this->Html->url('/videos/videos/index/' . $frameId) ?>" class="btn btn-default">
-			<?php echo __d("videos", "一覧へ") ?>
-		</a>
-	</div>
-	<div class="col-xs-6 text-right">
+	<div class="col-xs-12 text-right">
 		<?php if ($contentEditable): ?>
 			<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
 				<a href="<?php echo $this->Html->url('/videos/videos/edit/' . $frameId . '/' . $video['video']['key']) ?>" class="btn btn-primary">
@@ -156,26 +151,27 @@
 						</span>
 
 						<?php /* いいね */ ?>
-						<?php if ($videoFrameSetting['displayLike']) : ?>
+						<?php if ($videoBlockSetting['useLike']) : ?>
 							<span class="text-left">
+								<?php /* 高く評価、暫定対応(;'∀') */ ?>
 								<?php /* コンテンツが読めたらいいね、よくないね出来る */ ?>
 								<?php if ($contentReadable): ?>
-									<a href="#"><span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"></span><?php echo $video['video']['likesNumber']; ?></a>
+									<a href="#"><span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"></span><?php //echo $video['video']['likesNumber']; ?>0</a>
 									&nbsp;
 								<?php else : ?>
-									<span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"><?php echo $video['video']['likesNumber']; ?></span>
+									<span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"><?php //echo $video['video']['likesNumber']; ?>0</span>
 									&nbsp;
 								<?php endif; ?>
 							</span>
 
 							<?php /* よくないね */ ?>
-							<?php if ($videoFrameSetting['displayUnlike']) : ?>
+							<?php if ($videoBlockSetting['useUnlike']) : ?>
 								<span class="text-left">
 									<?php /* コンテンツが読めたらいいね、よくないね出来る */ ?>
 									<?php if ($contentReadable): ?>
-										<a href="#"><span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php echo $video['video']['unlikesNumber']; ?></a>
+										<a href="#"><span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php //echo $video['video']['unlikesNumber']; ?>0</a>
 									<?php else : ?>
-										<span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php echo $video['video']['unlikesNumber']; ?>
+										<span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php //echo $video['video']['unlikesNumber']; ?>0
 									<?php endif; ?>
 								</span>
 							<?php endif; ?>
@@ -240,17 +236,19 @@
 										</a>
 									</div>
 									<span style="padding-right: 15px;"><?php echo __d('videos', '投稿者'); ?></span><a href="#"><?php echo $relatedVideo['userAttributesUser']['value'] ?></a><br />
-							<span style="padding-right: 15px;">
-								<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
-							</span>
-									<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo $relatedVideo['video']['commentsNumber'] ?><br />
+									<span style="padding-right: 15px;">
+										<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
+									</span>
+									<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo $relatedVideo[0]['commentsNumber'] ?><br />
 
-									<?php if ($videoFrameSetting['displayLike']) : ?>
+									<?php if ($videoBlockSetting['useLike']) : ?>
+										<?php /* 高く評価、暫定対応(;'∀') */ ?>
 										<span style="padding-right: 15px;">
-									<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php echo $relatedVideo['video']['likesNumber'] ?>
-								</span>
-										<?php if ($videoFrameSetting['displayUnlike']) : ?>
-											<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php echo $relatedVideo['video']['unlikesNumber'] ?>
+											<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php //echo $relatedVideo['video']['likesNumber'] ?>0
+										</span>
+										<?php if ($videoBlockSetting['useUnlike']) : ?>
+											<?php /* 低く評価、暫定対応(;'∀') */ ?>
+											<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php //echo $relatedVideo['video']['unlikesNumber'] ?>0
 										<?php endif; ?>
 									<?php endif; ?>
 								</small>
@@ -270,9 +268,9 @@
 <?php /* 下部ボタン */ ?>
 <p>
 <div class="row">
-	<div class="col-xs-6 text-left">
+	<div class="col-xs-12 text-center">
 		<a href="<?php echo $this->Html->url('/videos/videos/index/' . $frameId) ?>" class="btn btn-default">
-			<?php echo __d("videos", "一覧へ") ?>
+			<?php echo __d("videos", "一覧へ戻る") ?>
 		</a>
 	</div>
 	<div class="col-xs-6 text-right">

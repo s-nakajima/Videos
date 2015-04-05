@@ -166,12 +166,19 @@ class VideosController extends VideosAppController {
 		);
 		$results['relatedVideos'] = $relatedVideos;
 
-		// 設定取得
+		// 表示系(並び順、表示件数)の設定取得
 		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
 			$this->viewVars['frameKey'],
 			$this->viewVars['roomId']
 		);
 		$results['videoFrameSetting'] = $videoFrameSetting['VideoFrameSetting'];
+
+		// 利用系(コメント利用、高く評価を利用等)の設定取得
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
+			$this->viewVars['blockKey'],
+			$this->viewVars['roomId']
+		);
+		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
 		// キーをキャメル変換
 		$results = $this->camelizeKeyRecursive($results);
