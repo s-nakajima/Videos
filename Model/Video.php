@@ -285,10 +285,10 @@ class Video extends VideosAppModel {
 			}
 
 			// ファイルの登録 動画ファイル
-			$data = $this->saveVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 'FileModel0', 0);
+			$data = $this->saveVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0);
 
 			// ファイルの登録 サムネイル
-			$data = $this->saveVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 'FileModel1', 1);
+			$data = $this->saveVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1);
 
 			// 値をセット
 			$this->set($data);
@@ -331,7 +331,8 @@ class Video extends VideosAppModel {
  * @SuppressWarnings(PHPMD.CyclomaticComplexity) 暫定対応(;'∀')
  */
 	public function validateVideoFile($data, $field, $modelAlias, $colom, $index = 0) {
-		//古いファイルの削除準備
+		//ファイル更新は、今までのファイルを削除,新しいファイルを登録する
+		//そのためここで、今までのファイルの削除準備をしている
 		if (isset($data[$field]) && isset($data[$modelAlias][$colom]) && $data[$modelAlias][$colom] !== null) {
 			$data['DeleteFile'][$index]['File'] = array(
 				'id' => $data[$modelAlias][$colom]
@@ -344,7 +345,7 @@ class Video extends VideosAppModel {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->FileModel->validationErrors);
 				return false;
 			}
-			$data['DeleteFile'] = $deleteFile;
+			$data['DeleteFile'][$index] = $deleteFile[0];
 		}
 
 		//ファイルのvalidate
