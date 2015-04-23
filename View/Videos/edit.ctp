@@ -50,9 +50,9 @@
 					</div>
 				</div>
 				<div class="panel-footer">
-					<div class="text-center">
+					<div class="text-right">
 						<a href="<?php echo $this->Html->url('/videos/videos/delete/' . $frameId); ?>" class="btn btn-danger">
-							<?php echo __d('videos', 'Delete'); ?>
+							<span class="glyphicon glyphicon-trash"> </span>
 						</a>
 					</div>
 				</div>

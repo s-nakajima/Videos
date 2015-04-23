@@ -42,7 +42,7 @@
 
 <?php echo $this->element('Videos/file',  array(
 	'pluginName' => 'Videos',
-	'label' => __d('videos', 'Thumbnail'),
+	'label' => __d('videos', 'Thumbnail') . $this->element('NetCommons.required'),
 	'field' => Video::THUMBNAIL_FIELD,
 	'fileAccept' => 'image/*',
 	'model' => 'Video',

@@ -239,7 +239,8 @@
 									<span style="padding-right: 15px;">
 										<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
 									</span>
-									<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo $relatedVideo[0]['commentsNumber'] ?><br />
+									<?php /* コメント数、暫定対応(;'∀') */ ?>
+									<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php //echo $relatedVideo[0]['commentsNumber'] ?>0<br />
 
 									<?php if ($videoBlockSetting['useLike']) : ?>
 										<?php /* 高く評価、暫定対応(;'∀') */ ?>

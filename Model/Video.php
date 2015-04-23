@@ -158,13 +158,14 @@ class Video extends VideosAppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'Comment' => array(
+		// Comment=承認コメント、コンテンツコメント=新たに作成するプラグインになった
+		/*'Comment' => array(
 			'className' => 'Comments.Comment',
 			'foreignKey' => false,
 			'conditions' => 'Comment.content_key = Video.key',
-			'fields' => array('count(Comment.id) as comments_number'),
+			//'fields' => array('count(Comment.id) as comments_number'),
 			'order' => ''
-		),
+		),*/
 	);
 
 /**
