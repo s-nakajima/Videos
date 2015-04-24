@@ -333,7 +333,7 @@ class Video extends VideosAppModel {
 		//ファイル更新の準備
 		$data = $this->__readyUpdateFile($data, $field, $modelAlias, $colom, $index);
 
-		//ファイル削除のvalidate xxxx
+		//ファイル削除のvalidate
 		if (isset($data['DeleteFile'][$index]['File']['id']) && $data['DeleteFile'][$index]['File']['id'] > 0) {
 			if (! $deleteFile = $this->FileModel->validateDeletedFiles($data['DeleteFile'][$index]['File']['id'])) {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->FileModel->validationErrors);
@@ -443,8 +443,8 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function deleteFile($data, $modelAlias, $colom, $index = 0) {
-		//ファイル削除
 		if (isset($data['DeleteFile'][$index]['File']['id']) && $data['DeleteFile'][$index]['File']['id'] > 0) {
+
 			//データ削除
 			if (!$this->FileModel->deleteAll(['id' => $data['DeleteFile'][$index]['File']['id']], true, false)) {
 				// @codeCoverageIgnoreStart
@@ -456,8 +456,15 @@ class Video extends VideosAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				// @codeCoverageIgnoreEnd
 			}
-			$folder = new Folder();
-			$folder->delete($data['DeleteFile'][$index]['File']['path']);
+
+			// 暫定対応(;'∀') コメントアウトする。
+			// 現在、path=フォルダなので、フォルダ削除になっている。2ファイルを1度にアップロードすると同じフォルダにアップロードされる。
+			// 更新時に1ファイルだけアップロードすると、下記フォルダ削除によりもう一方のファイルが消える問題あり。
+			//
+			// 1ファイルのアップロード毎にフォルダが別になれば、下記フォルダ削除のままでも問題解消する。
+			//ファイル削除
+			//$folder = new Folder();
+			//$folder->delete($data['DeleteFile'][$index]['File']['path']);
 
 			$data[$modelAlias][$colom] = 0;
 		}
