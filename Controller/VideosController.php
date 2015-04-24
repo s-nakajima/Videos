@@ -271,8 +271,16 @@ class VideosController extends VideosAppController {
 				unset($data[Video::THUMBNAIL_FIELD]);
 			}
 
+			//取得
+			$video = $this->Video->getVideo(
+				$videoKey,
+				$this->viewVars['languageId'],
+				$this->viewVars['contentEditable']
+			);
+
 			// 更新データ作成
 			$data = Hash::merge(
+				$video,
 				$data,
 				array($this->Video->alias => array(
 					'id' => $results['video']['id'],

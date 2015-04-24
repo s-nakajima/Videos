@@ -45,11 +45,15 @@ $index = isset($index) ? $index : 0;
 // 削除有効フラグ
 $deleteEnable = isset($deleteEnable) ? $deleteEnable : true;
 
+// 上書き有効フラグ
+$overwriteEnable = isset($overwriteEnable) ? $overwriteEnable : true;
+
 // プラグイン名 小文字版
 $pluginNameLower = mb_strtolower($pluginName);
 
 // コアでこの言語、共通化希望
 $labelDeleteFile = __d('videos', 'Delete file.');
+$labelOverwriteFile = __d('videos', 'Overwrite file.');
 ?>
 
 <div class="form-group">
@@ -58,6 +62,12 @@ $labelDeleteFile = __d('videos', 'Delete file.');
 	</div>
 
 	<div>
+		<?php /* 必須は要検討 */ ?>
+		<?php echo $this->Form->file($field, array(
+			'accept' => $fileAccept,
+			//'ng-disabled' => 'deleteFile'
+		)); ?>
+
 		<?php /* ファイルあり=編集時 サムネイル、削除チェックボックス */ ?>
 		<?php if (isset($file)) :?>
 			<?php if (isset($file['urlThumbnail'])) :?>
@@ -72,19 +82,24 @@ $labelDeleteFile = __d('videos', 'Delete file.');
 			<?php endif; ?>
 
 			<?php if ($deleteEnable) :?>
+				<br />
 				<?php echo $this->Form->checkbox('DeleteFile.'.$index.'.File.id', array(
 					'value' => $file['id'],
 					//'ng-model' => 'deleteFile'
 				)); ?>
 				<?php echo $this->Form->label('DeleteFile.'.$index.'.File.id', $labelDeleteFile); ?>
 			<?php endif; ?>
+
+			<?php /* ファイルあり=編集時 ファイル上書き保存 */ ?>
+			<?php if ($overwriteEnable) :?>
+				<br />
+				<?php echo $this->Form->checkbox('OverwriteFile.'.$index.'.File.id', array(
+					'value' => $file['id'],
+				)); ?>
+				<?php echo $this->Form->label('OverwriteFile.'.$index.'.File.id', $labelOverwriteFile); ?>
+			<?php endif; ?>
 		<?php endif; ?>
 
-		<?php /* 必須は要検討 */ ?>
-		<?php echo $this->Form->file($field, array(
-			'accept' => $fileAccept,
-			//'ng-disabled' => 'deleteFile'
-		)); ?>
 
 		<?php echo $this->Form->hidden($field . '.File.status', array(
 			'value' => 1    // const化希望
