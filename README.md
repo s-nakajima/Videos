@@ -1,7 +1,7 @@
 # Videos
 Videos for NetCommons3 
 
-[![Build Status](https://travis-ci.org/NetCommons3/Videos.svg?branch=master)](https://travis-ci.org/NetCommons3/Videos)
+[![Build Status](https://api.travis-ci.org/NetCommons3/Videos.svg?branch=master)](https://travis-ci.org/NetCommons3/Videos)
 [![Coverage Status](https://img.shields.io/coveralls/NetCommons3/Videos.svg)](https://coveralls.io/r/NetCommons3/Videos?branch=master)
 
 | dependencies | status |
