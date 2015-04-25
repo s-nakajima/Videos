@@ -33,7 +33,7 @@ class VideosAppTest extends YAControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'site_setting',
+		'plugin.net_commons.site_setting',
 		'plugin.videos.block',
 		'plugin.videos.comment',
 		'plugin.videos.frame',
