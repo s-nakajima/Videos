@@ -37,7 +37,12 @@
 			smoothPlayBar: true,
 			keyEnabled: true,
 			remainingDuration: true,
-			toggleDuration: true
+			toggleDuration: true,
+			size: {
+				width: "640px",
+				height: "360px",
+				cssClass: "jp-video-360p"
+			}
 		});
 	});
 </script>
@@ -94,9 +99,9 @@
 								<button class="jp-full-screen" role="button" tabindex="0">full screen</button>
 							</div>
 						</div>
-						<div class="jp-details">
+						<!-- <div class="jp-details">
 							<div class="jp-title" aria-label="title">&nbsp;</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="jp-no-solution">
@@ -191,6 +196,10 @@
 			<?php echo $video['video']['description']; ?>
 		</div>
 
+		<?php /* コンテンツコメント */ ?>
+		<p>
+		<?php echo $this->element('ContentComments.form'); ?>
+		</p>
 	</div>
 
 	<?php /* 右側 */ ?>
