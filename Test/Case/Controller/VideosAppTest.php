@@ -44,7 +44,7 @@ class VideosAppTest extends YAControllerTestCase {
 		'plugin.videos.video_frame_setting',
 		'plugin.videos.video_view_log',
 		'plugin.blocks.block_role_permission',
-		'plugin.boxes.boxes_page',
+		//'plugin.boxes.boxes_page',
 		'plugin.containers.container',
 		'plugin.containers.containers_page',
 		'plugin.frames.box',
