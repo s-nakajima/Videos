@@ -26,6 +26,7 @@ class VideosController extends VideosAppController {
  */
 	public $uses = array(
 		'Comments.Comment',
+		'ContentComments.ContentComment',
 		'Files.FileModel',		// FileUpload
 		'Videos.Video',
 		'Videos.VideoFrameSetting',
@@ -150,6 +151,23 @@ class VideosController extends VideosAppController {
  * @return CakeResponse
  */
 	public function view($frameId, $videoKey = null) {
+		if ($this->request->isPost()) {
+			//コメントする
+			/* // 登録
+			$video = $this->ContentComment->save($data, false);
+			if (!$this->handleValidationError($this->Video->validationErrors)) {
+				$this->log($this->validationErrors, 'debug');
+				return;
+			}
+
+			//コメントの登録
+			if ($this->ContentComment->data) {
+				if (! $this->ContentComment->save(null, false)) {
+					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				}
+			} */
+		}
+
 		//動画の取得
 		$video = $this->Video->getVideo(
 			$videoKey,
@@ -179,6 +197,14 @@ class VideosController extends VideosAppController {
 			$this->viewVars['roomId']
 		);
 		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
+
+		// コンテンツコメントの取得
+		$contentComments = $this->ContentComment->geContentComments(array(
+			'block_key' => $this->viewVars['blockKey'],
+			'plugin_key' => 'videos',
+			'content_key' => $video['Video']['key'],
+		));
+		$results['contentComments'] = $contentComments;
 
 		// キーをキャメル変換
 		$results = $this->camelizeKeyRecursive($results);

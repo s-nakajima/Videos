@@ -196,10 +196,20 @@
 			<?php echo $video['video']['description']; ?>
 		</div>
 
-		<?php /* コンテンツコメント */ ?>
-		<p>
-		<?php echo $this->element('ContentComments.form'); ?>
-		</p>
+
+		<?php echo $this->Form->create('Video', array(
+			'name' => 'form',
+			//'novalidate' => true,
+		)); ?>
+			<?php /* コンテンツコメント登録 */ ?>
+			<p>
+				<?php echo $this->element('ContentComments.form'); ?>
+			</p>
+			<?php /* コンテンツコメント一覧 */ ?>
+			<p>
+				<?php echo $this->element('ContentComments.index'); ?>
+			</p>
+		<?php echo $this->Form->end(); ?>
 	</div>
 
 	<?php /* 右側 */ ?>

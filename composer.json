@@ -23,6 +23,7 @@
         "netcommons/blocks":            "dev-master",
         "netcommons/boxes":             "dev-master",
         "netcommons/comments":          "dev-master",
+        "netcommons/content-comments":  "dev-master",
         "netcommons/containers":        "dev-master",
         "netcommons/files":             "dev-master",
         "netcommons/frames":            "dev-master",
