@@ -28,6 +28,7 @@ class VideosController extends VideosAppController {
 		'Comments.Comment',
 		'ContentComments.ContentComment',
 		'Files.FileModel',		// FileUpload
+		'Frames.Frame',
 		'Videos.Video',
 		'Videos.VideoFrameSetting',
 		'Videos.VideoBlockSetting',
@@ -89,7 +90,16 @@ class VideosController extends VideosAppController {
 			$this->viewVars['roomId']
 		);
 		$results['videoFrameSetting'] = $videoFrameSetting['VideoFrameSetting'];
-		$results['frame'] = $videoFrameSetting['Frame'];
+
+		// フレーム取得
+		$conditions = array(
+			$this->Frame->alias . '.key' => $this->viewVars['frameKey'],
+		);
+		$frame = $this->Frame->find('first', array(
+			'recursive' => 0,
+			'conditions' => $conditions,
+		));
+		$results['frame'] = $frame['Frame'];
 
 		// 並び順
 		if (empty($displayOrder)) {
@@ -392,7 +402,7 @@ class VideosController extends VideosAppController {
 				$results['thumbnail'] = $file['File'];
 			}
 		}
-
+ 
 		// キーをキャメル変換
 		$results = $this->camelizeKeyRecursive($results);
 		return $results;
