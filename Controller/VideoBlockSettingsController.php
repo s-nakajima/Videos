@@ -54,7 +54,7 @@ class VideoBlockSettingsController extends VideosAppController {
 				'contentPublishable' => array(
 					'index',
 					'edit',
-					'authority',
+					'delete',
 					'video',
 				)
 			),
@@ -98,9 +98,11 @@ class VideoBlockSettingsController extends VideosAppController {
 			// 保存
 			if (!$videoBlockSetting = $this->VideoBlockSetting->saveVideoBlockSetting($data)) {
 				if (!$this->handleValidationError($this->VideoBlockSetting->validationErrors)) {
+					$this->log($this->validationErrors, 'debug');
 					return;
 				}
 			}
+
 			// 暫定対応。再取得(;'∀')
 			// $videoBlockSetting = $this->save(null, false); の戻り値、boolean型が"1","0"のまま
 			// $videoBlockSetting = $this->find('first', array()); の戻り値は、boolean型だとtrue,false。

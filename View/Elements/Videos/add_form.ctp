@@ -27,7 +27,7 @@
 </div>
 
 <?php /* 'required' => 'required'まだ */ ?>
-<?php echo $this->element('Videos/file',  array(
+<?php echo $this->element('Videos/file', array(
 	'pluginName' => 'Videos',
 	'label' => __d('videos', 'Video file') . $this->element('NetCommons.required'),
 	'field' => Video::VIDEO_FILE_FIELD,
@@ -40,7 +40,7 @@
 	'deleteEnable' => false,
 )); ?>
 
-<?php echo $this->element('Videos/file',  array(
+<?php echo $this->element('Videos/file', array(
 	'pluginName' => 'Videos',
 	'label' => __d('videos', 'Thumbnail') . $this->element('NetCommons.required'),
 	'field' => Video::THUMBNAIL_FIELD,

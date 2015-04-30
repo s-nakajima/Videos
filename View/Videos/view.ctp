@@ -12,6 +12,7 @@
 
 <?php echo $this->Html->css('/videos/jplayer/dist/skin/blue.monday/css/jplayer.blue.monday.min.css'); ?>
 <?php echo $this->Html->script('/videos/jplayer/dist/jplayer/jquery.jplayer.min.js', false); ?>
+<?php echo $this->Html->css('/videos/css/style.css', false); ?>
 
 <?php /* jPlayer設定 */ ?>
 <script type="text/javascript">
@@ -66,134 +67,136 @@
 <div class="row">
 	<?php /* 左側 */ ?>
 	<div class="col-xs-7">
-		<?php /* jPlayer */ ?>
-		<div id="jp_container_1" class="jp-video" role="application" aria-label="media player">
-			<div class="jp-type-single">
-				<div id="jquery_jplayer_1" class="jp-jplayer"></div>
-				<div class="jp-gui">
-					<div class="jp-video-play">
-						<button class="jp-video-play-icon" role="button" tabindex="0">play</button>
-					</div>
-					<div class="jp-interface">
-						<div class="jp-progress">
-							<div class="jp-seek-bar">
-								<div class="jp-play-bar"></div>
-							</div>
+		<div style="padding-bottom: 20px;">
+			<?php /* jPlayer */ ?>
+			<div id="jp_container_1" class="jp-video" role="application" aria-label="media player">
+				<div class="jp-type-single">
+					<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+					<div class="jp-gui">
+						<div class="jp-video-play">
+							<button class="jp-video-play-icon" role="button" tabindex="0">play</button>
 						</div>
-						<div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
-						<div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
-						<div class="jp-controls-holder">
-							<div class="jp-controls">
-								<button class="jp-play" role="button" tabindex="0">play</button>
-								<button class="jp-stop" role="button" tabindex="0">stop</button>
-							</div>
-							<div class="jp-volume-controls">
-								<button class="jp-mute" role="button" tabindex="0">mute</button>
-								<button class="jp-volume-max" role="button" tabindex="0">max volume</button>
-								<div class="jp-volume-bar">
-									<div class="jp-volume-bar-value"></div>
+						<div class="jp-interface">
+							<div class="jp-progress">
+								<div class="jp-seek-bar">
+									<div class="jp-play-bar"></div>
 								</div>
 							</div>
-							<div class="jp-toggles">
-								<button class="jp-repeat" role="button" tabindex="0">repeat</button>
-								<button class="jp-full-screen" role="button" tabindex="0">full screen</button>
+							<div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+							<div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+							<div class="jp-controls-holder">
+								<div class="jp-controls">
+									<button class="jp-play" role="button" tabindex="0">play</button>
+									<button class="jp-stop" role="button" tabindex="0">stop</button>
+								</div>
+								<div class="jp-volume-controls">
+									<button class="jp-mute" role="button" tabindex="0">mute</button>
+									<button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+									<div class="jp-volume-bar">
+										<div class="jp-volume-bar-value"></div>
+									</div>
+								</div>
+								<div class="jp-toggles">
+									<button class="jp-repeat" role="button" tabindex="0">repeat</button>
+									<button class="jp-full-screen" role="button" tabindex="0">full screen</button>
+								</div>
 							</div>
+							<!-- <div class="jp-details">
+								<div class="jp-title" aria-label="title">&nbsp;</div>
+							</div> -->
 						</div>
-						<!-- <div class="jp-details">
-							<div class="jp-title" aria-label="title">&nbsp;</div>
-						</div> -->
 					</div>
-				</div>
-				<div class="jp-no-solution">
-					<span>Update Required</span>
-					To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+					<div class="jp-no-solution">
+						<span>Update Required</span>
+						To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+					</div>
 				</div>
 			</div>
 		</div>
 
-		<div>
-			<?php /* タイトル */ ?>
-			<h4><?php echo $video['video']['title']; ?></h4>
-		</div>
-		<p>
-		<div>
-			<?php /* ステータス */ ?>
-			<?php echo $this->element('NetCommons.status_label', array(
-				'status' => $video['video']['status']
-			)); ?>
-		</div>
-		</p>
-		<div class="row">
-			<div class="col-xs-2">
-				<?php /* アバター */ ?>
-				<a href="#">
-					<?php echo $this->Html->image('/videos/img/avatar.png', array(
-						'class' => 'img-responsive',
-						'alt' => $video['userAttributesUser']['value'],
-						'align' => 'left',
-						'width' => '60',
-						'height' => '60',
-					)); ?>
-				</a>
+		<div class="panel panel-default video-description">
+			<div>
+				<?php /* タイトル */ ?>
+				<h4><?php echo $video['video']['title']; ?></h4>
 			</div>
-			<div class="col-xs-10">
-				<div class="row">
-					<div class="col-xs-6">
-						<?php /* 投稿者 */ ?>
-						<span style="padding-left: 5px; padding-right: 15px;"><?php echo __d('videos', '投稿者'); ?></span><a href="#"><?php echo $video['userAttributesUser']['value'] ?></a><br />
-					</div>
-					<div class="col-xs-6 text-right" style="font-size: 18px;">
-						<?php /* 再生回数 */ ?>
-						<?php echo sprintf(__d('videos', '再生回数 %s回'), $video['video']['playNumber']); ?>
-					</div>
+			<p>
+			<div>
+				<?php /* ステータス */ ?>
+				<?php echo $this->element('NetCommons.status_label', array(
+					'status' => $video['video']['status']
+				)); ?>
+			</div>
+			</p>
+			<div class="row">
+				<div class="col-xs-2">
+					<?php /* アバター */ ?>
+					<a href="#">
+						<?php echo $this->Html->image('/videos/img/avatar.png', array(
+							'class' => 'img-responsive',
+							'alt' => $video['userAttributesUser']['value'],
+							'align' => 'left',
+							'width' => '60',
+							'height' => '60',
+						)); ?>
+					</a>
 				</div>
+				<div class="col-xs-10">
+					<div class="row">
+						<div class="col-xs-6">
+							<?php /* 投稿者 */ ?>
+							<span style="padding-left: 5px; padding-right: 15px;"><a href="#"><?php echo $video['userAttributesUser']['value'] ?></a><br />
+						</div>
+						<div class="col-xs-6 text-right" style="font-size: 18px;">
+							<?php /* 再生回数 */ ?>
+							<?php echo sprintf(__d('videos', '再生回数 %s回'), $video['video']['playNumber']); ?>
+						</div>
+					</div>
 
-				<div class="row">
-					<div class="col-xs-12 text-right">
-						<span style="padding-right: 15px;">
-							<?php /* 埋め込みコード */ ?>
-							<a href="#"><?php echo __d('videos', '埋め込みコード'); ?></a>
-						</span>
-
-						<?php /* いいね */ ?>
-						<?php if ($videoBlockSetting['useLike']) : ?>
-							<span class="text-left">
-								<?php /* 高く評価、暫定対応(;'∀') */ ?>
-								<?php /* コンテンツが読めたらいいね、よくないね出来る */ ?>
-								<?php if ($contentReadable): ?>
-									<a href="#"><span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"></span><?php //echo $video['video']['likesNumber']; ?>0</a>
-									&nbsp;
-								<?php else : ?>
-									<span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"><?php //echo $video['video']['likesNumber']; ?>0</span>
-									&nbsp;
-								<?php endif; ?>
+					<div class="row">
+						<div class="col-xs-12 text-right">
+							<span style="padding-right: 15px;">
+								<?php /* 埋め込みコード */ ?>
+								<a href="#"><?php echo __d('videos', '埋め込みコード'); ?></a>
 							</span>
 
-							<?php /* よくないね */ ?>
-							<?php if ($videoBlockSetting['useUnlike']) : ?>
+							<?php /* いいね */ ?>
+							<?php if ($videoBlockSetting['useLike']) : ?>
 								<span class="text-left">
+									<?php /* 高く評価、暫定対応(;'∀') */ ?>
 									<?php /* コンテンツが読めたらいいね、よくないね出来る */ ?>
 									<?php if ($contentReadable): ?>
-										<a href="#"><span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php //echo $video['video']['unlikesNumber']; ?>0</a>
+										<a href="#"><span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"></span><?php //echo $video['video']['likesNumber']; ?>0</a>&nbsp;
 									<?php else : ?>
-										<span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php //echo $video['video']['unlikesNumber']; ?>0
+										<span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"><?php //echo $video['video']['likesNumber']; ?>0</span>&nbsp;
 									<?php endif; ?>
 								</span>
+
+								<?php /* よくないね */ ?>
+								<?php if ($videoBlockSetting['useUnlike']) : ?>
+									<span class="text-left">
+										<?php /* コンテンツが読めたらいいね、よくないね出来る */ ?>
+										<?php if ($contentReadable): ?>
+											<a href="#"><span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php //echo $video['video']['unlikesNumber']; ?>0</a>
+										<?php else : ?>
+											<span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php //echo $video['video']['unlikesNumber']; ?>0
+										<?php endif; ?>
+									</span>
+								<?php endif; ?>
 							<?php endif; ?>
-						<?php endif; ?>
-						&nbsp;
+							&nbsp;
+						</div>
 					</div>
 				</div>
+				<div class="clearfix"></div>
 			</div>
-			<div class="clearfix"></div>
-		</div>
-		<div>
-			<?php /* 登録日 */ ?>
-			<strong><?php echo __d('videos', '登録日'); ?>：<?php echo $this->Date->dateFormat($video['video']['created']); ?></strong>
-		</div>
-		<div>
-			<?php /* 本文 */ ?>
-			<?php echo $video['video']['description']; ?>
+			<div>
+				<?php /* 登録日 */ ?>
+				<strong><?php echo __d('videos', '登録日') . '：' . $this->Date->dateFormat($video['video']['created']); ?></strong>
+			</div>
+			<div>
+				<?php /* 本文 */ ?>
+				<?php echo $video['video']['description']; ?>
+			</div>
 		</div>
 
 
@@ -201,14 +204,12 @@
 			'name' => 'form',
 			//'novalidate' => true,
 		)); ?>
-			<?php /* コンテンツコメント登録 */ ?>
-			<p>
+			<div class="panel panel-default">
+				<?php /* コンテンツコメント登録 */ ?>
 				<?php echo $this->element('ContentComments.form'); ?>
-			</p>
-			<?php /* コンテンツコメント一覧 */ ?>
-			<p>
+				<?php /* コンテンツコメント一覧 */ ?>
 				<?php echo $this->element('ContentComments.index'); ?>
-			</p>
+			</div>
 		<?php echo $this->Form->end(); ?>
 	</div>
 
@@ -237,11 +238,11 @@
 									</div>
 									<div style="margin-top: -18px; margin-left: 65px;">
 										<?php
-										$video_time = $relatedVideo['video']['videoTime'];
-										$video_time = floor($video_time / 60) . ":" . str_pad(floor($video_time - 60 * floor($video_time / 60)), 2, '0');
+										$videoTime = $relatedVideo['video']['videoTime'];
+										$videoTime = floor($videoTime / 60) . ":" . str_pad(floor($videoTime - 60 * floor($videoTime / 60)), 2, '0');
 										?>
 										<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
-									<?php echo $video_time ?>
+									<?php echo $videoTime ?>
 									</span>
 									</div>
 								</div>

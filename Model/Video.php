@@ -57,6 +57,8 @@ class Video extends VideosAppModel {
 		'Files.YAUpload' => array(			// FileUpload
 			self::VIDEO_FILE_FIELD => array(
 				//UploadBefavior settings
+				'mimetypes' => array('video/mp4'),
+				//'extensions' => array('mp4'),
 			),
 			self::THUMBNAIL_FIELD => array(
 				//UploadBefavior settings

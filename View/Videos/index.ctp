@@ -45,8 +45,8 @@
 	<?php endif; ?>
 	<div><?php echo __d('videos', '現在公開されている動画はありません。'); ?></div>
 
-<?php /* ブロック選択済み */ ?>
-<?php else : ?>
+ <?php /* ブロック選択済み */ ?>
+ <?php else : ?>
 
 	<?php /* 上部ボタン */ ?>
 	<?php if ($contentEditable): ?>
@@ -188,11 +188,11 @@
 									</div>
 									<div style="margin-top: -18px; margin-left: 65px;">
 										<?php
-										$video_time = $video['video']['videoTime'];
-										$video_time = floor($video_time / 60) . ":" . str_pad(floor($video_time - 60 * floor($video_time / 60)), 2, '0');
+										$videoTime = $video['video']['videoTime'];
+										$videoTime = floor($videoTime / 60) . ":" . str_pad(floor($videoTime - 60 * floor($videoTime / 60)), 2, '0');
 										?>
 										<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
-											<?php echo $video_time ?>
+											<?php echo $videoTime ?>
 											</span>
 									</div>
 								</div>
@@ -283,3 +283,4 @@
 		</p>
 	<?php endif; ?>
 <?php endif; ?>
+&nbsp;

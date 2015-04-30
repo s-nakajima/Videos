@@ -51,7 +51,7 @@ class VideoFrameSettingsController extends VideosAppController {
 			'allowedActions' => array(
 				'contentPublishable' => array(
 					'index',
-					'view',
+					'edit',
 				)
 			),
 		),
@@ -92,6 +92,7 @@ class VideoFrameSettingsController extends VideosAppController {
 			// 保存
 			if (!$videoFrameSetting = $this->VideoFrameSetting->saveVideoFrameSetting($data)) {
 				if (!$this->handleValidationError($this->VideoFrameSetting->validationErrors)) {
+					$this->log($this->validationErrors, 'debug');
 					return;
 				}
 			}

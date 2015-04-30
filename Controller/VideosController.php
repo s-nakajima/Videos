@@ -57,7 +57,11 @@ class VideosController extends VideosAppController {
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'contentEditable' => array('edit', 'delete', 'add')
+				'contentEditable' => array(
+					'edit',
+					'delete',
+					'add'
+				)
 			),
 		),
 	);
@@ -161,23 +165,6 @@ class VideosController extends VideosAppController {
  * @return CakeResponse
  */
 	public function view($frameId, $videoKey = null) {
-		if ($this->request->isPost()) {
-			//コメントする
-			/* // 登録
-			$video = $this->ContentComment->save($data, false);
-			if (!$this->handleValidationError($this->Video->validationErrors)) {
-				$this->log($this->validationErrors, 'debug');
-				return;
-			}
-
-			//コメントの登録
-			if ($this->ContentComment->data) {
-				if (! $this->ContentComment->save(null, false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			} */
-		}
-
 		//動画の取得
 		$video = $this->Video->getVideo(
 			$videoKey,
@@ -185,6 +172,27 @@ class VideosController extends VideosAppController {
 			$this->viewVars['contentEditable']
 		);
 		$results['video'] = $video;
+
+		if ($this->request->isPost()) {
+			// コメントする
+			// 更新時間を再セット
+			//unset($videoFrameSetting['VideoFrameSetting']['modified']);
+			$data = array('ContentComment' => array(
+				'block_key' => $this->viewVars['blockKey'],
+				'plugin_key' => 'videos',
+				'content_key' => $video['Video']['key'],
+				'status' => 1, // 公開
+				'comment' => $this->data['contentComment']['comment'],
+			));
+
+			// コメントの登録・更新
+			if (!$this->ContentComment->saveContentComments($data)) {
+				if (!$this->handleValidationError($this->ContentComment->validationErrors)) {
+					$this->log($this->validationErrors, 'debug');
+				}
+			}
+			//unset($this->data['ContentComment']['comment']);
+		}
 
 		//関連動画の取得
 		$relatedVideos = $this->Video->getVideos(
@@ -209,7 +217,7 @@ class VideosController extends VideosAppController {
 		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
 		// コンテンツコメントの取得
-		$contentComments = $this->ContentComment->geContentComments(array(
+		$contentComments = $this->ContentComment->getContentComments(array(
 			'block_key' => $this->viewVars['blockKey'],
 			'plugin_key' => 'videos',
 			'content_key' => $video['Video']['key'],
@@ -402,7 +410,7 @@ class VideosController extends VideosAppController {
 				$results['thumbnail'] = $file['File'];
 			}
 		}
- 
+
 		// キーをキャメル変換
 		$results = $this->camelizeKeyRecursive($results);
 		return $results;

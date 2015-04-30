@@ -14,7 +14,7 @@
 
 <div id="nc-videos-<?php echo (int)$frameId; ?>"
 	ng-controller="VideoBlockSettingsEdit"
-	ng-init="initialize(<?php echo h(json_encode($videoBlockSetting)) .','. h(json_encode($block)); ?>)">
+	ng-init="initialize(<?php echo h(json_encode($videoBlockSetting)) . ',' . h(json_encode($block)); ?>)">
 
 	<?php echo $this->element('plugin_name', array(
 		"pluginName" => __d('videos', 'Plugin name'),

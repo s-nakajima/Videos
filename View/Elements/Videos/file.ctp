@@ -83,26 +83,26 @@ $labelOverwriteFile = __d('videos', 'Overwrite file.');
 
 			<?php if ($deleteEnable) :?>
 				<br />
-				<?php echo $this->Form->checkbox('DeleteFile.'.$index.'.File.id', array(
+				<?php echo $this->Form->checkbox('DeleteFile.' . $index . '.File.id', array(
 					'value' => $file['id'],
 					//'ng-model' => 'deleteFile'
 				)); ?>
-				<?php echo $this->Form->label('DeleteFile.'.$index.'.File.id', $labelDeleteFile); ?>
+				<?php echo $this->Form->label('DeleteFile.' . $index . '.File.id', $labelDeleteFile); ?>
 			<?php endif; ?>
 
 			<?php /* ファイルあり=編集時 ファイル上書き保存 */ ?>
 			<?php if ($overwriteEnable) :?>
 				<br />
-				<?php echo $this->Form->checkbox('OverwriteFile.'.$index.'.File.id', array(
+				<?php echo $this->Form->checkbox('OverwriteFile.' . $index . '.File.id', array(
 					'value' => $file['id'],
 				)); ?>
-				<?php echo $this->Form->label('OverwriteFile.'.$index.'.File.id', $labelOverwriteFile); ?>
+				<?php echo $this->Form->label('OverwriteFile.' . $index . '.File.id', $labelOverwriteFile); ?>
 			<?php endif; ?>
 		<?php endif; ?>
 
 
 		<?php echo $this->Form->hidden($field . '.File.status', array(
-			'value' => 1    // const化希望
+			'value' => 1 // const化希望
 		)); ?>
 		<?php echo $this->Form->hidden($field . '.File.role_type', array(
 			'value' => 'room_file_role'
@@ -126,10 +126,10 @@ $labelOverwriteFile = __d('videos', 'Overwrite file.');
 		<?php if (isset($this->validationErrors[$model][$field])): ?>
 			<div class="has-error">
 				<?php foreach ($this->validationErrors[$model][$field] as $message): ?>
-			<div class="help-block">
-				<?php echo $message; ?>
-			</div>
-		<?php endforeach; ?>
+					<div class="help-block">
+						<?php echo $message; ?>
+					</div>
+				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>
 	</div>
