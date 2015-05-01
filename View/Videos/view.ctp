@@ -11,8 +11,9 @@
 ?>
 
 <?php echo $this->Html->css('/videos/jplayer/dist/skin/blue.monday/css/jplayer.blue.monday.min.css'); ?>
-<?php echo $this->Html->script('/videos/jplayer/dist/jplayer/jquery.jplayer.min.js', false); ?>
 <?php echo $this->Html->css('/videos/css/style.css', false); ?>
+<?php echo $this->Html->script('/videos/jplayer/dist/jplayer/jquery.jplayer.min.js', false); ?>
+<?php echo $this->Html->script('/videos/js/videos.js', false); ?>
 
 <?php /* jPlayer設定 */ ?>
 <script type="text/javascript">
@@ -66,7 +67,7 @@
 <p>
 <div class="row">
 	<?php /* 左側 */ ?>
-	<div class="col-xs-7">
+	<div class="col-lg-7 col-xs-12">
 		<div style="padding-bottom: 20px;">
 			<?php /* jPlayer */ ?>
 			<div id="jp_container_1" class="jp-video" role="application" aria-label="media player">
@@ -132,7 +133,7 @@
 					<?php /* アバター */ ?>
 					<a href="#">
 						<?php echo $this->Html->image('/videos/img/avatar.png', array(
-							'class' => 'img-responsive',
+							//'class' => 'img-responsive',
 							'alt' => $video['userAttributesUser']['value'],
 							'align' => 'left',
 							'width' => '60',
@@ -165,14 +166,15 @@
 									<?php /* 高く評価、暫定対応(;'∀') */ ?>
 									<?php /* コンテンツが読めたらいいね、よくないね出来る */ ?>
 									<?php if ($contentReadable): ?>
-										<a href="#"><span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"></span><?php //echo $video['video']['likesNumber']; ?>0</a>&nbsp;
+										<a href="#"><span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"></span><?php //echo $video['video']['likesNumber']; ?>0</a>
 									<?php else : ?>
-										<span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"><?php //echo $video['video']['likesNumber']; ?>0</span>&nbsp;
+										<span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"><?php //echo $video['video']['likesNumber']; ?>0</span>
 									<?php endif; ?>
 								</span>
 
 								<?php /* よくないね */ ?>
 								<?php if ($videoBlockSetting['useUnlike']) : ?>
+									&nbsp;
 									<span class="text-left">
 										<?php /* コンテンツが読めたらいいね、よくないね出来る */ ?>
 										<?php if ($contentReadable): ?>
@@ -214,7 +216,7 @@
 	</div>
 
 	<?php /* 右側 */ ?>
-	<div class="col-md-5 col-xs-0">
+	<div class="col-lg-5 col-xs-0">
 
 		<?php /* 関連動画 */ ?>
 		<p>
