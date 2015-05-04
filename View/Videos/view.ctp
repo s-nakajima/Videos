@@ -201,18 +201,15 @@
 			</div>
 		</div>
 
-
-		<?php echo $this->Form->create('Video', array(
-			'name' => 'form',
-			//'novalidate' => true,
-		)); ?>
-			<div class="panel panel-default">
-				<?php /* コンテンツコメント登録 */ ?>
-				<?php echo $this->element('ContentComments.form'); ?>
-				<?php /* コンテンツコメント一覧 */ ?>
-				<?php echo $this->element('ContentComments.index'); ?>
-			</div>
-		<?php echo $this->Form->end(); ?>
+		<?php /* コンテンツコメント */ ?>
+		<div class="panel panel-default">
+			<?php echo $this->element('ContentComments.form', array(
+				'formName' => 'Video',
+			)); ?>
+			<?php echo $this->element('ContentComments.index', array(
+				'formName' => 'Video',
+			)); ?>
+		</div>
 	</div>
 
 	<?php /* 右側 */ ?>

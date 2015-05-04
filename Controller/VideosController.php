@@ -49,6 +49,7 @@ class VideosController extends VideosAppController {
  * @var array
  */
 	public $components = array(
+		'ContentComments.ContentComments',
 		'Paginator',			// ページャ
 		'Files.FileUpload',		// FileUpload
 		'NetCommons.NetCommonsBlock',
@@ -175,23 +176,9 @@ class VideosController extends VideosAppController {
 
 		if ($this->request->isPost()) {
 			// コメントする
-			// 更新時間を再セット
-			//unset($videoFrameSetting['VideoFrameSetting']['modified']);
-			$data = array('ContentComment' => array(
-				'block_key' => $this->viewVars['blockKey'],
-				'plugin_key' => 'videos',
-				'content_key' => $video['Video']['key'],
-				'status' => 1, // 公開
-				'comment' => $this->data['contentComment']['comment'],
-			));
-
-			// コメントの登録・更新
-			if (!$this->ContentComment->saveContentComments($data)) {
-				if (!$this->handleValidationError($this->ContentComment->validationErrors)) {
-					$this->log($this->validationErrors, 'debug');
-				}
+			if (!$this->ContentComments->comment('videos', $video['Video']['key'])) {
+				return;
 			}
-			//unset($this->data['ContentComment']['comment']);
 		}
 
 		//関連動画の取得
