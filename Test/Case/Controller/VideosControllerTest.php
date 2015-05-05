@@ -10,9 +10,9 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-//App::uses('VideosController', 'Videos.Controller');
 App::uses('VideosAppTest', 'Videos.Test/Case/Controller');
-//ContentComments
+App::uses('VideosController', 'Videos.Controller');
+
 /**
  * VideosController Test Case
  *
