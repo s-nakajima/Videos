@@ -78,7 +78,6 @@ class VideosAppTest extends YAControllerTestCase {
 			array(
 				'components' => array(
 					'Auth' => array('user'),
-					'ContentComments.ContentComments',
 					'Session',
 					'Security',
 				)
