@@ -74,16 +74,6 @@ class VideosAppTest extends YAControllerTestCase {
 	public function setUp() {
 		parent::setUp();
 		Configure::write('Config.language', 'ja');
-		$this->generate(
-			'Videos.Videos',
-			array(
-				'components' => array(
-					'Auth' => array('user'),
-					'Session',
-					'Security',
-				)
-			)
-		);
 	}
 
 /**
