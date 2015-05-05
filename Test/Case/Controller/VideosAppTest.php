@@ -10,13 +10,14 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('AuthGeneralControllerTest', 'AuthGeneral.Test/Case/Controller');
-App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
-App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
-App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
-App::uses('RolesControllerTest', 'Roles.Test/Case/Controller');
+//App::uses('AuthGeneralControllerTest', 'AuthGeneral.Test/Case/Controller');
+//App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
+//App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
+//App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
+//App::uses('RolesControllerTest', 'Roles.Test/Case/Controller');
 App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
 App::uses('ContentCommentsComponent', 'ContentComments.Controller/Component');
+App::uses('VideosController', 'Videos.Controller');
 
 /**
  * VideosAppController Test Case
@@ -37,16 +38,16 @@ class VideosAppTest extends YAControllerTestCase {
 		'plugin.blocks.block_role_permission',
 		'plugin.boxes.boxes_page',
 		'plugin.containers.container',
-		'plugin.containers.containers_page',
+		//'plugin.containers.containers_page',
 		'plugin.content_comments.content_comment',
 		'plugin.files.file',
-		'plugin.files.files_plugin',
-		'plugin.files.files_room',
-		'plugin.files.files_user',
+		//'plugin.files.files_plugin',
+		//'plugin.files.files_room',
+		//'plugin.files.files_user',
 		'plugin.frames.box',
 		'plugin.net_commons.site_setting',
 		'plugin.m17n.language',
-		'plugin.m17n.languages_page',
+		//'plugin.m17n.languages_page',
 		'plugin.roles.default_role_permission',
 		'plugin.rooms.roles_room',
 		'plugin.rooms.roles_rooms_user',
@@ -58,12 +59,12 @@ class VideosAppTest extends YAControllerTestCase {
 		'plugin.videos.comment',
 		'plugin.videos.frame',
 		'plugin.videos.plugin',
-		'plugin.videos.user',
+		//'plugin.videos.user',
 		'plugin.videos.user_attributes_user',
 		'plugin.videos.video',
 		'plugin.videos.video_block_setting',
 		'plugin.videos.video_frame_setting',
-		'plugin.videos.video_view_log',
+		//'plugin.videos.video_view_log',
 	);
 
 /**
@@ -74,6 +75,17 @@ class VideosAppTest extends YAControllerTestCase {
 	public function setUp() {
 		parent::setUp();
 		Configure::write('Config.language', 'ja');
+		$this->generate(
+			'Videos.Videos',
+			array(
+				'components' => array(
+					'Auth' => array('user'),
+					'ContentComments.ContentComments',
+					'Session',
+					'Security',
+				)
+			)
+		);
 	}
 
 /**

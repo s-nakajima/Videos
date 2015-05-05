@@ -11,7 +11,6 @@
  */
 
 App::uses('VideosAppTest', 'Videos.Test/Case/Controller');
-App::uses('VideosController', 'Videos.Controller');
 
 /**
  * VideosController Test Case
@@ -28,13 +27,7 @@ class VideosControllerTest extends VideosAppTest {
  * @return void
  */
 	public function testIndex() {
-		$this->testAction(
-			'/videos/videos/index/1',
-			array(
-				'method' => 'get',
-				'return' => 'view',
-			)
-		);
+		$this->testAction('/videos/videos/index/1');
 		$this->assertTextEquals('index', $this->controller->view);
 	}
 
