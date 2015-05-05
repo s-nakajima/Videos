@@ -50,4 +50,11 @@ class VideoViewLogTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+/**
+ * testIndex method
+ *
+ * @return void
+ */
+	public function testIndex() {
+	}
 }

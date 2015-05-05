@@ -33,8 +33,26 @@ class VideosAppTest extends YAControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
+		'plugin.blocks.block_role_permission',
+		'plugin.boxes.boxes_page',
+		'plugin.containers.container',
+		'plugin.containers.containers_page',
 		'plugin.content_comments.content_comment',
+		'plugin.files.file',
+		'plugin.files.files_plugin',
+		'plugin.files.files_room',
+		'plugin.files.files_user',
+		'plugin.frames.box',
 		'plugin.net_commons.site_setting',
+		'plugin.m17n.language',
+		'plugin.m17n.languages_page',
+		'plugin.roles.default_role_permission',
+		'plugin.rooms.roles_room',
+		'plugin.rooms.roles_rooms_user',
+		'plugin.rooms.room',
+		'plugin.rooms.room_role_permission',
+		'plugin.pages.page',
+		'plugin.pages.space',
 		'plugin.videos.block',
 		'plugin.videos.comment',
 		'plugin.videos.frame',
@@ -42,22 +60,9 @@ class VideosAppTest extends YAControllerTestCase {
 		'plugin.videos.user',
 		'plugin.videos.user_attributes_user',
 		'plugin.videos.video',
+		'plugin.videos.video_block_setting',
 		'plugin.videos.video_frame_setting',
 		'plugin.videos.video_view_log',
-		'plugin.blocks.block_role_permission',
-		'plugin.boxes.boxes_page',
-		'plugin.containers.container',
-		'plugin.containers.containers_page',
-		'plugin.frames.box',
-		'plugin.m17n.language',
-		'plugin.m17n.languages_page',
-		'plugin.pages.page',
-		'plugin.roles.default_role_permission',
-		'plugin.rooms.roles_room',
-		'plugin.rooms.roles_rooms_user',
-		'plugin.rooms.room',
-		'plugin.rooms.room_role_permission',
-		'plugin.pages.space',
 	);
 
 /**
@@ -73,6 +78,7 @@ class VideosAppTest extends YAControllerTestCase {
 			array(
 				'components' => array(
 					'Auth' => array('user'),
+					'ContentComments.ContentComments',
 					'Session',
 					'Security',
 				)
@@ -97,6 +103,5 @@ class VideosAppTest extends YAControllerTestCase {
  * @return void
  */
 	public function testIndex() {
-		$this->assertTrue(true);
 	}
 }

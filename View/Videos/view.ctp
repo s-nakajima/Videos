@@ -55,7 +55,7 @@
 	<div class="col-xs-12 text-right">
 		<?php if ($contentEditable): ?>
 			<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
-				<a href="<?php echo $this->Html->url('/videos/videos/edit/' . $frameId . '/' . $video['video']['key']) ?>" class="btn btn-primary">
+				<a href="<?php echo $this->Html->url('/videos/videos/edit/' . $frameId . '/' . $video['video']['key']); ?>" class="btn btn-primary">
 					<span class="glyphicon glyphicon-edit"> </span>
 				</a>
 			</span>
@@ -145,7 +145,7 @@
 					<div class="row">
 						<div class="col-xs-6">
 							<?php /* 投稿者 */ ?>
-							<span style="padding-left: 5px; padding-right: 15px;"><a href="#"><?php echo $video['userAttributesUser']['value'] ?></a><br />
+							<span style="padding-left: 5px; padding-right: 15px;"><a href="#"><?php echo $video['userAttributesUser']['value']; ?></a><br />
 						</div>
 						<div class="col-xs-6 text-right" style="font-size: 18px;">
 							<?php /* 再生回数 */ ?>
@@ -183,8 +183,8 @@
 											<span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php //echo $video['video']['unlikesNumber']; ?>0
 										<?php endif; ?>
 									</span>
-								<?php endif; ?>
-							<?php endif; ?>
+								  <?php endif; ?>
+							 <?php endif; ?>
 							&nbsp;
 						</div>
 					</div>

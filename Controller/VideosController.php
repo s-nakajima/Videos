@@ -177,6 +177,7 @@ class VideosController extends VideosAppController {
 		if ($this->request->isPost()) {
 			// コメントする
 			if (!$this->ContentComments->comment('videos', $video['Video']['key'])) {
+				$this->throwBadRequest();
 				return;
 			}
 		}
@@ -230,6 +231,7 @@ class VideosController extends VideosAppController {
 
 		if ($this->request->isPost()) {
 			if (!$status = $this->NetCommonsWorkflow->parseStatus()) {
+				$this->throwBadRequest();
 				return;
 			}
 
@@ -262,7 +264,6 @@ class VideosController extends VideosAppController {
 			$video = $this->Video->saveVideo($data, false);
 			if (!$this->handleValidationError($this->Video->validationErrors)) {
 				$this->log($this->validationErrors, 'debug');
-				return;
 			}
 
 			if (! $this->request->is('ajax')) {
@@ -285,6 +286,7 @@ class VideosController extends VideosAppController {
 
 		if ($this->request->isPost()) {
 			if (!$status = $this->NetCommonsWorkflow->parseStatus()) {
+				$this->throwBadRequest();
 				return;
 			}
 
@@ -323,7 +325,6 @@ class VideosController extends VideosAppController {
 			$this->Video->saveVideo($data, false);
 			if (!$this->handleValidationError($this->Video->validationErrors)) {
 				$this->log($this->validationErrors, 'debug');
-				return;
 			}
 
 			if (! $this->request->is('ajax')) {
