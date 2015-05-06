@@ -235,19 +235,8 @@ class VideosController extends VideosAppController {
 				return;
 			}
 
-			$data = $this->data;
-
-			// 動画ファイル
-			$data[Video::VIDEO_FILE_FIELD]['File'] = $this->FileUpload->upload($this->Video->alias, Video::VIDEO_FILE_FIELD);
-			if (! $data[Video::VIDEO_FILE_FIELD]['File']) {
-				unset($data[Video::VIDEO_FILE_FIELD]);
-			}
-
-			// サムネイル
-			$data[Video::THUMBNAIL_FIELD]['File'] = $this->FileUpload->upload($this->Video->alias, Video::THUMBNAIL_FIELD);
-			if (! $data[Video::THUMBNAIL_FIELD]['File']) {
-				unset($data[Video::THUMBNAIL_FIELD]);
-			}
+			// 保存dataの準備
+			$data = $this->__readySaveData($this->data);
 
 			// 登録データ作成
 			$video = $this->Video->create(['key' => Security::hash('video' . mt_rand() . microtime(), 'md5')]);
@@ -261,7 +250,7 @@ class VideosController extends VideosAppController {
 			);
 
 			// 登録
-			$video = $this->Video->saveVideo($data, false);
+			$this->Video->saveVideo($data, false);
 			if (!$this->handleValidationError($this->Video->validationErrors)) {
 				$this->log($this->validationErrors, 'debug');
 			}
@@ -290,19 +279,8 @@ class VideosController extends VideosAppController {
 				return;
 			}
 
-			$data = $this->data;
-
-			// 動画ファイル
-			$data[Video::VIDEO_FILE_FIELD]['File'] = $this->FileUpload->upload($this->Video->alias, Video::VIDEO_FILE_FIELD);
-			if (! $data[Video::VIDEO_FILE_FIELD]['File']) {
-				unset($data[Video::VIDEO_FILE_FIELD]);
-			}
-
-			// サムネイル
-			$data[Video::THUMBNAIL_FIELD]['File'] = $this->FileUpload->upload($this->Video->alias, Video::THUMBNAIL_FIELD);
-			if (! $data[Video::THUMBNAIL_FIELD]['File']) {
-				unset($data[Video::THUMBNAIL_FIELD]);
-			}
+			// 保存dataの準備
+			$data = $this->__readySaveData($this->data);
 
 			//取得
 			$video = $this->Video->getVideo(
@@ -402,5 +380,26 @@ class VideosController extends VideosAppController {
 		// キーをキャメル変換
 		$results = $this->camelizeKeyRecursive($results);
 		return $results;
+	}
+
+/**
+ * 保存dataの準備
+ *
+ * @param array $data data
+ * @return array data
+ */
+	private function __readySaveData($data) {
+		// 動画ファイル
+		$data[Video::VIDEO_FILE_FIELD]['File'] = $this->FileUpload->upload($this->Video->alias, Video::VIDEO_FILE_FIELD);
+		if (! $data[Video::VIDEO_FILE_FIELD]['File']) {
+			unset($data[Video::VIDEO_FILE_FIELD]);
+		}
+
+		// サムネイル
+		$data[Video::THUMBNAIL_FIELD]['File'] = $this->FileUpload->upload($this->Video->alias, Video::THUMBNAIL_FIELD);
+		if (! $data[Video::THUMBNAIL_FIELD]['File']) {
+			unset($data[Video::THUMBNAIL_FIELD]);
+		}
+		return $data;
 	}
 }
