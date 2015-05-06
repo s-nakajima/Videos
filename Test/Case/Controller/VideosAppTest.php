@@ -57,7 +57,7 @@ class VideosAppTest extends YAControllerTestCase {
 		'plugin.videos.comment',
 		'plugin.videos.frame',
 		'plugin.videos.plugin',
-		//'plugin.videos.user',
+		'plugin.videos.user',
 		'plugin.videos.user_attributes_user',
 		'plugin.videos.video',
 		'plugin.videos.video_block_setting',
