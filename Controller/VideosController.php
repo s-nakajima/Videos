@@ -174,14 +174,6 @@ class VideosController extends VideosAppController {
 		);
 		$results['video'] = $video;
 
-		if ($this->request->isPost()) {
-			// コメントする
-			if (!$this->ContentComments->comment('videos', $video['Video']['key'])) {
-				$this->throwBadRequest();
-				return;
-			}
-		}
-
 		//関連動画の取得
 		$relatedVideos = $this->Video->getVideos(
 			$video['Video']['created_user'],
@@ -203,6 +195,14 @@ class VideosController extends VideosAppController {
 			$this->viewVars['roomId']
 		);
 		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
+
+		if ($this->request->isPost()) {
+			// コメントする
+			if (!$this->ContentComments->comment('videos', $video['Video']['key'], $videoBlockSetting['VideoBlockSetting']['comment_agree'])) {
+				$this->throwBadRequest();
+				return;
+			}
+		}
 
 		// コンテンツコメントの取得
 		$contentComments = $this->ContentComment->getContentComments(array(
