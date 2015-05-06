@@ -10,7 +10,9 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('ContentCommentsComponent', 'ContentComments.Controller/Component');
 App::uses('VideosAppTest', 'Videos.Test/Case/Controller');
+App::uses('VideosController', 'Videos.Controller');
 
 /**
  * VideosController Test Case
@@ -22,12 +24,38 @@ App::uses('VideosAppTest', 'Videos.Test/Case/Controller');
 class VideosControllerTest extends VideosAppTest {
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+		Configure::write('Config.language', 'ja');
+		$this->generate(
+			'Videos.Videos',
+			array(
+				'components' => array(
+					'Auth' => array('user'),
+					'Session',
+					'Security',
+				)
+			)
+		);
+	}
+
+/**
  * 未ログイン 一覧表示（初期表示）の遷移先 確認テスト
  *
  * @return void
  */
 	public function testIndex() {
-		$this->testAction('/videos/videos/index/1');
+		$this->testAction(
+			'/videos/videos/index/1',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
 		$this->assertTextEquals('index', $this->controller->view);
 	}
 

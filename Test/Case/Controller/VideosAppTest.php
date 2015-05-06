@@ -16,8 +16,6 @@
 //App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
 //App::uses('RolesControllerTest', 'Roles.Test/Case/Controller');
 App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
-App::uses('ContentCommentsComponent', 'ContentComments.Controller/Component');
-App::uses('VideosController', 'Videos.Controller');
 
 /**
  * VideosAppController Test Case
@@ -75,16 +73,6 @@ class VideosAppTest extends YAControllerTestCase {
 	public function setUp() {
 		parent::setUp();
 		Configure::write('Config.language', 'ja');
-		$this->generate(
-			'Videos.Videos',
-			array(
-				'components' => array(
-					'Auth' => array('user'),
-					'Session',
-					'Security',
-				)
-			)
-		);
 	}
 
 /**
