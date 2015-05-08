@@ -201,15 +201,18 @@
 			</div>
 		</div>
 
-		<?php /* コンテンツコメント */ ?>
-		<div class="panel panel-default">
-			<?php echo $this->element('ContentComments.form', array(
-				'formName' => 'Video',
-			)); ?>
-			<?php echo $this->element('ContentComments.index', array(
-				'formName' => 'Video',
-			)); ?>
-		</div>
+		<?php /* コメントを利用する */ ?>
+		<?php if ($videoBlockSetting['useComment']): ?>
+			<?php /* コンテンツコメント */ ?>
+			<div class="panel panel-default">
+				<?php echo $this->element('ContentComments.form', array(
+					'formName' => 'Video',
+				)); ?>
+				<?php echo $this->element('ContentComments.index', array(
+					'formName' => 'Video',
+				)); ?>
+			</div>
+		<?php endif; ?>
 	</div>
 
 	<?php /* 右側 */ ?>

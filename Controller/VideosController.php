@@ -196,21 +196,24 @@ class VideosController extends VideosAppController {
 		);
 		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
-		if ($this->request->isPost()) {
-			// コメントする
-			if (!$this->ContentComments->comment('videos', $video['Video']['key'], $videoBlockSetting['VideoBlockSetting']['comment_agree'])) {
-				$this->throwBadRequest();
-				return;
+		// コメントを利用する
+		if ($videoBlockSetting['VideoBlockSetting']['use_comment']) {
+			if ($this->request->isPost()) {
+				// コメントする
+				if (!$this->ContentComments->comment('videos', $video['Video']['key'], $videoBlockSetting['VideoBlockSetting']['comment_agree'])) {
+					$this->throwBadRequest();
+					return;
+				}
 			}
-		}
 
-		// コンテンツコメントの取得
-		$contentComments = $this->ContentComment->getContentComments(array(
-			'block_key' => $this->viewVars['blockKey'],
-			'plugin_key' => 'videos',
-			'content_key' => $video['Video']['key'],
-		));
-		$results['contentComments'] = $contentComments;
+			// コンテンツコメントの取得
+			$contentComments = $this->ContentComment->getContentComments(array(
+				'block_key' => $this->viewVars['blockKey'],
+				'plugin_key' => 'videos',
+				'content_key' => $video['Video']['key'],
+			));
+			$results['contentComments'] = $contentComments;
+		}
 
 		// キーをキャメル変換
 		$results = $this->camelizeKeyRecursive($results);
