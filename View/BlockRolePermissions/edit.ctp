@@ -1,6 +1,6 @@
 <?php
 /**
- * コンテンツ template
+ * 権限設定 template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -29,22 +29,8 @@
 					'block_settings' => '/videos/blocks/' . h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
 					'role_permissions' => '/videos/block_role_permissions/' . h($this->request->params['action']) . '/' . $frameId . '/' . $blockId
 				),
-				'active' => 'block_settings'
+				'active' => 'role_permissions'
 			)); ?>
-
-		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'Blocks',
-				'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
-				'callback' => 'Videos.Blocks/edit_form',
-				'cancel' => '/videos/blocks/index/' . $frameId
-			)); ?>
-
-		<?php if ($this->request->params['action'] === 'edit') : ?>
-			<?php echo $this->element('Blocks.delete_form', array(
-					'controller' => 'Blocks',
-					'action' => 'delete/' . $frameId . '/' . $blockId,
-					'callback' => 'Videos.Blocks/delete_form'
-				)); ?>
-		<?php endif; ?>
+		BlockRolePermissions/edit.ctp
 	</div>
 </div>

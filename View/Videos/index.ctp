@@ -30,19 +30,6 @@
 <?php /* ブロック未選択 */ ?>
 <?php if (empty($frame['blockId'])) : ?>
 
-	<?php /* 上部ボタン */ ?>
-	<?php if ($contentEditable): ?>
-		<div class="row">
-			<div class="col-xs-12 text-right">
-				<?php /* 暫定対応でボタン配置(;'∀') */ ?>
-				<span>
-					<a href="<?php echo $this->Html->url('/videos/videoBlockSettings/index/' . $frameId); ?>" class="btn btn-default">
-						<span class="glyphicon glyphicon-cog"> </span>
-					</a>
-				</span>
-			</div>
-		</div>
-	<?php endif; ?>
 	<div><?php echo __d('videos', '現在公開されている動画はありません。'); ?></div>
 
  <?php /* ブロック選択済み */ ?>
@@ -52,17 +39,11 @@
 	<?php if ($contentEditable): ?>
 		<div class="row">
 			<div class="col-xs-12 text-right">
-			<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Add'); ?>">
-				<a href="<?php echo $this->Html->url('/videos/videos/add/' . $frameId); ?>" class="btn btn-success">
-					<span class="glyphicon glyphicon-plus"> </span>
-				</a>
-			</span>
-				<?php /* 暫定対応でボタン配置(;'∀') */ ?>
-				<span>
-				<a href="<?php echo $this->Html->url('/videos/videoBlockSettings/index/' . $frameId); ?>" class="btn btn-default">
-					<span class="glyphicon glyphicon-cog"> </span>
-				</a>
-			</span>
+				<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Add'); ?>">
+					<a href="<?php echo $this->Html->url('/videos/videos/add/' . $frameId); ?>" class="btn btn-success">
+						<span class="glyphicon glyphicon-plus"> </span>
+					</a>
+				</span>
 			</div>
 		</div>
 	<?php endif; ?>
@@ -150,12 +131,12 @@
 								'type' => 'select',
 								'class' => 'form-control',
 								'options' => array(
-									1 => sprintf(__d('videos', '%s'), '1'),
-									5 => sprintf(__d('videos', '%s'), '5'),
-									10 => sprintf(__d('videos', '%s'), '10'),
-									20 => sprintf(__d('videos', '%s'), '20'),
-									50 => sprintf(__d('videos', '%s'), '50'),
-									100 => sprintf(__d('videos', '%s'), '100'),
+									1 => sprintf(__d('videos', '%s件'), '1'),
+									5 => sprintf(__d('videos', '%s件'), '5'),
+									10 => sprintf(__d('videos', '%s件'), '10'),
+									20 => sprintf(__d('videos', '%s件'), '20'),
+									50 => sprintf(__d('videos', '%s件'), '50'),
+									100 => sprintf(__d('videos', '%s件'), '100'),
 								),
 								'selected' => $displayNumber,
 							)) ?>

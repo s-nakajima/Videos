@@ -44,9 +44,10 @@ class BlocksController extends VideosAppController {
 			'allowedActions' => array(
 				'contentPublishable' => array(
 					'index',
+					'add',
 					'edit',
 					'delete',
-					'video',
+					//'video',
 				)
 			),
 		),
@@ -79,7 +80,7 @@ class BlocksController extends VideosAppController {
 	}
 
 /**
- * 一覧表示
+ * ブロック一覧表示
  *
  * @return CakeResponse
  * @throws Exception
@@ -117,11 +118,13 @@ class BlocksController extends VideosAppController {
 	}
 
 /**
- * コンテンツ
+ * コンテンツ登録
  *
  * @return CakeResponse
  */
-	public function edit() {
+	public function add() {
+		$this->view = 'Blocks/edit';
+
 		// 取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
 			$this->viewVars['blockKey'],
@@ -191,16 +194,77 @@ class BlocksController extends VideosAppController {
 	}
 
 /**
+ * コンテンツ編集
+ *
+ * @return CakeResponse
+ */
+	public function edit() {
+		// 取得
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
+			$this->viewVars['blockKey'],
+			$this->viewVars['roomId']
+		);
+
+		// ブロック取得
+		$block = $this->Block->findById($this->viewVars['blockId']);
+
+		if ($this->request->isPost()) {
+
+			// --- VideoBlockSetting
+			// 更新時間を再セット
+			unset($videoBlockSetting['VideoBlockSetting']['modified']);
+			$data = Hash::merge(
+				$videoBlockSetting,
+				$block,
+				$this->data,
+				array('Frame' => array('id' => $this->viewVars['frameId']))
+			);
+
+			// 保存
+			if (!$videoBlockSetting = $this->VideoBlockSetting->saveVideoBlockSetting($data)) {
+				if (!$this->handleValidationError($this->VideoBlockSetting->validationErrors)) {
+					$this->log($this->validationErrors, 'debug');
+					return;
+				}
+			}
+
+			// 暫定対応。再取得(;'∀')
+			// $videoBlockSetting = $this->save(null, false); の戻り値、boolean型が"1","0"のまま
+			// $videoBlockSetting = $this->find('first', array()); の戻り値は、boolean型だとtrue,false。
+			$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
+				$this->viewVars['blockKey'],
+				$this->viewVars['roomId']
+			);
+
+			// ブロック再取得
+			$block = $this->Block->findById($this->viewVars['blockId']);
+		}
+
+		if (empty($block)) {
+			$block = $this->Block->create();
+		}
+		$results = array(
+			'videoBlockSetting' => $videoBlockSetting['VideoBlockSetting'],
+			'block' => $block['Block'],
+		);
+
+		// キーをキャメル変換
+		$results = $this->camelizeKeyRecursive($results);
+
+		$this->set($results);
+	}
+
+/**
  * コンテンツ削除
  *
  * @return CakeResponse
  */
 	public function delete() {
-		$this->view = 'VideoBlockSettings/index';
+		$this->view = 'Blocks/index';
 	}
 
 /**
- * 動画
+ * 動画一覧
  *
  * @return CakeResponse
  */
