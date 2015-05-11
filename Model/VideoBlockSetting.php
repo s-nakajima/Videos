@@ -287,4 +287,60 @@ class VideoBlockSetting extends VideosAppModel {
 		}
 		return $videoBlockSetting;
 	}
+
+/**
+ * VideoBlockSettingデータ削除
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function deleteVideoBlockSetting($data) {
+		$this->loadModels(array(
+			'Block' => 'Blocks.Block',
+			'Comment' => 'Comments.Comment',
+			'ContentComment' => 'ContentComments.ContentComment',
+			'FileModel' => 'Files.FileModel',		// FileUpload
+			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
+			'Video' => 'Videos.Video',
+		));
+
+		//トランザクションBegin
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			// VideoBlockSetting削除
+			if (! $this->deleteAll(array($this->alias . '.block_key' => $data['Block']['key']), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//Blockデータ削除
+			$this->Block->deleteBlock($data['Block']['key']);
+
+			// 動画削除
+			if (! $this->Video->deleteAll(array($this->Video->alias . '.block_id' => $data['Block']['id']), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			// ファイル 削除 暫定として対応しない(;'∀')
+			// 本来、データと物理ファイル削除。共通処理が完成したら、実装する
+
+			// 承認コメント 暫定として対応しない(;'∀')
+			// 本来削除。Commentsテーブルにblock_keyが実装されたら、削除実装する
+
+			// コンテンツコメント 削除
+			if (! $this->ContentComment->deleteAll(array($this->ContentComment->alias . '.block_key' => $data['Block']['key']), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			$dataSource->commit();
+
+		} catch (InternalErrorException $ex) {
+			$dataSource->rollback();
+			CakeLog::write(LOG_ERR, $ex);
+			throw $ex;
+		}
+		return true;
+	}
 }

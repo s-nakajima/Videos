@@ -30,8 +30,8 @@ class VideosController extends VideosAppController {
 		'Files.FileModel',		// FileUpload
 		'Frames.Frame',
 		'Videos.Video',
-		'Videos.VideoFrameSetting',
 		'Videos.VideoBlockSetting',
+		'Videos.VideoFrameSetting',
 	);
 
 /**

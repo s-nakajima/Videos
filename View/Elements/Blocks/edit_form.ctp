@@ -9,9 +9,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-?>
 
-<?php
 /*echo $this->Form->hidden('id', array('value' => isset($bbsSetting['id']) ? (int)$bbsSetting['id'] : null));
 echo $this->Form->hidden('Frame.id', array('value' => $frameId));
 echo $this->Form->hidden('Block.id', array('value' => $block['id']));
@@ -22,6 +20,8 @@ echo $this->Form->hidden('Block.plugin_key', array('value' => 'videos'));
 echo $this->Form->hidden('Bbs.id', array('value' => isset($bbs['id']) ? (int)$bbs['id'] : null));
 echo $this->Form->hidden('Bbs.key', array('value' => isset($bbs['key']) ? $bbs['key'] : null));
 echo $this->Form->hidden('BbsSetting.id', array('value' => isset($bbsSetting['id']) ? (int)$bbsSetting['id'] : null));*/
+
+echo $this->Form->hidden('Block.id', array('value' => $block['id']));
 ?>
 
 <div class="row form-group">

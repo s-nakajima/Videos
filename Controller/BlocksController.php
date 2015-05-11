@@ -124,6 +124,7 @@ class BlocksController extends VideosAppController {
  */
 	public function add() {
 		$this->view = 'Blocks/edit';
+		$this->set('blockId', null);
 
 		// 初期値 取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
@@ -188,14 +189,21 @@ class BlocksController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit() {
-		// 取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
-			$this->viewVars['blockKey'],
-			$this->viewVars['roomId']
-		);
+		if (! $this->validateBlockId()) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$blockId = (int)$this->params['pass'][1];
+		$this->set('blockId', $blockId);
 
 		// ブロック取得
-		$block = $this->Block->findById($this->viewVars['blockId']);
+		$block = $this->Block->findById($blockId);
+
+		// 取得
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
+			$block['Block']['key'],
+			$this->viewVars['roomId']
+		);
 
 		if ($this->request->isPost()) {
 
@@ -243,7 +251,35 @@ class BlocksController extends VideosAppController {
  * @return CakeResponse
  */
 	public function delete() {
-		$this->view = 'Blocks/index';
+		if (! $this->validateBlockId()) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$blockId = (int)$this->params['pass'][1];
+		//$this->set('blockId', $blockId);
+
+		if ($this->request->isDelete()) {
+			// ブロック取得
+			$block = $this->Block->findById($blockId);
+			$data = Hash::merge(
+				$block,
+				$this->data,
+				array('VideoBlockSetting' => array('block_key' => $block['Block']['key']))
+			);
+
+			// 削除
+			if (!$this->VideoBlockSetting->deleteVideoBlockSetting($data)) {
+				$this->throwBadRequest();
+				return;
+			}
+
+			// ajax以外は、リダイレクト
+			if (!$this->request->is('ajax')) {
+				$this->redirect('/videos/blocks/index/' . $this->viewVars['frameId']);
+			}
+			return;
+		}
+		$this->throwBadRequest();
 	}
 
 /**

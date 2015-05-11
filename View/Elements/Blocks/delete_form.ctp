@@ -9,22 +9,19 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
+/*echo $this->Form->hidden('Block.id', array('value' => $block['id']));
+echo $this->Form->hidden('Block.key', array('value' => $block['key']));
+echo $this->Form->hidden('Bbs.key', array('value' => isset($bbs['key']) ? $bbs['key'] : null));*/
+
+echo $this->Form->hidden('Block.id', array('value' => $block['id']));
 ?>
 
 <div class="inline-block">
 	<?php echo sprintf(__d('videos', 'Delete all data associated with the %s.'), __d('videos', 'channel')); ?>
 </div>
-<?php echo $this->Form->hidden('Block.id', array(
-		'value' => isset($block['id']) ? $block['id'] : null,
-	)); ?>
-<?php echo $this->Form->hidden('Block.key', array(
-		'value' => isset($block['key']) ? $block['key'] : null,
-	)); ?>
-<?php /*echo $this->Form->hidden('Bbs.key', array(
-		'value' => isset($bbs['key']) ? $bbs['key'] : null,
-	));*/ ?>
 <?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"> </span> ' . __d('net_commons', 'Delete'), array(
-		'name' => 'delete',
-		'class' => 'btn btn-danger pull-right',
-		'onclick' => 'return confirm(\'' . sprintf(__d('videos', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'channel')) . '\')'
-	));
+	'name' => 'delete',
+	'class' => 'btn btn-danger pull-right',
+	'onclick' => 'return confirm(\'' . sprintf(__d('videos', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'channel')) . '\')'
+));
