@@ -256,13 +256,8 @@ class VideoBlockSetting extends VideosAppModel {
 				return false;
 			}
 
-			if (isset($data['Block'])) {
-				//ブロックの更新
-				$block = $this->Block->saveByFrameId($data['Frame']['id'], $data['Block']);
-			} else {
-				//ブロックの登録
-				$block = $this->Block->saveByFrameId($data['Frame']['id'], false);
-			}
+			//ブロックの保存
+			$block = $this->Block->saveByFrameId($data['Frame']['id'], $data['Block']);
 
 			// block.keyを含める
 			$data = Hash::merge(

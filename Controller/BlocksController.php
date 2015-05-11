@@ -125,24 +125,35 @@ class BlocksController extends VideosAppController {
 	public function add() {
 		$this->view = 'Blocks/edit';
 
-		// 取得
+		// 初期値 取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
-			$this->viewVars['blockKey'],
+			null,
 			$this->viewVars['roomId']
 		);
 
-		// ブロック取得
-		$block = $this->Block->findById($this->viewVars['blockId']);
+		// ブロック 初期値 取得
+		$block = $this->Block->create();
 
 		if ($this->request->isPost()) {
 
-			// --- VideoBlockSetting
+			//frameの取得
+			$frame = $this->Frame->findById($this->viewVars['frameId']);
+			if (!$frame) {
+				$this->throwBadRequest();
+				return;
+			}
+
 			// 更新時間を再セット
-			unset($videoBlockSetting['VideoBlockSetting']['modified']);
 			$data = Hash::merge(
 				$videoBlockSetting,
+				$block,
 				$this->data,
-				array('Frame' => array('id' => $this->viewVars['frameId']))
+				array('Frame' => array('id' => $this->viewVars['frameId'])),
+				array('Block' => array(
+					'room_id' => $frame['Frame']['room_id'],
+					'language_id' => $frame['Frame']['language_id'],
+					'plugin_key' => 'videos',
+				))
 			);
 
 			// 保存
@@ -153,35 +164,13 @@ class BlocksController extends VideosAppController {
 				}
 			}
 
-			// 暫定対応。再取得(;'∀')
-			// $videoBlockSetting = $this->save(null, false); の戻り値、boolean型が"1","0"のまま
-			// $videoBlockSetting = $this->find('first', array()); の戻り値は、boolean型だとtrue,false。
-			$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
-				$this->viewVars['blockKey'],
-				$this->viewVars['roomId']
-			);
-
-			/* アウチ！Blockモデルにsaveメソッドが無いよ(;'∀')
-			// --- Block
-			// 更新時間を再セット
-			unset($block['Block']['modified']);
-			$data = Hash::merge(
-				$block,
-				array('Block' => $this->data['Block'])
-			);
-
-			// 保存
-			if (!$videoBlockSetting = $this->Block->saveBlock($data)) {
-				if (!$this->handleValidationError($this->Block->validationErrors)) {
-					return;
-				}
-			} */
-
+			// ajax以外は、リダイレクト
+			if (!$this->request->is('ajax')) {
+				$this->redirect('/videos/blocks/index/' . $this->viewVars['frameId']);
+			}
+			return;
 		}
 
-		if (empty($block)) {
-			$block = $this->Block->create();
-		}
 		$results = array(
 			'videoBlockSetting' => $videoBlockSetting['VideoBlockSetting'],
 			'block' => $block['Block'],
@@ -210,7 +199,6 @@ class BlocksController extends VideosAppController {
 
 		if ($this->request->isPost()) {
 
-			// --- VideoBlockSetting
 			// 更新時間を再セット
 			unset($videoBlockSetting['VideoBlockSetting']['modified']);
 			$data = Hash::merge(
@@ -228,16 +216,11 @@ class BlocksController extends VideosAppController {
 				}
 			}
 
-			// 暫定対応。再取得(;'∀')
-			// $videoBlockSetting = $this->save(null, false); の戻り値、boolean型が"1","0"のまま
-			// $videoBlockSetting = $this->find('first', array()); の戻り値は、boolean型だとtrue,false。
-			$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
-				$this->viewVars['blockKey'],
-				$this->viewVars['roomId']
-			);
-
-			// ブロック再取得
-			$block = $this->Block->findById($this->viewVars['blockId']);
+			// ajax以外は、リダイレクト
+			if (!$this->request->is('ajax')) {
+				$this->redirect('/videos/blocks/index/' . $this->viewVars['frameId']);
+			}
+			return;
 		}
 
 		if (empty($block)) {
