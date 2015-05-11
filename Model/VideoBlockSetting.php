@@ -171,7 +171,7 @@ class VideoBlockSetting extends VideosAppModel {
 			'className' => 'Blocks.Block',
 			'foreignKey' => false,
 			'conditions' => array(
-				'Block.key = VideoBlockSettings.block_key',
+				'Block.key = VideoBlockSetting.block_key',
 			),
 			'fields' => '',
 			'order' => ''

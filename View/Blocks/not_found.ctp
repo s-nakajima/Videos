@@ -1,9 +1,9 @@
 <?php
 /**
- * 表示方法変更 template
+ * 動画ブロック一覧表示 0件
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Ryo Ozawa <ozawa.ryo@withone.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
@@ -17,20 +17,19 @@
 				'block_index' => '/videos/blocks/index/' . $frameId,
 				'frame_settings' => '/videos/video_frame_settings/edit/' . $frameId,
 			),
-			'active' => 'frame_settings'
+			'active' => 'block_index'
 		)); ?>
 
 	<div class="tab-content">
-		<?php echo $this->Form->create('VideoFrameSetting', array(
-				'name' => 'form',
-				'novalidate' => true,
-			)); ?>
+		<div class="text-right">
+			<a class="btn btn-success" href="<?php echo $this->Html->url('/videos/blocks/edit/' . $frameId);?>">
+				<span class="glyphicon glyphicon-plus"> </span>
+			</a>
+		</div>
 
-		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'Blocks',
-				'action' => 'edit' . '/' . $frameId,
-				'callback' => 'Videos.VideoFrameSettings/edit_form',
-				'cancel' => $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null)
-			)); ?>
+		<div class="text-left">
+			<?php echo __d('net_commons', 'Not found.'); ?>
+		</div>
 	</div>
+
 </div>

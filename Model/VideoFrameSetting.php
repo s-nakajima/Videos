@@ -171,4 +171,34 @@ class VideoFrameSetting extends VideosAppModel {
 		}
 		return $videoFrameSetting;
 	}
+
+/**
+ * 表示順 オプション属性 取得
+ *
+ * @return array
+ */
+	public static function getDisplayOrderOptions() {
+		return array(
+			VideoFrameSetting::DISPLAY_ORDER_NEW => __d('videos', '新着順'),
+			VideoFrameSetting::DISPLAY_ORDER_TITLE => __d('videos', 'タイトル順'),
+			VideoFrameSetting::DISPLAY_ORDER_PLAY => __d('videos', '再生回数順'),
+			VideoFrameSetting::DISPLAY_ORDER_LIKE => __d('videos', '評価順'),
+		);
+	}
+
+/**
+ * 表示件数 オプション属性 取得
+ *
+ * @return array
+ */
+	public static function getDisplayNumberOptions() {
+		return array(
+			1 => __d('videos', '%s 件', 1),
+			5 => __d('videos', '%s 件', 5),
+			10 => __d('videos', '%s 件', 10),
+			20 => __d('videos', '%s 件', 20),
+			50 => __d('videos', '%s 件', 50),
+			100 => __d('videos', '%s 件', 100),
+		);
+	}
 }

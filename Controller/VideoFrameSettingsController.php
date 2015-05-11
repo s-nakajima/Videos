@@ -29,16 +29,6 @@ class VideoFrameSettingsController extends VideosAppController {
 	);
 
 /**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		$this->Auth->allow();
-	}
-
-/**
  * use component
  *
  * @var array
@@ -50,7 +40,7 @@ class VideoFrameSettingsController extends VideosAppController {
 			//コンテンツの権限設定
 			'allowedActions' => array(
 				'contentPublishable' => array(
-					'index',
+					//'index',
 					'edit',
 				)
 			),
@@ -58,13 +48,26 @@ class VideoFrameSettingsController extends VideosAppController {
 	);
 
 /**
- * 初期表示
+ * use helpers
  *
- * @return CakeResponse
+ * @var array
  */
-	public function index() {
-		$this->view = 'VideoFrameSettings/edit';
-		$this->edit();
+	public $helpers = array(
+		//'NetCommons.Token'
+	);
+
+/**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		//$this->Auth->allow();
+
+		$this->layout = 'NetCommons.setting';
+		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
+		$this->set($results);
 	}
 
 /**

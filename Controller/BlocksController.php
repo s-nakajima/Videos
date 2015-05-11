@@ -17,7 +17,7 @@ App::uses('VideosAppController', 'Videos.Controller');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Controller
  */
-class VideoBlockSettingsController extends VideosAppController {
+class BlocksController extends VideosAppController {
 
 /**
  * use model
@@ -28,17 +28,8 @@ class VideoBlockSettingsController extends VideosAppController {
 		//'Videos.VideoFrameSetting',
 		'Videos.VideoBlockSetting',
 		'Blocks.Block',
+		'Frames.Frame',
 	);
-
-/**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		$this->Auth->allow();
-	}
 
 /**
  * use component
@@ -59,14 +50,70 @@ class VideoBlockSettingsController extends VideosAppController {
 				)
 			),
 		),
+		'Paginator',
 	);
+
+/**
+ * use helpers
+ *
+ * @var array
+ */
+	public $helpers = array(
+		//'NetCommons.Token',
+		//'NetCommons.Date',
+	);
+
+/**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		//$this->Auth->allow();
+		$this->Auth->deny('index');
+
+		$this->layout = 'NetCommons.setting';
+		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
+		$this->set($results);
+	}
 
 /**
  * 一覧表示
  *
  * @return CakeResponse
+ * @throws Exception
  */
 	public function index() {
+		$this->Paginator->settings = array(
+			'VideoBlockSetting' => array(
+				'order' => array('VideoBlockSetting.id' => 'desc'),
+				'conditions' => array(
+					'Block.key = VideoBlockSetting.block_key',
+					'Block.language_id' => $this->viewVars['languageId'],
+					'Block.room_id' => $this->viewVars['roomId'],
+				),
+			)
+		);
+
+		try {
+			if (! $videoBlockSetting = $this->Paginator->paginate('VideoBlockSetting')) {
+				$this->view = 'Blocks/not_found';
+				return;
+			}
+		} catch (Exception $ex) {
+			if (isset($this->request['paging']) && $this->params['named']) {
+				$this->redirect('/videos/blocks/index/' . $this->viewVars['frameId']);
+				return;
+			}
+			CakeLog::error($ex);
+			throw $ex;
+		}
+
+		$results['videoBlockSettings'] = $videoBlockSetting;
+
+		$results = $this->camelizeKeyRecursive($results);
+		$this->set($results);
 	}
 
 /**
