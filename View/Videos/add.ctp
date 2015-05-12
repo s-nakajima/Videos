@@ -15,9 +15,9 @@
 
 <div id="nc-videos-<?php echo (int)$frameId; ?>" ng-controller="Videos">
 
-	<?php echo $this->element('plugin_name', array(
+	<?php /*echo $this->element('plugin_name', array(
 		"pluginName" => __d('videos', 'Plugin name'),
-	)); ?>
+	));*/ ?>
 
 	<div class="modal-body">
 

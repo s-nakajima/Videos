@@ -17,9 +17,9 @@
 	 ng-controller="Videos"
 	 ng-init="initialize(<?php echo h(json_encode($video)); ?>)">
 
-	<?php echo $this->element('plugin_name', array(
+	<?php /*echo $this->element('plugin_name', array(
 		"pluginName" => __d('videos', 'Plugin name'),
-	)); ?>
+	));*/ ?>
 
 	<div class="modal-body">
 

@@ -318,8 +318,19 @@ class VideoBlockSetting extends VideosAppModel {
 			//Blockデータ削除
 			$this->Block->deleteBlock($data['Block']['key']);
 
+			// 多言語コンテンツ削除対応
+			// 対象のブロックID一覧を取得
+			$conditions = array(
+				$this->Block->alias . '.key' => $data['Block']['key']
+			);
+			$blockIds = $this->Block->find('list', array(
+				'recursive' => -1,
+				'conditions' => $conditions,
+			));
+			$blockIds = array_keys($blockIds);
+
 			// 動画削除
-			if (! $this->Video->deleteAll(array($this->Video->alias . '.block_id' => $data['Block']['id']), false)) {
+			if (! $this->Video->deleteAll(array($this->Video->alias . '.block_id' => $blockIds), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
@@ -327,7 +338,7 @@ class VideoBlockSetting extends VideosAppModel {
 			// 本来、データと物理ファイル削除。共通処理が完成したら、実装する
 
 			// 承認コメント 暫定として対応しない(;'∀')
-			// 本来削除。Commentsテーブルにblock_keyが実装されたら、削除実装する
+			// 本来削除。Commentsテーブルにblock_key項目が追加されたら、削除実装する
 
 			// コンテンツコメント 削除
 			if (! $this->ContentComment->deleteAll(array($this->ContentComment->alias . '.block_key' => $data['Block']['key']), false)) {

@@ -256,15 +256,13 @@ class BlocksController extends VideosAppController {
 			return false;
 		}
 		$blockId = (int)$this->params['pass'][1];
-		//$this->set('blockId', $blockId);
 
 		if ($this->request->isDelete()) {
 			// ブロック取得
 			$block = $this->Block->findById($blockId);
 			$data = Hash::merge(
 				$block,
-				$this->data,
-				array('VideoBlockSetting' => array('block_key' => $block['Block']['key']))
+				$this->data
 			);
 
 			// 削除
