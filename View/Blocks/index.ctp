@@ -46,10 +46,7 @@
 							<th>
 								<?php echo $this->Paginator->sort('Block.public_type', __d('videos', 'Public Type')); ?>
 							</th>
-							<th>
-								<?php echo $this->Paginator->sort('VideoBlockSetting.count', __d('videos', '件数')); ?>
-							</th>
-							<th>
+							<th class="text-right">
 								<?php echo $this->Paginator->sort('VideoBlockSetting.file_size', __d('videos', 'ファイル容量')); ?>
 							</th>
 						</tr>
@@ -84,11 +81,8 @@
 										<?php echo __d('videos', 'Limited Public'); ?>
 									<?php endif; ?>
 								</td>
-								<td>
-									<?php //echo $this->Date->dateFormat($videoBlockSetting['videoBlockSetting']['modified']); ?>
-								</td>
-								<td>
-									<?php //echo $this->Date->dateFormat($videoBlockSetting['videoBlockSetting']['modified']); ?>
+								<td class="text-right">
+									<?php echo $this->number->toReadableSize((int)$videoBlockSetting['size']['sizeByte']); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>
