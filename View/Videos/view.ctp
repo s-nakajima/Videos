@@ -33,14 +33,12 @@
 	<?php /* 左側 */ ?>
 	<div class="col-lg-7 col-xs-12">
 		<div style="padding-bottom: 20px;">
-			<video poster="<?php echo $fileThumbnailUrlMedium = isset($video['fileThumbnail']['urlMedium']) ? $this->Html->url($video['fileThumbnail']['urlMedium']) : ''; ?>"
-				   <?php echo $videoBlockSetting['autoPlay'] ? 'autoplay' : ''; ?>
-				   width="100%"
-				   height="100%"
-				   controls>
-				<source src="<?php echo isset($video['fileMp4']['url']) ? $this->Html->url($video['fileMp4']['url']) : ''; ?>">
-				<p><?php echo __d('videos', '動画を再生するにはvideoタグをサポートしたブラウザが必要です。'); ?></p>
-			</video>
+			<?php /* 動画プレイヤー */ ?>
+			<?php echo $this->element('Videos/player', array(
+				'fileMp4Url' => isset($video['fileMp4']['url']) ? $this->Html->url($video['fileMp4']['url']) : '',
+				'fileThumbnailUrl' => isset($video['fileThumbnail']['urlMedium']) ? $this->Html->url($video['fileThumbnail']['urlMedium']) : '',
+				'isAutoPlay' => $videoBlockSetting['autoPlay'],
+			)); ?>
 		</div>
 
 		<div class="panel panel-default video-description">
