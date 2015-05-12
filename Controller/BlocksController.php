@@ -140,7 +140,6 @@ class BlocksController extends VideosAppController {
  */
 	public function add() {
 		$this->view = 'Blocks/edit';
-		$this->set('blockId', null);
 
 		// 初期値 取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
@@ -149,7 +148,9 @@ class BlocksController extends VideosAppController {
 		);
 
 		// ブロック 初期値 取得
-		$block = $this->Block->create();
+		$block = $this->Block->create(array(
+			'name' => __d('videos', 'New Channel %s', date('YmdHis')),
+		));
 
 		if ($this->request->isPost()) {
 
@@ -210,7 +211,6 @@ class BlocksController extends VideosAppController {
 			return false;
 		}
 		$blockId = (int)$this->params['pass'][1];
-		$this->set('blockId', $blockId);
 
 		// ブロック取得
 		$block = $this->Block->findById($blockId);

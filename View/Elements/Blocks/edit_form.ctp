@@ -21,7 +21,7 @@ echo $this->Form->hidden('Bbs.id', array('value' => isset($bbs['id']) ? (int)$bb
 echo $this->Form->hidden('Bbs.key', array('value' => isset($bbs['key']) ? $bbs['key'] : null));
 echo $this->Form->hidden('BbsSetting.id', array('value' => isset($bbsSetting['id']) ? (int)$bbsSetting['id'] : null));*/
 
-echo $this->Form->hidden('Block.id', array('value' => $block['id']));
+echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $block['id'] : null));
 ?>
 
 <div class="row form-group">
