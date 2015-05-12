@@ -128,12 +128,12 @@
 				)); ?>
 			</div>
 			</p>
-			<div class="row">
-				<div class="col-xs-2">
+			<div class="media">
+				<div class="media-left">
 					<?php /* アバター */ ?>
 					<a href="#">
 						<?php echo $this->Html->image('/videos/img/avatar.png', array(
-							//'class' => 'img-responsive',
+							'class' => 'media-object',
 							'alt' => $video['userAttributesUser']['value'],
 							'align' => 'left',
 							'width' => '60',
@@ -141,7 +141,7 @@
 						)); ?>
 					</a>
 				</div>
-				<div class="col-xs-10">
+				<div class="media-body">
 					<div class="row">
 						<div class="col-xs-6">
 							<?php /* 投稿者 */ ?>
@@ -201,8 +201,10 @@
 			</div>
 		</div>
 
-		<?php /* コメントを利用する */ ?>
-		<?php if ($videoBlockSetting['useComment']): ?>
+		<?php /* コメントを利用しない or (コメント0件 and コメント投稿できない) */ ?>
+		<?php if (!$videoBlockSetting['useComment'] || (!$contentComments && !$contentCommentCreatable)): ?>
+			<?php /* 表示しない */ ?>
+		<?php else : ?>
 			<?php /* コンテンツコメント */ ?>
 			<div class="panel panel-default">
 				<?php echo $this->element('ContentComments.form', array(

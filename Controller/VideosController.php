@@ -25,6 +25,7 @@ class VideosController extends VideosAppController {
  * @var array
  */
 	public $uses = array(
+		'Blocks.Block',
 		'Comments.Comment',
 		'ContentComments.ContentComment',
 		'Files.FileModel',		// FileUpload
@@ -86,9 +87,6 @@ class VideosController extends VideosAppController {
  * @return void
  */
 	public function index($frameId, $displayOrder = null, $displayNumber = null) {
-		// 登録・更新後の戻りURL設定 暫定対応
-		CakeSession::write('backUrl', Router::url('', true));
-
 		// 表示系(並び順、表示件数)の設定取得
 		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
 			$this->viewVars['frameKey'],
@@ -126,31 +124,30 @@ class VideosController extends VideosAppController {
 		);
 		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
-		// block.id
-		if (empty($this->viewVars['blockId'])) {
-			$blockId = 'null';
-		} else {
-			$blockId = $this->viewVars['blockId'];
-		}
-		// ページャーで複数動画取得
-		$conditions = array(
-			'Block.id = ' . $blockId,
-			'Block.id = ' . $this->Video->alias . '.block_id',
-			'Block.language_id = ' . $this->viewVars['languageId'],
-			'Block.room_id = ' . $this->viewVars['roomId'],
-		);
-		if (! $this->viewVars['contentEditable']) {
-			$conditions[] = $this->Video->alias . '.status = ' . NetCommonsBlockComponent::STATUS_PUBLISHED;
-		}
+		// 暫定対応しない(;'∀')
+		// blockテーブルのpublic_typeによって 表示・非表示する処理は、6/15以降に対応する
 
-		$this->Paginator->settings = array(
-			$this->Video->alias => array(
-				'order' => $this->Video->alias . '.id DESC',
-				'conditions' => $conditions,
-				'limit' => $results['displayNumber']
-			)
-		);
-		$results['videos'] = $this->Paginator->paginate($this->Video->alias);
+		if (!empty($this->viewVars['blockId'])) {
+			// ページャーで複数動画取得
+			$conditions = array(
+				'Block.id = ' . $this->viewVars['blockId'],
+				'Block.id = ' . $this->Video->alias . '.block_id',
+				'Block.language_id = ' . $this->viewVars['languageId'],
+				'Block.room_id = ' . $this->viewVars['roomId'],
+			);
+			if (! $this->viewVars['contentEditable']) {
+				$conditions[] = $this->Video->alias . '.status = ' . NetCommonsBlockComponent::STATUS_PUBLISHED;
+			}
+
+			$this->Paginator->settings = array(
+				$this->Video->alias => array(
+					'order' => $this->Video->alias . '.id DESC',
+					'conditions' => $conditions,
+					'limit' => $results['displayNumber']
+				)
+			);
+			$results['videos'] = $this->Paginator->paginate($this->Video->alias);
+		}
 
 		// キーをキャメル変換
 		$results = $this->camelizeKeyRecursive($results);

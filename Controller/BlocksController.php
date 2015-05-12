@@ -25,7 +25,6 @@ class BlocksController extends VideosAppController {
  * @var array
  */
 	public $uses = array(
-		//'Videos.VideoFrameSetting',
 		'Videos.VideoBlockSetting',
 		'Blocks.Block',
 		'Frames.Frame',

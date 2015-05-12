@@ -263,5 +263,4 @@
 		</div>
 		</p>
 	<?php endif; ?>
-<?php endif; ?>
-&nbsp;
+<?php endif;
