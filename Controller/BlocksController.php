@@ -142,7 +142,6 @@ class BlocksController extends VideosAppController {
  */
 	public function add() {
 		$this->view = 'Blocks/edit';
-		$this->set('blockId', null);
 
 		// 初期値 取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
@@ -209,7 +208,7 @@ class BlocksController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit() {
-		if (! $this->validateBlockId()) {
+		if (! $this->NetCommonsBlock->validateBlockId()) {
 			$this->throwBadRequest();
 			return false;
 		}
@@ -237,18 +236,23 @@ class BlocksController extends VideosAppController {
 			);
 
 			// 保存
-			if (!$videoBlockSetting = $this->VideoBlockSetting->saveVideoBlockSetting($data)) {
+			if (!$this->VideoBlockSetting->saveVideoBlockSetting($data)) {
+				// エラー処理
 				if (!$this->handleValidationError($this->VideoBlockSetting->validationErrors) || !$this->handleValidationError($this->Block->validationErrors)) {
 					$this->log($this->validationErrors, 'debug');
-					return;
+					$videoBlockSetting['VideoBlockSetting'] = $this->data['VideoBlockSetting'];
+					// 入力値セット   "1","0"をbool型に変換
+					$videoBlockSetting = $this->VideoBlockSetting->convertBool($videoBlockSetting);
 				}
-			}
 
-			// ajax以外は、リダイレクト
-			if (!$this->request->is('ajax')) {
-				$this->redirect('/videos/blocks/index/' . $this->viewVars['frameId']);
+				// 正常処理
+			} else {
+				// ajax以外は、リダイレクト
+				if (!$this->request->is('ajax')) {
+					$this->redirect('/videos/blocks/index/' . $this->viewVars['frameId']);
+				}
+				return;
 			}
-			return;
 		}
 
 		if (empty($block)) {
@@ -271,12 +275,11 @@ class BlocksController extends VideosAppController {
  * @return CakeResponse
  */
 	public function delete() {
-		if (! $this->validateBlockId()) {
+		if (! $this->NetCommonsBlock->validateBlockId()) {
 			$this->throwBadRequest();
 			return false;
 		}
 		$blockId = (int)$this->params['pass'][1];
-		$this->set('blockId', $blockId);
 
 		if ($this->request->isDelete()) {
 			// ブロック取得

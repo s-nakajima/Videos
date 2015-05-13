@@ -31,7 +31,7 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 			'label' => __d('videos', 'チャンネル名') . $this->element('NetCommons.required'),
 			'error' => false,
 			'class' => 'form-control',
-			'value' => (isset($block['name']) ? $block['name'] : '')
+			'default' => (isset($block['name']) ? $block['name'] : '')
 		)); ?>
 	</div>
 
@@ -128,6 +128,7 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 			'label' => __d('videos', 'コメントを利用する'),
 			'div' => false,
 			'type' => 'checkbox',
+			//'default' => $videoBlockSetting['useComment'],
 			'ng-model' => 'videoBlockSetting.useComment',
 		)); ?>
 	</div>
@@ -136,7 +137,7 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 			'label' => __d('videos', 'コメントを自動的に承認する'),
 			'div' => false,
 			'type' => 'checkbox',
-			//'checked' => $videoBlockSetting['commentAgree'],
+			//'default' => $videoBlockSetting['commentAgree'],
 			'ng-model' => 'videoBlockSetting.commentAgree',
 			'ng-disabled' => '!videoBlockSetting.useComment',
 		)); ?>
@@ -146,7 +147,7 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 			'label' => __d('videos', 'コメントの承認完了通知をメールで通知する'),
 			'div' => false,
 			'type' => 'checkbox',
-			//'checked' => $videoBlockSetting['commentAgreeMailNotice'],
+			//'default' => $videoBlockSetting['commentAgreeMailNotice'],
 			'ng-model' => 'videoBlockSetting.commentAgreeMailNotice',
 			'ng-disabled' => "!videoBlockSetting.useComment || videoBlockSetting.commentAgree",
 		)); ?>

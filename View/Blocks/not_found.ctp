@@ -16,7 +16,7 @@
 
 	<div class="tab-content">
 		<div class="text-right">
-			<a class="btn btn-success" href="<?php echo $this->Html->url('/videos/blocks/edit/' . $frameId);?>">
+			<a class="btn btn-success" href="<?php echo $this->Html->url('/videos/blocks/add/' . $frameId);?>">
 				<span class="glyphicon glyphicon-plus"> </span>
 			</a>
 		</div>

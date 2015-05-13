@@ -36,6 +36,12 @@ class VideosAppController extends AppController {
  * @return void
  */
 	public function initTabs($mainActiveTab, $blockActiveTab) {
+		if (isset($this->params['pass'][1])) {
+			$blockId = (int)$this->params['pass'][1];
+		} else {
+			$blockId = null;
+		}
+
 		//タブの設定
 		$settingTabs = array(
 			'tabs' => array(
@@ -68,7 +74,7 @@ class VideosAppController extends AppController {
 						'controller' => 'blocks',
 						'action' => $this->params['action'],
 						$this->viewVars['frameId'],
-						$this->viewVars['blockId']
+						$blockId
 					)
 				),
 				'role_permissions' => array(
@@ -77,12 +83,13 @@ class VideosAppController extends AppController {
 						'controller' => 'block_role_permissions',
 						'action' => 'edit',
 						$this->viewVars['frameId'],
-						$this->viewVars['blockId']
+						$blockId
 					)
 				),
 			),
 			'active' => $blockActiveTab
 		);
+
 		$this->set('blockSettingTabs', $blockSettingTabs);
 	}
 }

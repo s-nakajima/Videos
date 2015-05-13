@@ -257,7 +257,7 @@ class VideosController extends VideosAppController {
 
 			if (! $this->request->is('ajax')) {
 				// 一覧へ
-				$this->redirectBackUrl();
+				$this->redirect('/videos/videos/index/' . $this->viewVars['frameId']);
 			}
 		}
 	}
@@ -307,7 +307,7 @@ class VideosController extends VideosAppController {
 
 			if (! $this->request->is('ajax')) {
 				// 一覧へ
-				$this->redirectBackUrl();
+				$this->redirect('/videos/videos/index/' . $this->viewVars['frameId']);
 			}
 		}
 	}
