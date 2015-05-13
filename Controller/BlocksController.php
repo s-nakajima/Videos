@@ -76,6 +76,9 @@ class BlocksController extends VideosAppController {
 		$this->layout = 'NetCommons.setting';
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
+
+		//タブの設定
+		$this->initTabs('block_index', 'block_settings');
 	}
 
 /**
@@ -139,6 +142,7 @@ class BlocksController extends VideosAppController {
  */
 	public function add() {
 		$this->view = 'Blocks/edit';
+		$this->set('blockId', null);
 
 		// 初期値 取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
@@ -148,7 +152,7 @@ class BlocksController extends VideosAppController {
 
 		// ブロック 初期値 取得
 		$block = $this->Block->create(array(
-			'name' => __d('videos', 'New Channel %s', date('YmdHis')),
+			'name' => __d('videos', 'New channel %s', date('YmdHis')),
 		));
 
 		if ($this->request->isPost()) {
@@ -210,6 +214,7 @@ class BlocksController extends VideosAppController {
 			return false;
 		}
 		$blockId = (int)$this->params['pass'][1];
+		$this->set('blockId', $blockId);
 
 		// ブロック取得
 		$block = $this->Block->findById($blockId);
@@ -233,7 +238,7 @@ class BlocksController extends VideosAppController {
 
 			// 保存
 			if (!$videoBlockSetting = $this->VideoBlockSetting->saveVideoBlockSetting($data)) {
-				if (!$this->handleValidationError($this->VideoBlockSetting->validationErrors)) {
+				if (!$this->handleValidationError($this->VideoBlockSetting->validationErrors) || !$this->handleValidationError($this->Block->validationErrors)) {
 					$this->log($this->validationErrors, 'debug');
 					return;
 				}
@@ -271,6 +276,7 @@ class BlocksController extends VideosAppController {
 			return false;
 		}
 		$blockId = (int)$this->params['pass'][1];
+		$this->set('blockId', $blockId);
 
 		if ($this->request->isDelete()) {
 			// ブロック取得

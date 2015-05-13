@@ -12,22 +12,11 @@
 ?>
 
 <div class="modal-body">
-	<?php echo $this->element('NetCommons.setting_tabs', array(
-			'tabs' => array(
-				'block_index' => '/videos/blocks/index/' . $frameId,
-				'frame_settings' => '/videos/video_frame_settings/edit/' . $frameId,
-			),
-			'active' => 'frame_settings'
-		)); ?>
+	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
 
 	<div class="tab-content">
-		<?php echo $this->Form->create('VideoFrameSetting', array(
-				'name' => 'form',
-				'novalidate' => true,
-			)); ?>
-
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'Blocks',
+				'controller' => 'VideoFrameSettings',
 				'action' => 'edit' . '/' . $frameId,
 				'callback' => 'Videos.VideoFrameSettings/edit_form',
 				'cancel' => $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null)

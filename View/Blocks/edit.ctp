@@ -15,22 +15,11 @@
 
 <div class="modal-body" ng-controller="VideoBlockSettingsEdit"
 	 ng-init="initialize(<?php echo h(json_encode($videoBlockSetting)) . ',' . h(json_encode($block)); ?>)">
-	<?php echo $this->element('NetCommons.setting_tabs', array(
-			'tabs' => array(
-				'block_index' => '/videos/blocks/index/' . $frameId,
-				'frame_settings' => '/videos/video_frame_settings/edit/' . $frameId,
-			),
-			'active' => 'block_index'
-		)); ?>
+
+	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Blocks.setting_tabs', array(
-				'tabs' => array(
-					'block_settings' => '/videos/blocks/' . h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
-					'role_permissions' => '/videos/block_role_permissions/' . h($this->request->params['action']) . '/' . $frameId . '/' . $blockId
-				),
-				'active' => 'block_settings'
-			)); ?>
+		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
 				'controller' => 'Blocks',

@@ -40,7 +40,6 @@ class BlockRolePermissionsController extends VideosAppController {
 			//コンテンツの権限設定
 			'allowedActions' => array(
 				'contentPublishable' => array(
-					'add',
 					'edit',
 				)
 			),
@@ -68,30 +67,9 @@ class BlockRolePermissionsController extends VideosAppController {
 		$this->layout = 'NetCommons.setting';
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
-	}
 
-/**
- * 権限設定 登録
- *
- * @return CakeResponse
- */
-	public function add() {
-		$this->view = 'BlockRolePermissions/edit';
-
-		// 取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
-			$this->viewVars['blockKey'],
-			$this->viewVars['roomId']
-		);
-
-		$results = array(
-			'videoBlockSetting' => $videoBlockSetting['VideoBlockSetting'],
-		);
-
-		// キーをキャメル変換
-		$results = $this->camelizeKeyRecursive($results);
-
-		$this->set($results);
+		//タブの設定
+		$this->initTabs('block_index', 'role_permissions');
 	}
 
 /**

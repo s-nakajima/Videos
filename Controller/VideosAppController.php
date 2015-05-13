@@ -29,15 +29,60 @@ class VideosAppController extends AppController {
 	);
 
 /**
- * redirectBackUrl
- * 共通化希望
+ * initTabs
  *
- * @throws BadRequestException
- * @return mixed status on success, false on error
+ * @param string $mainActiveTab Main active tab
+ * @param string $blockActiveTab Block active tab
+ * @return void
  */
-	public function redirectBackUrl() {
-		$backUrl = CakeSession::read('backUrl');
-		CakeSession::delete('backUrl');
-		$this->redirect($backUrl);
+	public function initTabs($mainActiveTab, $blockActiveTab) {
+		//タブの設定
+		$settingTabs = array(
+			'tabs' => array(
+				'block_index' => array(
+					'url' => array(
+						'plugin' => $this->params['plugin'],
+						'controller' => 'blocks',
+						'action' => 'index',
+						$this->viewVars['frameId'],
+					)
+				),
+				'frame_settings' => array(
+					'url' => array(
+						'plugin' => $this->params['plugin'],
+						'controller' => 'video_frame_settings',
+						'action' => 'edit',
+						$this->viewVars['frameId'],
+					)
+				),
+			),
+			'active' => $mainActiveTab
+		);
+		$this->set('settingTabs', $settingTabs);
+
+		$blockSettingTabs = array(
+			'tabs' => array(
+				'block_settings' => array(
+					'url' => array(
+						'plugin' => $this->params['plugin'],
+						'controller' => 'blocks',
+						'action' => $this->params['action'],
+						$this->viewVars['frameId'],
+						$this->viewVars['blockId']
+					)
+				),
+				'role_permissions' => array(
+					'url' => array(
+						'plugin' => $this->params['plugin'],
+						'controller' => 'block_role_permissions',
+						'action' => 'edit',
+						$this->viewVars['frameId'],
+						$this->viewVars['blockId']
+					)
+				),
+			),
+			'active' => $blockActiveTab
+		);
+		$this->set('blockSettingTabs', $blockSettingTabs);
 	}
 }

@@ -222,6 +222,21 @@ class VideoBlockSetting extends VideosAppModel {
 				return false;
 			}
 
+			// 暫定対応(;'∀')
+			// ブロック名必須チェック追加
+			$this->Block->validate['name'] = array(
+				'notEmpty' => array(
+					'rule' => array('notEmpty'),
+					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'channel')),
+					'required' => true,
+				),
+			);
+
+			// ブロック入力チェック
+			if (!$this->Block->validateBlock($data)) {
+				return false;
+			}
+
 			//ブロックの保存
 			$block = $this->Block->saveByFrameId($data['Frame']['id'], $data['Block']);
 

@@ -94,7 +94,7 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 		)); ?>
 	</div>
 	<div>
-		<?php echo $this->Form->input('auto_video_convert', array(
+		<?php echo $this->Form->input('VideoBlockSetting.auto_video_convert', array(
 			'label' => __d('videos', '動画を自動変換する'),
 			'div' => false,
 			'type' => 'checkbox',

@@ -12,13 +12,7 @@
 ?>
 
 <div class="modal-body">
-	<?php echo $this->element('NetCommons.setting_tabs', array(
-			'tabs' => array(
-				'block_index' => '/videos/blocks/index/' . $frameId,
-				'frame_settings' => '/videos/video_frame_settings/edit/' . $frameId,
-			),
-			'active' => 'block_index'
-		)); ?>
+	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
 
 	<div class="tab-content">
 		<div class="text-right">

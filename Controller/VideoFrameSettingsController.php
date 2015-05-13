@@ -40,20 +40,10 @@ class VideoFrameSettingsController extends VideosAppController {
 			//コンテンツの権限設定
 			'allowedActions' => array(
 				'contentPublishable' => array(
-					//'index',
 					'edit',
 				)
 			),
 		),
-	);
-
-/**
- * use helpers
- *
- * @var array
- */
-	public $helpers = array(
-		//'NetCommons.Token'
 	);
 
 /**
@@ -68,6 +58,9 @@ class VideoFrameSettingsController extends VideosAppController {
 		$this->layout = 'NetCommons.setting';
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
+
+		//タブの設定
+		$this->initTabs('frame_settings', '');
 	}
 
 /**
