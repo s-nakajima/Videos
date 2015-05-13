@@ -118,26 +118,6 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 	</div>
 </div>
 <div class="form-group">
-	<?php echo $this->Form->input('VideoBlockSetting.buffer_time', array(
-		'label' => __d('videos', 'バッファ時間'),
-		'type' => 'select',
-		'class' => 'form-control',
-		'options' => array(
-			2 => sprintf(__d('videos', '%s秒'), '2'),
-			4 => sprintf(__d('videos', '%s秒'), '4'),
-			6 => sprintf(__d('videos', '%s秒'), '6'),
-			10 => sprintf(__d('videos', '%s秒'), '10'),
-			20 => sprintf(__d('videos', '%s秒'), '20'),
-			45 => sprintf(__d('videos', '%s秒'), '45'),
-			60 => sprintf(__d('videos', '%s秒'), '60'),
-		),
-		'ng-model' => 'videoBlockSetting.bufferTime',
-	)); ?>
-	<p class="help-block">
-		<?php echo __d('videos', '動画の再生が遅いときは、バッファ時間を長めに設定してください。'); ?>
-	</p>
-</div>
-<div class="form-group">
 	<div>
 		<label>
 			<?php echo __d('videos', 'コメント設定'); ?>

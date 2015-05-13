@@ -146,13 +146,6 @@ class Video extends VideosAppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'FileOgg' => array(
-			'className' => 'Files.FileModel',
-			'foreignKey' => 'ogg_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
 		'FileThumbnail' => array(
 			'className' => 'Files.FileModel',
 			'foreignKey' => 'thumbnail_id',
@@ -269,7 +262,7 @@ class Video extends VideosAppModel {
 				return false;
 			}
 
-			// 1動画からogg, mp4と２つに変換するのでまだ仮(;'∀')
+			// 動画変換するのまだ仮(;'∀')
 			// ファイルチェック 動画ファイル
 			if (! $data = $this->validateVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0)) {
 				return false;
