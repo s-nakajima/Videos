@@ -33,8 +33,11 @@ class VideosAppTest extends YAControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
+		'plugin.blocks.block',
 		'plugin.blocks.block_role_permission',
+		'plugin.boxes.box',
 		'plugin.boxes.boxes_page',
+		'plugin.comments.comment',
 		'plugin.containers.container',
 		//'plugin.containers.containers_page',
 		'plugin.content_comments.content_comment',
@@ -42,7 +45,7 @@ class VideosAppTest extends YAControllerTestCase {
 		//'plugin.files.files_plugin',
 		//'plugin.files.files_room',
 		//'plugin.files.files_user',
-		'plugin.frames.box',
+		'plugin.frames.frame',
 		'plugin.net_commons.site_setting',
 		'plugin.m17n.language',
 		//'plugin.m17n.languages_page',
@@ -53,9 +56,6 @@ class VideosAppTest extends YAControllerTestCase {
 		'plugin.rooms.room_role_permission',
 		'plugin.pages.page',
 		'plugin.pages.space',
-		'plugin.videos.block',
-		'plugin.videos.comment',
-		'plugin.videos.frame',
 		'plugin.videos.plugin',
 		'plugin.videos.user',
 		'plugin.videos.user_attributes_user',

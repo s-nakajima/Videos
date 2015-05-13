@@ -144,7 +144,7 @@
 	</div>
 
 	<?php /* 右側 */ ?>
-	<div class="col-lg-5 col-xs-0">
+	<div class="col-lg-5 col-xs-12">
 
 		<?php /* 関連動画 */ ?>
 		<p>
