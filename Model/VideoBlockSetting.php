@@ -20,20 +20,6 @@ App::uses('VideosAppModel', 'Videos.Model');
 class VideoBlockSetting extends VideosAppModel {
 
 /**
- * 動画再生プレイヤー jPlayer
- *
- * @var int
- */
-	const VIDEO_PLAYER_JPLAYER = '1';
-
-/**
- * 動画再生プレイヤー HTML5
- *
- * @var int
- */
-	const VIDEO_PLAYER_HTML5 = '2';
-
-/**
  * Validation rules
  *
  * @var array

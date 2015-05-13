@@ -105,21 +105,8 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 <div class="form-group">
 	<div>
 		<label>
-			<?php //echo __d('videos', '動画再生プレイヤー'); ?>
 			<?php echo __d('videos', '動画再生'); ?>
 		</label>
-	</div>
-	<div>
-		<?php /*echo $this->Form->input('VideoBlockSetting.video_player', array(
-			'type' => 'radio',
-			'options' => array(
-				VideoBlockSetting::VIDEO_PLAYER_JPLAYER => __d('blocks', 'jPlayer'),
-				VideoBlockSetting::VIDEO_PLAYER_HTML5 => __d('blocks', 'HTML5'),
-			),
-			'div' => false,
-			'legend' => false,
-			'ng-model' => 'videoBlockSetting.videoPlayer',
-		));*/ ?>
 	</div>
 	<div>
 		<?php echo $this->Form->input('VideoBlockSetting.auto_play', array(
