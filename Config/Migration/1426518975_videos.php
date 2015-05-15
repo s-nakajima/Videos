@@ -62,6 +62,7 @@ class Videos extends CakeMigration {
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'video_view_logs' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID |  |  | '),
 					'video_key' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'comment' => 'video key | 動画key | videos.key | ', 'charset' => 'utf8'),
 					'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'comment' => 'user id | ユーザID | users.id | '),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'created user | 作成者 | users.id | '),
@@ -69,6 +70,7 @@ class Videos extends CakeMigration {
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'modified user | 更新者 | users.id | '),
 					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 |  | '),
 					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 						'fk_video_view_logs_frames1_idx' => array('column' => 'video_key', 'unique' => 0),
 						'fk_video_view_logs1_idx' => array('column' => array('video_key', 'user_id'), 'unique' => 0),
 					),
