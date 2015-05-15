@@ -26,6 +26,7 @@
             <directory suffix=".ctp">app/Plugin/NetCommons</directory>
             <directory suffix=".php">app/Plugin/Pages</directory>
             <directory suffix=".php">app/Plugin/TinyMCE</directory>
+            <directory suffix=".php">app/Plugin/Tags</directory>
             <directory suffix=".php">app/Plugin/Upload</directory>
             <directory suffix=".php">app/Plugin/Users</directory>
             <directory suffix=".php">lib/Cake</directory>

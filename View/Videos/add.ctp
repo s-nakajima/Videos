@@ -1,6 +1,6 @@
 <?php
 /**
- * 登録 template
+ * 動画登録 template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -10,8 +10,9 @@
  */
 ?>
 
-<?php echo $this->Html->script('/net_commons/base/js/workflow.js', false); ?>
+<?php echo $this->Html->script('/net_commons/js/workflow.js', false); ?>
 <?php echo $this->Html->script('/videos/js/videos.js', false); ?>
+<?php echo $this->Html->script('/tags/js/tags.js', false); ?>
 
 <div id="nc-videos-<?php echo (int)$frameId; ?>" ng-controller="Videos">
 

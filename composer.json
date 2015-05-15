@@ -32,6 +32,7 @@
         "netcommons/pages":             "dev-master",
         "netcommons/roles":             "dev-master",
         "netcommons/rooms":             "dev-master",
+        "netcommons/tags":              "dev-master",
         "netcommons/users":             "dev-master",
         "satooshi/php-coveralls":       "dev-master"
     },

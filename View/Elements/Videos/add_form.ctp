@@ -65,21 +65,8 @@
 </div>
 
 <div class="form-group"></div>
-<div class="form-group">
-	<label for="tag">
-		<?php echo __d('videos', 'Tag'); ?>
-	</label>
-	<div class="input-group">
-		<?php echo $this->Form->input('tag', array(
-			'label' => false,
-			'class' => 'form-control',
-			'id' => 'tag',
-			//'ng-model' => 'video.tag',
-		)); ?>
-		<span class="input-group-btn">
-			<?php echo $this->Form->button( __d('videos', 'タグを追加する'), array(
-				'class' => 'btn',
-			)); ?>
-		</span>
-	</div>
-</div>
+<?php $this->Form->unlockField('Tag');
+echo $this->element('Tags.tag_form', array(
+	'tagData' => $this->request->data['Tag'],
+	'modelName' => 'Video',
+));

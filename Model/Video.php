@@ -53,7 +53,6 @@ class Video extends VideosAppModel {
  * @var array
  */
 	public $actsAs = array(
-		//'NetCommons.Publishable',
 		'Files.YAUpload' => array(			// FileUpload
 			self::VIDEO_FILE_FIELD => array(
 				//UploadBefavior settings
@@ -64,6 +63,9 @@ class Video extends VideosAppModel {
 				//UploadBefavior settings
 			),
 		),
+		'NetCommons.OriginalKey', // 自動でkeyセット
+		'NetCommons.Publishable', // 自動でis_active, is_latestセット
+		'Tags.Tag',
 	);
 
 /**

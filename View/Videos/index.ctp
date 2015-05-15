@@ -1,6 +1,6 @@
 <?php
 /**
- * 一覧 template
+ * 動画一覧 template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>

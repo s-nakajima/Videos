@@ -239,13 +239,14 @@ class VideosController extends VideosAppController {
 			$data = $this->__readySaveData($this->data);
 
 			// 登録データ作成
-			$video = $this->Video->create(['key' => Security::hash('video' . mt_rand() . microtime(), 'md5')]);
+			$video = $this->Video->create();
 			$data = Hash::merge(
 				$video,
 				$data,
 				array($this->Video->alias => array(
 					'status' => $status,
 					'block_id' => $this->viewVars['blockId'],
+					'language_id' => $this->viewVars['languageId'],
 				))
 			);
 
@@ -329,6 +330,10 @@ class VideosController extends VideosAppController {
 	private function __init($videoKey = null) {
 		if (empty($videoKey)) {
 			$results['video'] = null;
+
+			// タグ対応
+			$this->request->data['Tag'] = array();
+
 			$comments = $this->Comment->getComments(array(
 				'plugin_key' => 'videos',
 				'content_key' => null,
@@ -341,6 +346,9 @@ class VideosController extends VideosAppController {
 				$this->viewVars['contentEditable']
 			);
 			$results['video'] = $video['Video'];
+
+			// タグ対応
+			$this->request->data['Tag'] = isset($video['Tag']) ? $video['Tag'] : array();
 
 			$comments = $this->Comment->getComments(array(
 				'plugin_key' => 'videos',
