@@ -1,6 +1,6 @@
 <?php
 /**
- * add_form template
+ * 動画登録・編集 エレメント template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -9,11 +9,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
-
-<?php /* echo $this->Form->hidden('id'); ?>
-<?php echo $this->Form->hidden('Block.id', array(
-	'value' => (int)$blockId,
-)); */ ?>
 
 <div class="form-group">
 	<?php echo $this->Form->input('title', array(

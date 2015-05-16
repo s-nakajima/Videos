@@ -55,13 +55,12 @@
 			</div>
 			</p>
 			<div class="media">
-				<div class="media-left">
+				<div class="pull-left">
 					<?php /* アバター */ ?>
 					<a href="#">
 						<?php echo $this->Html->image('/videos/img/avatar.png', array(
 							'class' => 'media-object',
 							'alt' => $video['userAttributesUser']['value'],
-							'align' => 'left',
 							'width' => '60',
 							'height' => '60',
 						)); ?>
