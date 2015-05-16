@@ -15,8 +15,7 @@
  */
 
 App::uses('VideosAppModel', 'Videos.Model');
-//FileUpload
-App::uses('UploadBehavior', 'Upload.Model/Behavior');
+App::uses('UploadBehavior', 'Upload.Model/Behavior'); //FileUpload
 
 /**
  * Video Model
@@ -293,16 +292,12 @@ class Video extends VideosAppModel {
 			//登録
 			$video = $this->save(null, false);
 			if (!$video) {
-				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
 			}
 			//コメントの登録
 			if ($this->Comment->data) {
 				if (!$this->Comment->save(null, false)) {
-					// @codeCoverageIgnoreStart
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-					// @codeCoverageIgnoreEnd
 				}
 			}
 
@@ -410,14 +405,10 @@ class Video extends VideosAppModel {
 				$data[$field],
 				array('validate' => false, 'callbacks' => 'before')
 			)) {
-				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
 			}
 			if (! $this->FileModel->saveFileAssociated($file)) {
-				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
 			}
 			$data[$field] = Hash::insert(
 				$data[$field], '{s}.id', (int)$file[$this->FileModel->alias]['id']
@@ -444,14 +435,10 @@ class Video extends VideosAppModel {
 
 			//データ削除
 			if (!$this->FileModel->deleteAll(['id' => $data['DeleteFile'][$index]['File']['id']], true, false)) {
-				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
 			}
 			if (!$this->FileModel->deleteFileAssociated($data['DeleteFile'][$index]['File']['id'])) {
-				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
 			}
 
 			// 暫定対応(;'∀') コメントアウトする。

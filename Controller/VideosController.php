@@ -62,7 +62,7 @@ class VideosController extends VideosAppController {
 				'contentEditable' => array(
 					'edit',
 					'delete',
-					'add'
+					'add',
 				)
 			),
 		),

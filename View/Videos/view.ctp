@@ -56,7 +56,7 @@
 			</p>
 			<div class="media">
 				<div class="pull-left">
-					<?php /* アバター */ ?>
+					<?php /* アバター 暫定対応(;'∀') */ ?>
 					<a href="#">
 						<?php echo $this->Html->image('/videos/img/avatar.png', array(
 							'class' => 'media-object',
@@ -124,6 +124,18 @@
 				<?php /* 本文 */ ?>
 				<?php echo $video['video']['description']; ?>
 			</div>
+			<div>
+				<?php /* Tags */ ?>
+				<?php foreach ($video['tag'] as $tag): ?>
+					<?php echo $this->Html->link($tag['name'], array(
+						'controller' => 'videos',
+						'action' => 'tag',
+						$frameId,
+						'id' => $tag['id'],
+					),
+					array('class' => 'label label-default')); ?>
+				<?php endforeach; ?>
+			</div>
 		</div>
 
 		<?php /* コメントを利用しない or (コメント0件 and コメント投稿できない) */ ?>
@@ -145,70 +157,69 @@
 	<?php /* 右側 */ ?>
 	<div class="col-lg-5 col-xs-12">
 
-		<?php /* 関連動画 */ ?>
-		<p>
+	<?php /* 関連動画 */ ?>
+	<?php foreach ($relatedVideos as $relatedVideo) : ?>
 		<div class="row">
-			<?php foreach ($relatedVideos as $relatedVideo) : ?>
-				<div class="col-xs-12">
-					<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
-						<?php /* サムネイル */ ?>
-						<div class="row videos-row-height">
-							<div class="col-xs-4">
+			<div class="col-xs-12">
+				<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
+					<?php /* サムネイル */ ?>
+					<div class="media">
+						<div class="pull-left">
+							<div>
 								<div>
-									<div>
-										<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $relatedVideo['video']['key']); ?>">
-											<?php if (isset($relatedVideo['fileThumbnail']['urlThumbnail'])) : ?>
-												<?php echo $this->Html->image($relatedVideo['fileThumbnail']['urlThumbnail'], array('alt' => $relatedVideo['video']['title'])); ?>
-											<?php else : ?>
-												<?php /* サムネイルなし */ ?>
-												<?php echo $this->Html->image('/videos/img/noImage.png', array('alt' => $relatedVideo['video']['title'])); ?>
-											<?php endif; ?>
-										</a>
-									</div>
-									<div style="margin-top: -18px; margin-left: 65px;">
-										<?php
+									<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $relatedVideo['video']['key']); ?>">
+										<?php if (isset($relatedVideo['fileThumbnail']['urlThumbnail'])) : ?>
+											<?php echo $this->Html->image($relatedVideo['fileThumbnail']['urlThumbnail'], array('alt' => $relatedVideo['video']['title'])); ?>
+										<?php else : ?>
+											<?php /* サムネイルなし */ ?>
+											<?php echo $this->Html->image('/videos/img/noImage.png', array('alt' => $relatedVideo['video']['title'])); ?>
+										<?php endif; ?>
+									</a>
+								</div>
+								<?php /* 動画時間 */ ?>
+								<div style="margin-top: -18px; margin-left: 65px;">
+									<?php
 										$videoTime = $relatedVideo['video']['videoTime'];
 										$videoTime = floor($videoTime / 60) . ":" . str_pad(floor($videoTime - 60 * floor($videoTime / 60)), 2, '0');
-										?>
-										<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
-									<?php echo $videoTime ?>
-									</span>
-									</div>
+									?>
+									<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
+								<?php echo $videoTime ?>
+								</span>
 								</div>
 							</div>
-							<?php /* タイトル、投稿者、各種回数 */ ?>
-							<div class="col-xs-8">
-								<small>
-									<div>
-										<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $relatedVideo['video']['key']); ?>">
-											<strong><?php echo $this->Text->Truncate($relatedVideo['video']['title'], VIDEO::SHORT_TITLE_LENGTH); ?></strong>
-										</a>
-									</div>
-									<span style="padding-right: 15px;"><?php echo __d('videos', '投稿者'); ?></span><a href="#"><?php echo $relatedVideo['userAttributesUser']['value'] ?></a><br />
-									<span style="padding-right: 15px;">
-										<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
-									</span>
-									<?php /* コメント数、暫定対応(;'∀') */ ?>
-									<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php //echo $relatedVideo[0]['commentsNumber'] ?>0<br />
+						</div>
+						<?php /* タイトル、投稿者、各種回数 */ ?>
+						<div class="media-body">
+							<small>
+								<div>
+									<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $relatedVideo['video']['key']); ?>">
+										<strong><?php echo $this->Text->Truncate($relatedVideo['video']['title'], VIDEO::SHORT_TITLE_LENGTH); ?></strong>
+									</a>
+								</div>
+								<span style="padding-right: 15px;"><?php echo __d('videos', '投稿者'); ?></span><a href="#"><?php echo $relatedVideo['userAttributesUser']['value'] ?></a><br />
+								<span style="padding-right: 15px;">
+									<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
+								</span>
+								<?php /* コメント数、暫定対応(;'∀') */ ?>
+								<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php //echo $relatedVideo[0]['commentsNumber'] ?>0<br />
 
-									<?php if ($videoBlockSetting['useLike']) : ?>
-										<?php /* 高く評価、暫定対応(;'∀') */ ?>
-										<span style="padding-right: 15px;">
-											<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php //echo $relatedVideo['video']['likesNumber'] ?>0
-										</span>
-										<?php if ($videoBlockSetting['useUnlike']) : ?>
-											<?php /* 低く評価、暫定対応(;'∀') */ ?>
-											<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php //echo $relatedVideo['video']['unlikesNumber'] ?>0
-										<?php endif; ?>
+								<?php if ($videoBlockSetting['useLike']) : ?>
+									<?php /* 高く評価、暫定対応(;'∀') */ ?>
+									<span style="padding-right: 15px;">
+										<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php //echo $relatedVideo['video']['likesNumber'] ?>0
+									</span>
+									<?php if ($videoBlockSetting['useUnlike']) : ?>
+										<?php /* 低く評価、暫定対応(;'∀') */ ?>
+										<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php //echo $relatedVideo['video']['unlikesNumber'] ?>0
 									<?php endif; ?>
-								</small>
-							</div>
+								<?php endif; ?>
+							</small>
 						</div>
 					</div>
 				</div>
-			<?php endforeach; ?>
+			</div>
 		</div>
-		</p>
+	<?php endforeach; ?>
 
 	</div>
 

@@ -148,7 +148,6 @@
 		</p>
 
 		<?php /* 動画一覧 */ ?>
-		<p>
 		<div class="row">
 			<?php foreach ($videos as $video) : ?>
 				<div class="col-md-4 col-xs-12">
@@ -167,14 +166,15 @@
 											<?php endif; ?>
 										</a>
 									</div>
+									<?php /* 動画時間 */ ?>
 									<div style="margin-top: -18px; margin-left: 65px;">
 										<?php
-										$videoTime = $video['video']['videoTime'];
-										$videoTime = floor($videoTime / 60) . ":" . str_pad(floor($videoTime - 60 * floor($videoTime / 60)), 2, '0');
+											$videoTime = $video['video']['videoTime'];
+											$videoTime = floor($videoTime / 60) . ":" . str_pad(floor($videoTime - 60 * floor($videoTime / 60)), 2, '0');
 										?>
 										<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
 											<?php echo $videoTime ?>
-											</span>
+										</span>
 									</div>
 								</div>
 							</div>
@@ -216,7 +216,6 @@
 				</div>
 			<?php endforeach; ?>
 		</div>
-		</p>
 
 		<?php /* ページャ */ ?>
 		<p>
