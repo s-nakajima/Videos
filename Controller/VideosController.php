@@ -20,6 +20,20 @@ App::uses('VideosAppController', 'Videos.Controller');
 class VideosController extends VideosAppController {
 
 /**
+ * 関連動画 もっと見る start limit
+ *
+ * @var int
+ */
+	const START_LIMIT_RELATED_VIDEO = 5;
+
+/**
+ * 関連動画 もっと見る max limit
+ *
+ * @var int
+ */
+	const MAX_LIMIT_RELATED_VIDEO = 100;
+
+/**
  * use model
  *
  * @var array

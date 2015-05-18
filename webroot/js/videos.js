@@ -39,6 +39,27 @@ NetCommonsApp.controller('Videos',
 
 
 /**
+ * 関連動画 Javascript
+ *
+ * @param {string} Controller name
+ * @param {function($scope)} Controller
+ */
+NetCommonsApp.controller('RelatedVideos',
+    function($scope) {
+
+      /**
+       * もっと見る
+       *
+       * @return {void}
+       */
+      $scope.more = function() {
+        $('div.related-video:hidden').removeClass('hidden');
+        $('button.related-video-more').hide(0);
+      };
+    });
+
+
+/**
  * VideoFrameSettings Javascript
  *
  * @param {string} Controller name
