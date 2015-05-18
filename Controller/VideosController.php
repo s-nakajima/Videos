@@ -81,78 +81,39 @@ class VideosController extends VideosAppController {
 /**
  * 一覧表示
  *
- * @param int $frameId frames.id
- * @param int $displayOrder video_frame_setting.display_order
- * @param int $displayNumber video_frame_setting.display_number
  * @return void
  */
-	public function index($frameId, $displayOrder = null, $displayNumber = null) {
-		// 表示系(並び順、表示件数)の設定取得
-		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
-			$this->viewVars['frameKey'],
-			$this->viewVars['roomId']
-		);
-		$results['videoFrameSetting'] = $videoFrameSetting['VideoFrameSetting'];
-
-		// フレーム取得
-		$conditions = array(
-			$this->Frame->alias . '.key' => $this->viewVars['frameKey'],
-		);
-		$frame = $this->Frame->find('first', array(
-			'recursive' => 0,
-			'conditions' => $conditions,
-		));
-		$results['frame'] = $frame['Frame'];
-
-		// 並び順
-		if (empty($displayOrder)) {
-			$results['displayOrder'] = $videoFrameSetting['VideoFrameSetting']['display_order'];
-		} else {
-			$results['displayOrder'] = $displayOrder;
-		}
-		// 表示件数
-		if (empty($displayNumber)) {
-			$results['displayNumber'] = $videoFrameSetting['VideoFrameSetting']['display_number'];
-		} else {
-			$results['displayNumber'] = $displayNumber;
-		}
-
-		// 利用系(コメント利用、高く評価を利用等)の設定取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
-			$this->viewVars['blockKey'],
-			$this->viewVars['roomId']
-		);
-		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
-
-		// 暫定対応しない(;'∀')
-		// blockテーブルのpublic_typeによって 表示・非表示する処理は、6/15以降に対応する
-
-		if (!empty($this->viewVars['blockId'])) {
-			// ページャーで複数動画取得
-			$conditions = array(
-				'Block.id = ' . $this->viewVars['blockId'],
-				'Block.id = ' . $this->Video->alias . '.block_id',
-				'Block.language_id = ' . $this->viewVars['languageId'],
-				'Block.room_id = ' . $this->viewVars['roomId'],
-			);
-			if (! $this->viewVars['contentEditable']) {
-				$conditions[] = $this->Video->alias . '.status = ' . NetCommonsBlockComponent::STATUS_PUBLISHED;
-			}
-
-			$this->Paginator->settings = array(
-				$this->Video->alias => array(
-					'order' => $this->Video->alias . '.id DESC',
-					'conditions' => $conditions,
-					'limit' => $results['displayNumber']
-				)
-			);
-			$results['videos'] = $this->Paginator->paginate($this->Video->alias);
-		}
-
-		// キーをキャメル変換
-		$results = $this->camelizeKeyRecursive($results);
+	public function index() {
+		// 一覧取得
+		$results = $this->__list();
 
 		$this->set($results);
+	}
+
+/**
+ * tag別一覧
+ *
+ * @return void
+ */
+	public function tag() {
+		// indexとのちがいはtagIdでの絞り込みだけ
+		$tagId = $this->_getNamed('id', 0);
+
+		// カテゴリ名をタイトルに
+		$tag = $this->Video->getTagByTagId($tagId);
+		$this->set('listTitle', __d('blogs', 'Tag') . ':' . $tag['Tag']['name']);
+
+		$conditions = array(
+			'Tag.id' => $tagId // これを有効にするにはentry_tag_linkもJOINして検索か。
+		);
+
+		// 一覧取得
+		$results = $this->__list($conditions);
+
+		$this->set($results);
+
+		// 一覧画面表示
+		$this->render('index');
 	}
 
 /**
@@ -387,6 +348,7 @@ class VideosController extends VideosAppController {
 
 		// キーをキャメル変換
 		$results = $this->camelizeKeyRecursive($results);
+
 		return $results;
 	}
 
@@ -410,4 +372,86 @@ class VideosController extends VideosAppController {
 		}
 		return $data;
 	}
+
+/**
+ * 一覧取得
+ *
+ * @param array $extraConditions 追加conditions
+ * @return array 動画一覧
+ */
+	private function __list($extraConditions = array()) {
+		// 表示系(並び順、表示件数)の設定取得
+		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
+			$this->viewVars['frameKey'],
+			$this->viewVars['roomId']
+		);
+		$results['videoFrameSetting'] = $videoFrameSetting['VideoFrameSetting'];
+
+		// フレーム取得
+		$conditions = array(
+			$this->Frame->alias . '.key' => $this->viewVars['frameKey'],
+		);
+		$frame = $this->Frame->find('first', array(
+			'recursive' => 0,
+			'conditions' => $conditions,
+		));
+		$results['frame'] = $frame['Frame'];
+
+		$displayOrder = $this->_getNamed('display_order');
+		$displayNumber = $this->_getNamed('display_number');
+
+		// 並び順
+		if (empty($displayOrder)) {
+			$results['displayOrder'] = $videoFrameSetting['VideoFrameSetting']['display_order'];
+		} else {
+			$results['displayOrder'] = $displayOrder;
+		}
+		// 表示件数
+		if (empty($displayNumber)) {
+			$results['displayNumber'] = $videoFrameSetting['VideoFrameSetting']['display_number'];
+		} else {
+			$results['displayNumber'] = $displayNumber;
+		}
+
+		// 利用系(コメント利用、高く評価を利用等)の設定取得
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
+			$this->viewVars['blockKey'],
+			$this->viewVars['roomId']
+		);
+		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
+
+		// 暫定対応しない(;'∀')
+		// blockテーブルのpublic_typeによって 表示・非表示する処理は、6/15以降に対応する
+
+		if (!empty($this->viewVars['blockId'])) {
+			// ページャーで複数動画取得
+			$conditions = array(
+				'Block.id = ' . $this->viewVars['blockId'],
+				'Block.id = ' . $this->Video->alias . '.block_id',
+				'Block.language_id = ' . $this->viewVars['languageId'],
+				'Block.room_id = ' . $this->viewVars['roomId'],
+			);
+			if (! $this->viewVars['contentEditable']) {
+				$conditions[] = $this->Video->alias . '.status = ' . NetCommonsBlockComponent::STATUS_PUBLISHED;
+			}
+			if ($extraConditions) {
+				$conditions = Hash::merge($conditions, $extraConditions);
+			}
+
+			$this->Paginator->settings = array(
+				$this->Video->alias => array(
+					'order' => $this->Video->alias . '.id DESC',
+					'conditions' => $conditions,
+					'limit' => $results['displayNumber']
+				)
+			);
+			$results['videos'] = $this->Paginator->paginate($this->Video->alias);
+		}
+
+		// キーをキャメル変換
+		$results = $this->camelizeKeyRecursive($results);
+
+		return $results;
+	}
+
 }

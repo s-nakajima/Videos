@@ -27,6 +27,11 @@
 </div>
 */ ?>
 
+<?php /* タグ検索時、タイトル表示 */ ?>
+<?php if (!empty($listTitle)) : ?>
+	<h1><?php echo $listTitle ?></h1>
+<?php endif; ?>
+
 <?php /* ブロック未選択 */ ?>
 <?php if (empty($frame['blockId'])) : ?>
 
@@ -52,48 +57,6 @@
 	<?php if ($this->Paginator->param('count') == 0) : ?>
 		<div><?php echo __d('videos', '現在公開されている動画はありません。'); ?></div>
 	<?php else : ?>
-		<p>
-		<div class="row">
-			<div class="col-xs-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<?php echo $this->Form->create('Videos', array(
-							'name' => 'form',
-							'url' => '/videos/videos/index/' . $frameId,
-							'type' => 'get',
-							'novalidate' => true
-						)); ?>
-
-						<div class="input-group">
-							<label class="sr-only"><?php echo __d('videos', 'Search'); ?></label>
-							<?php echo $this->Form->input('search', array(
-								'label' => false,
-								'class' => 'form-control',
-								'placeholder' => __d('videos', 'Search'),
-								'autofocus' => true,
-							)); ?>
-							<span class="input-group-btn">
-								<span class="nc-tooltip" tooltip="<?php echo __d('videos', 'Search'); ?>">
-									<?php echo $this->Form->button('<span class="glyphicon glyphicon-search" aria-hidden="true"></span>', array(
-										'class' => 'btn btn-primary',
-									)); ?>
-								</span>
-							</span>
-						</div>
-
-						<div class="checkbox">
-							<label><input type="checkbox" checked><?php echo __d('videos', 'Title'); ?></label>
-							<label><input type="checkbox" checked><?php echo __d('videos', 'Description'); ?></label>
-							<label><input type="checkbox" checked><?php echo __d('videos', 'Tag'); ?></label>
-						</div>
-
-						<?php echo $this->Form->end(); ?>
-					</div>
-				</div>
-			</div>
-		</div>
-		</p>
-
 		<?php /* 件数、ソート順、表示件数 */ ?>
 		<p>
 		<div class="row">

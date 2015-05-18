@@ -92,4 +92,17 @@ class VideosAppController extends AppController {
 
 		$this->set('blockSettingTabs', $blockSettingTabs);
 	}
+
+/**
+ * namedパラメータ取得
+ *
+ * @param string $name namedパラメータ名
+ * @param null $default パラメータが存在しなかったときのデフォルト値
+ * @return int|string
+ */
+	protected function _getNamed($name, $default = null) {
+		$value = isset($this->request->params['named'][$name]) ? $this->request->params['named'][$name] : $default;
+		return $value;
+	}
+
 }
