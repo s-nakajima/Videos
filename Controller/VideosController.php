@@ -138,29 +138,28 @@ class VideosController extends VideosAppController {
  * @return CakeResponse
  */
 	public function view($frameId, $videoKey = null) {
+		// ワークフロー表示条件 取得
+		$conditions = $this->__getWorkflowConditions($videoKey);
+
 		//動画の取得
-		$video = $this->Video->getVideo(
-			$videoKey,
-			$this->viewVars['languageId'],
-			$this->viewVars['contentEditable']
-		);
+		$video = $this->Video->getVideo($conditions);
 		$results['video'] = $video;
 
-		//関連動画の取得
-		$relatedVideos = $this->Video->getVideos(
-			$video['Video']['id'],
-			$video['Video']['created_user'],
-			$this->viewVars['blockId'],
-			$this->viewVars['contentEditable']
-		);
-		$results['relatedVideos'] = $relatedVideos;
+		// 一覧条件で再取得
+		$workflowConditions = $this->__getWorkflowConditions();
 
-		// 表示系(並び順、表示件数)の設定取得
-		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
-			$this->viewVars['frameKey'],
-			$this->viewVars['roomId']
+		//関連動画の取得条件
+		$conditions = array(
+			$this->Video->alias . '.created_user' => $video['Video']['created_user'],
+			'NOT' => array(
+				$this->Video->alias . '.id' => $video['Video']['id'],
+			),
 		);
-		$results['videoFrameSetting'] = $videoFrameSetting['VideoFrameSetting'];
+		$conditions = Hash::merge($workflowConditions, $conditions);
+
+		//関連動画の取得
+		$relatedVideos = $this->Video->getVideos($conditions);
+		$results['relatedVideos'] = $relatedVideos;
 
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
@@ -259,24 +258,25 @@ class VideosController extends VideosAppController {
 			// 保存dataの準備
 			$data = $this->__readySaveData($this->data);
 
-			//取得
-			$video = $this->Video->getVideo(
-				$videoKey,
-				$this->viewVars['languageId'],
-				$this->viewVars['contentEditable']
-			);
+			// ワークフロー表示条件 取得
+			$conditions = $this->__getWorkflowConditions($videoKey);
+
+			//動画の取得
+			$video = $this->Video->getVideo($conditions);
+
+			// ワークフロー対応 idを取り除く
+			unset($video['Video']['id']);
 
 			// 更新データ作成
 			$data = Hash::merge(
 				$video,
 				$data,
 				array($this->Video->alias => array(
-					'id' => $results['video']['id'],
 					'status' => $status,
 				))
 			);
 
-			// 登録
+			// 登録（ワークフロー対応のため、編集でも常にinsert）
 			$this->Video->saveVideo($data, false);
 			if (!$this->handleValidationError($this->Video->validationErrors)) {
 				$this->log($this->validationErrors, 'debug');
@@ -315,12 +315,13 @@ class VideosController extends VideosAppController {
 				'content_key' => null,
 			));
 		} else {
+
+			// ワークフロー表示条件 取得
+			$conditions = $this->__getWorkflowConditions($videoKey);
+
 			//取得
-			$video = $this->Video->getVideo(
-				$videoKey,
-				$this->viewVars['languageId'],
-				$this->viewVars['contentEditable']
-			);
+			$video = $this->Video->getVideo($conditions);
+
 			$results['video'] = $video['Video'];
 
 			// タグ対応
@@ -439,16 +440,10 @@ class VideosController extends VideosAppController {
 		// blockテーブルのpublic_typeによって 表示・非表示する処理は、6/15以降に対応する
 
 		if (!empty($this->viewVars['blockId'])) {
-			// ページャーで複数動画取得
-			$conditions = array(
-				'Block.id = ' . $this->viewVars['blockId'],
-				'Block.id = ' . $this->Video->alias . '.block_id',
-				'Block.language_id = ' . $this->viewVars['languageId'],
-				'Block.room_id = ' . $this->viewVars['roomId'],
-			);
-			if (! $this->viewVars['contentEditable']) {
-				$conditions[] = $this->Video->alias . '.status = ' . NetCommonsBlockComponent::STATUS_PUBLISHED;
-			}
+
+			// ワークフロー表示条件 取得
+			$conditions = $this->__getWorkflowConditions();
+
 			if ($extraConditions) {
 				$conditions = Hash::merge($conditions, $extraConditions);
 			}
@@ -467,6 +462,53 @@ class VideosController extends VideosAppController {
 		$results = $this->camelizeKeyRecursive($results);
 
 		return $results;
+	}
+
+/**
+ * ワークフロー表示条件 取得
+ *
+ * @param string $videoKey Videos.key
+ * @return array Conditions data
+ */
+	private function __getWorkflowConditions($videoKey = null) {
+		//ゲスト
+		$activeConditions = array(
+			$this->Video->alias . '.is_active' => true,
+		);
+		$latestConditons = array();
+
+		//コンテンツ編集 許可あり
+		if ($this->viewVars['contentEditable']) {
+			$activeConditions = array();
+			$latestConditons = array(
+				$this->Video->alias . '.is_latest' => true,
+			);
+
+			//コンテンツ作成 許可あり
+		} elseif ($this->viewVars['contentCreatable']) {
+			$activeConditions = array(
+				$this->Video->alias . '.is_active' => true,
+				$this->Video->alias . '.created_user !=' => (int)$this->viewVars['userId'],
+			);
+			$latestConditons = array(
+				$this->Video->alias . '.is_latest' => true,
+				$this->Video->alias . '.created_user' => (int)$this->viewVars['userId'],
+			);
+		}
+
+		$conditions = array(
+			'Block.id = ' . $this->viewVars['blockId'],
+			'Block.language_id = ' . $this->viewVars['languageId'],
+			'Block.room_id = ' . $this->viewVars['roomId'],
+			'OR' => array($activeConditions, $latestConditons)
+		);
+
+		// 動画1件 取得条件
+		if (!empty($videoKey)) {
+			$conditions[$this->Video->alias . '.key'] = $videoKey;
+		}
+
+		return $conditions;
 	}
 
 }

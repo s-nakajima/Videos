@@ -126,34 +126,19 @@
 			</div>
 			<div>
 				<?php /* Tags */ ?>
-				<?php foreach ($video['tag'] as $tag): ?>
-					<?php echo $this->Html->link($tag['name'], array(
-						'controller' => 'videos',
-						'action' => 'tag',
-						$frameId,
-						'id' => $tag['id'],
-					),
-					array('class' => 'label label-default')); ?>
-				<?php endforeach; ?>
+				<?php if (isset($video['tag'])) : ?>
+					<?php foreach ($video['tag'] as $tag): ?>
+						<?php echo $this->Html->link($tag['name'], array(
+							'controller' => 'videos',
+							'action' => 'tag',
+							$frameId,
+							'id' => $tag['id'],
+						),
+						array('class' => 'label label-default')); ?>
+					<?php endforeach; ?>
+				<?php endif; ?>
 			</div>
 		</div>
-	</div>
-
-	<?php /* コンテンツコメント */ ?>
-	<div class="col-xs-12">
-		<?php /* コメントを利用しない or (コメント0件 and コメント投稿できない) */ ?>
-		<?php if (!$videoBlockSetting['useComment'] || (!$contentComments && !$contentCommentCreatable)): ?>
-			<?php /* 表示しない */ ?>
-		<?php else : ?>
-			<div class="panel panel-default">
-				<?php echo $this->element('ContentComments.form', array(
-					'formName' => 'Video',
-				)); ?>
-				<?php echo $this->element('ContentComments.index', array(
-					'formName' => 'Video',
-				)); ?>
-			</div>
-		<?php endif; ?>
 	</div>
 
 	<?php /* 関連動画 */ ?>
@@ -233,6 +218,23 @@
 			</div>
 
 		</div>
+	</div>
+
+	<?php /* コンテンツコメント */ ?>
+	<div class="col-xs-12">
+		<?php /* コメントを利用しない or (コメント0件 and コメント投稿できない) */ ?>
+		<?php if (!$videoBlockSetting['useComment'] || (!$contentComments && !$contentCommentCreatable)): ?>
+			<?php /* 表示しない */ ?>
+		<?php else : ?>
+			<div class="panel panel-default">
+				<?php echo $this->element('ContentComments.form', array(
+					'formName' => 'Video',
+				)); ?>
+				<?php echo $this->element('ContentComments.index', array(
+					'formName' => 'Video',
+				)); ?>
+			</div>
+		<?php endif; ?>
 	</div>
 
 </div>

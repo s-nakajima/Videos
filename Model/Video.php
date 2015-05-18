@@ -185,20 +185,10 @@ class Video extends VideosAppModel {
 /**
  * Videoデータ取得
  *
- * @param string $key videos.key
- * @param int $languageId languages.id
- * @param bool $contentEditable true can edit the content, false not can edit the content.
+ * @param array $conditions Conditions data
  * @return array
  */
-	public function getVideo($key, $languageId, $contentEditable) {
-		$conditions = array(
-			$this->alias . '.key' => $key,
-			'Block.language_id' => $languageId,
-		);
-		if (! $contentEditable) {
-			$conditions[$this->alias . '.status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-		}
-
+	public function getVideo($conditions = array()) {
 		$video = $this->find('first', array(
 			'recursive' => 1,
 			'conditions' => $conditions,
@@ -211,24 +201,10 @@ class Video extends VideosAppModel {
 /**
  * 複数Videoデータ取得
  *
- * @param int $videoId videos.id
- * @param int $createdUser videos.createdUser
- * @param int $blockId blocks.id
- * @param bool $contentEditable true can edit the content, false not can edit the content.
+ * @param array $conditions Conditions data
  * @return array
  */
-	public function getVideos($videoId, $createdUser, $blockId, $contentEditable) {
-		$conditions = array(
-			$this->alias . '.block_id' => $blockId,
-			$this->alias . '.created_user' => $createdUser,
-			'NOT' => array(
-				$this->alias . '.id' => $videoId,
-			),
-		);
-		if (! $contentEditable) {
-			$conditions[$this->alias . '.status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-		}
-
+	public function getVideos($conditions = array()) {
 		$videos = $this->find('all', array(
 			'recursive' => 1,
 			'conditions' => $conditions,
