@@ -211,15 +211,19 @@ class Video extends VideosAppModel {
 /**
  * 複数Videoデータ取得
  *
+ * @param int $videoId videos.id
  * @param int $createdUser videos.createdUser
  * @param int $blockId blocks.id
  * @param bool $contentEditable true can edit the content, false not can edit the content.
  * @return array
  */
-	public function getVideos($createdUser, $blockId, $contentEditable) {
+	public function getVideos($videoId, $createdUser, $blockId, $contentEditable) {
 		$conditions = array(
 			$this->alias . '.block_id' => $blockId,
 			$this->alias . '.created_user' => $createdUser,
+			'NOT' => array(
+				$this->alias . '.id' => $videoId,
+			),
 		);
 		if (! $contentEditable) {
 			$conditions[$this->alias . '.status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;

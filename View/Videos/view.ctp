@@ -30,8 +30,8 @@
 
 <p>
 <div class="row">
-	<?php /* 左側 */ ?>
-	<div class="col-lg-7 col-xs-12">
+	<?php /* 動画 */ ?>
+	<div class="col-xs-12">
 		<div style="padding-bottom: 20px;">
 			<?php /* 動画プレイヤー */ ?>
 			<?php echo $this->element('Videos/player', array(
@@ -137,12 +137,14 @@
 				<?php endforeach; ?>
 			</div>
 		</div>
+	</div>
 
+	<?php /* コンテンツコメント */ ?>
+	<div class="col-xs-12">
 		<?php /* コメントを利用しない or (コメント0件 and コメント投稿できない) */ ?>
 		<?php if (!$videoBlockSetting['useComment'] || (!$contentComments && !$contentCommentCreatable)): ?>
 			<?php /* 表示しない */ ?>
 		<?php else : ?>
-			<?php /* コンテンツコメント */ ?>
 			<div class="panel panel-default">
 				<?php echo $this->element('ContentComments.form', array(
 					'formName' => 'Video',
@@ -154,11 +156,9 @@
 		<?php endif; ?>
 	</div>
 
-	<?php /* 右側 */ ?>
-	<div class="col-lg-5 col-xs-12">
+	<?php /* 関連動画 */ ?>
+	<div class="col-xs-12">
 		<div id="nc-related-videos-<?php echo (int)$frameId; ?>" ng-controller="RelatedVideos">
-
-			<?php /* 関連動画 */ ?>
 			<?php $i = 0; ?>
 			<?php foreach ($relatedVideos as $relatedVideo) : ?>
 			<div class="row related-video <?php echo $i >= VideosController::START_LIMIT_RELATED_VIDEO ? 'hidden' : '' ?>">

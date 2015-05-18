@@ -148,6 +148,7 @@ class VideosController extends VideosAppController {
 
 		//関連動画の取得
 		$relatedVideos = $this->Video->getVideos(
+			$video['Video']['id'],
 			$video['Video']['created_user'],
 			$this->viewVars['blockId'],
 			$this->viewVars['contentEditable']
