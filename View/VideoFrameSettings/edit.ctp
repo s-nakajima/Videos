@@ -19,7 +19,7 @@
 				'controller' => 'VideoFrameSettings',
 				'action' => 'edit' . '/' . $frameId,
 				'callback' => 'Videos.VideoFrameSettings/edit_form',
-				'cancel' => $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null)
+				'cancelUrl' => $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null)
 			)); ?>
 	</div>
 </div>
