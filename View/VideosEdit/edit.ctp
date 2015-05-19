@@ -18,15 +18,9 @@
 	 ng-controller="Videos"
 	 ng-init="initialize(<?php echo h(json_encode($video)); ?>)">
 
-	<?php /*echo $this->element('plugin_name', array(
-		"pluginName" => __d('videos', 'Plugin name'),
-	));*/ ?>
-
 	<div class="modal-body">
 
-		<?php echo $this->element('Videos/tab', array(
-			"tabName" => __d('videos', 'Video edit'),
-		)); ?>
+		<h1><?php echo __d('videos', 'Video edit'); ?></h1>
 
 		<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>
 		<?php echo $this->Form->create('Video', array(
@@ -35,10 +29,10 @@
 			'type' => 'file',
 		)); ?>
 
-			<div class="panel panel-default" style="border-top: none; border-radius: 0;">
+			<div class="panel panel-default">
 				<div class="panel-body has-feedback">
 
-					<?php echo $this->element('Videos/add_form'); ?>
+					<?php echo $this->element('VideosEdit/edit_form'); ?>
 
 					<hr />
 

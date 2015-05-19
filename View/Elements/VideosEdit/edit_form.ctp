@@ -22,7 +22,7 @@
 </div>
 
 <?php /* 'required' => 'required'まだ */ ?>
-<?php echo $this->element('Videos/file', array(
+<?php echo $this->element('VideosEdit/file', array(
 	'pluginName' => 'Videos',
 	'label' => __d('videos', 'Video file') . $this->element('NetCommons.required'),
 	'field' => Video::VIDEO_FILE_FIELD,
@@ -35,7 +35,7 @@
 	'deleteEnable' => false,
 )); ?>
 
-<?php echo $this->element('Videos/file', array(
+<?php echo $this->element('VideosEdit/file', array(
 	'pluginName' => 'Videos',
 	'label' => __d('videos', 'Thumbnail') . $this->element('NetCommons.required'),
 	'field' => Video::THUMBNAIL_FIELD,
@@ -45,6 +45,7 @@
 	'index' => 1,
 	'helpBlockMessage' => __d('videos', 'サムネイルは自動で作成できます。変更したい場合に登録してください。'),
 	'file' => $thumbnail,
+	'deleteEnable' => false,
 )); ?>
 
 <label for="description">
