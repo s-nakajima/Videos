@@ -45,7 +45,7 @@
 		<div class="row">
 			<div class="col-xs-12 text-right">
 				<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Add'); ?>">
-					<a href="<?php echo $this->Html->url('/videos/videos/add/' . $frameId); ?>" class="btn btn-success">
+					<a href="<?php echo $this->Html->url('/videos/videos_edit/add/' . $frameId); ?>" class="btn btn-success">
 						<span class="glyphicon glyphicon-plus"> </span>
 					</a>
 				</span>

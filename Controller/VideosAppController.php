@@ -105,4 +105,50 @@ class VideosAppController extends AppController {
 		return $value;
 	}
 
+/**
+ * ワークフロー表示条件 取得
+ *
+ * @param string $videoKey Videos.key
+ * @return array Conditions data
+ */
+	protected function _getWorkflowConditions($videoKey = null) {
+		//ゲスト
+		$activeConditions = array(
+			$this->Video->alias . '.is_active' => true,
+		);
+		$latestConditons = array();
+
+		//コンテンツ編集 許可あり
+		if ($this->viewVars['contentEditable']) {
+			$activeConditions = array();
+			$latestConditons = array(
+				$this->Video->alias . '.is_latest' => true,
+			);
+
+			//コンテンツ作成 許可あり
+		} elseif ($this->viewVars['contentCreatable']) {
+			$activeConditions = array(
+				$this->Video->alias . '.is_active' => true,
+				$this->Video->alias . '.created_user !=' => (int)$this->viewVars['userId'],
+			);
+			$latestConditons = array(
+				$this->Video->alias . '.is_latest' => true,
+				$this->Video->alias . '.created_user' => (int)$this->viewVars['userId'],
+			);
+		}
+
+		$conditions = array(
+			'Block.id = ' . $this->viewVars['blockId'],
+			'Block.language_id = ' . $this->viewVars['languageId'],
+			'Block.room_id = ' . $this->viewVars['roomId'],
+			'OR' => array($activeConditions, $latestConditons)
+		);
+
+		// 動画1件 取得条件
+		if (!empty($videoKey)) {
+			$conditions[$this->Video->alias . '.key'] = $videoKey;
+		}
+
+		return $conditions;
+	}
 }

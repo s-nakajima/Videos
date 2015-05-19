@@ -19,7 +19,7 @@
 	<div class="col-xs-12 text-right">
 		<?php if ($contentEditable): ?>
 			<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
-				<a href="<?php echo $this->Html->url('/videos/videos/edit/' . $frameId . '/' . $video['video']['key']); ?>" class="btn btn-primary">
+				<a href="<?php echo $this->Html->url('/videos/videos_edit/edit/' . $frameId . '/' . $video['video']['key']); ?>" class="btn btn-primary">
 					<span class="glyphicon glyphicon-edit"> </span>
 				</a>
 			</span>
@@ -143,6 +143,7 @@
 
 	<?php /* 関連動画 */ ?>
 	<div class="col-xs-12">
+		<p>
 		<div id="nc-related-videos-<?php echo (int)$frameId; ?>" ng-controller="RelatedVideos">
 			<?php $i = 0; ?>
 			<?php foreach ($relatedVideos as $relatedVideo) : ?>
@@ -218,6 +219,7 @@
 			</div>
 
 		</div>
+		</p>
 	</div>
 
 	<?php /* コンテンツコメント */ ?>
