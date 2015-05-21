@@ -1,6 +1,6 @@
 <?php
 /**
- * VideoBlockSettings Controller
+ * ブロック設定 Controller
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -12,7 +12,7 @@
 App::uses('VideosAppController', 'Videos.Controller');
 
 /**
- * VideoBlockSettings Controller
+ * ブロック設定 Controller
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Controller
@@ -46,21 +46,10 @@ class BlocksController extends VideosAppController {
 					'add',
 					'edit',
 					'delete',
-					//'video',
 				)
 			),
 		),
 		'Paginator',
-	);
-
-/**
- * use helpers
- *
- * @var array
- */
-	public $helpers = array(
-		//'NetCommons.Token',
-		//'NetCommons.Date',
 	);
 
 /**
@@ -305,13 +294,5 @@ class BlocksController extends VideosAppController {
 			return;
 		}
 		$this->throwBadRequest();
-	}
-
-/**
- * 動画一覧
- *
- * @return CakeResponse
- */
-	public function video() {
 	}
 }

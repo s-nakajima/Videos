@@ -11,7 +11,7 @@
 ?>
 
 <style>
-	@media (min-width: 800px) {
+	@media (min-width: 1170px) {
 		.videos-row-height {
 			height: 190px;
 		}
@@ -60,12 +60,12 @@
 		<?php /* 件数、ソート順、表示件数 */ ?>
 		<p>
 		<div class="row">
-			<div class="col-xs-3">
+			<div class="col-sm-3 col-xs-4">
 				<div class="form-inline text-left text-nowrap">
 					<strong><?php echo sprintf(__d('videos', '%s items'), $this->Paginator->param('count')); ?></strong>
 				</div>
 			</div>
-			<div class="col-xs-9">
+			<div class="col-sm-9 col-xs-8">
 				<div class="form-inline text-right">
 
 					<div class="form-group">
@@ -113,67 +113,83 @@
 		<?php /* 動画一覧 */ ?>
 		<div class="row">
 			<?php foreach ($videos as $video) : ?>
-				<div class="col-md-4 col-xs-12">
-					<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
-						<?php /* サムネイル */ ?>
-						<div class="row videos-row-height">
-							<div class="col-md-12 col-xs-4">
-								<div>
-									<div>
-										<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $video['video']['key']); ?>">
-											<?php if (isset($video['fileThumbnail']['urlThumbnail'])) : ?>
-												<?php echo $this->Html->image($video['fileThumbnail']['urlThumbnail'], array('alt' => $video['video']['title'])); ?>
-											<?php else : ?>
-												<?php /* サムネイルなし */ ?>
-												<?php echo $this->Html->image('/videos/img/noImage.png', array('alt' => $video['video']['title'])); ?>
-											<?php endif; ?>
-										</a>
-									</div>
-									<?php /* 動画時間 */ ?>
-									<div style="margin-top: -18px; margin-left: 65px;">
-										<?php
-											$videoTime = $video['video']['videoTime'];
-											$videoTime = floor($videoTime / 60) . ":" . str_pad(floor($videoTime - 60 * floor($videoTime / 60)), 2, '0');
-										?>
-										<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
-											<?php echo $videoTime ?>
-										</span>
-									</div>
-								</div>
-							</div>
-							<?php /* タイトル、投稿者、各種回数 */ ?>
-							<div class="col-md-12 col-xs-8">
-								<small>
-									<div>
-										<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $video['video']['key']); ?>">
-											<strong><?php echo $this->Text->Truncate($video['video']['title'], VIDEO::SHORT_TITLE_LENGTH); ?></strong>
-										</a>
-									</div>
-									<span style="padding-right: 15px;"><?php echo __d('videos', '投稿者'); ?></span><a href="#"><?php echo $video['userAttributesUser']['value'] ?></a><br />
-									<span style="padding-right: 15px;">
-										<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
-									</span>
-									<?php /* コメント数、暫定対応(;'∀') */ ?>
-									<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php //echo $video[0]['commentsNumber'] ?>0<br />
+				<div class="col-lg-4">
+					<?php /* サムネイル */ ?>
+					<div class="row videos-row-height" style="border: 1px solid #ddd; padding: 5px; margin: 0px 0px 5px 0px;">
+						<div class="media">
 
-									<?php if ($videoBlockSetting['useLike']) : ?>
-										<?php /* 高く評価、暫定対応(;'∀') */ ?>
-										<span style="padding-right: 15px;">
-											<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php //echo $video[0]['likesNumber'] ?>0
-										</span>
-										<?php if ($videoBlockSetting['useUnlike']) : ?>
-											<?php /* 低く評価、暫定対応(;'∀') */ ?>
-											<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php //echo $video[0]['unlikesNumber'] ?>0
-										<?php endif; ?>
-									<?php endif; ?>
-								</small>
+							<div class="pull-left">
 								<div>
-									<?php /* ステータス */ ?>
-									<?php echo $this->element('NetCommons.status_label', array(
-										'status' => $video['video']['status']
-									)); ?>
+									<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $video['video']['key']); ?>">
+										<?php if (isset($video['fileThumbnail']['urlThumbnail'])) : ?>
+											<?php echo $this->Html->image($video['fileThumbnail']['urlThumbnail'], array(
+												'alt' => $video['video']['title'],
+												'style' => 'width: 100%; height: auto;'
+											)); ?>
+										<?php else : ?>
+											<?php /* サムネイルなし */ ?>
+											<?php echo $this->Html->image('/videos/img/noImage.png', array(
+												'alt' => $video['video']['title'],
+												'style' => 'width: 100%; height: auto;'
+											)); ?>
+										<?php endif; ?>
+									</a>
+								</div>
+								<?php /* 動画時間 */ ?>
+								<div style="margin-top: -18px; margin-left: 65px;">
+									<?php
+										$videoTime = $video['video']['videoTime'];
+										$videoTime = floor($videoTime / 60) . ":" . str_pad(floor($videoTime - 60 * floor($videoTime / 60)), 2, '0');
+									?>
+									<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
+										<?php echo $videoTime ?>
+									</span>
 								</div>
 							</div>
+
+							<?php /* lgサイズの時だけ改行させる */ ?>
+							<div class="visible-lg clearfix"></div>
+
+							<div class="media-body">
+								<div class="row">
+									<?php /* タイトル、投稿者、各種回数 */ ?>
+									<div class="col-xs-12">
+										<small>
+											<div>
+												<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $video['video']['key']); ?>">
+													<?php /* lgサイズの時だけ25文字でタイトル表示。それ以外は全文字表示 */ ?>
+													<strong class="visible-lg"><?php echo $this->Text->Truncate($video['video']['title'], VIDEO::SHORT_TITLE_LENGTH); ?></strong>
+													<strong class="hidden-lg"><?php echo $video['video']['title']; ?></strong>
+												</a>
+											</div>
+											<span style="padding-right: 15px;"><?php echo __d('videos', '投稿者'); ?></span><a href="#"><?php echo $video['userAttributesUser']['value'] ?></a><br />
+											<span style="padding-right: 15px;">
+												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
+											</span>
+											<?php /* コメント数、暫定対応(;'∀') */ ?>
+											<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php //echo $video[0]['commentsNumber'] ?>0<br />
+
+											<?php if ($videoBlockSetting['useLike']) : ?>
+												<?php /* 高く評価、暫定対応(;'∀') */ ?>
+												<span style="padding-right: 15px;">
+													<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php //echo $video[0]['likesNumber'] ?>0
+												</span>
+												<?php if ($videoBlockSetting['useUnlike']) : ?>
+													<?php /* 低く評価、暫定対応(;'∀') */ ?>
+													<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php //echo $video[0]['unlikesNumber'] ?>0
+												<?php endif; ?>
+											<?php endif; ?>
+										</small>
+										<div>
+											<?php /* ステータス */ ?>
+											<?php echo $this->element('NetCommons.status_label', array(
+												'status' => $video['video']['status']
+											)); ?>
+										</div>
+									</div>
+								</div>
+							</div>
+
 						</div>
 					</div>
 				</div>

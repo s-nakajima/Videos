@@ -28,9 +28,8 @@
 </div>
 </p>
 
-<p>
+<?php /* 動画 */ ?>
 <div class="row">
-	<?php /* 動画 */ ?>
 	<div class="col-xs-12">
 		<div style="padding-bottom: 20px;">
 			<?php /* 動画プレイヤー */ ?>
@@ -140,8 +139,10 @@
 			</div>
 		</div>
 	</div>
+</div>
 
-	<?php /* 関連動画 */ ?>
+<?php /* 関連動画 */ ?>
+<div class="row">
 	<div class="col-xs-12">
 		<p>
 		<div id="nc-related-videos-<?php echo (int)$frameId; ?>" ng-controller="RelatedVideos">
@@ -157,10 +158,14 @@
 									<div>
 										<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $relatedVideo['video']['key']); ?>">
 											<?php if (isset($relatedVideo['fileThumbnail']['urlThumbnail'])) : ?>
-												<?php echo $this->Html->image($relatedVideo['fileThumbnail']['urlThumbnail'], array('alt' => $relatedVideo['video']['title'])); ?>
+												<?php echo $this->Html->image($relatedVideo['fileThumbnail']['urlThumbnail'], array(
+													'alt' => $relatedVideo['video']['title'],
+												)); ?>
 											<?php else : ?>
 												<?php /* サムネイルなし */ ?>
-												<?php echo $this->Html->image('/videos/img/noImage.png', array('alt' => $relatedVideo['video']['title'])); ?>
+												<?php echo $this->Html->image('/videos/img/noImage.png', array(
+													'alt' => $relatedVideo['video']['title'],
+												)); ?>
 											<?php endif; ?>
 										</a>
 									</div>
@@ -221,8 +226,10 @@
 		</div>
 		</p>
 	</div>
+</div>
 
-	<?php /* コンテンツコメント */ ?>
+<?php /* コンテンツコメント */ ?>
+<div class="row">
 	<div class="col-xs-12">
 		<?php /* コメントを利用しない or (コメント0件 and コメント投稿できない) */ ?>
 		<?php if (!$videoBlockSetting['useComment'] || (!$contentComments && !$contentCommentCreatable)): ?>
@@ -238,12 +245,9 @@
 			</div>
 		<?php endif; ?>
 	</div>
-
 </div>
-</p>
 
 <?php /* 下部ボタン */ ?>
-<p>
 <div class="row">
 	<div class="col-xs-12 text-center">
 		<a href="<?php echo $this->Html->url('/videos/videos/index/' . $frameId) ?>" class="btn btn-default">
@@ -253,4 +257,3 @@
 	<div class="col-xs-6 text-right">
 	</div>
 </div>
-</p>

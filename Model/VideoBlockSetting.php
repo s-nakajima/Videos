@@ -339,6 +339,8 @@ class VideoBlockSetting extends VideosAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
+			// いいね 削除 対応まだ(;'∀')
+
 			$dataSource->commit();
 
 		} catch (InternalErrorException $ex) {
