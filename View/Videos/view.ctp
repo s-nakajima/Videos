@@ -186,7 +186,7 @@
 								<small>
 									<div>
 										<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $relatedVideo['video']['key']); ?>">
-											<strong><?php echo $this->Text->Truncate($relatedVideo['video']['title'], VIDEO::SHORT_TITLE_LENGTH); ?></strong>
+											<strong><?php echo $relatedVideo['video']['title']; ?></strong>
 										</a>
 									</div>
 									<span style="padding-right: 15px;"><?php echo __d('videos', '投稿者'); ?></span><a href="#"><?php echo $relatedVideo['userAttributesUser']['value'] ?></a><br />

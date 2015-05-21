@@ -10,14 +10,6 @@
  */
 ?>
 
-<style>
-	@media (min-width: 1170px) {
-		.videos-row-height {
-			height: 190px;
-		}
-	}
-</style>
-
 <?php echo $this->Html->script('/videos/js/videos.js', false); ?>
 
 <?php /*
@@ -113,7 +105,7 @@
 		<?php /* 動画一覧 */ ?>
 		<div class="row">
 			<?php foreach ($videos as $video) : ?>
-				<div class="col-lg-4">
+				<div class="col-xs-12">
 					<?php /* サムネイル */ ?>
 					<div class="row videos-row-height" style="border: 1px solid #ddd; padding: 5px; margin: 0px 0px 5px 0px;">
 						<div class="media">
@@ -147,9 +139,6 @@
 								</div>
 							</div>
 
-							<?php /* lgサイズの時だけ改行させる */ ?>
-							<div class="visible-lg clearfix"></div>
-
 							<div class="media-body">
 								<div class="row">
 									<?php /* タイトル、投稿者、各種回数 */ ?>
@@ -157,9 +146,7 @@
 										<small>
 											<div>
 												<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $video['video']['key']); ?>">
-													<?php /* lgサイズの時だけ25文字でタイトル表示。それ以外は全文字表示 */ ?>
-													<strong class="visible-lg"><?php echo $this->Text->Truncate($video['video']['title'], VIDEO::SHORT_TITLE_LENGTH); ?></strong>
-													<strong class="hidden-lg"><?php echo $video['video']['title']; ?></strong>
+													<strong><?php echo $video['video']['title']; ?></strong>
 												</a>
 											</div>
 											<span style="padding-right: 15px;"><?php echo __d('videos', '投稿者'); ?></span><a href="#"><?php echo $video['userAttributesUser']['value'] ?></a><br />

@@ -40,13 +40,6 @@ class Video extends VideosAppModel {
 	const THUMBNAIL_FIELD = 'thumbnail';
 
 /**
- * file field name サムネイル
- *
- * @var string
- */
-	const SHORT_TITLE_LENGTH = 25;
-
-/**
  * use behaviors
  *
  * @var array
