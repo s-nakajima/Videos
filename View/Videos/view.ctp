@@ -189,12 +189,14 @@
 											<strong><?php echo $relatedVideo['video']['title']; ?></strong>
 										</a>
 									</div>
-									<span style="padding-right: 15px;"><?php echo __d('videos', '投稿者'); ?></span><a href="#"><?php echo $relatedVideo['userAttributesUser']['value'] ?></a><br />
+									<a href="#"><?php echo $relatedVideo['userAttributesUser']['value'] ?></a><br />
 									<span style="padding-right: 15px;">
 										<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
 									</span>
 									<?php /* コメント数、暫定対応(;'∀') */ ?>
-									<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php //echo $relatedVideo[0]['commentsNumber'] ?>0<br />
+									<span style="padding-right: 15px;">
+										<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php //echo $relatedVideo[0]['commentsNumber'] ?>0
+									</span>
 
 									<?php if ($videoBlockSetting['useLike']) : ?>
 										<?php /* 高く評価、暫定対応(;'∀') */ ?>

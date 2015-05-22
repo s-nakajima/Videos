@@ -129,12 +129,8 @@
 								</div>
 								<?php /* 動画時間 */ ?>
 								<div style="margin-top: -18px; margin-left: 65px;">
-									<?php
-										$videoTime = $video['video']['videoTime'];
-										$videoTime = floor($videoTime / 60) . ":" . str_pad(floor($videoTime - 60 * floor($videoTime / 60)), 2, '0');
-									?>
 									<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
-										<?php echo $videoTime ?>
+										<?php echo $this->Time->format($video['video']['videoTime'], '%M:%S'); ?>
 									</span>
 								</div>
 							</div>
@@ -149,12 +145,14 @@
 													<strong><?php echo $video['video']['title']; ?></strong>
 												</a>
 											</div>
-											<span style="padding-right: 15px;"><?php echo __d('videos', '投稿者'); ?></span><a href="#"><?php echo $video['userAttributesUser']['value'] ?></a><br />
+											<a href="#"><?php echo $video['userAttributesUser']['value'] ?></a><br />
 											<span style="padding-right: 15px;">
 												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
 											</span>
 											<?php /* コメント数、暫定対応(;'∀') */ ?>
-											<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php //echo $video[0]['commentsNumber'] ?>0<br />
+											<span style="padding-right: 15px;">
+												<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php //echo $video[0]['commentsNumber'] ?>0
+											</span>
 
 											<?php if ($videoBlockSetting['useLike']) : ?>
 												<?php /* 高く評価、暫定対応(;'∀') */ ?>
