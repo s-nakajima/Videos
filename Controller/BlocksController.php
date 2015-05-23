@@ -89,7 +89,7 @@ class BlocksController extends VideosAppController {
 									' FROM videos v, blocks b, files f' .
 									' WHERE v.block_id = b.id' .
 									' AND (v.mp4_id = f.id OR v.thumbnail_id = f.id)' .
-									" AND b.plugin_key = 'videos'" .
+									" AND b.plugin_key = '" . $this->request->params['plugin'] . "'" .
 									' GROUP BY b.key )',
 						'alias' => 'Size',
 						'conditions' => 'VideoBlockSetting.block_key = Size.key',
@@ -161,7 +161,7 @@ class BlocksController extends VideosAppController {
 				array('Block' => array(
 					'room_id' => $frame['Frame']['room_id'],
 					'language_id' => $frame['Frame']['language_id'],
-					'plugin_key' => 'videos',
+					'plugin_key' => $this->request->params['plugin'],
 				))
 			);
 

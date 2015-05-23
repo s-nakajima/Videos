@@ -43,11 +43,8 @@ class VideosEditController extends VideosAppController {
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'contentEditable' => array(
-					'edit',
-					'delete',
-					'add',
-				)
+				'contentEditable' => array('add', 'edit', 'delete'),
+				'contentCreatable' => array('add', 'edit', 'delete'),
 			),
 		),
 	);
@@ -58,8 +55,9 @@ class VideosEditController extends VideosAppController {
  * @return void
  */
 	public function beforeFilter() {
+		// 権限判定が必要
+		$this->Auth->deny('add', 'edit', 'delete');
 		parent::beforeFilter();
-		$this->Auth->allow();
 	}
 
 /**
@@ -68,11 +66,6 @@ class VideosEditController extends VideosAppController {
  * @return CakeResponse
  */
 	public function add() {
-		if ($this->request->isGet()) {
-			$results = $this->__init();
-			$this->set($results);
-		}
-
 		if ($this->request->isPost()) {
 			if (!$status = $this->NetCommonsWorkflow->parseStatus()) {
 				$this->throwBadRequest();
@@ -95,16 +88,24 @@ class VideosEditController extends VideosAppController {
 			);
 
 			// 登録
-			$this->Video->saveVideo($data, false);
+			$this->Video->addSaveVideo($data, $this->viewVars['roomId']);
 			if (!$this->handleValidationError($this->Video->validationErrors)) {
-				$this->log($this->validationErrors, 'debug');
-			}
+				// エラー時、なにもしない
 
-			if (! $this->request->is('ajax')) {
-				// 一覧へ
-				$this->redirect('/videos/videos/index/' . $this->viewVars['frameId']);
+				// 正常
+			} else {
+				if (! $this->request->is('ajax')) {
+					// 一覧へ
+					$this->redirect('/videos/videos/index/' . $this->viewVars['frameId']);
+				}
 			}
 		}
+
+		$results = $this->__init();
+		$this->set($results);
+
+		// 登録・編集画面表示
+		$this->render('edit');
 	}
 
 /**
@@ -146,7 +147,7 @@ class VideosEditController extends VideosAppController {
 			);
 
 			// 登録（ワークフロー対応のため、編集でも常にinsert）
-			$this->Video->saveVideo($data, false);
+			$this->Video->editSaveVideo($data, $this->viewVars['roomId']);
 			if (!$this->handleValidationError($this->Video->validationErrors)) {
 				$this->log($this->validationErrors, 'debug');
 			}
@@ -180,7 +181,7 @@ class VideosEditController extends VideosAppController {
 			$this->request->data['Tag'] = array();
 
 			$comments = $this->Comment->getComments(array(
-				'plugin_key' => 'videos',
+				'plugin_key' => $this->request->params['plugin'],
 				'content_key' => null,
 			));
 		} else {
@@ -197,7 +198,7 @@ class VideosEditController extends VideosAppController {
 			$this->request->data['Tag'] = isset($video['Tag']) ? $video['Tag'] : array();
 
 			$comments = $this->Comment->getComments(array(
-				'plugin_key' => 'videos',
+				'plugin_key' => $this->request->params['plugin'],
 				'content_key' => $video['Video']['key'],
 			));
 		}

@@ -66,12 +66,7 @@ class VideosController extends VideosAppController {
 		'Paginator',						// ページャ
 		//'NetCommons.NetCommonsBlock',
 		'NetCommons.NetCommonsFrame',		// frameId, frameKey等を自動セット
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'contentEditable' => array()
-			),
-		),
+		'NetCommons.NetCommonsRoomRole',
 	);
 
 /**
@@ -80,8 +75,9 @@ class VideosController extends VideosAppController {
  * @return void
  */
 	public function beforeFilter() {
+		// ゲストアクセスOKのアクションを設定
+		$this->Auth->allow('index', 'tag', 'view');
 		parent::beforeFilter();
-		$this->Auth->allow();
 	}
 
 /**
@@ -173,7 +169,7 @@ class VideosController extends VideosAppController {
 			// コンテンツコメントの取得
 			$contentComments = $this->ContentComment->getContentComments(array(
 				'block_key' => $this->viewVars['blockKey'],
-				'plugin_key' => 'videos',
+				'plugin_key' => $this->request->params['plugin'],
 				'content_key' => $video['Video']['key'],
 			));
 			$results['contentComments'] = $contentComments;

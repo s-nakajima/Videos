@@ -1,6 +1,6 @@
 <?php
 /**
- * 動画編集 template
+ * 動画登録・編集 template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -32,7 +32,68 @@
 			<div class="panel panel-default">
 				<div class="panel-body has-feedback">
 
-					<?php echo $this->element('VideosEdit/edit_form'); ?>
+					<?php /* 登録時のみ表示 */ ?>
+					<?php if ($this->request->action == 'add') : ?>
+						<?php echo $this->element('VideosEdit/file', array(
+							'pluginName' => 'Videos',
+							'label' => __d('videos', 'Video file') . $this->element('NetCommons.required'),
+							'field' => Video::VIDEO_FILE_FIELD,
+							'fileAccept' => 'video/*',
+							'model' => 'Video',
+							'pluginKey' => $this->request->params['plugin'],
+							'index' => 0,
+							'helpBlockMessage' => __d('videos', 'mpeg,avi,mov,wmv,flv,mpg,mp4に対応しています。'),
+							'file' => $videoFile,
+							'deleteEnable' => false,
+						)); ?>
+					<?php endif; ?>
+
+					<?php /* 編集時のみ表示 */ ?>
+					<?php if ($this->request->action == 'edit') : ?>
+						<?php echo $this->element('VideosEdit/file', array(
+							'pluginName' => 'Videos',
+							'label' => __d('videos', 'Thumbnail'),
+							'field' => Video::THUMBNAIL_FIELD,
+							'fileAccept' => 'image/*',
+							'model' => 'Video',
+							'pluginKey' => $this->request->params['plugin'],
+							'index' => 1,
+							'helpBlockMessage' => __d('videos', '変更したい場合に登録してください。'),
+							'file' => $thumbnail,
+							'deleteEnable' => false,
+							'overwriteEnable' => false,
+						)); ?>
+					<?php endif; ?>
+
+					<div class="form-group">
+						<?php echo $this->Form->input('title', array(
+							'type' => 'text',
+							'label' => __d('videos', 'Title') . $this->element('NetCommons.required'),
+							'class' => 'form-control',
+							//'required' => 'required',
+							'ng-model' => 'video.title',
+							//'autofocus' => true,
+						)); ?>
+					</div>
+
+					<label for="description">
+						<?php echo __d('videos', 'Description'); ?>
+					</label>
+					<div class="nc-wysiwyg-alert">
+						<?php echo $this->Form->textarea('description', array(
+							'class' => 'form-control',
+							'id' => 'description',
+							'rows' => 5,
+							'ng-model' => 'video.description',
+						)); ?>
+					</div>
+
+					<div class="form-group"></div>
+					<?php $this->Form->unlockField('Tag');
+					echo $this->element('Tags.tag_form', array(
+						'tagData' => $this->request->data['Tag'],
+						'modelName' => 'Video',
+					)); ?>
 
 					<hr />
 
@@ -44,15 +105,21 @@
 						<?php echo $this->element('NetCommons.workflow_buttons'); ?>
 					</div>
 				</div>
-				<div class="panel-footer">
-					<div class="text-right">
-						<a href="<?php echo $this->Html->url('/videos/videos/delete/' . $frameId); ?>" class="btn btn-danger">
-							<span class="glyphicon glyphicon-trash"> </span>
-						</a>
+				<?php /* edit時のみ表示 */ ?>
+				<?php if ($this->request->action == 'edit') : ?>
+					<div class="panel-footer">
+						<div class="text-right">
+							<a href="<?php echo $this->Html->url('/videos/videos/delete/' . $frameId); ?>" class="btn btn-danger">
+								<span class="glyphicon glyphicon-trash"> </span>
+							</a>
+						</div>
 					</div>
-				</div>
+				<?php endif; ?>
 			</div>
-			<?php echo $this->element('Comments.index'); ?>
+			<?php /* edit時のみ表示 */ ?>
+			<?php if ($this->request->action == 'edit') : ?>
+				<?php echo $this->element('Comments.index'); ?>
+			<?php endif; ?>
 
 		<?php echo $this->Form->end(); ?>
 
