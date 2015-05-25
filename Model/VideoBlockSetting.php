@@ -85,16 +85,6 @@ class VideoBlockSetting extends VideosAppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'auto_video_convert' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
 		'auto_play' => array(
 			'boolean' => array(
 				'rule' => array('boolean'),
@@ -201,7 +191,6 @@ class VideoBlockSetting extends VideosAppModel {
 		$videoBlockSetting['VideoBlockSetting']['use_comment'] = $videoBlockSetting['VideoBlockSetting']['use_comment'] == '1';
 		$videoBlockSetting['VideoBlockSetting']['agree'] = $videoBlockSetting['VideoBlockSetting']['agree'] == '1';
 		$videoBlockSetting['VideoBlockSetting']['mail_notice'] = $videoBlockSetting['VideoBlockSetting']['mail_notice'] == '1';
-		$videoBlockSetting['VideoBlockSetting']['auto_video_convert'] = $videoBlockSetting['VideoBlockSetting']['auto_video_convert'] == '1';
 		$videoBlockSetting['VideoBlockSetting']['auto_play'] = $videoBlockSetting['VideoBlockSetting']['auto_play'] == '1';
 		$videoBlockSetting['VideoBlockSetting']['comment_agree'] = $videoBlockSetting['VideoBlockSetting']['comment_agree'] == '1';
 		$videoBlockSetting['VideoBlockSetting']['comment_agree_mail_notice'] = $videoBlockSetting['VideoBlockSetting']['comment_agree_mail_notice'] == '1';

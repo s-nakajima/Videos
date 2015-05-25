@@ -93,14 +93,6 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 			'ng-model' => 'videoBlockSetting.mailNotice',
 		)); ?>
 	</div>
-	<div>
-		<?php echo $this->Form->input('VideoBlockSetting.auto_video_convert', array(
-			'label' => __d('videos', '動画を自動変換する'),
-			'div' => false,
-			'type' => 'checkbox',
-			'ng-model' => 'videoBlockSetting.autoVideoConvert',
-		)); ?>
-	</div>
 </div>
 <div class="form-group">
 	<div>
