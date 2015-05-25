@@ -87,8 +87,13 @@ class VideosEditController extends VideosAppController {
 				))
 			);
 
-			// 登録
-			$this->Video->addSaveVideo($data, $this->viewVars['roomId']);
+			if (Video::FFMPEG_ENABLE) {
+				// 登録
+				$this->Video->addSaveVideo($data, $this->viewVars['roomId']);
+			} else {
+				// 登録 動画を自動変換しない
+				$this->Video->addNoConvertSaveVideo($data);
+			}
 			if (!$this->handleValidationError($this->Video->validationErrors)) {
 				// エラー時、なにもしない
 
@@ -103,9 +108,6 @@ class VideosEditController extends VideosAppController {
 
 		$results = $this->__init();
 		$this->set($results);
-
-		// 登録・編集画面表示
-		$this->render('edit');
 	}
 
 /**
