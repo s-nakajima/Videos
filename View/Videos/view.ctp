@@ -13,20 +13,27 @@
 <?php echo $this->Html->css('/videos/css/style.css', false); ?>
 <?php echo $this->Html->script('/videos/js/videos.js', false); ?>
 
+<?php /* 暫定対応(;'∀') <div class="frame"> 画面遷移してもブロック枠が残るようになったら不要 */ ?>
+<div class="frame">
+<div class="nc-content-list">
+<article>
+
 <?php /* 上部ボタン */ ?>
-<p>
-<div class="row">
-	<div class="col-xs-12 text-right">
-		<?php if ($contentEditable): ?>
-			<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
-				<a href="<?php echo $this->Html->url('/videos/videos_edit/edit/' . $frameId . '/' . $video['video']['key']); ?>" class="btn btn-primary">
-					<span class="glyphicon glyphicon-edit"> </span>
-				</a>
-			</span>
-		<?php endif; ?>
+<header>
+	<p>
+	<div class="row">
+		<div class="col-xs-12 text-right">
+			<?php if ($contentEditable): ?>
+				<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
+					<a href="<?php echo $this->Html->url('/videos/videos_edit/edit/' . $frameId . '/' . $video['video']['key']); ?>" class="btn btn-primary">
+						<span class="glyphicon glyphicon-edit"> </span>
+					</a>
+				</span>
+			<?php endif; ?>
+		</div>
 	</div>
-</div>
-</p>
+	</p>
+</header>
 
 <?php /* 動画 */ ?>
 <div class="row">
@@ -43,7 +50,7 @@
 		<div class="panel panel-default video-description">
 			<div>
 				<?php /* タイトル */ ?>
-				<h4><?php echo $video['video']['title']; ?></h4>
+				<h1><?php echo $video['video']['title']; ?></h1>
 			</div>
 			<p>
 			<div>
@@ -148,71 +155,73 @@
 		<div id="nc-related-videos-<?php echo (int)$frameId; ?>" ng-controller="RelatedVideos">
 			<?php $i = 0; ?>
 			<?php foreach ($relatedVideos as $relatedVideo) : ?>
-			<div class="row related-video <?php echo $i >= VideosController::START_LIMIT_RELATED_VIDEO ? 'hidden' : '' ?>">
-				<div class="col-xs-12">
-					<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
-						<?php /* サムネイル */ ?>
-						<div class="media">
-							<div class="pull-left">
-								<div>
-									<div>
-										<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $relatedVideo['video']['key']); ?>">
-											<?php if (isset($relatedVideo['fileThumbnail']['urlThumbnail'])) : ?>
-												<?php echo $this->Html->image($relatedVideo['fileThumbnail']['urlThumbnail'], array(
-													'alt' => $relatedVideo['video']['title'],
-													'style' => 'width: 100%; height: auto;'
-												)); ?>
-											<?php else : ?>
-												<?php /* サムネイルなし */ ?>
-												<?php echo $this->Html->image('/videos/img/noImage.png', array(
-													'alt' => $relatedVideo['video']['title'],
-													'style' => 'width: 100%; height: auto;'
-												)); ?>
-											<?php endif; ?>
-										</a>
+				<article>
+					<div class="row related-video <?php echo $i >= VideosController::START_LIMIT_RELATED_VIDEO ? 'hidden' : '' ?>">
+						<div class="col-xs-12">
+							<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
+								<?php /* サムネイル */ ?>
+								<div class="media">
+									<div class="pull-left">
+										<div>
+											<div>
+												<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $relatedVideo['video']['key']); ?>">
+													<?php if (isset($relatedVideo['fileThumbnail']['urlThumbnail'])) : ?>
+														<?php echo $this->Html->image($relatedVideo['fileThumbnail']['urlThumbnail'], array(
+															'alt' => $relatedVideo['video']['title'],
+															'style' => 'width: 100%; height: auto;'
+														)); ?>
+													<?php else : ?>
+														<?php /* サムネイルなし */ ?>
+														<?php echo $this->Html->image('/videos/img/noImage.png', array(
+															'alt' => $relatedVideo['video']['title'],
+															'style' => 'width: 100%; height: auto;'
+														)); ?>
+													<?php endif; ?>
+												</a>
+											</div>
+											<?php /* 動画時間 */ ?>
+											<div style="margin-top: -18px; margin-left: 65px;">
+												<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
+													<?php echo $this->Time->format($video['video']['videoTime'], '%M:%S'); ?>
+												</span>
+											</div>
+										</div>
 									</div>
-									<?php /* 動画時間 */ ?>
-									<div style="margin-top: -18px; margin-left: 65px;">
-										<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
-											<?php echo $this->Time->format($video['video']['videoTime'], '%M:%S'); ?>
-										</span>
+									<?php /* タイトル、投稿者、各種回数 */ ?>
+									<div class="media-body">
+										<small>
+											<div>
+												<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $relatedVideo['video']['key']); ?>">
+													<h2><?php echo $relatedVideo['video']['title']; ?></h2>
+												</a>
+											</div>
+											<a href="#"><?php echo $relatedVideo['userAttributesUser']['value'] ?></a><br />
+											<span style="padding-right: 15px;">
+												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
+											</span>
+											<?php /* コメント数、暫定対応(;'∀') */ ?>
+											<span style="padding-right: 15px;">
+												<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php //echo $relatedVideo[0]['commentsNumber'] ?>0
+											</span>
+
+											<?php if ($videoBlockSetting['useLike']) : ?>
+												<?php /* 高く評価、暫定対応(;'∀') */ ?>
+												<span style="padding-right: 15px;">
+													<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php //echo $relatedVideo['video']['likesNumber'] ?>0
+												</span>
+												<?php if ($videoBlockSetting['useUnlike']) : ?>
+													<?php /* 低く評価、暫定対応(;'∀') */ ?>
+													<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php //echo $relatedVideo['video']['unlikesNumber'] ?>0
+												<?php endif; ?>
+											<?php endif; ?>
+										</small>
 									</div>
 								</div>
 							</div>
-							<?php /* タイトル、投稿者、各種回数 */ ?>
-							<div class="media-body">
-								<small>
-									<div>
-										<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $relatedVideo['video']['key']); ?>">
-											<strong><?php echo $relatedVideo['video']['title']; ?></strong>
-										</a>
-									</div>
-									<a href="#"><?php echo $relatedVideo['userAttributesUser']['value'] ?></a><br />
-									<span style="padding-right: 15px;">
-										<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
-									</span>
-									<?php /* コメント数、暫定対応(;'∀') */ ?>
-									<span style="padding-right: 15px;">
-										<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php //echo $relatedVideo[0]['commentsNumber'] ?>0
-									</span>
-
-									<?php if ($videoBlockSetting['useLike']) : ?>
-										<?php /* 高く評価、暫定対応(;'∀') */ ?>
-										<span style="padding-right: 15px;">
-											<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php //echo $relatedVideo['video']['likesNumber'] ?>0
-										</span>
-										<?php if ($videoBlockSetting['useUnlike']) : ?>
-											<?php /* 低く評価、暫定対応(;'∀') */ ?>
-											<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php //echo $relatedVideo['video']['unlikesNumber'] ?>0
-										<?php endif; ?>
-									<?php endif; ?>
-								</small>
-							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-			<?php $i++; ?>
+				</article>
+				<?php $i++; ?>
 			<?php endforeach; ?>
 
 			<?php /* もっと見る */ ?>
@@ -248,12 +257,16 @@
 </div>
 
 <?php /* 下部ボタン */ ?>
-<div class="row">
-	<div class="col-xs-12 text-center">
-		<a href="<?php echo $this->Html->url('/videos/videos/index/' . $frameId) ?>" class="btn btn-default">
-			<?php echo __d("videos", "一覧へ戻る") ?>
-		</a>
+<footer>
+	<div class="row">
+		<div class="col-xs-12 text-center">
+			<a href="<?php echo $this->Html->url('/videos/videos/index/' . $frameId) ?>" class="btn btn-default">
+				<?php echo __d("videos", "一覧へ戻る") ?>
+			</a>
+		</div>
 	</div>
-	<div class="col-xs-6 text-right">
-	</div>
+</footer>
+
+</article>
+</div>
 </div>
