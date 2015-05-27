@@ -234,6 +234,9 @@ class Video extends VideosAppModel {
  * @return array
  */
 	public function getVideos($conditions = array()) {
+		// モデルからビヘイビアをはずす
+		$this->Behaviors->unload('Tags.Tag');
+
 		$videos = $this->find('all', array(
 			'recursive' => 1,
 			'fields' => '*, ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得

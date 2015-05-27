@@ -197,7 +197,7 @@
 											</div>
 											<a href="#"><?php echo $relatedVideo['userAttributesUser']['value'] ?></a><br />
 											<span style="padding-right: 15px;">
-												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
+												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $relatedVideo['video']['playNumber'] ?>
 											</span>
 											<span style="padding-right: 15px;">
 												<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo (int)$relatedVideo['contentCommentCnt']['cnt']; ?>

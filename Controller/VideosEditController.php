@@ -12,7 +12,7 @@
 App::uses('VideosAppController', 'Videos.Controller');
 
 /**
- * Videos Controller
+ * 動画編集系 Controller
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Controller
