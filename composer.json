@@ -39,6 +39,12 @@
     "license": "NetCommons License",
     "authors": [
         {
+          "name": "Mitsuru Mutaguchi(OpenSource WorkShop)",
+          "email": "mutaguchi@opensource-workshop.jp",
+          "homepage": "https://github.com/akagane99",
+          "role": "Developer"
+        },
+        {
             "name": "NetCommons Community",
             "homepage": "https://github.com/NetCommons3/OnlineStatuses/graphs/contributors"
         }
