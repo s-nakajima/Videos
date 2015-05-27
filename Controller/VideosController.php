@@ -243,6 +243,7 @@ class VideosController extends VideosAppController {
 			$this->Paginator->settings = array(
 				$this->Video->alias => array(
 					'order' => $this->Video->alias . '.id DESC',
+					'fields' => '*, ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
 					'conditions' => $conditions,
 					'limit' => $results['displayNumber']
 				)

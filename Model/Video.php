@@ -66,6 +66,7 @@ class Video extends VideosAppModel {
  * @var array
  */
 	public $actsAs = array(
+		'ContentComments.ContentComment',
 		'Files.YAUpload' => array(		// FileUpload
 			self::VIDEO_FILE_FIELD => array(
 				//UploadBefavior settings
@@ -235,6 +236,7 @@ class Video extends VideosAppModel {
 	public function getVideos($conditions = array()) {
 		$videos = $this->find('all', array(
 			'recursive' => 1,
+			'fields' => '*, ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
 			'conditions' => $conditions,
 			'order' => $this->alias . '.id DESC'
 		));

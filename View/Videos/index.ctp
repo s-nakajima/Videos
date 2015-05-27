@@ -150,9 +150,8 @@
 												<span style="padding-right: 15px;">
 													<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
 												</span>
-												<?php /* コメント数、暫定対応(;'∀') */ ?>
 												<span style="padding-right: 15px;">
-													<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php //echo $video[0]['commentsNumber'] ?>0
+													<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo (int)$video['contentCommentCnt']['cnt']; ?>
 												</span>
 
 												<?php if ($videoBlockSetting['useLike']) : ?>
