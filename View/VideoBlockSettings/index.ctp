@@ -62,7 +62,7 @@
 									)); ?>
 								</td>
 								<td>
-									<a href="<?php echo $this->Html->url('/videos/blocks/edit/' . $frameId . '/' . (int)$videoBlockSetting['block']['id']); ?>">
+									<a href="<?php echo $this->Html->url('/videos/video_block_settings/edit/' . $frameId . '/' . (int)$videoBlockSetting['block']['id']); ?>">
 										<?php echo h($videoBlockSetting['block']['name']); ?>
 									</a>
 								</td>
