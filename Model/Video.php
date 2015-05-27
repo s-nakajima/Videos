@@ -40,7 +40,7 @@ class Video extends VideosAppModel {
  *
  * @var string
  */
-	const FFMPEG_ENABLE = false;
+	const FFMPEG_ENABLE = true;
 
 /**
  * ffmpeg パス
