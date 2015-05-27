@@ -17,7 +17,7 @@ App::uses('VideosAppController', 'Videos.Controller');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Controller
  */
-class BlocksController extends VideosAppController {
+class VideoBlockSettingsController extends VideosAppController {
 
 /**
  * use model
@@ -41,12 +41,7 @@ class BlocksController extends VideosAppController {
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'contentPublishable' => array(
-					'index',
-					'add',
-					'edit',
-					'delete',
-				)
+				'blockEditable' => array('index', 'add', 'edit', 'delete'),
 			),
 		),
 		'Paginator',
@@ -100,7 +95,10 @@ class BlocksController extends VideosAppController {
 					'Block.language_id' => $this->viewVars['languageId'],
 					'Block.room_id' => $this->viewVars['roomId'],
 				),
-				'fields' => '*, Size.size_byte',
+				'fields' => array(
+					'*',
+					'Size.size_byte',
+				),
 			)
 		);
 
@@ -130,7 +128,7 @@ class BlocksController extends VideosAppController {
  * @return CakeResponse
  */
 	public function add() {
-		$this->view = 'Blocks/edit';
+		$this->view = 'VideoBlockSettings/edit';
 
 		// 初期値 取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(

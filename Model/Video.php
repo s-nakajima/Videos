@@ -239,7 +239,10 @@ class Video extends VideosAppModel {
 
 		$videos = $this->find('all', array(
 			'recursive' => 1,
-			'fields' => '*, ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
+			'fields' => array(
+				'*',
+				'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
+			),
 			'conditions' => $conditions,
 			'order' => $this->alias . '.id DESC'
 		));

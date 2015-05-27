@@ -48,7 +48,7 @@ class VideosAppController extends AppController {
 				'block_index' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'blocks',
+						'controller' => 'video_block_settings',
 						'action' => 'index',
 						$this->viewVars['frameId'],
 					)

@@ -129,6 +129,7 @@ class Videos extends CakeMigration {
 				'namespace' => 'netcommons/videos',
 				'name' => '動画',
 				'type' => 1,
+				'default_setting_action' => 'video_block_settings/index',
 			),
 		),
 

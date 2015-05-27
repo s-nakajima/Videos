@@ -39,9 +39,7 @@ class VideoFrameSettingsController extends VideosAppController {
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'contentPublishable' => array(
-					'edit',
-				)
+				'blockEditable' => array('edit')
 			),
 		),
 	);

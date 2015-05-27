@@ -200,7 +200,7 @@
 												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $relatedVideo['video']['playNumber'] ?>
 											</span>
 											<span style="padding-right: 15px;">
-												<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo (int)$relatedVideo['contentCommentCnt']['cnt']; ?>
+												<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo $relatedVideo['contentCommentCnt']['cnt']; ?>
 											</span>
 
 											<?php if ($videoBlockSetting['useLike']) : ?>
