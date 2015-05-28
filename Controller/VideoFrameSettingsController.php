@@ -20,6 +20,13 @@ App::uses('VideosAppController', 'Videos.Controller');
 class VideoFrameSettingsController extends VideosAppController {
 
 /**
+ * layout
+ *
+ * @var array
+ */
+	public $layout = 'NetCommons.setting';
+
+/**
  * use model
  *
  * @var array
@@ -51,9 +58,8 @@ class VideoFrameSettingsController extends VideosAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		//$this->Auth->allow();
 
-		$this->layout = 'NetCommons.setting';
+		// 暫定対応(;'∀') 下記はいずれ、ページの左右のおかず表示対応と一緒に、親側で定義される
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
 

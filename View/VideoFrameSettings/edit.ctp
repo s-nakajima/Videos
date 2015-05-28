@@ -16,10 +16,10 @@
 
 	<div class="tab-content">
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'VideoFrameSettings',
-				'action' => 'edit' . '/' . $frameId,
-				'callback' => 'Videos.VideoFrameSettings/edit_form',
-				'cancelUrl' => $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null)
-			)); ?>
+			'controller' => 'VideoFrameSettings',
+			'action' => 'edit' . '/' . $frameId,
+			'callback' => 'Videos.VideoFrameSettings/edit_form',
+			'cancelUrl' => $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null)
+		)); ?>
 	</div>
 </div>

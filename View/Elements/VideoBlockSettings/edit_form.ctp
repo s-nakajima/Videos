@@ -71,29 +71,18 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 	</div>
 </div>
 
+<?php /*
 <div class="form-group">
 	<div>
-		<label>
-			<?php echo __d('videos', '動画配信設定'); ?>
-		</label>
-	</div>
-	<div>
-		<?php echo $this->Form->input('VideoBlockSetting.agree', array(
-			'label' => __d('videos', '動画投稿を自動的に承認する'),
-			'div' => false,
-			'type' => 'checkbox',
-			'ng-model' => 'videoBlockSetting.agree',
-		)); ?>
-	</div>
-	<div>
-		<?php echo $this->Form->input('VideoBlockSetting.mail_notice', array(
+		 echo $this->Form->input('VideoBlockSetting.mail_notice', array(
 			'label' => __d('videos', '動画投稿をメールで通知する'),
 			'div' => false,
 			'type' => 'checkbox',
 			'ng-model' => 'videoBlockSetting.mailNotice',
-		)); ?>
+		));
 	</div>
-</div>
+</div> */ ?>
+
 <div class="form-group">
 	<div>
 		<label>
@@ -109,6 +98,7 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 		)); ?>
 	</div>
 </div>
+
 <div class="form-group">
 	<div>
 		<label>
@@ -124,24 +114,15 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 			'ng-model' => 'videoBlockSetting.useComment',
 		)); ?>
 	</div>
+	<?php /*
 	<div style="padding-left: 20px;">
-		<?php echo $this->Form->input('VideoBlockSetting.comment_agree', array(
-			'label' => __d('videos', 'コメントを自動的に承認する'),
-			'div' => false,
-			'type' => 'checkbox',
-			//'default' => $videoBlockSetting['commentAgree'],
-			'ng-model' => 'videoBlockSetting.commentAgree',
-			'ng-disabled' => '!videoBlockSetting.useComment',
-		)); ?>
-	</div>
-	<div style="padding-left: 20px;">
-		<?php echo $this->Form->input('VideoBlockSetting.comment_agree_mail_notice', array(
+		echo $this->Form->input('VideoBlockSetting.comment_agree_mail_notice', array(
 			'label' => __d('videos', 'コメントの承認完了通知をメールで通知する'),
 			'div' => false,
 			'type' => 'checkbox',
 			//'default' => $videoBlockSetting['commentAgreeMailNotice'],
 			'ng-model' => 'videoBlockSetting.commentAgreeMailNotice',
 			'ng-disabled' => "!videoBlockSetting.useComment || videoBlockSetting.commentAgree",
-		)); ?>
-	</div>
+		));
+	</div> */ ?>
 </div>

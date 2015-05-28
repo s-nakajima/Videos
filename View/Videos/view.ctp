@@ -259,7 +259,7 @@
 <footer>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<a href="<?php echo $this->Html->url('/videos/videos/index/' . $frameId) ?>" class="btn btn-default">
+			<a href="<?php echo $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null); ?>" class="btn btn-default">
 				<?php echo __d("videos", "一覧へ戻る") ?>
 			</a>
 		</div>

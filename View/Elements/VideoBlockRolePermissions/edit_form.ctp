@@ -27,7 +27,7 @@
 		'contentCommentPublishable' => __d('blocks', 'Content comment publishable roles'),
 	),
 	'options' => array(
-		Block::NEED_APPROVAL => __d('blocks', 'Need approval in both %s and comments ', __d('videos', '動画')),
+		Block::NEED_APPROVAL => __d('blocks', 'Need approval in both %s and comments ', __d('videos', 'content')),
 		Block::NEED_COMMENT_APPROVAL => __d('blocks', 'Need only comments approval'),
 		Block::NOT_NEED_APPROVAL => __d('blocks', 'Not need approval'),
 	),

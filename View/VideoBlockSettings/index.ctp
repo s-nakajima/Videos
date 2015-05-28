@@ -21,7 +21,7 @@
 			</a>
 		</div>
 
-		<div id="nc-bbs-setting-<?php echo $frameId; ?>">
+		<div id="nc-video-setting-<?php echo $frameId; ?>">
 			<?php echo $this->Form->create('', array(
 				'url' => '/frames/frames/edit/' . $frameId
 			)); ?>
@@ -84,14 +84,21 @@
 				</table>
 			<?php echo $this->Form->end(); ?>
 
-			<div class="text-center">
-				<?php echo $this->element('NetCommons.paginator', array(
-					'url' => Hash::merge(
-						array('controller' => 'VideoBlockSettings', 'action' => 'index', $frameId),
-						$this->Paginator->params['named']
-					)
-				)); ?>
-			</div>
+			<footer>
+				<div class="text-center">
+					<?php echo $this->element('NetCommons.paginator', array(
+						'url' => Hash::merge(
+							array('controller' => 'VideoBlockSettings', 'action' => 'index', $frameId),
+							$this->Paginator->params['named']
+						)
+					)); ?>
+				</div>
+				<div class="text-center">
+					<a href="<?php echo $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null); ?>" class="btn btn-default">
+						<?php echo __d("videos", "一覧へ戻る") ?>
+					</a>
+				</div>
+			</footer>
 		</div>
 	</div>
 </div>
