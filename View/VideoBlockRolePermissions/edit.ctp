@@ -13,14 +13,18 @@
 
 <?php echo $this->Html->script('/videos/js/videos.js', false); ?>
 
-<div class="modal-body" ng-controller="VideoBlockSettingsEdit"
-	 ng-init="initialize(<?php echo h(json_encode($videoBlockSetting)) . ',' . h(json_encode($block)); ?>)">
-
+<div class="modal-body">
 	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
 
 	<div class="tab-content">
 		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
 
-		BlockRolePermissions/edit.ctp
+		<?php echo $this->element('Blocks.edit_form', array(
+			'controller' => 'VideoBlockRolePermission',
+			'action' => 'edit' . '/' . $frameId . '/' . $blockId,
+			'callback' => 'Videos.VideoBlockRolePermissions/edit_form',
+			'cancelUrl' => '/videos/video_block_settings/index/' . $frameId,
+			'options' => array('ng-controller' => 'VideoBlockSettingsEdit'),
+		)); ?>
 	</div>
 </div>

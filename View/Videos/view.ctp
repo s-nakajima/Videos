@@ -114,8 +114,8 @@
 											<span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php //echo $video['video']['unlikesNumber']; ?>0
 										<?php endif; ?>
 									</span>
-								  <?php endif; ?>
-							 <?php endif; ?>
+								<?php endif; ?>
+							<?php endif; ?>
 							&nbsp;
 						</div>
 					</div>

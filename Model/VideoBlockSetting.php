@@ -339,4 +339,60 @@ class VideoBlockSetting extends VideosAppModel {
 		}
 		return true;
 	}
+
+/**
+ * blockRolePermissionデータ保存
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function saveBlockRolePermission($data) {
+		$this->loadModels(array(
+			'BlockRolePermission' => 'Blocks.BlockRolePermission',
+			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
+		));
+
+		//トランザクションBegin
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			// 値をセット
+			$this->set($data);
+
+			// 入力チェック VideoBlockSetting
+			$this->validates();
+			if ($this->validationErrors) {
+				return false;
+			}
+			// 入力チェック blockRolePermission
+			foreach ($data[$this->BlockRolePermission->alias] as $value) {
+				if (! $this->BlockRolePermission->validateBlockRolePermissions($value)) {
+					$this->validationErrors = Hash::merge($this->validationErrors, $this->BlockRolePermission->validationErrors);
+					return false;
+				}
+			}
+
+			// 保存 VideoBlockSetting
+			$videoBlockSetting = $this->save(null, false);
+			if (!$videoBlockSetting) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+			// 保存 blockRolePermission
+			foreach ($data[$this->BlockRolePermission->alias] as $value) {
+				if (! $this->BlockRolePermission->saveMany($value, ['validate' => false])) {
+					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				}
+			}
+
+			$dataSource->commit();
+
+		} catch (InternalErrorException $ex) {
+			$dataSource->rollback();
+			CakeLog::write(LOG_ERR, $ex);
+			throw $ex;
+		}
+		return $videoBlockSetting;
+	}
 }

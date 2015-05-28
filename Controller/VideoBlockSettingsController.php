@@ -104,12 +104,12 @@ class VideoBlockSettingsController extends VideosAppController {
 
 		try {
 			if (! $videoBlockSetting = $this->Paginator->paginate('VideoBlockSetting')) {
-				$this->view = 'Blocks/not_found';
+				$this->view = 'video_block_settings/not_found';
 				return;
 			}
 		} catch (Exception $ex) {
 			if (isset($this->request['paging']) && $this->params['named']) {
-				$this->redirect('/videos/blocks/index/' . $this->viewVars['frameId']);
+				$this->redirect('/videos/video_block_settings/index/' . $this->viewVars['frameId']);
 				return;
 			}
 			CakeLog::error($ex);
@@ -176,7 +176,7 @@ class VideoBlockSettingsController extends VideosAppController {
 			} else {
 				// ajax以外は、リダイレクト
 				if (!$this->request->is('ajax')) {
-					$this->redirect('/videos/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/videos/video_block_settings/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}
@@ -207,7 +207,10 @@ class VideoBlockSettingsController extends VideosAppController {
 		$this->set('blockId', $blockId);
 
 		// ブロック取得
-		$block = $this->Block->findById($blockId);
+		if (!$block = $this->Block->findById($blockId)) {
+			$this->throwBadRequest();
+			return false;
+		};
 
 		// 取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
@@ -239,7 +242,7 @@ class VideoBlockSettingsController extends VideosAppController {
 			} else {
 				// ajax以外は、リダイレクト
 				if (!$this->request->is('ajax')) {
-					$this->redirect('/videos/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/videos/video_block_settings/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}
@@ -287,7 +290,7 @@ class VideoBlockSettingsController extends VideosAppController {
 
 			// ajax以外は、リダイレクト
 			if (!$this->request->is('ajax')) {
-				$this->redirect('/videos/blocks/index/' . $this->viewVars['frameId']);
+				$this->redirect('/videos/video_block_settings/index/' . $this->viewVars['frameId']);
 			}
 			return;
 		}

@@ -71,7 +71,7 @@ class VideosAppController extends AppController {
 				'block_settings' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'blocks',
+						'controller' => 'video_block_settings',
 						'action' => $this->params['action'],
 						$this->viewVars['frameId'],
 						$blockId
@@ -80,7 +80,7 @@ class VideosAppController extends AppController {
 				'role_permissions' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'block_role_permissions',
+						'controller' => 'video_block_role_permissions',
 						'action' => 'edit',
 						$this->viewVars['frameId'],
 						$blockId

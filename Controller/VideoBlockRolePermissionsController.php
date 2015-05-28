@@ -17,7 +17,7 @@ App::uses('VideosAppController', 'Videos.Controller');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Controller
  */
-class BlockRolePermissionsController extends VideosAppController {
+class VideoBlockRolePermissionsController extends VideosAppController {
 
 /**
  * use model
@@ -39,20 +39,9 @@ class BlockRolePermissionsController extends VideosAppController {
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'contentPublishable' => array(
-					'edit',
-				)
+				'contentPublishable' => array('edit')
 			),
 		),
-	);
-
-/**
- * use helpers
- *
- * @var array
- */
-	public $helpers = array(
-		//'NetCommons.Token'
 	);
 
 /**
@@ -62,7 +51,6 @@ class BlockRolePermissionsController extends VideosAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		//$this->Auth->allow();
 
 		$this->layout = 'NetCommons.setting';
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
@@ -78,13 +66,45 @@ class BlockRolePermissionsController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit() {
+		if (! $this->NetCommonsBlock->validateBlockId()) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$blockId = (int)$this->params['pass'][1];
+		$this->set('blockId', $blockId);
+
 		// 取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
 			$this->viewVars['blockKey'],
 			$this->viewVars['roomId']
 		);
 
+		$permissions = $this->NetCommonsBlock->getBlockRolePermissions(
+			$this->viewVars['blockKey'],
+			array('content_creatable', 'content_publishable', 'content_comment_creatable', 'content_comment_publishable')
+		);
+
+		if ($this->request->isPost()) {
+			// 更新時間を再セット
+			unset($videoBlockSetting['VideoBlockSetting']['modified']);
+			$data = Hash::merge(
+				$videoBlockSetting,
+				$this->data
+			);
+
+			$this->VideoBlockSetting->saveBlockRolePermission($data);
+			if ($this->handleValidationError($this->VideoBlockSetting->validationErrors)) {
+				// 正常時
+				if (! $this->request->is('ajax')) {
+					$this->redirect('/videos/video_block_settings/index/' . $this->viewVars['frameId']);
+				}
+				return;
+			}
+		}
+
 		$results = array(
+			'blockRolePermissions' => $permissions['BlockRolePermissions'],
+			'roles' => $permissions['Roles'],
 			'videoBlockSetting' => $videoBlockSetting['VideoBlockSetting'],
 		);
 
