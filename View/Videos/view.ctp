@@ -10,8 +10,21 @@
  */
 ?>
 
-<?php echo $this->Html->css('/videos/css/style.css', false); ?>
-<?php echo $this->Html->script('/videos/js/videos.js', false); ?>
+<?php
+$this->Html->css(
+	array(
+		'/likes/css/style.css',
+		'/videos/css/style.css',
+	),
+	array('plugin' => false, 'once' => true, 'inline' => false)
+);
+$this->Html->script(
+	array(
+		'/likes/js/likes.js',
+		'/videos/js/videos.js',
+	),
+	array('plugin' => false, 'once' => true, 'inline' => false)
+);?>
 
 <?php /* 暫定対応(;'∀') <div class="frame"> 画面遷移してもブロック枠が残るようになったら不要 */ ?>
 <div class="frame">
@@ -85,21 +98,26 @@
 					</div>
 
 					<div class="row">
-						<div class="col-xs-12 text-right">
+						<div class="col-xs-12 text-right" <?php echo $this->element('Likes.like_init_attributes', array(
+							'contentKey' => $video['video']['key'],
+							'disabled' => !(! isset($video['like']) && $video['video']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED),
+							'likeCounts' => (int)$video['video']['likeCounts'],
+							'unlikeCounts' => (int)$video['video']['unlikeCounts'],
+						)); ?>>
 							<span style="padding-right: 15px;">
 								<?php /* 埋め込みコード */ ?>
 								<a href="#"><?php echo __d('videos', '埋め込みコード'); ?></a>
 							</span>
 
+
 							<?php /* いいね */ ?>
 							<?php if ($videoBlockSetting['useLike']) : ?>
 								<span class="text-left">
-									<?php /* 高く評価、暫定対応(;'∀') */ ?>
 									<?php /* コンテンツが読めたらいいね、よくないね出来る */ ?>
 									<?php if ($contentReadable): ?>
-										<a href="#"><span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"></span><?php //echo $video['video']['likesNumber']; ?>0</a>
+										<?php echo $this->element('Likes.like_button', array('isLiked' => Like::IS_LIKE)); ?>
 									<?php else : ?>
-										<span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"><?php //echo $video['video']['likesNumber']; ?>0</span>
+										<span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"><?php echo $video['video']['likeCounts']; ?></span>
 									<?php endif; ?>
 								</span>
 
@@ -109,9 +127,9 @@
 									<span class="text-left">
 										<?php /* コンテンツが読めたらいいね、よくないね出来る */ ?>
 										<?php if ($contentReadable): ?>
-											<a href="#"><span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php //echo $video['video']['unlikesNumber']; ?>0</a>
+											<?php echo $this->element('Likes.like_button', array('isLiked' => Like::IS_UNLIKE)); ?>
 										<?php else : ?>
-											<span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php //echo $video['video']['unlikesNumber']; ?>0
+											<span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php echo $video['video']['unlikeCounts']; ?>
 										<?php endif; ?>
 									</span>
 								<?php endif; ?>
@@ -204,13 +222,13 @@
 											</span>
 
 											<?php if ($videoBlockSetting['useLike']) : ?>
-												<?php /* 高く評価、暫定対応(;'∀') */ ?>
+												<?php /* いいね */ ?>
 												<span style="padding-right: 15px;">
-													<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php //echo $relatedVideo['video']['likesNumber'] ?>0
+													<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php echo $relatedVideo['video']['likeCounts'] ?>
 												</span>
 												<?php if ($videoBlockSetting['useUnlike']) : ?>
-													<?php /* 低く評価、暫定対応(;'∀') */ ?>
-													<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php //echo $relatedVideo['video']['unlikesNumber'] ?>0
+													<?php /* よくないね */ ?>
+													<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php echo $relatedVideo['video']['unlikeCounts'] ?>
 												<?php endif; ?>
 											<?php endif; ?>
 										</small>
@@ -239,19 +257,10 @@
 <?php /* コンテンツコメント */ ?>
 <div class="row">
 	<div class="col-xs-12">
-		<?php /* コメントを利用しない or (コメント0件 and コメント投稿できない) */ ?>
-		<?php if (!$videoBlockSetting['useComment'] || (!$contentComments && !$contentCommentCreatable)): ?>
-			<?php /* 表示しない */ ?>
-		<?php else : ?>
-			<div class="panel panel-default">
-				<?php echo $this->element('ContentComments.form', array(
-					'formName' => 'Video',
-				)); ?>
-				<?php echo $this->element('ContentComments.index', array(
-					'formName' => 'Video',
-				)); ?>
-			</div>
-		<?php endif; ?>
+		<?php echo $this->element('ContentComments.index', array(
+			'formName' => 'Video',
+			'useComment' => $videoBlockSetting['useComment'],
+		)); ?>
 	</div>
 </div>
 

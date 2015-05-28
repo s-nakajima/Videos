@@ -46,6 +46,7 @@ class VideosAppTest extends YAControllerTestCase {
 		//'plugin.files.files_room',
 		//'plugin.files.files_user',
 		'plugin.frames.frame',
+		'plugin.likes.like',
 		'plugin.net_commons.site_setting',
 		'plugin.m17n.language',
 		//'plugin.m17n.languages_page',

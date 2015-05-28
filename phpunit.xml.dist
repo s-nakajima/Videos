@@ -20,6 +20,8 @@
             <directory suffix=".ctp">app/Plugin/DebugKit</directory>
             <directory suffix=".php">app/Plugin/Files</directory>
             <directory suffix=".php">app/Plugin/Frames</directory>
+            <directory suffix=".php">app/Plugin/Likes</directory>
+            <directory suffix=".ctp">app/Plugin/Likes</directory>
             <directory suffix=".php">app/Plugin/Migration</directory>
             <directory suffix=".php">app/Plugin/MobileDetect</directory>
             <directory suffix=".php">app/Plugin/NetCommons</directory>

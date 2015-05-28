@@ -155,13 +155,13 @@
 												</span>
 
 												<?php if ($videoBlockSetting['useLike']) : ?>
-													<?php /* 高く評価、暫定対応(;'∀') */ ?>
+													<?php /* いいね */ ?>
 													<span style="padding-right: 15px;">
-														<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php //echo $video[0]['likesNumber'] ?>0
+														<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php echo $video['video']['likeCounts'] ?>
 													</span>
 													<?php if ($videoBlockSetting['useUnlike']) : ?>
-														<?php /* 低く評価、暫定対応(;'∀') */ ?>
-														<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php //echo $video[0]['unlikesNumber'] ?>0
+														<?php /* よくないね */ ?>
+														<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php echo $video['video']['unlikeCounts'] ?>
 													<?php endif; ?>
 												<?php endif; ?>
 											</small>

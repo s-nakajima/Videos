@@ -77,6 +77,7 @@ class Video extends VideosAppModel {
 				//UploadBefavior settings
 			),
 		),
+		'Likes.Like',					// いいね
 		'NetCommons.OriginalKey',		// 自動でkeyセット
 		'NetCommons.Publishable',		// 自動でis_active, is_latestセット
 		'Tags.Tag',

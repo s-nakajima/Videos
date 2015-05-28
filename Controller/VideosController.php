@@ -54,6 +54,7 @@ class VideosController extends VideosAppController {
  */
 	public $helpers = array(
 		'NetCommons.Date',					// 詳細日付表示
+		'NetCommons.Token',
 	);
 
 /**
@@ -172,6 +173,7 @@ class VideosController extends VideosAppController {
 				'plugin_key' => $this->request->params['plugin'],
 				'content_key' => $video['Video']['key'],
 			));
+
 			$results['contentComments'] = $contentComments;
 		}
 
