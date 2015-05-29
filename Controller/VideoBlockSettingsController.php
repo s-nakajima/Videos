@@ -104,7 +104,7 @@ class VideoBlockSettingsController extends VideosAppController {
 
 		try {
 			if (! $videoBlockSetting = $this->Paginator->paginate('VideoBlockSetting')) {
-				$this->view = 'video_block_settings/not_found';
+				$this->view = 'not_found';
 				return;
 			}
 		} catch (Exception $ex) {
