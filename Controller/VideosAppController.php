@@ -25,7 +25,8 @@ class VideosAppController extends AppController {
  * @var array
  */
 	public $components = array(
-		'Security'
+		'Security',
+		'NetCommons.NetCommonsFrame',		// frameId, frameKey等を自動セット
 	);
 
 /**
@@ -35,6 +36,12 @@ class VideosAppController extends AppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
+
+		// フレームIDなしはアクセスさせない
+		if (!$this->NetCommonsFrame->validateFrameId()) {
+			$this->throwBadRequest();
+			return false;
+		}
 
 		// 暫定対応(;'∀') 下記はいずれ、ページの左右のおかず表示対応と一緒に、親側で定義される
 		$results = $this->camelizeKeyRecursive(['current' => $this->current]);

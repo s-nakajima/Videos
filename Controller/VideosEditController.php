@@ -37,8 +37,6 @@ class VideosEditController extends VideosAppController {
  */
 	public $components = array(
 		'Files.FileUpload',					// FileUpload
-		//'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsFrame',		// frameId, frameKey等を自動セット
 		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
@@ -118,6 +116,12 @@ class VideosEditController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit($frameId, $videoKey = null) {
+		// フレームKeyなしはアクセスさせない
+		if (empty($videoKey)) {
+			$this->throwBadRequest();
+			return false;
+		}
+
 		$results = $this->__init($videoKey);
 		$this->set($results);
 

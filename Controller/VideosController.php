@@ -65,8 +65,6 @@ class VideosController extends VideosAppController {
 	public $components = array(
 		'ContentComments.ContentComments',
 		'Paginator',						// ページャ
-		//'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsFrame',		// frameId, frameKey等を自動セット
 		'NetCommons.NetCommonsRoomRole',
 	);
 
@@ -77,7 +75,7 @@ class VideosController extends VideosAppController {
  */
 	public function beforeFilter() {
 		// ゲストアクセスOKのアクションを設定
-		$this->Auth->allow('index', 'tag', 'view');
+		//$this->Auth->allow('index', 'tag', 'view');
 		parent::beforeFilter();
 	}
 
@@ -127,6 +125,12 @@ class VideosController extends VideosAppController {
  * @return CakeResponse
  */
 	public function view($frameId, $videoKey = null) {
+		// フレームKeyなしはアクセスさせない
+		if (empty($videoKey)) {
+			$this->throwBadRequest();
+			return false;
+		}
+
 		// ワークフロー表示条件 取得
 		$conditions = $this->_getWorkflowConditions($videoKey);
 
