@@ -91,10 +91,21 @@ class VideoFrameSettingsController extends VideosAppController {
 
 			// 保存
 			if (!$videoFrameSetting = $this->VideoFrameSetting->saveVideoFrameSetting($data)) {
+				// エラー処理
 				if (!$this->handleValidationError($this->VideoFrameSetting->validationErrors)) {
 					$this->log($this->validationErrors, 'debug');
 					return;
 				}
+
+				// 正常処理
+			} else {
+				// ajax以外は、リダイレクト
+				if (!$this->request->is('ajax')) {
+					// 一覧へ戻る
+					$url = isset($this->viewVars['current']['page']) ? '/' . $this->viewVars['current']['page']['permalink'] : null;
+					$this->redirect($url);
+				}
+				return;
 			}
 		}
 

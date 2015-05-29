@@ -22,7 +22,7 @@
 					//'label' => false,
 					'type' => 'select',
 					'class' => 'form-control',
-					'value' => $videoFrameSetting['displayOrder'],
+					'default' => $videoFrameSetting['displayOrder'],
 					//'legend' => false,
 					'empty' => false,
 				)
@@ -41,7 +41,7 @@
 					//'label' => false,
 					'type' => 'select',
 					'class' => 'form-control',
-					'value' => $videoFrameSetting['displayNumber'],
+					'default' => $videoFrameSetting['displayNumber'],
 					//'legend' => false,
 					'empty' => false,
 				)

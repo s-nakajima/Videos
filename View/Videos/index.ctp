@@ -60,42 +60,59 @@
 			<div class="col-sm-9 col-xs-8">
 				<div class="form-inline text-right">
 
-					<div class="form-group">
-						<span class="sr-only"><?php echo __d('videos', '表示順'); ?></span>
-						<?php echo $this->Form->input('display_order',
-							array(
-								'label' => false,
-								'type' => 'select',
-								'class' => 'form-control',
-								'options' => array(
-									VideoFrameSetting::DISPLAY_ORDER_NEW => __d('videos', '新着順'),
-									VideoFrameSetting::DISPLAY_ORDER_TITLE => __d('videos', 'タイトル順'),
-									VideoFrameSetting::DISPLAY_ORDER_PLAY => __d('videos', '再生回数順'),
-									VideoFrameSetting::DISPLAY_ORDER_LIKE => __d('videos', '評価順'),
-								),
-								'selected' => $displayOrder,
-								'ng-change' => 'changeEditor()',
-							)) ?>
-					</div>
+					<?php /* ソート順 */ ?>
+					<span class="btn-group">
+						<?php $displayOrderOptions = array(
+							'Video.created.desc' => array(
+								'label' => __d('videos', '新着順'),
+								'sort' => 'Video.created',
+								'direction' => 'desc'
+							),
+							'Video.title.asc' => array(
+								'label' => __d('videos', 'タイトル順'),
+								'sort' => 'Video.title',
+								'direction' => 'asc'
+							),
+							'Video.play_number.desc' => array(
+								'label' => __d('videos', '再生回数順'),
+								'sort' => 'Video.play_number',
+								'direction' => 'desc'
+							),
+							// 暫定対応(;'∀') 評価順はLikesプラグインが対応していないので、対応を先送りする
+							/*'Video.like_counts.desc' => array(
+								'label' => __d('videos', '評価順'),
+								'sort' => 'Video.like_counts',
+								'direction' => 'desc'
+							),*/
+						); ?>
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							<?php echo $displayOrderOptions[$displayOrderPaginator]['label']; ?>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<?php foreach ($displayOrderOptions as $key => $sort) : ?>
+								<li<?php echo $key == $displayOrderPaginator ? ' class="active"' : ''; ?>>
+									<?php echo $this->Paginator->link($sort['label'], array('sort' => $sort['sort'], 'direction' => $sort['direction'])); ?>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+					</span>
 
-					<div class="form-group">
-						<span class="sr-only"><?php echo __d('videos', '表示件数'); ?></span>
-						<?php echo $this->Form->input('display_number',
-							array(
-								'label' => false,
-								'type' => 'select',
-								'class' => 'form-control',
-								'options' => array(
-									1 => sprintf(__d('videos', '%s件'), '1'),
-									5 => sprintf(__d('videos', '%s件'), '5'),
-									10 => sprintf(__d('videos', '%s件'), '10'),
-									20 => sprintf(__d('videos', '%s件'), '20'),
-									50 => sprintf(__d('videos', '%s件'), '50'),
-									100 => sprintf(__d('videos', '%s件'), '100'),
-								),
-								'selected' => $displayNumber,
-							)) ?>
-					</div>
+					<?php /* 表示件数 */ ?>
+					<span class="btn-group">
+						<?php $displayNumberOptions = VideoFrameSetting::getDisplayNumberOptions(); ?>
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							<?php echo $displayNumberOptions[$this->Paginator->param('limit')]; ?>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<?php foreach ($displayNumberOptions as $count => $label) : ?>
+								<li<?php echo (int)$this->Paginator->param('limit') === $count ? ' class="active"' : ''; ?>>
+									<?php echo $this->Paginator->link($label, array('limit' => $count, 'page' => '1')); ?>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+					</span>
 
 				</div>
 			</div>
@@ -192,10 +209,6 @@
 							<ul class="pagination">
 								<?php echo $this->Paginator->first('«', array(
 									'tag' => 'li',
-									'url' => Hash::merge(
-										array('controller' => 'videos', 'action' => 'index', $frameId),
-										$this->Paginator->params['named']
-									)
 								)); ?>
 								<?php echo $this->Paginator->numbers(array(
 									'tag' => 'li',
@@ -205,21 +218,9 @@
 									'first' => false,
 									'last' => false,
 									'modulus' => '4',
-									'url' => Hash::merge(array(
-										'controller' => 'videos',
-										'action' => 'index',
-										$frameId,
-										$displayOrder,
-										$displayNumber),
-										$this->Paginator->params['named']
-									)
 								)); ?>
 								<?php echo $this->Paginator->last('»', array(
 									'tag' => 'li',
-									'url' => Hash::merge(
-										array('controller' => 'videos', 'action' => 'index', $frameId),
-										$this->Paginator->params['named']
-									)
 								)); ?>
 							</ul>
 						</nav>

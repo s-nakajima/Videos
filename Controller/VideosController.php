@@ -207,20 +207,14 @@ class VideosController extends VideosAppController {
 		));
 		$results['frame'] = $frame['Frame'];
 
-		$displayOrder = $this->_getNamed('display_order');
-		$displayNumber = $this->_getNamed('display_number');
+		//ソート
+		$order = $this->__order();
+		$results['displayOrderPaginator'] = key($order) . '.' . $order[key($order)];
 
-		// 並び順
-		if (empty($displayOrder)) {
-			$results['displayOrder'] = $videoFrameSetting['VideoFrameSetting']['display_order'];
-		} else {
-			$results['displayOrder'] = $displayOrder;
-		}
-		// 表示件数
-		if (empty($displayNumber)) {
-			$results['displayNumber'] = $videoFrameSetting['VideoFrameSetting']['display_number'];
-		} else {
-			$results['displayNumber'] = $displayNumber;
+		//表示件数
+		$limit = $this->_getNamed('limit');
+		if (!isset($limit)) {
+			$limit = $videoFrameSetting['VideoFrameSetting']['display_number'];
 		}
 
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
@@ -244,13 +238,13 @@ class VideosController extends VideosAppController {
 
 			$this->Paginator->settings = array(
 				$this->Video->alias => array(
-					'order' => $this->Video->alias . '.id DESC',
+					'order' => $order,
 					'fields' => array(
 						'*',
 						'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
 					),
 					'conditions' => $conditions,
-					'limit' => $results['displayNumber']
+					'limit' => $limit
 				)
 			);
 			$results['videos'] = $this->Paginator->paginate($this->Video->alias);
@@ -262,4 +256,36 @@ class VideosController extends VideosAppController {
 		return $results;
 	}
 
+/**
+ * ソート条件 取得
+ *
+ * @return array ソート条件
+ */
+	private function __order() {
+		$sort = $this->_getNamed('sort');
+		$direction = $this->_getNamed('direction');
+
+		//ソート
+		if (isset($sort) && isset($direction)) {
+			$order = array($sort => $direction);
+		} elseif (isset($videoFrameSetting['VideoFrameSetting']['display_order'])) {
+			$displayOrder = $videoFrameSetting['VideoFrameSetting']['display_order'];
+			if ($displayOrder == VideoFrameSetting::DISPLAY_ORDER_NEW) {
+				$order = array('Video.created' => 'desc');
+			} elseif ($displayOrder == VideoFrameSetting::DISPLAY_ORDER_TITLE) {
+				$order = array('Video.title' => 'asc');
+			} elseif ($displayOrder == VideoFrameSetting::DISPLAY_ORDER_PLAY) {
+				$order = array('Video.play_number' => 'desc');
+				// 暫定対応(;'∀') 評価順はLikesプラグインが対応していないので、対応を先送りする
+				//} elseif ($displayOrder == VideoFrameSetting::DISPLAY_ORDER_LIKE) {
+				//	$order = array('Video.like_counts' => 'desc');
+			} else {
+				$order = array('Video.created' => 'desc');
+			}
+		} else {
+			$order = array('Video.created' => 'desc');
+		}
+
+		return $order;
+	}
 }
