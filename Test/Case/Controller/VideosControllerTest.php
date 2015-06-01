@@ -30,6 +30,10 @@ class VideosControllerTest extends VideosAppTest {
  */
 	public function setUp() {
 		parent::setUp();
+
+		// PageLayout対応
+		YACakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
+
 		Configure::write('Config.language', 'ja');
 		$this->generate(
 			'Videos.Videos',
