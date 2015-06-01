@@ -10,17 +10,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-/*echo $this->Form->hidden('id', array('value' => isset($bbsSetting['id']) ? (int)$bbsSetting['id'] : null));
-echo $this->Form->hidden('Frame.id', array('value' => $frameId));
-echo $this->Form->hidden('Block.id', array('value' => $block['id']));
-echo $this->Form->hidden('Block.key', array('value' => $block['key']));
-echo $this->Form->hidden('Block.language_id', array('value' => $languageId));
-echo $this->Form->hidden('Block.room_id', array('value' => $roomId));
-echo $this->Form->hidden('Block.plugin_key', array('value' => $this->request->params['plugin']));
-echo $this->Form->hidden('Bbs.id', array('value' => isset($bbs['id']) ? (int)$bbs['id'] : null));
-echo $this->Form->hidden('Bbs.key', array('value' => isset($bbs['key']) ? $bbs['key'] : null));
-echo $this->Form->hidden('BbsSetting.id', array('value' => isset($bbsSetting['id']) ? (int)$bbsSetting['id'] : null));*/
-
 echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $block['id'] : null));
 ?>
 

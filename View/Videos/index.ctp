@@ -10,7 +10,7 @@
  */
 ?>
 
-<?php echo $this->Html->script('/videos/js/videos.js', false); ?>
+<?php echo $this->Html->script('/videos/js/videos.js', array('plugin' => false, 'once' => true, 'inline' => false)); ?>
 
 <?php /* 暫定対応(;'∀') <div class="frame"> 画面遷移してもブロック枠が残るようになったら不要 */ ?>
 <div class="frame">

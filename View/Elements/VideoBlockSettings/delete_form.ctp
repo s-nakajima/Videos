@@ -10,10 +10,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-/*echo $this->Form->hidden('Block.id', array('value' => $block['id']));
-echo $this->Form->hidden('Block.key', array('value' => $block['key']));
-echo $this->Form->hidden('Bbs.key', array('value' => isset($bbs['key']) ? $bbs['key'] : null));*/
-
 echo $this->Form->hidden('Block.id', array('value' => $block['id']));
 ?>
 

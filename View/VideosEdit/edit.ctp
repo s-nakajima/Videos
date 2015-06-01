@@ -10,9 +10,15 @@
  */
 ?>
 
-<?php echo $this->Html->script('/net_commons/js/workflow.js', false); ?>
-<?php echo $this->Html->script('/videos/js/videos.js', false); ?>
-<?php echo $this->Html->script('/tags/js/tags.js', false); ?>
+<?php
+$this->Html->script(
+	array(
+		'/net_commons/js/workflow.js',
+		'/tags/js/tags.js',
+		'/videos/js/videos.js',
+	),
+	array('plugin' => false, 'once' => true, 'inline' => false)
+);?>
 
 <div ng-controller="Videos"
 	 ng-init="initialize(<?php echo h(json_encode($video)); ?>)">
