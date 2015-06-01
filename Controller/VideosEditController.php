@@ -82,6 +82,9 @@ class VideosEditController extends VideosAppController {
 					'status' => $status,
 					'block_id' => $this->viewVars['blockId'],
 					'language_id' => $this->viewVars['languageId'],
+				)),
+				array($this->Comment->alias => array(
+					'block_key' => $this->viewVars['blockKey'],
 				))
 			);
 
@@ -94,6 +97,7 @@ class VideosEditController extends VideosAppController {
 			}
 			if (!$this->handleValidationError($this->Video->validationErrors)) {
 				// エラー時、なにもしない
+				$this->log($this->Video->validationErrors, 'debug');
 
 				// 正常
 			} else {
@@ -149,6 +153,9 @@ class VideosEditController extends VideosAppController {
 				$data,
 				array($this->Video->alias => array(
 					'status' => $status,
+				)),
+				array($this->Comment->alias => array(
+					'block_key' => $this->viewVars['blockKey'],
 				))
 			);
 

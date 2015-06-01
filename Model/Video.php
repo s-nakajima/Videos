@@ -287,7 +287,7 @@ class Video extends VideosAppModel {
 			}
 
 			// ステータスチェック
-			if (!$this->Comment->validateByStatus($data, array('caller' => $this->name))) {
+			if (!$this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
 				return false;
 			}
@@ -305,6 +305,9 @@ class Video extends VideosAppModel {
 			}
 			//コメントの登録
 			if ($this->Comment->data) {
+				// コンテンツキーをセット
+				$this->Comment->data[$this->Comment->name]['content_key'] = $video['Video']['key'];
+
 				if (!$this->Comment->save(null, false)) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
@@ -364,7 +367,7 @@ class Video extends VideosAppModel {
 			}
 
 			// ステータスチェック
-			if (!$this->Comment->validateByStatus($data, array('caller' => $this->name))) {
+			if (!$this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
 				return false;
 			}
@@ -385,6 +388,9 @@ class Video extends VideosAppModel {
 			}
 			//コメントの登録
 			if ($this->Comment->data) {
+				// コンテンツキーをセット
+				$this->Comment->data[$this->Comment->name]['content_key'] = $video['Video']['key'];
+
 				if (!$this->Comment->save(null, false)) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
@@ -434,7 +440,7 @@ class Video extends VideosAppModel {
 			}
 
 			// ステータスチェック
-			if (!$this->Comment->validateByStatus($data, array('caller' => $this->name))) {
+			if (!$this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
 				return false;
 			}
