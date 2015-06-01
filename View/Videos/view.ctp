@@ -26,27 +26,23 @@ $this->Html->script(
 	array('plugin' => false, 'once' => true, 'inline' => false)
 );?>
 
-<?php /* 暫定対応(;'∀') <div class="frame"> 画面遷移してもブロック枠が残るようになったら不要 */ ?>
-<div class="frame">
 <div class="nc-content-list">
 <article>
 
 <?php /* 上部ボタン */ ?>
-<header>
-	<p>
-	<div class="row">
-		<div class="col-xs-12 text-right">
-			<?php if ($contentEditable): ?>
+<?php if ($contentEditable): ?>
+	<header>
+		<div class="row">
+			<div class="col-xs-12 text-right" style="padding-bottom: 10px;">
 				<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
 					<a href="<?php echo $this->Html->url('/videos/videos_edit/edit/' . $frameId . '/' . $video['video']['key']); ?>" class="btn btn-primary">
 						<span class="glyphicon glyphicon-edit"> </span>
 					</a>
 				</span>
-			<?php endif; ?>
+			</div>
 		</div>
-	</div>
-	</p>
-</header>
+	</header>
+<?php endif; ?>
 
 <?php /* 動画 */ ?>
 <div class="row">
@@ -54,8 +50,8 @@ $this->Html->script(
 		<div style="padding-bottom: 20px;">
 			<?php /* 動画プレイヤー */ ?>
 			<?php echo $this->element('Videos/player', array(
-				'fileMp4Url' => isset($video['fileMp4']['url']) ? $this->Html->url($video['fileMp4']['url']) : '',
-				'fileThumbnailUrl' => isset($video['fileThumbnail']['urlMedium']) ? $this->Html->url($video['fileThumbnail']['urlMedium']) : '',
+				'fileMp4Url' => isset($video['fileMp4']['url']) ? $video['fileMp4']['url'] : '',
+				'fileThumbnailUrl' => isset($video['fileThumbnail']['urlMedium']) ? $video['fileThumbnail']['urlMedium'] : '',
 				'isAutoPlay' => $videoBlockSetting['autoPlay'],
 			)); ?>
 		</div>
@@ -104,11 +100,19 @@ $this->Html->script(
 							'likeCounts' => (int)$video['video']['likeCounts'],
 							'unlikeCounts' => (int)$video['video']['unlikeCounts'],
 						)); ?>>
+							<?php if ($contentEditable): ?>
+								<span style="padding-right: 15px;">
+									<?php /* ダウンロード */ ?>
+									<a href="<?php echo isset($video['fileMp4']['download']) ? $this->Html->url($video['fileMp4']['download']) : ''; ?>">
+										<?php echo __d('videos', 'ダウンロード'); ?>
+									</a>
+								</span>
+							<?php endif; ?>
+
 							<span style="padding-right: 15px;">
 								<?php /* 埋め込みコード */ ?>
 								<a href="#"><?php echo __d('videos', '埋め込みコード'); ?></a>
 							</span>
-
 
 							<?php /* いいね */ ?>
 							<?php if ($videoBlockSetting['useLike']) : ?>
@@ -276,5 +280,4 @@ $this->Html->script(
 </footer>
 
 </article>
-</div>
 </div>
