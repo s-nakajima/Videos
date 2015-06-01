@@ -320,8 +320,10 @@ class VideoBlockSetting extends VideosAppModel {
 			// ファイル 削除 暫定として対応しない(;'∀')
 			// 本来、データと物理ファイル削除。共通処理が完成したら、実装する
 
-			// 承認コメント削除 暫定として対応しない(;'∀')
-			// 本来削除。Commentsテーブルにblock_key項目が追加されたら、削除実装する
+			// 承認コメント削除
+			if (! $this->Comment->deleteAll(array($this->Comment->alias . '.block_key' => $data['Block']['key']), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
 
 			// コンテンツコメント 削除
 			if (! $this->ContentComment->deleteAll(array($this->ContentComment->alias . '.block_key' => $data['Block']['key']), false)) {
