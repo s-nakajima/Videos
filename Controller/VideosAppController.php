@@ -27,6 +27,7 @@ class VideosAppController extends AppController {
 	public $components = array(
 		'Security',
 		'NetCommons.NetCommonsFrame',		// frameId, frameKey等を自動セット
+		'Pages.PageLayout',
 	);
 
 /**
