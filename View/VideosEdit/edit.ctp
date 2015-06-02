@@ -27,14 +27,13 @@ $this->Html->script(
 
 		<h1><?php echo __d('videos', 'Video edit'); ?></h1>
 
-		<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>
-		<?php echo $this->Form->create('Video', array(
-			'name' => 'form',
-			'novalidate' => true,
-			'type' => 'file',
-		)); ?>
-
-			<div class="panel panel-default">
+		<div class="panel panel-default">
+			<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>
+			<?php echo $this->Form->create('Video', array(
+				'name' => 'form',
+				'novalidate' => true,
+				'type' => 'file',
+			)); ?>
 				<div class="panel-body has-feedback">
 
 					<?php // ffmpeg=ON
@@ -111,16 +110,36 @@ $this->Html->script(
 					<div class="text-center">
 						<?php echo $this->element('NetCommons.workflow_buttons'); ?>
 					</div>
-					<div class="text-right">
-						<a href="<?php echo $this->Html->url('/videos/videos/delete/' . $frameId); ?>" class="btn btn-danger">
-							<span class="glyphicon glyphicon-trash"> </span>
-						</a>
-					</div>
+				</div>
+
+			<?php echo $this->Form->end(); ?>
+
+			<div class="panel-footer" style="border-top-style: none;">
+				<div class="text-right">
+					<?php /* 削除 */ ?>
+					<?php echo $this->Form->create('Video', array(
+						'type' => 'delete',
+						'style' => 'display: inline;',
+						'action' => '/videos_edit/delete/' . $frameId,
+					)); ?>
+
+						<?php echo $this->Form->hidden('Video.id', array(
+							'value' => $video['id'],
+						)); ?>
+						<?php echo $this->Form->hidden('Video.key', array(
+							'value' => $video['key'],
+						)); ?>
+						<?php echo $this->Form->button("<span class='glyphicon glyphicon-trash'></span>", array(
+							'name' => 'delete',
+							'class' => 'btn btn-danger',
+							'onclick' => 'return confirm(\'' . sprintf(__d('videos', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'video')) . '\')'
+						)); ?>
+
+					<?php echo $this->Form->end(); ?>
 				</div>
 			</div>
-			<?php echo $this->element('Comments.index'); ?>
 
-		<?php echo $this->Form->end(); ?>
-
+		</div>
+		<?php echo $this->element('Comments.index'); ?>
 	</div>
 </div>

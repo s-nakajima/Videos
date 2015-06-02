@@ -473,6 +473,66 @@ class Video extends VideosAppModel {
 	}
 
 /**
+ * Videoデータ削除
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function deleteVideo($data) {
+		$this->loadModels(array(
+			'Comment' => 'Comments.Comment',
+			'ContentComment' => 'ContentComments.ContentComment',
+			'FileModel' => 'Files.FileModel',		// FileUpload
+			'Like' => 'Likes.Like',
+			'TagsContent' => 'Tags.TagsContent',
+			'Video' => 'Videos.Video',
+		));
+
+		//トランザクションBegin
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			// 動画削除
+			if (! $this->deleteAll(array($this->alias . '.key' => $data['Video']['key']), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			// ファイル 削除 暫定として対応しない(;'∀')
+			// 本来、データと物理ファイル削除。共通処理が完成したら、実装する
+
+			// 承認コメント削除
+			if (! $this->Comment->deleteAll(array($this->Comment->alias . '.content_key' => $data['Video']['key']), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			// コンテンツコメント 削除
+			if (! $this->ContentComment->deleteAll(array($this->ContentComment->alias . '.content_key' => $data['Video']['key']), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			// タグコンテンツ 削除
+			if (! $this->TagsContent->deleteAll(array($this->TagsContent->alias . '.content_id' => $data['Video']['id']), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			// いいね 削除
+			if (! $this->Like->deleteAll(array($this->Like->alias . '.content_key' => $data['Video']['key']), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			$dataSource->commit();
+
+		} catch (InternalErrorException $ex) {
+			$dataSource->rollback();
+			CakeLog::write(LOG_ERR, $ex);
+			throw $ex;
+		}
+		return true;
+	}
+
+/**
  * 動画変換とデータ保存
  *
  * @param array $data received post data

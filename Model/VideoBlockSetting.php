@@ -284,6 +284,9 @@ class VideoBlockSetting extends VideosAppModel {
 			'Comment' => 'Comments.Comment',
 			'ContentComment' => 'ContentComments.ContentComment',
 			'FileModel' => 'Files.FileModel',		// FileUpload
+			'Like' => 'Likes.Like',
+			'Tag' => 'Tags.Tag',
+			'TagsContent' => 'Tags.TagsContent',
 			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
 			'Video' => 'Videos.Video',
 		));
@@ -293,14 +296,6 @@ class VideoBlockSetting extends VideosAppModel {
 		$dataSource->begin();
 
 		try {
-			// VideoBlockSetting削除
-			if (! $this->deleteAll(array($this->alias . '.block_key' => $data['Block']['key']), false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			//Blockデータ削除
-			$this->Block->deleteBlock($data['Block']['key']);
-
 			// 多言語コンテンツ削除対応
 			// 対象のブロックID一覧を取得
 			$conditions = array(
@@ -311,6 +306,23 @@ class VideoBlockSetting extends VideosAppModel {
 				'conditions' => $conditions,
 			));
 			$blockIds = array_keys($blockIds);
+
+			$conditions = array(
+				$this->Tag->alias . '.block_id' => $blockIds
+			);
+			$tagIds = $this->Tag->find('list', array(
+				'recursive' => -1,
+				'conditions' => $conditions,
+			));
+			$tagIds = array_keys($tagIds);
+
+			// VideoBlockSetting削除
+			if (! $this->deleteAll(array($this->alias . '.block_key' => $data['Block']['key']), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//Blockデータ削除
+			$this->Block->deleteBlock($data['Block']['key']);
 
 			// 動画削除
 			if (! $this->Video->deleteAll(array($this->Video->alias . '.block_id' => $blockIds), false)) {
@@ -330,7 +342,20 @@ class VideoBlockSetting extends VideosAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			// いいね 削除 対応まだ(;'∀')
+			// タグコンテンツ 削除
+			if (! $this->TagsContent->deleteAll(array($this->TagsContent->alias . '.tag_id' => $tagIds), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			// タグ 削除
+			if (! $this->Tag->deleteAll(array($this->Tag->alias . '.block_id' => $blockIds), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			// いいね 削除
+			if (! $this->Like->deleteAll(array($this->Like->alias . '.block_key' => $data['Block']['key']), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
 
 			$dataSource->commit();
 

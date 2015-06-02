@@ -178,6 +178,20 @@ class VideosEditController extends VideosAppController {
  * @return CakeResponse
  */
 	public function delete() {
+		if ($this->request->isDelete()) {
+			// 削除
+			if (!$this->Video->deleteVideo($this->data)) {
+				$this->throwBadRequest();
+				return;
+			}
+
+			if (!$this->request->is('ajax')) {
+				// 一覧へ
+				$this->redirect('/videos/videos/index/' . $this->viewVars['frameId']);
+			}
+			return;
+		}
+		$this->throwBadRequest();
 	}
 
 /**

@@ -22,18 +22,18 @@
 		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'VideoBlockSettings',
-				'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
-				'callback' => 'Videos.VideoBlockSettings/edit_form',
-				'cancelUrl' => '/videos/video_block_settings/index/' . $frameId
-			)); ?>
+			'controller' => 'VideoBlockSettings',
+			'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
+			'callback' => 'Videos.VideoBlockSettings/edit_form',
+			'cancelUrl' => '/videos/video_block_settings/index/' . $frameId
+		)); ?>
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>
 			<?php echo $this->element('Blocks.delete_form', array(
-					'controller' => 'VideoBlockSettings',
-					'action' => 'delete/' . $frameId . '/' . $blockId,
-					'callback' => 'Videos.VideoBlockSettings/delete_form'
-				)); ?>
+				'controller' => 'VideoBlockSettings',
+				'action' => 'delete/' . $frameId . '/' . $blockId,
+				'callback' => 'Videos.VideoBlockSettings/delete_form'
+			)); ?>
 		<?php endif; ?>
 	</div>
 </div>
