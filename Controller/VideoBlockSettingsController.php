@@ -54,8 +54,8 @@ class VideoBlockSettingsController extends VideosAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		//$this->Auth->allow();
-		$this->Auth->deny('index');
+		// 権限判定が必要
+		$this->Auth->deny('index', 'add', 'edit', 'delete');
 
 		$this->layout = 'NetCommons.setting';
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);

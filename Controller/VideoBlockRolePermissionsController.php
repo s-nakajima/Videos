@@ -50,6 +50,8 @@ class VideoBlockRolePermissionsController extends VideosAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
+		// 権限判定が必要
+		$this->Auth->deny('edit');
 
 		$this->layout = 'NetCommons.setting';
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
