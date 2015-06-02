@@ -252,6 +252,48 @@ class Video extends VideosAppModel {
 	}
 
 /**
+ * Videoデータ保存
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function saveVideo($data) {
+		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
+		$this->loadModels(array(
+			'Video' => 'Videos.Video',
+		));
+
+		//トランザクションBegin
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			// 値をセット
+			$this->set($data);
+
+			// 入力チェック
+			$this->validates();
+			if ($this->validationErrors) {
+				return false;
+			}
+
+			// 動画データ登録
+			$video = $this->save(null, false);
+			if (!$video) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			$dataSource->commit();
+		} catch (InternalErrorException $ex) {
+			$dataSource->rollback();
+			CakeLog::write(LOG_ERR, $ex);
+			throw $ex;
+		}
+		return $video;
+	}
+
+/**
  * 登録Videoデータ保存
  *
  * @param array $data received post data

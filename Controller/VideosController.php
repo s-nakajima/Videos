@@ -181,6 +181,15 @@ class VideosController extends VideosAppController {
 			$results['contentComments'] = $contentComments;
 		}
 
+		//再生回数 + 1
+		$data = Hash::merge(
+			$video,
+			array($this->Video->alias => array(
+				'play_number' => $video['Video']['play_number'] + 1,
+			))
+		);
+		$this->Video->saveVideo($data);
+
 		// キーをキャメル変換
 		$results = $this->camelizeKeyRecursive($results);
 
