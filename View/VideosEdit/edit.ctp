@@ -120,7 +120,7 @@ $this->Html->script(
 					<?php echo $this->Form->create('Video', array(
 						'type' => 'delete',
 						'style' => 'display: inline;',
-						'action' => '/videos_edit/delete/' . $frameId,
+						'url' => '/videos/videos_edit/delete/' . $frameId,
 					)); ?>
 
 						<?php echo $this->Form->hidden('Video.id', array(
