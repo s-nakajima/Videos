@@ -14,8 +14,18 @@ $fileThumbnailUrl = isset($fileThumbnailUrl) ? $this->Html->url(h($fileThumbnail
 $isAutoPlay = $isAutoPlay ? 'autoplay' : '';
 ?>
 
-<video poster="<?php echo $fileThumbnailUrl; ?>"
-	<?php echo $isAutoPlay; ?>
+<?php /* 右クリック抑止 */ ?>
+<script type="text/javascript">
+	$(function(){
+		$('#nc-video-player-<?php echo (int)$frameId; ?>').on('contextmenu',function(e){
+			return false;
+		});
+	});
+</script>
+
+<video id="nc-video-player-<?php echo (int)$frameId; ?>"
+	   poster="<?php echo $fileThumbnailUrl; ?>"
+	   <?php echo $isAutoPlay; ?>
 	   width="100%"
 	   height="100%"
 	   controls="controls">
