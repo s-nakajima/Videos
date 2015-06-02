@@ -111,9 +111,6 @@ $this->Html->script(
 					<div class="text-center">
 						<?php echo $this->element('NetCommons.workflow_buttons'); ?>
 					</div>
-				</div>
-
-				<div class="panel-footer">
 					<div class="text-right">
 						<a href="<?php echo $this->Html->url('/videos/videos/delete/' . $frameId); ?>" class="btn btn-danger">
 							<span class="glyphicon glyphicon-trash"> </span>

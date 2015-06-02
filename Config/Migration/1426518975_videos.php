@@ -124,11 +124,21 @@ class Videos extends CakeMigration {
 	public $records = array(
 		'Plugin' => array(
 			array(
+				'language_id' => 1,
+				'key' => 'videos',
+				'namespace' => 'netcommons/videos',
+				'name' => 'Video',
+				'type' => 1,
+				'default_action' => 'videos/index',
+				'default_setting_action' => 'video_block_settings/index',
+			),
+			array(
 				'language_id' => 2,
 				'key' => 'videos',
 				'namespace' => 'netcommons/videos',
 				'name' => '動画',
 				'type' => 1,
+				'default_action' => 'videos/index',
 				'default_setting_action' => 'video_block_settings/index',
 			),
 		),
