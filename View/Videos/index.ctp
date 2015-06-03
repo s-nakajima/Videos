@@ -67,7 +67,7 @@
 								'direction' => 'desc'
 							),
 							'Video.title.asc' => array(
-								'label' => __d('videos', 'Title'),
+								'label' => __d('videos', 'By title'),
 								'sort' => 'Video.title',
 								'direction' => 'asc'
 							),

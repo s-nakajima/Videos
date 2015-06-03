@@ -180,7 +180,7 @@ class VideoFrameSetting extends VideosAppModel {
 	public static function getDisplayOrderOptions() {
 		return array(
 			VideoFrameSetting::DISPLAY_ORDER_NEW => __d('videos', 'Newest'),
-			VideoFrameSetting::DISPLAY_ORDER_TITLE => __d('videos', 'Title'),
+			VideoFrameSetting::DISPLAY_ORDER_TITLE => __d('videos', 'By title'),
 			VideoFrameSetting::DISPLAY_ORDER_PLAY => __d('videos', 'Viewed'),
 			//VideoFrameSetting::DISPLAY_ORDER_LIKE => __d('videos', 'Reviews'),
 		);

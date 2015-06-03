@@ -52,8 +52,8 @@ $overwriteEnable = isset($overwriteEnable) ? $overwriteEnable : true;
 $pluginNameLower = mb_strtolower($pluginName);
 
 // コアでこの言語、共通化希望
-$labelDeleteFile = __d('videos', 'Delete file.');
-$labelOverwriteFile = __d('videos', 'Overwrite file.');
+$labelDeleteFile = __d('files', 'Delete file.');
+$labelOverwriteFile = __d('files', 'Overwrite file.');
 ?>
 
 <div class="form-group">

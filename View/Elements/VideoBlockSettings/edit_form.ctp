@@ -38,7 +38,7 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 <div class="form-group">
 	<div>
 		<?php echo $this->Form->input('VideoBlockSetting.use_like', array(
-			'label' => '<span class="glyphicon glyphicon-thumbs-up"> </span> ' . __d('videos', 'Use button'),
+			'label' => '<span class="glyphicon glyphicon-thumbs-up"> </span> ' . __d('likes', 'Use like button'),
 			'div' => false,
 			'type' => 'checkbox',
 			'ng-model' => 'videoBlockSetting.useLike',
@@ -46,7 +46,7 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 	</div>
 	<div style="padding-left: 20px;">
 		<?php echo $this->Form->input('VideoBlockSetting.use_unlike', array(
-			'label' => '<span class="glyphicon glyphicon-thumbs-down"> </span> ' . __d('videos', 'Also use button'),
+			'label' => '<span class="glyphicon glyphicon-thumbs-down"> </span> ' . __d('likes', 'Use unlike button'),
 			'div' => false,
 			'type' => 'checkbox',
 			'ng-model' => 'videoBlockSetting.useUnlike',
@@ -70,7 +70,7 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 <div class="form-group">
 	<div>
 		<?php echo $this->Form->input('VideoBlockSetting.use_comment', array(
-			'label' => __d('videos', 'Use comment'),
+			'label' => __d('content_comments', 'Use comment'),
 			'div' => false,
 			'type' => 'checkbox',
 			//'default' => $videoBlockSetting['useComment'],
