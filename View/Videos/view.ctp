@@ -89,7 +89,7 @@ $this->Html->script(
 						</div>
 						<div class="col-xs-6 text-right" style="font-size: 18px;">
 							<?php /* 再生回数 */ ?>
-							<?php echo sprintf(__d('videos', '再生回数 %s回'), $video['video']['playNumber']); ?>
+							<?php echo sprintf(__d('videos', 'Views %s times'), $video['video']['playNumber']); ?>
 						</div>
 					</div>
 
@@ -104,14 +104,14 @@ $this->Html->script(
 								<span style="padding-right: 15px;">
 									<?php /* ダウンロード */ ?>
 									<a href="<?php echo isset($video['fileMp4']['download']) ? $this->Html->url($video['fileMp4']['download']) : ''; ?>">
-										<?php echo __d('videos', 'ダウンロード'); ?>
+										<?php echo __d('videos', 'Downloads'); ?>
 									</a>
 								</span>
 							<?php endif; ?>
 
 							<span style="padding-right: 15px;">
 								<?php /* 埋め込みコード */ ?>
-								<a href="#"><?php echo __d('videos', '埋め込みコード'); ?></a>
+								<a href="#"><?php echo __d('videos', 'Embed'); ?></a>
 							</span>
 
 							<?php /* いいね */ ?>
@@ -146,7 +146,7 @@ $this->Html->script(
 			</div>
 			<div>
 				<?php /* 登録日 */ ?>
-				<strong><?php echo __d('videos', '登録日') . '：' . $this->Date->dateFormat($video['video']['created']); ?></strong>
+				<strong><?php echo __d('videos', 'Registration Date') . '：' . $this->Date->dateFormat($video['video']['created']); ?></strong>
 			</div>
 			<div>
 				<?php /* 本文 */ ?>
@@ -273,7 +273,7 @@ $this->Html->script(
 	<div class="row">
 		<div class="col-xs-12 text-center">
 			<a href="<?php echo $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null); ?>" class="btn btn-default">
-				<?php echo __d("videos", "一覧へ戻る") ?>
+				<?php echo __d("videos", "Back to list") ?>
 			</a>
 		</div>
 	</div>

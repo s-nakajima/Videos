@@ -39,7 +39,7 @@ $this->Html->script(
 					<?php // ffmpeg=ON
 					if (Video::FFMPEG_ENABLE) {
 						$thumbnailLabel = __d('videos', 'Thumbnail');
-						$thumbnailHelpBlockMessage = __d('videos', '変更したい場合に登録してください。');
+						$thumbnailHelpBlockMessage = __d('videos', 'Register if you want to change.');
 					} else {
 						$thumbnailLabel = __d('videos', 'Thumbnail') . $this->element('NetCommons.required');
 						$thumbnailHelpBlockMessage = null;
@@ -132,7 +132,7 @@ $this->Html->script(
 						<?php echo $this->Form->button("<span class='glyphicon glyphicon-trash'></span>", array(
 							'name' => 'delete',
 							'class' => 'btn btn-danger',
-							'onclick' => 'return confirm(\'' . sprintf(__d('videos', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'video')) . '\')'
+							'onclick' => 'return confirm(\'' . sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'video')) . '\')'
 						)); ?>
 
 					<?php echo $this->Form->end(); ?>

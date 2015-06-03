@@ -30,5 +30,5 @@ $isAutoPlay = $isAutoPlay ? 'autoplay' : '';
 	   height="100%"
 	   controls="controls">
 	<source src="<?php echo $fileMp4Url; ?>" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
-	<p><?php echo __d('videos', '動画を再生するにはvideoタグをサポートしたブラウザが必要です。'); ?></p>
+	<p><?php echo __d('videos', 'To play the video requires a browser that supports the video tag.'); ?></p>
 </video>

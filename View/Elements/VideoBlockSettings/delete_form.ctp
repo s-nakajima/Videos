@@ -14,10 +14,10 @@ echo $this->Form->hidden('Block.id', array('value' => $block['id']));
 ?>
 
 <div class="inline-block">
-	<?php echo sprintf(__d('videos', 'Delete all data associated with the %s.'), __d('videos', 'channel')); ?>
+	<?php echo sprintf(__d('net_commons', 'Delete all data associated with the %s.'), __d('videos', 'channel')); ?>
 </div>
 <?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"> </span> ' . __d('net_commons', 'Delete'), array(
 	'name' => 'delete',
 	'class' => 'btn btn-danger pull-right',
-	'onclick' => 'return confirm(\'' . sprintf(__d('videos', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'channel')) . '\')'
+	'onclick' => 'return confirm(\'' . sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'channel')) . '\')'
 ));

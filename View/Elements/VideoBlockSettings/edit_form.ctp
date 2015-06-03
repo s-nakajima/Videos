@@ -17,7 +17,7 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 	<div class="col-xs-12">
 		<?php echo $this->Form->input('Block.name', array(
 			'type' => 'text',
-			'label' => __d('videos', 'チャンネル名') . $this->element('NetCommons.required'),
+			'label' => __d('videos', 'Channel name') . $this->element('NetCommons.required'),
 			'error' => false,
 			'class' => 'form-control',
 			'default' => (isset($block['name']) ? $block['name'] : '')
@@ -37,13 +37,8 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 
 <div class="form-group">
 	<div>
-		<label>
-			<?php echo __d('videos', '評価機能'); ?>
-		</label>
-	</div>
-	<div>
 		<?php echo $this->Form->input('VideoBlockSetting.use_like', array(
-			'label' => '<span class="glyphicon glyphicon-thumbs-up"> </span> ' . __d('videos', 'ボタンを利用する'),
+			'label' => '<span class="glyphicon glyphicon-thumbs-up"> </span> ' . __d('videos', 'Use button'),
 			'div' => false,
 			'type' => 'checkbox',
 			'ng-model' => 'videoBlockSetting.useLike',
@@ -51,7 +46,7 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 	</div>
 	<div style="padding-left: 20px;">
 		<?php echo $this->Form->input('VideoBlockSetting.use_unlike', array(
-			'label' => '<span class="glyphicon glyphicon-thumbs-down"> </span> ' . __d('videos', 'ボタンも利用する'),
+			'label' => '<span class="glyphicon glyphicon-thumbs-down"> </span> ' . __d('videos', 'Also use button'),
 			'div' => false,
 			'type' => 'checkbox',
 			'ng-model' => 'videoBlockSetting.useUnlike',
@@ -74,29 +69,8 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 
 <div class="form-group">
 	<div>
-		<label>
-			<?php echo __d('videos', '動画再生'); ?>
-		</label>
-	</div>
-	<div>
-		<?php echo $this->Form->input('VideoBlockSetting.auto_play', array(
-			'label' => __d('videos', '自動再生する'),
-			'div' => false,
-			'type' => 'checkbox',
-			'ng-model' => 'videoBlockSetting.autoPlay',
-		)); ?>
-	</div>
-</div>
-
-<div class="form-group">
-	<div>
-		<label>
-			<?php echo __d('videos', 'コメント設定'); ?>
-		</label>
-	</div>
-	<div>
 		<?php echo $this->Form->input('VideoBlockSetting.use_comment', array(
-			'label' => __d('videos', 'コメントを利用する'),
+			'label' => __d('videos', 'Use comment'),
 			'div' => false,
 			'type' => 'checkbox',
 			//'default' => $videoBlockSetting['useComment'],
@@ -114,4 +88,15 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 			'ng-disabled' => "!videoBlockSetting.useComment || videoBlockSetting.commentAgree",
 		));
 	</div> */ ?>
+</div>
+
+<div class="form-group">
+	<div>
+		<?php echo $this->Form->input('VideoBlockSetting.auto_play', array(
+			'label' => __d('videos', 'Automatically play video'),
+			'div' => false,
+			'type' => 'checkbox',
+			'ng-model' => 'videoBlockSetting.autoPlay',
+		)); ?>
+	</div>
 </div>

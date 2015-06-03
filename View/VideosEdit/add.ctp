@@ -37,9 +37,9 @@ $this->Html->script(
 
 					<?php // ffmpeg=ON
 					if (Video::FFMPEG_ENABLE) {
-						$videoHelpBlockMessage = __d('videos', 'mpeg,avi,mov,wmv,flv,mpg,mp4に対応しています。');
+						$videoHelpBlockMessage = __d('videos', 'support of mpeg, avi, mov, wmv, flv, mpg, mp4.');
 					} else {
-						$videoHelpBlockMessage = __d('videos', 'mp4に対応しています。');
+						$videoHelpBlockMessage = __d('videos', 'support of mp4.');
 					} ?>
 					<?php echo $this->element('VideosEdit/file', array(
 						'pluginName' => 'Videos',

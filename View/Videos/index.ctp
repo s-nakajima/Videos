@@ -18,7 +18,7 @@
 <?php /* ブロック未選択 */ ?>
 <?php if (empty($frame['blockId'])) : ?>
 
-	<div><?php echo __d('videos', '現在公開されている動画はありません。'); ?></div>
+	<div><?php echo __d('videos', 'There are no videos that are currently published.'); ?></div>
 
 	<?php /* ブロック選択済み */ ?>
 <?php else : ?>
@@ -45,7 +45,7 @@
 
 	<?php /* 検索 */ ?>
 	<?php if ($this->Paginator->param('count') == 0) : ?>
-		<div><?php echo __d('videos', '現在公開されている動画はありません。'); ?></div>
+		<div><?php echo __d('videos', 'There are no videos that are currently published.'); ?></div>
 	<?php else : ?>
 		<?php /* 件数、ソート順、表示件数 */ ?>
         <p>
@@ -62,23 +62,23 @@
 					<span class="btn-group">
 						<?php $displayOrderOptions = array(
 							'Video.created.desc' => array(
-								'label' => __d('videos', '新着順'),
+								'label' => __d('videos', 'Newest'),
 								'sort' => 'Video.created',
 								'direction' => 'desc'
 							),
 							'Video.title.asc' => array(
-								'label' => __d('videos', 'タイトル順'),
+								'label' => __d('videos', 'Title'),
 								'sort' => 'Video.title',
 								'direction' => 'asc'
 							),
 							'Video.play_number.desc' => array(
-								'label' => __d('videos', '再生回数順'),
+								'label' => __d('videos', 'Viewed'),
 								'sort' => 'Video.play_number',
 								'direction' => 'desc'
 							),
 							// 暫定対応(;'∀') 評価順はLikesプラグインが対応していないので、対応を先送りする
 							/*'Video.like_counts.desc' => array(
-								'label' => __d('videos', '評価順'),
+								'label' => __d('videos', 'Reviews'),
 								'sort' => 'Video.like_counts',
 								'direction' => 'desc'
 							),*/

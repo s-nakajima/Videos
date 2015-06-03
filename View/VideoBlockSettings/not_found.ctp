@@ -29,7 +29,7 @@
 			<footer>
 				<div class="text-center">
 					<a href="<?php echo $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null); ?>" class="btn btn-default">
-						<?php echo __d("videos", "一覧へ戻る") ?>
+						<?php echo __d("videos", "Back to list") ?>
 					</a>
 				</div>
 			</footer>

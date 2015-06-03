@@ -35,13 +35,13 @@
 						<tr>
 							<th>#</th>
 							<th>
-								<?php echo $this->Paginator->sort('Block.name', __d('videos', 'チャンネル名')); ?>
+								<?php echo $this->Paginator->sort('Block.name', __d('videos', 'Channel name')); ?>
 							</th>
 							<th>
-								<?php echo $this->Paginator->sort('Block.public_type', __d('videos', 'Public Type')); ?>
+								<?php echo $this->Paginator->sort('Block.public_type', __d('blocks', 'Publishing setting')); ?>
 							</th>
 							<th class="text-right">
-								<?php echo $this->Paginator->sort('VideoBlockSetting.file_size', __d('videos', 'ファイル容量')); ?>
+								<?php echo $this->Paginator->sort('VideoBlockSetting.file_size', __d('videos', 'File capacity')); ?>
 							</th>
 						</tr>
 					</thead>
@@ -68,11 +68,11 @@
 								</td>
 								<td>
 									<?php if ($videoBlockSetting['block']['publicType'] === '0') : ?>
-										<?php echo __d('videos', 'Private'); ?>
+										<?php echo __d('blocks', 'Private'); ?>
 									<?php elseif ($videoBlockSetting['block']['publicType'] === '1') : ?>
-										<?php echo __d('videos', 'Public'); ?>
+										<?php echo __d('blocks', 'Public'); ?>
 									<?php elseif ($videoBlockSetting['block']['publicType'] === '2') : ?>
-										<?php echo __d('videos', 'Limited Public'); ?>
+										<?php echo __d('blocks', 'Limited Public'); ?>
 									<?php endif; ?>
 								</td>
 								<td class="text-right">
@@ -95,7 +95,7 @@
 				</div>
 				<div class="text-center">
 					<a href="<?php echo $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null); ?>" class="btn btn-default">
-						<?php echo __d("videos", "一覧へ戻る") ?>
+						<?php echo __d("videos", "Back to list") ?>
 					</a>
 				</div>
 			</footer>

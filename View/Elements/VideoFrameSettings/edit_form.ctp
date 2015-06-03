@@ -13,7 +13,7 @@
 
 <div class="row form-group">
 	<div class="col-xs-12">
-		<?php echo $this->Form->label(__d('videos', '表示順')); ?>
+		<?php echo $this->Form->label(__d('videos', 'Display order')); ?>
 	</div>
 	<div class="col-xs-12">
 		<?php echo $this->Form->select('VideoFrameSetting.display_order',
@@ -32,7 +32,7 @@
 
 <div class="row form-group">
 	<div class="col-xs-12">
-		<?php echo $this->Form->label(__d('videos', '表示件数')); ?>
+		<?php echo $this->Form->label(__d('videos', 'Display number')); ?>
 	</div>
 	<div class="col-xs-12">
 		<?php echo $this->Form->select('VideoFrameSetting.display_number',
