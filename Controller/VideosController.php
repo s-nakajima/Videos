@@ -64,6 +64,7 @@ class VideosController extends VideosAppController {
  */
 	public $components = array(
 		'ContentComments.ContentComments',
+		'Cookie',
 		'Paginator',						// ページャ
 		'NetCommons.NetCommonsRoomRole',
 	);
@@ -181,14 +182,24 @@ class VideosController extends VideosAppController {
 			$results['contentComments'] = $contentComments;
 		}
 
-		//再生回数 + 1
-		$data = Hash::merge(
-			$video,
-			array($this->Video->alias => array(
-				'play_number' => $video['Video']['play_number'] + 1,
-			))
-		);
-		$this->Video->saveVideo($data);
+		// セッションキー = 固定文字 & コンテンツキー & ip(偽装ip対応)
+		//$isAccessed = 'video_key_' . $videoKey . $_SERVER['REMOTE_ADDR'];
+		$cookie = $this->Cookie->read('video_history');
+		$cookieArray = explode(':', $cookie);
+
+		//if (! $this->Session->read($isAccessed)) {
+		if (! in_array($video['Video']['id'], $cookieArray, true)) {
+			//再生回数 + 1 で更新
+			$playNumber = $this->Video->updateCountUp($video);
+			$results['video']['Video']['play_number'] = $playNumber;
+
+			// cookie value = コンテンツid & 区切り文字
+			$cookie = $cookie . $video['Video']['id'] . ':';
+
+			// アクセス情報を記録
+			//$this->Session->write($isAccessed, CakeSession::read('Config.userAgent'));
+			$this->Cookie->write('video_history', $cookie, true, '1 hour');
+		}
 
 		// キーをキャメル変換
 		$results = $this->camelizeKeyRecursive($results);

@@ -254,17 +254,21 @@ class Video extends VideosAppModel {
 	}
 
 /**
- * Videoデータ保存
+ * 再生回数 + 1 で更新
  *
  * @param array $data received post data
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function saveVideo($data) {
+	public function updateCountUp($data) {
 		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
 		$this->loadModels(array(
 			'Video' => 'Videos.Video',
 		));
+
+		$video['Video'] = $data['Video'];
+		//再生回数 + 1
+		$video['Video']['play_number']++;
 
 		//トランザクションBegin
 		$dataSource = $this->getDataSource();
@@ -272,19 +276,13 @@ class Video extends VideosAppModel {
 
 		try {
 			// 値をセット
-			$this->set($data);
+			$this->set($video);
 
-			// 入力チェック
-			$this->validates();
-			if ($this->validationErrors) {
-				return false;
-			}
-
-			// 動画データ登録
+			// 動画データ保存
 			$video = $this->save(null, false);
 			if (!$video) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			};
 
 			$dataSource->commit();
 		} catch (InternalErrorException $ex) {
@@ -292,7 +290,7 @@ class Video extends VideosAppModel {
 			CakeLog::write(LOG_ERR, $ex);
 			throw $ex;
 		}
-		return $video;
+		return $video[$this->alias]['play_number'];
 	}
 
 /**
