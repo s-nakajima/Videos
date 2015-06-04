@@ -186,14 +186,25 @@ class VideoBlockSetting extends VideosAppModel {
 		// $videoBlockSetting = $this->create(); の戻り値、boolean型が"1","0"のまま。
 		// $videoBlockSetting = $this->find('first', array()); の戻り値は、boolean型だとtrue,false。
 		// anglarjsでcheckboxを制御する場合、boolean型のtrue,false。 cakephpでcheckboxを制御する場合、formhelperのdefaultに設定する値は、"1","0"と違うため、変換が必要
-		$videoBlockSetting['VideoBlockSetting']['use_like'] = $videoBlockSetting['VideoBlockSetting']['use_like'] == '1';
-		$videoBlockSetting['VideoBlockSetting']['use_unlike'] = $videoBlockSetting['VideoBlockSetting']['use_unlike'] == '1';
-		$videoBlockSetting['VideoBlockSetting']['use_comment'] = $videoBlockSetting['VideoBlockSetting']['use_comment'] == '1';
-		$videoBlockSetting['VideoBlockSetting']['agree'] = $videoBlockSetting['VideoBlockSetting']['agree'] == '1';
-		$videoBlockSetting['VideoBlockSetting']['mail_notice'] = $videoBlockSetting['VideoBlockSetting']['mail_notice'] == '1';
-		$videoBlockSetting['VideoBlockSetting']['auto_play'] = $videoBlockSetting['VideoBlockSetting']['auto_play'] == '1';
-		$videoBlockSetting['VideoBlockSetting']['comment_agree'] = $videoBlockSetting['VideoBlockSetting']['comment_agree'] == '1';
-		$videoBlockSetting['VideoBlockSetting']['comment_agree_mail_notice'] = $videoBlockSetting['VideoBlockSetting']['comment_agree_mail_notice'] == '1';
+
+		// bool項目
+		$boolKeys = array(
+			'use_like',
+			'use_unlike',
+			'use_comment',
+			'agree',
+			'mail_notice',
+			'auto_play',
+			'comment_agree',
+			'comment_agree_mail_notice',
+		);
+		// 値にbool項目があったら、boolean型に変換する
+		foreach ($boolKeys as $boolKey) {
+			if (array_key_exists($boolKey, $videoBlockSetting['VideoBlockSetting'])) {
+				$videoBlockSetting['VideoBlockSetting'][$boolKey] = $videoBlockSetting['VideoBlockSetting'][$boolKey] == '1';
+			}
+		}
+
 		return $videoBlockSetting;
 	}
 
