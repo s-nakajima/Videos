@@ -102,10 +102,6 @@ msgstr ""
 msgid "Registration Date"
 msgstr ""
 
-#: Videos/View/VideosEdit/add.ctp:26
-msgid "Video add"
-msgstr ""
-
 #: Videos/View/VideosEdit/add.ctp:40
 msgid "support of mpeg, avi, mov, wmv, flv, mpg, mp4."
 msgstr ""
@@ -136,10 +132,6 @@ msgstr ""
 #: Videos/View/VideosEdit/add.ctp:96
 #: Videos/View/VideosEdit/edit.ctp:86
 msgid "Description"
-msgstr ""
-
-#: Videos/View/VideosEdit/edit.ctp:28
-msgid "Video edit"
 msgstr ""
 
 #: Videos/View/VideosEdit/edit.ctp:42

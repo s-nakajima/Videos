@@ -23,8 +23,6 @@ $this->Html->script(
 <div>
 	<div class="modal-body">
 
-		<h1><?php echo __d('videos', 'Video add'); ?></h1>
-
 		<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>
 		<?php echo $this->Form->create('Video', array(
 			'name' => 'form',
