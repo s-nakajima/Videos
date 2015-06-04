@@ -182,12 +182,10 @@ class VideosController extends VideosAppController {
 			$results['contentComments'] = $contentComments;
 		}
 
-		// セッションキー = 固定文字 & コンテンツキー & ip(偽装ip対応)
-		//$isAccessed = 'video_key_' . $videoKey . $_SERVER['REMOTE_ADDR'];
+		// クッキー対応
 		$cookie = $this->Cookie->read('video_history');
 		$cookieArray = explode(':', $cookie);
 
-		//if (! $this->Session->read($isAccessed)) {
 		if (! in_array($video['Video']['id'], $cookieArray, true)) {
 			//再生回数 + 1 で更新
 			$playNumber = $this->Video->updateCountUp($video);
@@ -196,9 +194,14 @@ class VideosController extends VideosAppController {
 			// cookie value = コンテンツid & 区切り文字
 			$cookie = $cookie . $video['Video']['id'] . ':';
 
+			// CookieComponentは3501byte～3550byte位をwriteしても、cookieに書き込んでくれなくなる。
+			// このcookieは、動画の視聴回数の抑制に使っていて、そこまで重要ではない＆1時間で消えるので、
+			// 3500byteを超えたら、cookieの内容をクリアする。
+			if (strlen($cookie) > 3500) {
+				$cookie = $video['Video']['id'] . ':';
+			}
 			// アクセス情報を記録
-			//$this->Session->write($isAccessed, CakeSession::read('Config.userAgent'));
-			$this->Cookie->write('video_history', $cookie, true, '1 hour');
+			$this->Cookie->write('video_history', $cookie, false, '1 hour');
 		}
 
 		// キーをキャメル変換
