@@ -122,15 +122,10 @@ $labelOverwriteFile = __d('files', 'Overwrite file.');
 		<p class="help-block"><?php echo h($helpBlockMessage); ?></p>
 	</div>
 
-	<div>
-		<?php if (isset($this->validationErrors[$model][$field])): ?>
-			<div class="has-error">
-				<?php foreach ($this->validationErrors[$model][$field] as $message): ?>
-					<div class="help-block">
-						<?php echo $message; ?>
-					</div>
-				<?php endforeach; ?>
-			</div>
-		<?php endif; ?>
-	</div>
+	<?php echo $this->element(
+		'NetCommons.errors', [
+		'errors' => $this->validationErrors,
+		'model' => $model,
+		'field' => $field,
+	]); ?>
 </div>

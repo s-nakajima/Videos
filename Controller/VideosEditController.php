@@ -95,12 +95,9 @@ class VideosEditController extends VideosAppController {
 				// 登録 動画を自動変換しない
 				$this->Video->addNoConvertSaveVideo($data);
 			}
-			if (!$this->handleValidationError($this->Video->validationErrors)) {
-				// エラー時、なにもしない
-				$this->log($this->Video->validationErrors, 'debug');
 
-				// 正常
-			} else {
+			// 正常時
+			if ($this->handleValidationError($this->Video->validationErrors)) {
 				if (! $this->request->is('ajax')) {
 					// 一覧へ
 					$this->redirect('/videos/videos/index/' . $this->viewVars['frameId']);
@@ -161,13 +158,12 @@ class VideosEditController extends VideosAppController {
 
 			// 登録（ワークフロー対応のため、編集でも常にinsert）
 			$this->Video->editSaveVideo($data, $this->viewVars['roomId']);
-			if (!$this->handleValidationError($this->Video->validationErrors)) {
-				$this->log($this->validationErrors, 'debug');
-			}
-
-			if (! $this->request->is('ajax')) {
-				// 一覧へ
-				$this->redirect('/videos/videos/index/' . $this->viewVars['frameId']);
+			// 正常時
+			if ($this->handleValidationError($this->Video->validationErrors)) {
+				if (! $this->request->is('ajax')) {
+					// 一覧へ
+					$this->redirect('/videos/videos/index/' . $this->viewVars['frameId']);
+				}
 			}
 		}
 	}

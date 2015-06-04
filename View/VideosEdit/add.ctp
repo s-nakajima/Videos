@@ -83,11 +83,17 @@ $this->Html->script(
 						<?php echo $this->Form->input('title', array(
 							'type' => 'text',
 							'label' => __d('videos', 'Title') . $this->element('NetCommons.required'),
+							'error' => false,
 							'class' => 'form-control',
-							//'required' => 'required',
-							'ng-model' => 'video.title',
-							//'autofocus' => true,
+							//'ng-model' => 'video.title',
 						)); ?>
+
+						<?php echo $this->element(
+							'NetCommons.errors', [
+							'errors' => $this->validationErrors,
+							'model' => 'Video',
+							'field' => 'title',
+						]); ?>
 					</div>
 
 					<label for="description">
@@ -98,7 +104,7 @@ $this->Html->script(
 							'class' => 'form-control',
 							'id' => 'description',
 							'rows' => 5,
-							'ng-model' => 'video.description',
+							//'ng-model' => 'video.description',
 						)); ?>
 					</div>
 

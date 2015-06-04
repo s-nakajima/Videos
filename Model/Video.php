@@ -35,6 +35,34 @@ class Video extends VideosAppModel {
 	const THUMBNAIL_FIELD = 'thumbnail';
 
 /**
+ * 動画 拡張子
+ *
+ * @var string
+ */
+	const VIDEO_EXTENSION = 'mpeg,mpg,avi,mov,wmv,flv,mp4';
+
+/**
+ * 動画 MIMEタイプ
+ *
+ * @var string
+ */
+	const VIDEO_MIME_TYPE = 'video/mpeg,video/mpg,video/avi,video/quicktime,video/x-ms-wmv,video/x-flv,video/mp4';
+
+/**
+ * サムネイル 拡張子
+ *
+ * @var string
+ */
+	const THUMBNAIL_EXTENSION = 'jpg,png,gif';
+
+/**
+ * サムネイル MIMEタイプ
+ *
+ * @var string
+ */
+	const THUMBNAIL_MIME_TYPE = 'image/jpeg,image/png,image/gif';
+
+/**
  * ffmpeg 有効フラグ
  * レンタルサーバ等、ffmpegを利用できない場合、falseにする
  *
@@ -70,8 +98,6 @@ class Video extends VideosAppModel {
 		'Files.YAUpload' => array(		// FileUpload
 			self::VIDEO_FILE_FIELD => array(
 				//UploadBefavior settings
-				//'mimetypes' => array('video/mp4'),
-				//'extensions' => array('mp4'),
 			),
 			self::THUMBNAIL_FIELD => array(
 				//UploadBefavior settings
@@ -105,6 +131,32 @@ class Video extends VideosAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
+			self::VIDEO_FILE_FIELD => array(
+				'upload-file' => array(
+					'rule' => array('uploadError'),
+					'message' => array(__d('files', 'ファイルを指定してください'))
+				),
+				'extension' => array(
+					'rule' => array('isValidExtension', explode(',', self::VIDEO_EXTENSION)),
+					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+				),
+				// mimetypeだとwmvをチェックできなかったので、isValidMimeTypeを使う
+				'mimetype' => array(
+					'rule' => array('isValidMimeType', explode(',', self::VIDEO_MIME_TYPE)),
+					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+				),
+			),
+			// 任意
+			self::THUMBNAIL_FIELD => array(
+				'extension' => array(
+					'rule' => array('isValidExtension', explode(',', self::THUMBNAIL_EXTENSION), false),
+					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+				),
+				'mimetype' => array(
+					'rule' => array('isValidMimeType', explode(',', self::THUMBNAIL_MIME_TYPE), false),
+					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+				),
+			),
 			'title' => array(
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
@@ -135,26 +187,6 @@ class Video extends VideosAppModel {
 			'video_time' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
-					//'message' => 'Your custom message here',
-					//'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
-				),
-			),
-			'play_number' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					//'message' => 'Your custom message here',
-					//'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
-				),
-			),
-			'is_auto_translated' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
 					//'message' => 'Your custom message here',
 					//'allowEmpty' => false,
 					//'required' => false,
@@ -320,6 +352,7 @@ class Video extends VideosAppModel {
 			// 入力チェック
 			$this->validates();
 			if ($this->validationErrors) {
+				$this->log($this->Video->validationErrors, 'debug');
 				return false;
 			}
 
