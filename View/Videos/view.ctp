@@ -45,13 +45,13 @@ $this->Html->script(
 <?php endif; ?>
 
 <?php /* 動画 */ ?>
-<div class="row">
+<div class="row" ng-controller="VideoView">
 	<div class="col-xs-12">
 		<div style="padding-bottom: 20px;">
 			<?php /* 動画プレイヤー */ ?>
 			<?php echo $this->element('Videos/player', array(
-				'fileMp4Url' => isset($video['fileMp4']['url']) ? $video['fileMp4']['url'] : '',
-				'fileThumbnailUrl' => isset($video['fileThumbnail']['urlMedium']) ? $video['fileThumbnail']['urlMedium'] : '',
+				'fileMp4Url' => $video['fileMp4']['url'],
+				'fileThumbnailUrl' => $video['fileThumbnail']['urlMedium'],
 				'isAutoPlay' => $videoBlockSetting['autoPlay'],
 			)); ?>
 		</div>
@@ -111,7 +111,7 @@ $this->Html->script(
 
 							<span style="padding-right: 15px;">
 								<?php /* 埋め込みコード */ ?>
-								<a href="#"><?php echo __d('videos', 'Embed'); ?></a>
+								<a href="" ng-click="embed();"><?php echo __d('videos', 'Embed'); ?></a>
 							</span>
 
 							<?php /* いいね */ ?>
@@ -143,6 +143,10 @@ $this->Html->script(
 					</div>
 				</div>
 				<div class="clearfix"></div>
+			</div>
+			<div class="form-group video-embed" style="display: none;">
+				<?php /* 埋め込みコード(非表示) */ ?>
+				<input type="text" class="form-control video-embed-text" value='<iframe width="400" height="300" src="<?php echo $this->Html->url($video['fileMp4']['url'], true); ?>" frameborder="0" allowfullscreen></iframe>'>
 			</div>
 			<div>
 				<?php /* 登録日 */ ?>
