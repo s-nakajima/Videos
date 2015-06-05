@@ -36,7 +36,7 @@ $this->Html->script(
 
 					<?php // ffmpeg=ON
 					if (Video::FFMPEG_ENABLE) {
-						$thumbnailHelpBlockMessage = __d('videos', 'Register if you want to change.') . sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
+						$thumbnailHelpBlockMessage = __d('videos', 'Please register if you want to change.') . sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
 					} else {
 						$thumbnailHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
 					} ?>
