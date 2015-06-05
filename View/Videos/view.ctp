@@ -264,6 +264,7 @@ $this->Html->script(
 		<?php echo $this->element('ContentComments.index', array(
 			'formName' => 'Video',
 			'useComment' => $videoBlockSetting['useComment'],
+			'contentCommentCnt' => $video['contentCommentCnt']['cnt'],
 		)); ?>
 	</div>
 </div>
