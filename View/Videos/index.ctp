@@ -59,7 +59,7 @@
 				<div class="form-inline text-right">
 
 					<?php /* ソート順 */ ?>
-					<span class="btn-group">
+					<span class="btn-group text-left">
 						<?php $displayOrderOptions = array(
 							'Video.created.desc' => array(
 								'label' => __d('videos', 'Newest'),
@@ -97,7 +97,7 @@
 					</span>
 
 					<?php /* 表示件数 */ ?>
-					<span class="btn-group">
+					<span class="btn-group text-left">
 						<?php $displayNumberOptions = VideoFrameSetting::getDisplayNumberOptions(); ?>
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 							<?php echo $displayNumberOptions[$this->Paginator->param('limit')]; ?>
