@@ -33,7 +33,7 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>#</th>
+							<th></th>
 							<th>
 								<?php echo $this->Paginator->sort('Block.name', __d('videos', 'Channel name')); ?>
 							</th>
