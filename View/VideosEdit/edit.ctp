@@ -36,15 +36,13 @@ $this->Html->script(
 
 					<?php // ffmpeg=ON
 					if (Video::FFMPEG_ENABLE) {
-						$thumbnailLabel = __d('videos', 'Thumbnail');
-						$thumbnailHelpBlockMessage = __d('videos', 'Register if you want to change.');
+						$thumbnailHelpBlockMessage = __d('videos', 'Register if you want to change.') . sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
 					} else {
-						$thumbnailLabel = __d('videos', 'Thumbnail') . $this->element('NetCommons.required');
-						$thumbnailHelpBlockMessage = null;
+						$thumbnailHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
 					} ?>
 					<?php echo $this->element('VideosEdit/file', array(
 						'pluginName' => 'Videos',
-						'label' => $thumbnailLabel,
+						'label' => __d('videos', 'Thumbnail'),
 						'field' => Video::THUMBNAIL_FIELD,
 						'fileAccept' => 'image/*',
 						'model' => 'Video',
@@ -61,11 +59,19 @@ $this->Html->script(
 						<div class="form-group">
 							<?php echo $this->Form->input('video_time', array(
 								'type' => 'text',
-								'label' => __d('videos', 'Video time') . $this->element('NetCommons.required'),
+								'label' => __d('videos', 'Play time') . $this->element('NetCommons.required'),
+								'error' => false,
 								'class' => 'form-control',
 								//'ng-model' => 'video.videoTime',
-								'default' => $video['videoTime'],
+								'default' => $video['videoTimeEdit'],
 							)); ?>
+
+							<?php echo $this->element(
+								'NetCommons.errors', [
+								'errors' => $this->validationErrors,
+								'model' => 'Video',
+								'field' => 'video_time',
+							]); ?>
 						</div>
 					<?php endif; ?>
 

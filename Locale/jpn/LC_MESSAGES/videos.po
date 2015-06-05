@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"PO-Revision-Date: 2015-06-04 16:14+0900\n"
+"PO-Revision-Date: 2015-06-05 16:12+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: EMAIL@ADDRESS\n"
 "MIME-Version: 1.0\n"
@@ -15,120 +15,123 @@ msgstr ""
 "X-Generator: Poedit 1.8.1\n"
 "Language: ja\n"
 
-#: Videos/Controller/VideoBlockSettingsController.php:141
+#: Controller/VideoBlockSettingsController.php:141
 msgid "New channel %s"
 msgstr "新しいチャンネル %s"
 
-#: Videos/Model/Video.php:111
+#: Model/Video.php:137
 msgid "title"
 msgstr "タイトル"
 
-#: Videos/Model/VideoBlockSetting.php:232
-#: Videos/View/Elements/VideoBlockSettings/delete_form.ctp:17;22
+#: Model/Video.php:252
+msgid "play time"
+msgstr "再生時間"
+
+#: Model/Video.php:258
+msgid "There is an error in the time of format"
+msgstr "時間の形式に誤りがあります"
+
+#: Model/VideoBlockSetting.php:243
+#: View/Elements/VideoBlockSettings/delete_form.ctp:17;22
 msgid "channel"
 msgstr "チャンネル"
 
-#: Videos/Model/VideoFrameSetting.php:182 Videos/View/Videos/index.ctp:65
+#: Model/VideoFrameSetting.php:182 View/Videos/index.ctp:65
 msgid "Newest"
 msgstr "新着順"
 
-#: Videos/Model/VideoFrameSetting.php:183 Videos/View/Videos/index.ctp:70
+#: Model/VideoFrameSetting.php:183 View/Videos/index.ctp:70
 msgid "By title"
 msgstr "タイトル順"
 
-#: Videos/Model/VideoFrameSetting.php:184 Videos/View/Videos/index.ctp:75
+#: Model/VideoFrameSetting.php:184 View/Videos/index.ctp:75
 msgid "Viewed"
 msgstr "再生回数順"
 
-#: Videos/Model/VideoFrameSetting.php:196;197;198;199;200;201
-#: Videos/View/Videos/index.ctp:55
+#: Model/VideoFrameSetting.php:196;197;198;199;200;201
+#: View/Videos/index.ctp:55
 msgid "%s items"
 msgstr "%s 件"
 
-#: Videos/View/Elements/VideoBlockRolePermissions/edit_form.ctp:31
-#: Videos/View/VideosEdit/edit.ctp:135
+#: View/Elements/VideoBlockRolePermissions/edit_form.ctp:31
+#: View/VideosEdit/edit.ctp:147
 msgid "video"
 msgstr "動画"
 
-#: Videos/View/Elements/VideoBlockSettings/edit_form.ctp:20
-#: Videos/View/VideoBlockSettings/index.ctp:38
+#: View/Elements/VideoBlockSettings/edit_form.ctp:20
+#: View/VideoBlockSettings/index.ctp:38
 msgid "Channel name"
 msgstr "チャンネル名"
 
-#: Videos/View/Elements/VideoBlockSettings/edit_form.ctp:96
+#: View/Elements/VideoBlockSettings/edit_form.ctp:96
 msgid "Automatically play video"
 msgstr "動画を自動再生する"
 
-#: Videos/View/Elements/VideoFrameSettings/edit_form.ctp:16
+#: View/Elements/VideoFrameSettings/edit_form.ctp:16
 msgid "Display order"
 msgstr "表示順"
 
-#: Videos/View/Elements/VideoFrameSettings/edit_form.ctp:35
+#: View/Elements/VideoFrameSettings/edit_form.ctp:35
 msgid "Display number"
 msgstr "表示件数"
 
-#: Videos/View/Elements/Videos/player.ctp:33
+#: View/Elements/Videos/player.ctp:33
 msgid "To play the video requires a browser that supports the video tag."
 msgstr "動画を再生するにはvideoタグをサポートしたブラウザが必要です。"
 
-#: Videos/View/VideoBlockSettings/index.ctp:44
+#: View/VideoBlockSettings/index.ctp:44
 msgid "File capacity"
 msgstr "ファイル容量"
 
-#: Videos/View/VideoBlockSettings/index.ctp:98
-#: Videos/View/VideoBlockSettings/not_found.ctp:32
-#: Videos/View/Videos/view.ctp:276
+#: View/VideoBlockSettings/index.ctp:98
+#: View/VideoBlockSettings/not_found.ctp:32 View/Videos/view.ctp:276
 msgid "Back to list"
 msgstr "一覧へ戻る"
 
-#: Videos/View/Videos/index.ctp:21;48
+#: View/Videos/index.ctp:21;48
 msgid "There are no videos that are currently published."
 msgstr "現在公開されている動画はありません。"
 
-#: Videos/View/Videos/view.ctp:92
+#: View/Videos/view.ctp:92
 msgid "Views %s times"
 msgstr "再生回数 %s回"
 
-#: Videos/View/Videos/view.ctp:107
+#: View/Videos/view.ctp:107
 msgid "Downloads"
 msgstr "ダウンロード"
 
-#: Videos/View/Videos/view.ctp:114
+#: View/Videos/view.ctp:114
 msgid "Embed"
 msgstr "埋め込みコード"
 
-#: Videos/View/Videos/view.ctp:149
+#: View/Videos/view.ctp:153
 msgid "Registration Date"
 msgstr "登録日"
 
-#: Videos/View/VideosEdit/add.ctp:40
-msgid "support of mpeg, avi, mov, wmv, flv, mpg, mp4."
-msgstr "mpeg,avi,mov,wmv,flv,mpg,mp4に対応しています。"
+#: View/VideosEdit/add.ctp:38;40;65 View/VideosEdit/edit.ctp:39;41
+msgid "support of %s."
+msgstr "%sに対応しています。"
 
-#: Videos/View/VideosEdit/add.ctp:42
-msgid "support of mp4."
-msgstr "mp4に対応しています。"
-
-#: Videos/View/VideosEdit/add.ctp:46
+#: View/VideosEdit/add.ctp:44
 msgid "Video file"
 msgstr "動画ファイル"
 
-#: Videos/View/VideosEdit/add.ctp:61 Videos/View/VideosEdit/edit.ctp:41;44
+#: View/VideosEdit/add.ctp:59 View/VideosEdit/edit.ctp:45
 msgid "Thumbnail"
 msgstr "サムネイル"
 
-#: Videos/View/VideosEdit/add.ctp:76 Videos/View/VideosEdit/edit.ctp:66
-msgid "Video time"
-msgstr "動画時間"
+#: View/VideosEdit/add.ctp:74 View/VideosEdit/edit.ctp:62
+msgid "Play time"
+msgstr "再生時間"
 
-#: Videos/View/VideosEdit/add.ctp:87 Videos/View/VideosEdit/edit.ctp:77
+#: View/VideosEdit/add.ctp:93 View/VideosEdit/edit.ctp:81
 msgid "Title"
 msgstr "タイトル"
 
-#: Videos/View/VideosEdit/add.ctp:96 Videos/View/VideosEdit/edit.ctp:86
+#: View/VideosEdit/add.ctp:108 View/VideosEdit/edit.ctp:97
 msgid "Description"
 msgstr "説明"
 
-#: Videos/View/VideosEdit/edit.ctp:42
-msgid "Register if you want to change."
+#: View/VideosEdit/edit.ctp:39
+msgid "Please register if you want to change."
 msgstr "変更したい場合に登録してください。"

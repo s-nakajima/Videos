@@ -51,7 +51,7 @@ $this->Html->script(
 			<?php /* 動画プレイヤー */ ?>
 			<?php echo $this->element('Videos/player', array(
 				'fileMp4Url' => $video['fileMp4']['url'],
-				'fileThumbnailUrl' => $video['fileThumbnail']['urlMedium'],
+				'fileThumbnailUrl' => $video['fileThumbnail']['urlBig'],
 				'isAutoPlay' => $videoBlockSetting['autoPlay'],
 			)); ?>
 		</div>
@@ -194,22 +194,18 @@ $this->Html->script(
 													<?php if (isset($relatedVideo['fileThumbnail']['urlThumbnail'])) : ?>
 														<?php echo $this->Html->image($relatedVideo['fileThumbnail']['urlThumbnail'], array(
 															'alt' => $relatedVideo['video']['title'],
-															'style' => 'width: 100%; height: auto;'
-														)); ?>
-													<?php else : ?>
-														<?php /* サムネイルなし */ ?>
-														<?php echo $this->Html->image('/videos/img/noImage.png', array(
-															'alt' => $relatedVideo['video']['title'],
-															'style' => 'width: 100%; height: auto;'
+															'style' => 'width: 140px; height: auto;'
 														)); ?>
 													<?php endif; ?>
 												</a>
 											</div>
 											<?php /* 動画時間 */ ?>
-											<div style="margin-top: -18px; margin-left: 65px;">
-												<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
-													<?php echo $this->Time->format($video['video']['videoTime'], '%M:%S'); ?>
-												</span>
+											<div style="width: 140px;">
+												<div class="text-right" style="margin-top: -20px; margin-right: 2px;">
+													<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
+														<?php echo $relatedVideo['video']['videoTimeView']; ?>
+													</span>
+												</div>
 											</div>
 										</div>
 									</div>

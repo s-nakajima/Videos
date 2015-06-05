@@ -1,6 +1,6 @@
 <?php
 /**
- * VideoViewLog Test Case
+ * VideoApp Test Case
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -9,16 +9,16 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('VideoViewLog', 'Videos.Model');
-App::uses('VideoAppTest', 'Videos.Test/Case/Model');
+App::uses('YACakeTestCase', 'NetCommons.TestSuite');
 
 /**
- * VideoViewLog Test Case
+ * VideoApp Test Case
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
- * @package NetCommons\Videos\Test\Case\Model
+ * @package NetCommons\ContentComments\Test\Case\Model
+ * @property Video $Video
  */
-class VideoViewLogTest extends VideoAppTest {
+class VideoAppTest extends YACakeTestCase {
 
 /**
  * Fixtures
@@ -26,8 +26,9 @@ class VideoViewLogTest extends VideoAppTest {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.videos.video_view_log',
-		'plugin.videos.user'
+		'plugin.blocks.block',
+		//'plugin.users.user',
+		'plugin.videos.video',
 	);
 
 /**
@@ -37,7 +38,7 @@ class VideoViewLogTest extends VideoAppTest {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->VideoViewLog = ClassRegistry::init('Videos.VideoViewLog');
+		$this->Video = ClassRegistry::init('Videos.Video');
 	}
 
 /**
@@ -46,7 +47,7 @@ class VideoViewLogTest extends VideoAppTest {
  * @return void
  */
 	public function tearDown() {
-		unset($this->VideoViewLog);
+		unset($this->Video);
 
 		parent::tearDown();
 	}

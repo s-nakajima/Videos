@@ -66,7 +66,7 @@ class Video extends VideosAppModel {
  * ffmpeg 有効フラグ
  * レンタルサーバ等、ffmpegを利用できない場合、falseにする
  *
- * @var string
+ * @var bool
  */
 	const FFMPEG_ENABLE = true;
 
@@ -131,32 +131,6 @@ class Video extends VideosAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
-			self::VIDEO_FILE_FIELD => array(
-				'upload-file' => array(
-					'rule' => array('uploadError'),
-					'message' => array(__d('files', 'ファイルを指定してください'))
-				),
-				'extension' => array(
-					'rule' => array('isValidExtension', explode(',', self::VIDEO_EXTENSION)),
-					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-				),
-				// mimetypeだとwmvをチェックできなかったので、isValidMimeTypeを使う
-				'mimetype' => array(
-					'rule' => array('isValidMimeType', explode(',', self::VIDEO_MIME_TYPE)),
-					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-				),
-			),
-			// 任意
-			self::THUMBNAIL_FIELD => array(
-				'extension' => array(
-					'rule' => array('isValidExtension', explode(',', self::THUMBNAIL_EXTENSION), false),
-					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-				),
-				'mimetype' => array(
-					'rule' => array('isValidMimeType', explode(',', self::THUMBNAIL_MIME_TYPE), false),
-					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-				),
-			),
 			'title' => array(
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
@@ -184,17 +158,108 @@ class Video extends VideosAppModel {
 					//'on' => 'create', // Limit validation to 'create' or 'update' operations
 				),
 			),
-			'video_time' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					//'message' => 'Your custom message here',
-					//'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
-				),
-			),
 		));
+
+		// ffmpeg = on
+		if (self::FFMPEG_ENABLE) {
+			$this->validate = Hash::merge($this->validate, array(
+				self::VIDEO_FILE_FIELD => array(
+					'upload-file' => array(
+						'rule' => array('uploadError'),
+						'message' => array(__d('files', 'ファイルを指定してください'))
+					),
+					'extension' => array(
+						'rule' => array('isValidExtension', explode(',', self::VIDEO_EXTENSION)),
+						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+					),
+					// mimetypeだとwmvをチェックできなかったので、isValidMimeTypeを使う
+					'mimetype' => array(
+						'rule' => array('isValidMimeType', explode(',', self::VIDEO_MIME_TYPE)),
+						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+					),
+				),
+				// 任意
+				self::THUMBNAIL_FIELD => array(
+					'extension' => array(
+						'rule' => array('isValidExtension', explode(',', self::THUMBNAIL_EXTENSION), false),
+						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+					),
+					'mimetype' => array(
+						'rule' => array('isValidMimeType', explode(',', self::THUMBNAIL_MIME_TYPE), false),
+						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+					),
+				),
+			));
+
+			// ffmpeg = off
+		} else {
+			// 登録時
+			if (in_array('add', $options)) {
+				$this->validate = Hash::merge($this->validate, array(
+					self::VIDEO_FILE_FIELD => array(
+						'upload-file' => array(
+							'rule' => array('uploadError'),
+							'message' => array(__d('files', 'ファイルを指定してください'))
+						),
+						'extension' => array(
+							'rule' => array('isValidExtension', array('mp4')),
+							'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+						),
+						// mimetypeだとwmvをチェックできなかったので、isValidMimeTypeを使う
+						'mimetype' => array(
+							'rule' => array('isValidMimeType', array('video/mp4')),
+							'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+						),
+					),
+					// 必須
+					self::THUMBNAIL_FIELD => array(
+						'upload-file' => array(
+							'rule' => array('uploadError'),
+							'message' => array(__d('files', 'ファイルを指定してください'))
+						),
+						'extension' => array(
+							'rule' => array('isValidExtension', explode(',', self::THUMBNAIL_EXTENSION)),
+							'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+						),
+						'mimetype' => array(
+							'rule' => array('isValidMimeType', explode(',', self::THUMBNAIL_MIME_TYPE)),
+							'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+						),
+					),
+				));
+
+				// 編集時
+			} elseif (in_array('edit', $options)) {
+				$this->validate = Hash::merge($this->validate, array(
+					// 任意
+					self::THUMBNAIL_FIELD => array(
+						'extension' => array(
+							'rule' => array('isValidExtension', explode(',', self::THUMBNAIL_EXTENSION), false),
+							'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+						),
+						'mimetype' => array(
+							'rule' => array('isValidMimeType', explode(',', self::THUMBNAIL_MIME_TYPE), false),
+							'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+						),
+					),
+				));
+			}
+
+			$this->validate = Hash::merge($this->validate, array(
+				'video_time' => array(
+					'notEmpty' => array(
+						'rule' => array('notEmpty'),
+						'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'play time')),
+						'required' => true,
+					),
+					//フォーマット 00:00:00
+					'format' => array(
+						'rule' => '/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/i',
+						'message' => __d('videos', 'There is an error in the time of format'),	//time format is incorrect
+					),
+				),
+			));
+		}
 
 		return parent::beforeValidate($options);
 	}
@@ -245,6 +310,77 @@ class Video extends VideosAppModel {
 			'fields' => 'value',
 		),
 	);
+
+/**
+ * After find callback. Can be used to modify any results returned by find.
+ *
+ * @param mixed $results The results of the find operation
+ * @param bool $primary Whether this model is being queried directly (vs. being queried as an association)
+ * @return mixed An array value will replace the value of $results - any other value will be ignored.
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public function afterFind($results, $primary = false) {
+		foreach ($results as $key => &$rows) {
+			foreach ($rows as $alias => $row) {
+				if (! isset($row['video_time'])) {
+					continue;
+				}
+				// 秒を時：分：秒に変更
+				$results[$key][$alias]['video_time_view'] = $this->__convSecToHour($row['video_time']);
+				$results[$key][$alias]['video_time_edit'] = $this->__convSecToHourEdit($row['video_time']);
+			}
+		}
+		return $results;
+	}
+
+/**
+ * 秒を時：分：秒に変更 (表示用)
+ *
+ * @param int $totalSec 秒
+ * @return string 時：分：秒
+ */
+	private function __convSecToHour($totalSec) {
+		$sec = $totalSec % 60;
+		$min = (int)($totalSec / 60) % 60;
+		$hour = (int)($totalSec / (60 * 60));
+		if ($hour > 0) {
+			return sprintf("%d:%02d:%02d", $hour, $min, $sec);
+		}
+		return sprintf("%d:%02d", $min, $sec);
+	}
+
+/**
+ * 秒を時：分：秒に変更 (編集用)
+ *
+ * @param int $totalSec 秒
+ * @return string 時：分：秒
+ */
+	private function __convSecToHourEdit($totalSec) {
+		$sec = $totalSec % 60;
+		$min = (int)($totalSec / 60) % 60;
+		$hour = (int)($totalSec / (60 * 60));
+		return sprintf("%02d:%02d:%02d", $hour, $min, $sec);
+	}
+
+/**
+ * Before save method. Called before all saves
+ *
+ * Handles setup of file uploads
+ *
+ * @param array $options Options passed from Model::save().
+ * @return bool
+ */
+	public function beforeSave($options = array()) {
+		if (!self::FFMPEG_ENABLE) {
+			// 再生時間
+			if (isset($this->data[$this->alias]['video_time']) && gettype($this->data[$this->alias]['video_time']) == 'string') {
+				//時：分：秒を秒に変更
+				$times = explode(":", $this->data[$this->alias]['video_time']);
+				$this->data[$this->alias]['video_time'] = intval(trim($times[0])) * 3600 + intval($times[1]) * 60 + $times[2];
+			}
+		}
+		return parent::beforeSave($options);
+	}
 
 /**
  * Videoデータ取得
@@ -310,8 +446,12 @@ class Video extends VideosAppModel {
 			// 値をセット
 			$this->set($video);
 
-			// 動画データ保存
-			$video = $this->save(null, false);
+			// 動画データ保存 コールバックoff
+			$video = $this->save(null, array(
+				'validate' => false,
+				'callbacks' => false,
+			));
+
 			if (!$video) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			};
@@ -350,7 +490,7 @@ class Video extends VideosAppModel {
 			$this->set($data);
 
 			// 入力チェック
-			$this->validates();
+			$this->validates(array('add'));
 			if ($this->validationErrors) {
 				$this->log($this->Video->validationErrors, 'debug');
 				return false;
@@ -426,7 +566,7 @@ class Video extends VideosAppModel {
 			$this->set($data);
 
 			// 入力チェック
-			$this->validates();
+			$this->validates(array('add'));
 			if ($this->validationErrors) {
 				return false;
 			}
@@ -504,7 +644,7 @@ class Video extends VideosAppModel {
 			$this->set($data);
 
 			// 入力チェック
-			$this->validates();
+			$this->validates(array('edit'));
 			if ($this->validationErrors) {
 				return false;
 			}

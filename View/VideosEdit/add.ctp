@@ -35,9 +35,9 @@ $this->Html->script(
 
 					<?php // ffmpeg=ON
 					if (Video::FFMPEG_ENABLE) {
-						$videoHelpBlockMessage = __d('videos', 'support of mpeg, avi, mov, wmv, flv, mpg, mp4.');
+						$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::VIDEO_EXTENSION);
 					} else {
-						$videoHelpBlockMessage = __d('videos', 'support of mp4.');
+						$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), 'mp4');
 					} ?>
 					<?php echo $this->element('VideosEdit/file', array(
 						'pluginName' => 'Videos',
@@ -62,7 +62,7 @@ $this->Html->script(
 							'model' => 'Video',
 							'pluginKey' => $this->request->params['plugin'],
 							'index' => 1,
-							'helpBlockMessage' => null,
+							'helpBlockMessage' => sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION),
 							'file' => $thumbnail,
 							'deleteEnable' => false,
 							'overwriteEnable' => false,
@@ -71,11 +71,19 @@ $this->Html->script(
 						<div class="form-group">
 							<?php echo $this->Form->input('video_time', array(
 								'type' => 'text',
-								'label' => __d('videos', 'Video time') . $this->element('NetCommons.required'),
+								'label' => __d('videos', 'Play time') . $this->element('NetCommons.required'),
+								'error' => false,
 								'class' => 'form-control',
 								//'ng-model' => 'video.videoTime',
-								'default' => $video['videoTime'],
+								'default' => '00:00:00',
 							)); ?>
+
+							<?php echo $this->element(
+								'NetCommons.errors', [
+								'errors' => $this->validationErrors,
+								'model' => 'Video',
+								'field' => 'video_time',
+							]); ?>
 						</div>
 					<?php endif; ?>
 
