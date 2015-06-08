@@ -15,22 +15,6 @@
 class VideoFileBehavior extends ModelBehavior {
 
 /**
- * @var array 設定
- */
-	public $settings = array();
-
-/**
- * setup
- *
- * @param Model $Model モデル
- * @param array $settings 設定値
- * @return void
- */
-	public function setup(Model $Model, $settings = array()) {
-		$this->settings[$Model->alias] = $settings;
-	}
-
-/**
  * ファイルチェック
  *
  * @param Model $Model モデル

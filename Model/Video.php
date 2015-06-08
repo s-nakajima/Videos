@@ -107,8 +107,9 @@ class Video extends VideosAppModel {
 		'NetCommons.OriginalKey',		// 自動でkeyセット
 		'NetCommons.Publishable',		// 自動でis_active, is_latestセット
 		'Tags.Tag',
-		'Videos.VideoFile',				// FileUpload
 		'Videos.Video',					// 動画変換
+		'Videos.VideoFile',				// FileUpload
+		'Videos.VideoValidation',		// Validation rules
 	);
 
 /**
@@ -128,138 +129,13 @@ class Video extends VideosAppModel {
  * @return bool True if validate operation should continue, false to abort
  * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
  * @see Model::save()
- * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
-			'title' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'title')),
-					'required' => true,
-				),
-			),
-			'key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					//'message' => 'Your custom message here',
-					//'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
-				),
-			),
-			'block_id' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					//'message' => 'Your custom message here',
-					//'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
-				),
-			),
-		));
-
 		// ffmpeg = on
 		if (self::FFMPEG_ENABLE) {
-			$this->validate = Hash::merge($this->validate, array(
-				self::VIDEO_FILE_FIELD => array(
-					'upload-file' => array(
-						'rule' => array('uploadError'),
-						'message' => array(__d('files', 'ファイルを指定してください'))
-					),
-					'extension' => array(
-						'rule' => array('isValidExtension', explode(',', self::VIDEO_EXTENSION)),
-						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-					),
-					// mimetypeだとwmvをチェックできなかったので、isValidMimeTypeを使う
-					'mimetype' => array(
-						'rule' => array('isValidMimeType', explode(',', self::VIDEO_MIME_TYPE)),
-						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-					),
-				),
-				// 任意
-				self::THUMBNAIL_FIELD => array(
-					'extension' => array(
-						'rule' => array('isValidExtension', explode(',', self::THUMBNAIL_EXTENSION), false),
-						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-					),
-					'mimetype' => array(
-						'rule' => array('isValidMimeType', explode(',', self::THUMBNAIL_MIME_TYPE), false),
-						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-					),
-				),
-			));
-
-			// ffmpeg = off
+			$this->validate = $this->rules();
 		} else {
-			// 登録時
-			if (in_array('add', $options)) {
-				$this->validate = Hash::merge($this->validate, array(
-					self::VIDEO_FILE_FIELD => array(
-						'upload-file' => array(
-							'rule' => array('uploadError'),
-							'message' => array(__d('files', 'ファイルを指定してください'))
-						),
-						'extension' => array(
-							'rule' => array('isValidExtension', array('mp4')),
-							'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-						),
-						// mimetypeだとwmvをチェックできなかったので、isValidMimeTypeを使う
-						'mimetype' => array(
-							'rule' => array('isValidMimeType', array('video/mp4')),
-							'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-						),
-					),
-					// 必須
-					self::THUMBNAIL_FIELD => array(
-						'upload-file' => array(
-							'rule' => array('uploadError'),
-							'message' => array(__d('files', 'ファイルを指定してください'))
-						),
-						'extension' => array(
-							'rule' => array('isValidExtension', explode(',', self::THUMBNAIL_EXTENSION)),
-							'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-						),
-						'mimetype' => array(
-							'rule' => array('isValidMimeType', explode(',', self::THUMBNAIL_MIME_TYPE)),
-							'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-						),
-					),
-				));
-
-				// 編集時
-			} elseif (in_array('edit', $options)) {
-				$this->validate = Hash::merge($this->validate, array(
-					// 任意
-					self::THUMBNAIL_FIELD => array(
-						'extension' => array(
-							'rule' => array('isValidExtension', explode(',', self::THUMBNAIL_EXTENSION), false),
-							'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-						),
-						'mimetype' => array(
-							'rule' => array('isValidMimeType', explode(',', self::THUMBNAIL_MIME_TYPE), false),
-							'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-						),
-					),
-				));
-			}
-
-			$this->validate = Hash::merge($this->validate, array(
-				'video_time' => array(
-					'notEmpty' => array(
-						'rule' => array('notEmpty'),
-						'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'play time')),
-						'required' => true,
-					),
-					//フォーマット 00:00:00
-					'format' => array(
-						'rule' => '/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/i',
-						'message' => __d('videos', 'There is an error in the time of format'),	//time format is incorrect
-					),
-				),
-			));
+			$this->validate = $this->rulesFfmpegOff();
 		}
 
 		return parent::beforeValidate($options);
