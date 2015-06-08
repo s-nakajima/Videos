@@ -38,7 +38,7 @@ class VideoBehaviorTest extends VideoAppTest {
 	}
 
 /**
- * 秒を時：分：秒に変更テスト 秒単位
+ * 秒を時：分：秒に変更 (表示用)テスト 秒単位
  *
  * @return void
  */
@@ -51,7 +51,7 @@ class VideoBehaviorTest extends VideoAppTest {
 	}
 
 /**
- * 秒を時：分：秒に変更テスト 分単位
+ * 秒を時：分：秒に変更 (表示用)テスト 分単位
  *
  * @return void
  */
@@ -64,7 +64,7 @@ class VideoBehaviorTest extends VideoAppTest {
 	}
 
 /**
- * 秒を時：分：秒に変更テスト 時間単位
+ * 秒を時：分：秒に変更 (表示用)テスト 時間単位
  *
  * @return void
  */
@@ -76,4 +76,42 @@ class VideoBehaviorTest extends VideoAppTest {
 		$this->assertEquals('1:00:00', $time);
 	}
 
+/**
+ * 秒を時：分：秒に変更 (編集用)テスト 秒単位
+ *
+ * @return void
+ */
+	public function testConvSecToHourEditSec() {
+		$totalSec = 9;
+
+		$time = $this->FakeModel->convSecToHourEdit($totalSec);
+
+		$this->assertEquals('00:00:09', $time);
+	}
+
+/**
+ * 秒を時：分：秒に変更 (編集用)テスト 分単位
+ *
+ * @return void
+ */
+	public function testConvSecToHourEditMin() {
+		$totalSec = 60;
+
+		$time = $this->FakeModel->convSecToHourEdit($totalSec);
+
+		$this->assertEquals('00:01:00', $time);
+	}
+
+/**
+ * 秒を時：分：秒に変更 (編集用)テスト 時間単位
+ *
+ * @return void
+ */
+	public function testConvSecToHourEditHour() {
+		$totalSec = 3600;
+
+		$time = $this->FakeModel->convSecToHourEdit($totalSec);
+
+		$this->assertEquals('01:00:00', $time);
+	}
 }
