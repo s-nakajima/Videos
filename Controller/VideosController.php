@@ -103,7 +103,7 @@ class VideosController extends VideosAppController {
 
 		// カテゴリ名をタイトルに
 		$tag = $this->Video->getTagByTagId($tagId);
-		$this->set('listTitle', __d('blogs', 'Tag') . ':' . $tag['Tag']['name']);
+		$this->set('listTitle', __d('tags', 'Tag') . ':' . $tag['Tag']['name']);
 
 		$conditions = array(
 			'Tag.id' => $tagId // これを有効にするにはentry_tag_linkもJOINして検索か。
