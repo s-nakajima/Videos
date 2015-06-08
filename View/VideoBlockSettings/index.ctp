@@ -76,7 +76,7 @@
 									<?php endif; ?>
 								</td>
 								<td class="text-right">
-									<?php echo $this->number->toReadableSize((int)$videoBlockSetting['size']['sizeByte']); ?>
+									<?php echo $this->Number->toReadableSize((int)$videoBlockSetting['size']['sizeByte']); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>
