@@ -263,4 +263,35 @@ class VideoBehavior extends ModelBehavior {
 
 		return $data;
 	}
+
+/**
+ * 秒を時：分：秒に変更 (表示用)
+ *
+ * @param Model $Model モデル
+ * @param int $totalSec 秒
+ * @return string 時：分：秒
+ */
+	public function convSecToHour(Model $Model, $totalSec) {
+		$sec = $totalSec % 60;
+		$min = (int)($totalSec / 60) % 60;
+		$hour = (int)($totalSec / (60 * 60));
+		if ($hour > 0) {
+			return sprintf("%d:%02d:%02d", $hour, $min, $sec);
+		}
+		return sprintf("%d:%02d", $min, $sec);
+	}
+
+/**
+ * 秒を時：分：秒に変更 (編集用)
+ *
+ * @param Model $Model モデル
+ * @param int $totalSec 秒
+ * @return string 時：分：秒
+ */
+	public function convSecToHourEdit(Model $Model, $totalSec) {
+		$sec = $totalSec % 60;
+		$min = (int)($totalSec / 60) % 60;
+		$hour = (int)($totalSec / (60 * 60));
+		return sprintf("%02d:%02d:%02d", $hour, $min, $sec);
+	}
 }

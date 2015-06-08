@@ -128,6 +128,7 @@ class Video extends VideosAppModel {
  * @return bool True if validate operation should continue, false to abort
  * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
  * @see Model::save()
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
@@ -326,40 +327,11 @@ class Video extends VideosAppModel {
 					continue;
 				}
 				// 秒を時：分：秒に変更
-				$results[$key][$alias]['video_time_view'] = $this->__convSecToHour($row['video_time']);
-				$results[$key][$alias]['video_time_edit'] = $this->__convSecToHourEdit($row['video_time']);
+				$results[$key][$alias]['video_time_view'] = $this->convSecToHour($row['video_time']);
+				$results[$key][$alias]['video_time_edit'] = $this->convSecToHourEdit($row['video_time']);
 			}
 		}
 		return $results;
-	}
-
-/**
- * 秒を時：分：秒に変更 (表示用)
- *
- * @param int $totalSec 秒
- * @return string 時：分：秒
- */
-	private function __convSecToHour($totalSec) {
-		$sec = $totalSec % 60;
-		$min = (int)($totalSec / 60) % 60;
-		$hour = (int)($totalSec / (60 * 60));
-		if ($hour > 0) {
-			return sprintf("%d:%02d:%02d", $hour, $min, $sec);
-		}
-		return sprintf("%d:%02d", $min, $sec);
-	}
-
-/**
- * 秒を時：分：秒に変更 (編集用)
- *
- * @param int $totalSec 秒
- * @return string 時：分：秒
- */
-	private function __convSecToHourEdit($totalSec) {
-		$sec = $totalSec % 60;
-		$min = (int)($totalSec / 60) % 60;
-		$hour = (int)($totalSec / (60 * 60));
-		return sprintf("%02d:%02d:%02d", $hour, $min, $sec);
 	}
 
 /**
