@@ -135,8 +135,12 @@ class VideosController extends VideosAppController {
 		// ワークフロー表示条件 取得
 		$conditions = $this->_getWorkflowConditions($videoKey);
 
+		$fields = array(
+			'*',
+			'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
+		);
 		//動画の取得
-		$video = $this->Video->getVideo($conditions);
+		$video = $this->Video->getVideo($conditions, $fields);
 		$results['video'] = $video;
 
 		// 一覧条件で再取得

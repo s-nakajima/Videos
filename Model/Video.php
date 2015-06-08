@@ -386,15 +386,13 @@ class Video extends VideosAppModel {
  * Videoデータ取得
  *
  * @param array $conditions Conditions data
+ * @param array $fields fields
  * @return array
  */
-	public function getVideo($conditions = array()) {
+	public function getVideo($conditions = array(), $fields = null) {
 		$video = $this->find('first', array(
 			'recursive' => 1,
-			'fields' => array(
-				'*',
-				'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
-			),
+			'fields' => $fields,
 			'conditions' => $conditions,
 			'order' => $this->alias . '.id DESC'
 		));

@@ -45,7 +45,7 @@ class VideoFileBehavior extends ModelBehavior {
 		//更新用：ファイル更新の準備
 		$data = $this->__readyUpdateFile($data, $field, $modelAlias, $colom, $index);
 
-		//更新用：ファイル削除のvalidate
+		//更新用：削除ファイルのvalidate
 		if (isset($data['DeleteFile'][$index]['File']['id']) && $data['DeleteFile'][$index]['File']['id'] > 0) {
 			if (! $deleteFile = $Model->FileModel->validateDeletedFiles($data['DeleteFile'][$index]['File']['id'])) {
 				$Model->validationErrors = Hash::merge($Model->validationErrors, $Model->FileModel->validationErrors);
