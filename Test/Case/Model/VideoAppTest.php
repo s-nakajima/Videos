@@ -27,8 +27,17 @@ class VideoAppTest extends YACakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.blocks.block',
-		//'plugin.users.user',
+		'plugin.files.files_plugin',
+		'plugin.files.files_room',
+		'plugin.files.files_user',
+		'plugin.m17n.language',
+		//'plugin.m17n.languages_page',
+		'plugin.tags.tag',
+		'plugin.tags.tags_content',
+		'plugin.videos.file',
+		'plugin.videos.user',
 		'plugin.videos.video',
+		'plugin.videos.video_view_log',	// VideoViewLog model用
 	);
 
 /**
@@ -39,6 +48,7 @@ class VideoAppTest extends YACakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->Video = ClassRegistry::init('Videos.Video');
+		$this->Video->FileModel = ClassRegistry::init('Files.FileModel');	// Behavior Test用
 	}
 
 /**
@@ -48,7 +58,7 @@ class VideoAppTest extends YACakeTestCase {
  */
 	public function tearDown() {
 		unset($this->Video);
-
+		CakeSession::write('Auth.User', null);
 		parent::tearDown();
 	}
 

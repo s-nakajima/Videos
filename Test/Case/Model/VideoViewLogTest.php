@@ -9,7 +9,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('VideoViewLog', 'Videos.Model');
 App::uses('VideoAppTest', 'Videos.Test/Case/Model');
 
 /**
@@ -19,16 +18,6 @@ App::uses('VideoAppTest', 'Videos.Test/Case/Model');
  * @package NetCommons\Videos\Test\Case\Model
  */
 class VideoViewLogTest extends VideoAppTest {
-
-/**
- * Fixtures
- *
- * @var array
- */
-	public $fixtures = array(
-		'plugin.videos.video_view_log',
-		'plugin.videos.user'
-	);
 
 /**
  * setUp method

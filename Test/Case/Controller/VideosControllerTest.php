@@ -34,7 +34,6 @@ class VideosControllerTest extends VideosAppTest {
 		// PageLayout対応
 		YACakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
 
-		Configure::write('Config.language', 'ja');
 		$this->generate(
 			'Videos.Videos',
 			array(
@@ -45,6 +44,16 @@ class VideosControllerTest extends VideosAppTest {
 				)
 			)
 		);
+	}
+
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
+		unset($this->controller);
+		parent::tearDown();
 	}
 
 /**

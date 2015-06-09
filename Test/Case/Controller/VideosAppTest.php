@@ -10,11 +10,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-//App::uses('AuthGeneralControllerTest', 'AuthGeneral.Test/Case/Controller');
-//App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
-//App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
-//App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
-//App::uses('RolesControllerTest', 'Roles.Test/Case/Controller');
 App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
 
 /**
@@ -41,7 +36,7 @@ class VideosAppTest extends YAControllerTestCase {
 		'plugin.containers.container',
 		'plugin.containers.containers_page',
 		'plugin.content_comments.content_comment',
-		'plugin.files.file',
+		//'plugin.files.file',
 		//'plugin.files.files_plugin',
 		//'plugin.files.files_room',
 		//'plugin.files.files_user',
@@ -58,13 +53,14 @@ class VideosAppTest extends YAControllerTestCase {
 		'plugin.rooms.room_role_permission',
 		'plugin.pages.page',
 		'plugin.pages.space',
+		'plugin.videos.file',
 		'plugin.videos.plugin',
 		'plugin.videos.user',
 		'plugin.videos.user_attributes_user',
 		'plugin.videos.video',
 		'plugin.videos.video_block_setting',
 		'plugin.videos.video_frame_setting',
-		//'plugin.videos.video_view_log',
+		'plugin.videos.video_view_log',
 	);
 
 /**

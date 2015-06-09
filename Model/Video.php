@@ -357,7 +357,7 @@ class Video extends VideosAppModel {
 				return false;
 			}
 
-			// ファイルの登録 動画ファイル
+			// 動画ファイルを一旦登録
 			$data = $this->saveVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0);
 
 			// 値をセット

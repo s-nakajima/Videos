@@ -34,7 +34,7 @@ class VideoBehavior extends ModelBehavior {
 			return false;
 		}
 
-		// --- 動画時間を取得
+		// --- 再生時間を取得
 		if (!$videoTimeSec = $this->__getVideoTime($noConvert)) {
 			$Model->deleteFile($data, $Model->alias, 'mp4_id', 0);	//元動画 削除
 			return false;
@@ -141,7 +141,7 @@ class VideoBehavior extends ModelBehavior {
 	}
 
 /**
- * 動画時間を取得
+ * 再生時間を取得
  *
  * @param array $noConvert File data
  * @return mixed int on success, false on error
