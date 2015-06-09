@@ -157,11 +157,11 @@ class VideoValidationBehavior extends ModelBehavior {
 						'message' => array(__d('files', 'ファイルを指定してください'))
 					),
 					'extension' => array(
-						'rule' => array('isValidExtension', explode(',', self::THUMBNAIL_EXTENSION)),
+						'rule' => array('isValidExtension', explode(',', Video::THUMBNAIL_EXTENSION)),
 						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
 					),
 					'mimetype' => array(
-						'rule' => array('isValidMimeType', explode(',', self::THUMBNAIL_MIME_TYPE)),
+						'rule' => array('isValidMimeType', explode(',', Video::THUMBNAIL_MIME_TYPE)),
 						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
 					),
 				),
@@ -173,11 +173,11 @@ class VideoValidationBehavior extends ModelBehavior {
 				// 任意
 				Video::THUMBNAIL_FIELD => array(
 					'extension' => array(
-						'rule' => array('isValidExtension', explode(',', self::THUMBNAIL_EXTENSION), false),
+						'rule' => array('isValidExtension', explode(',', Video::THUMBNAIL_EXTENSION), false),
 						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
 					),
 					'mimetype' => array(
-						'rule' => array('isValidMimeType', explode(',', self::THUMBNAIL_MIME_TYPE), false),
+						'rule' => array('isValidMimeType', explode(',', Video::THUMBNAIL_MIME_TYPE), false),
 						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
 					),
 				),

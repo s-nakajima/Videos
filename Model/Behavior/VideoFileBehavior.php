@@ -11,6 +11,7 @@
 
 /**
  * Summary for Video File Behavior
+ * 暫定部品(;'∀') Filesプラグインに同等機能が実装される想定
  */
 class VideoFileBehavior extends ModelBehavior {
 
