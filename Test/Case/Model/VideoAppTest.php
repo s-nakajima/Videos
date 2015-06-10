@@ -34,8 +34,8 @@ class VideoAppTest extends YACakeTestCase {
 		//'plugin.m17n.languages_page',
 		'plugin.tags.tag',
 		'plugin.tags.tags_content',
+		'plugin.users.user',
 		'plugin.videos.file',
-		'plugin.videos.user',
 		'plugin.videos.video',
 		'plugin.videos.video_view_log',	// VideoViewLog model用
 	);

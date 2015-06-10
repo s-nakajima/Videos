@@ -152,17 +152,9 @@ class VideoBehavior extends ModelBehavior {
 		$noConvertSlug = $noConvert['File']["slug"];
 
 		// 変換後の動画情報を取得 コマンドインジェクション対策
+		// ffmpeg -i の $retInfo はファイルがあってもなくても1(失敗)なので、エラー時処理は省く
 		$strCmd = Video::FFMPEG_PATH . " -i " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . " 2>&1";
-		exec($strCmd, $arrInfo, $retInfo);
-
-		// 情報を取得出来なかった場合
-		if ($retInfo != 1) {
-			$this->log("--- ffmpeg 動画情報取得エラー", 'debug');
-			$this->log($strCmd, 'debug');
-			$this->log($arrInfo, 'debug');
-			$this->log($retInfo, 'debug');
-			return false;
-		}
+		exec($strCmd, $arrInfo);
 
 		//動画情報から時間を取得
 		$videoTimeSec = 0;
@@ -207,7 +199,7 @@ class VideoBehavior extends ModelBehavior {
 		);
 
 		// 例) ffmpeg -ss 1 -vframes 1 -i /var/www/html/movies/play/20130901_072755.mp4 -f image2 /var/www/html/movies/play/20130901_072755.jpg
-		// サムネイルは変換後のmp4 から生成する。mts からサムネイルを生成した場合、うまく生成できなかった。ファイル形式によりサムネイル生成に制限がある可能性があるため。
+		// サムネイルは変換後のmp4 から生成する。mts からサムネイルを生成した場合、灰色画像になりうまく生成できなかった。ファイル形式によりサムネイル生成に制限がある可能性があるため。
 		// コマンドインジェクション対策
 		$strCmd = Video::FFMPEG_PATH . ' -ss 1 -vframes 1 -i ' . escapeshellarg($noConvertPath . $noConvertSlug . ".mp4") . ' -f image2 ' . escapeshellarg($noConvertPath . $thumbnailSlug . '.jpg');
 		exec($strCmd, $arrImage, $retImage);
@@ -219,31 +211,32 @@ class VideoBehavior extends ModelBehavior {
 			$this->log($arrImage, 'debug');
 			$this->log($retImage, 'debug');
 			// return はしない。
+
+		} else {
+			// サムネイルデータ準備
+			$data['Video'][Video::THUMBNAIL_FIELD]['name'] = $videoName . '.jpg';	// サムネイル名は動画名で末尾jpgにしたものをセット
+			$data['Video'][Video::THUMBNAIL_FIELD]['type'] = 'image/jpeg';
+			$data['Video'][Video::THUMBNAIL_FIELD]['tmp_name'] = $noConvertPath . $thumbnailSlug . '.jpg';
+			$data['Video'][Video::THUMBNAIL_FIELD]['error'] = UPLOAD_ERR_OK;
+			$data['Video'][Video::THUMBNAIL_FIELD]['size'] = filesize($noConvertPath . $thumbnailSlug . '.jpg');
+
+			// Filesテーブルにサムネイルを登録
+			$data[Video::THUMBNAIL_FIELD]['File']['status'] = 1;
+			$data[Video::THUMBNAIL_FIELD]['File']['role_type'] = 'room_file_role';
+			$data[Video::THUMBNAIL_FIELD]['File']['name'] = $videoName . '.jpg';		// サムネイル名は動画名をjpgにしたものをセット
+			$data[Video::THUMBNAIL_FIELD]['File']['alt'] = $videoName . '.jpg';
+			$data[Video::THUMBNAIL_FIELD]['File']['mimetype'] = 'image/jpeg';
+			$data[Video::THUMBNAIL_FIELD]['File']['path'] = '{ROOT}' . 'videos' . '{DS}' . $roomId . '{DS}';		// 自動的に $video['Video']['id'] . '{DS}' が末尾に追記されるので、ここでは追記しない
+			$data[Video::THUMBNAIL_FIELD]['File']['extension'] = 'jpg';
+			$data[Video::THUMBNAIL_FIELD]['File']['tmp_name'] = $noConvertPath . $thumbnailSlug . '.jpg';
+			$data[Video::THUMBNAIL_FIELD]['File']['size'] = filesize($noConvertPath . $thumbnailSlug . '.jpg');
+			$data[Video::THUMBNAIL_FIELD]['File']['slug'] = $thumbnailSlug;
+			$data[Video::THUMBNAIL_FIELD]['File']['original_name'] = $thumbnailSlug;
+
+			$data[Video::THUMBNAIL_FIELD]['FilesPlugin']['plugin_key'] = $pluginKey;	// plugin_keyは、元動画のをセット
+			$data[Video::THUMBNAIL_FIELD]['FilesRoom']['room_id'] = $roomId;
+			$data[Video::THUMBNAIL_FIELD]['FilesUser']['user_id'] = AuthComponent::user('id');
 		}
-
-		// サムネイルデータ準備
-		$data['Video'][Video::THUMBNAIL_FIELD]['name'] = $videoName . '.jpg';	// サムネイル名は動画名で末尾jpgにしたものをセット
-		$data['Video'][Video::THUMBNAIL_FIELD]['type'] = 'image/jpeg';
-		$data['Video'][Video::THUMBNAIL_FIELD]['tmp_name'] = $noConvertPath . $thumbnailSlug . '.jpg';
-		$data['Video'][Video::THUMBNAIL_FIELD]['error'] = UPLOAD_ERR_OK;
-		$data['Video'][Video::THUMBNAIL_FIELD]['size'] = filesize($noConvertPath . $thumbnailSlug . '.jpg');
-
-		// Filesテーブルにサムネイルを登録
-		$data[Video::THUMBNAIL_FIELD]['File']['status'] = 1;
-		$data[Video::THUMBNAIL_FIELD]['File']['role_type'] = 'room_file_role';
-		$data[Video::THUMBNAIL_FIELD]['File']['name'] = $videoName . '.jpg';		// サムネイル名は動画名をjpgにしたものをセット
-		$data[Video::THUMBNAIL_FIELD]['File']['alt'] = $videoName . '.jpg';
-		$data[Video::THUMBNAIL_FIELD]['File']['mimetype'] = 'image/jpeg';
-		$data[Video::THUMBNAIL_FIELD]['File']['path'] = '{ROOT}' . 'videos' . '{DS}' . $roomId . '{DS}';		// 自動的に $video['Video']['id'] . '{DS}' が末尾に追記されるので、ここでは追記しない
-		$data[Video::THUMBNAIL_FIELD]['File']['extension'] = 'jpg';
-		$data[Video::THUMBNAIL_FIELD]['File']['tmp_name'] = $noConvertPath . $thumbnailSlug . '.jpg';
-		$data[Video::THUMBNAIL_FIELD]['File']['size'] = filesize($noConvertPath . $thumbnailSlug . '.jpg');
-		$data[Video::THUMBNAIL_FIELD]['File']['slug'] = $thumbnailSlug;
-		$data[Video::THUMBNAIL_FIELD]['File']['original_name'] = $thumbnailSlug;
-
-		$data[Video::THUMBNAIL_FIELD]['FilesPlugin']['plugin_key'] = $pluginKey;	// plugin_keyは、元動画のをセット
-		$data[Video::THUMBNAIL_FIELD]['FilesRoom']['room_id'] = $roomId;
-		$data[Video::THUMBNAIL_FIELD]['FilesUser']['user_id'] = AuthComponent::user('id');
 
 		return $data;
 	}

@@ -93,7 +93,7 @@ class FileFixture extends CakeTestFixture {
 			'name' => 'video2.MOV',
 			'original_name' => 'video2',
 			'slug' => 'video2',
-			'extension' => 'mov',
+			'extension' => 'MOV',
 			'path' => '{ROOT}',
 			'mimetype' => 'video/quicktime',
 			'size' => 3728,

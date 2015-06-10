@@ -72,7 +72,6 @@ class VideoBehaviorTest extends VideoAppTest {
 		$data = null;
 		$video = array(
 			'Video' => array(
-				//'mp4_id' => 3	// video2.MOV
 				'mp4_id' => 1	// video1.mp4
 			),
 			Video::VIDEO_FILE_FIELD => array(
@@ -99,7 +98,6 @@ class VideoBehaviorTest extends VideoAppTest {
 		$data = array('hoge');
 		$video = array(
 			'Video' => array(
-				//'mp4_id' => 3	// video2.MOV
 				'mp4_id' => 1	// video1.mp4
 			),
 			Video::VIDEO_FILE_FIELD => array(
@@ -134,13 +132,140 @@ class VideoBehaviorTest extends VideoAppTest {
 		$data = null;
 		$video = array(
 			'Video' => array(
-				//'mp4_id' => 3	// video2.MOV
 				'mp4_id' => 1	// video1.mp4
 			),
 			Video::VIDEO_FILE_FIELD => array(
 				'FilesPlugin' => array(
 					'plugin_key' => 'videos'
 				)
+			),
+		);
+		$roomId = 1;
+
+		// 動画変換とデータ保存
+		$rtn = $this->Video->saveConvertVideo($data, $video, $roomId);
+
+		//アップロードテストのためのディレクトリ削除
+		$folder = new Folder();
+		$folder->delete(TMP . 'tests' . DS . 'file');
+
+		$this->assertFalse($rtn);
+	}
+
+/**
+ * 動画変換とデータ保存 quicktimeテスト
+ *
+ * @return void
+ */
+	public function testSaveConvertVideoMov() {
+		// ファイル準備
+		$folder = new Folder();
+		$folder->create(TMP . 'tests' . DS . 'file' . DS . '3');
+		$file = new File(
+			APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . 'video2.MOV'
+		);
+		$file->copy(TMP . 'tests' . DS . 'file' . DS . '3' . DS . 'video2.MOV');
+		$file->close();
+
+		// AuthComponent::user('id');対応
+		$Session = new CakeSession();
+		$Session->write('Auth.User.id', 1);
+
+		$data = array(
+			'Video' => array(
+				'block_id' => 2
+			),
+			Video::VIDEO_FILE_FIELD => array(
+				'File' => array(
+					'slug' => 'video2',
+					'role_type' => 'room_file_role',
+				),
+			),
+		);
+		$video = array(
+			'Video' => array(
+				'id' => 2,		// video2.MOV
+				'mp4_id' => 3,	// video2.MOV
+			),
+			Video::VIDEO_FILE_FIELD => array(
+				'FilesPlugin' => array(
+					'plugin_key' => 'videos'
+				),
+			),
+		);
+		$roomId = 1;
+
+		// 動画変換とデータ保存
+		$rtn = $this->Video->saveConvertVideo($data, $video, $roomId);
+
+		//アップロードテストのためのディレクトリ削除
+		$folder = new Folder();
+		$folder->delete(TMP . 'tests' . DS . 'file');
+
+		$this->assertTrue($rtn);
+	}
+
+/**
+ * 動画変換とデータ保存 quicktime 動画変換 失敗テスト
+ *
+ * @return void
+ */
+	public function testSaveConvertVideoMovConvertVideoFail() {
+		// ファイルなしのため、動画変換失敗
+		$data = array('Video' => array(
+			'block_id' => 2
+		));
+		$video = array(
+			'Video' => array(
+				'id' => 2,		// video2.MOV
+				'mp4_id' => 3,	// video2.MOV
+			),
+			Video::VIDEO_FILE_FIELD => array(
+				'FilesPlugin' => array(
+					'plugin_key' => 'videos'
+				)
+			),
+		);
+		$roomId = 1;
+
+		// 動画変換とデータ保存
+		$rtn = $this->Video->saveConvertVideo($data, $video, $roomId);
+
+		$this->assertFalse($rtn);
+	}
+
+/**
+ * 動画変換とデータ保存 quicktime 動画変換 validateVideoFile 失敗テスト
+ *
+ * @return void
+ */
+	public function testSaveConvertVideoMovValidateVideoFileFail() {
+		// ファイル準備
+		$folder = new Folder();
+		$folder->create(TMP . 'tests' . DS . 'file' . DS . '3');
+		$file = new File(
+			APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . 'video2.MOV'
+		);
+		$file->copy(TMP . 'tests' . DS . 'file' . DS . '3' . DS . 'video2.MOV');
+		$file->close();
+
+		// AuthComponent::user('id');対応
+		$Session = new CakeSession();
+		$Session->write('Auth.User.id', 1);
+
+		// $data[videoFile][File][slug], [role_type] が空のため、validateエラー
+		$data = array('Video' => array(
+			'block_id' => 2
+		));
+		$video = array(
+			'Video' => array(
+				'id' => 2,		// video2.MOV
+				'mp4_id' => 3,	// video2.MOV
+			),
+			Video::VIDEO_FILE_FIELD => array(
+				'FilesPlugin' => array(
+					'plugin_key' => 'videos'
+				),
 			),
 		);
 		$roomId = 1;
