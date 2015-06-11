@@ -53,17 +53,10 @@ class VideoBehaviorPrivateTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
-		// ファイル準備
-		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
-		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
-		$contentsId = $video['Video']['mp4_id'];
+		// テストファイル準備
 		$fileName = 'video2.MOV';
-		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
-		$folder = new Folder();
-		$folder->create($filePath);
-		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
-		$file->copy($filePath . DS . $fileName);
-		$file->close();
+		$contentsId = $video['Video']['mp4_id'];
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
 
 		// 元動画 取得
 		$noConvert = $this->Video->FileModel->findById($video['Video']['mp4_id']);
@@ -73,9 +66,8 @@ class VideoBehaviorPrivateTest extends VideoAppTest {
 		$method->setAccessible(true);
 		$data = $method->invokeArgs($this->Video->Behaviors->Video, array($this->Video, $data, $video, $noConvert, $roomId));
 
-		//アップロードテストのためのディレクトリ削除
-		$folder = new Folder();
-		$folder->delete(TMP . 'tests' . DS . 'file');
+		// テストファイル削除
+		$this->_deleteTestFile();
 
 		$this->assertInternalType('array', $data);
 	}

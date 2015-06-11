@@ -70,4 +70,35 @@ class VideoAppTest extends YACakeTestCase {
  */
 	public function testIndex() {
 	}
+
+/**
+ * テストファイル準備
+ *
+ * @param int $contentsId コンテンツID
+ * @param int $roomId ルームID
+ * @param array $fileName ファイル名
+ * @return void
+ */
+	protected function _readyTestFile($contentsId = 1, $roomId = 1, $fileName = 'video1.mp4') {
+		// ファイル準備
+		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
+		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
+		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
+		$folder = new Folder();
+		$folder->create($filePath);
+		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
+		$file->copy($filePath . DS . $fileName);
+		$file->close();
+	}
+
+/**
+ * テストファイル削除
+ *
+ * @return void
+ */
+	protected function _deleteTestFile() {
+		// アップロードテストのためのディレクトリ削除
+		$folder = new Folder();
+		$folder->delete(TMP . 'tests' . DS . 'file');
+	}
 }

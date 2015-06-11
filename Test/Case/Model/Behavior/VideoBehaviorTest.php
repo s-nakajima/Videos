@@ -43,24 +43,16 @@ class VideoBehaviorTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
-		// ファイル準備
-		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
-		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
+		// テストファイル準備
 		$contentsId = $video['Video']['mp4_id'];
 		$fileName = 'video1.mp4';
-		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
-		$folder = new Folder();
-		$folder->create($filePath);
-		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
-		$file->copy($filePath . DS . $fileName);
-		$file->close();
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
 
 		// 動画変換とデータ保存
 		$rtn = $this->Video->saveConvertVideo($data, $video, $roomId);
 
-		//アップロードテストのためのディレクトリ削除
-		$folder = new Folder();
-		$folder->delete(TMP . 'tests' . DS . 'file');
+		// テストファイル削除
+		$this->_deleteTestFile();
 
 		$this->assertTrue($rtn);
 	}
@@ -137,24 +129,16 @@ class VideoBehaviorTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
-		// ファイル準備
-		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
-		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
+		// テストファイル準備
 		$contentsId = $video['Video']['mp4_id'];
 		$fileName = 'video1.mp4';
-		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
-		$folder = new Folder();
-		$folder->create($filePath);
-		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
-		$file->copy($filePath . DS . $fileName);
-		$file->close();
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
 
 		// 動画変換とデータ保存
 		$rtn = $this->Video->saveConvertVideo($data, $video, $roomId);
 
-		//アップロードテストのためのディレクトリ削除
-		$folder = new Folder();
-		$folder->delete(TMP . 'tests' . DS . 'file');
+		// テストファイル削除
+		$this->_deleteTestFile();
 
 		$this->assertFalse($rtn);
 	}
@@ -193,24 +177,16 @@ class VideoBehaviorTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
-		// ファイル準備
-		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
-		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
-		$contentsId = $video['Video']['mp4_id'];
+		// テストファイル準備
 		$fileName = 'video2.MOV';
-		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
-		$folder = new Folder();
-		$folder->create($filePath);
-		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
-		$file->copy($filePath . DS . $fileName);
-		$file->close();
+		$contentsId = $video['Video']['mp4_id'];
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
 
 		// 動画変換とデータ保存
 		$rtn = $this->Video->saveConvertVideo($data, $video, $roomId);
 
-		//アップロードテストのためのディレクトリ削除
-		$folder = new Folder();
-		$folder->delete(TMP . 'tests' . DS . 'file');
+		// テストファイル削除
+		$this->_deleteTestFile();
 
 		$this->assertTrue($rtn);
 	}
@@ -271,24 +247,16 @@ class VideoBehaviorTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
-		// ファイル準備
-		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
-		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
-		$contentsId = $video['Video']['mp4_id'];
+		// テストファイル準備
 		$fileName = 'video2.MOV';
-		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
-		$folder = new Folder();
-		$folder->create($filePath);
-		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
-		$file->copy($filePath . DS . $fileName);
-		$file->close();
+		$contentsId = $video['Video']['mp4_id'];
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
 
 		// 動画変換とデータ保存
 		$rtn = $this->Video->saveConvertVideo($data, $video, $roomId);
 
-		//アップロードテストのためのディレクトリ削除
-		$folder = new Folder();
-		$folder->delete(TMP . 'tests' . DS . 'file');
+		// テストファイル削除
+		$this->_deleteTestFile();
 
 		$this->assertFalse($rtn);
 	}
@@ -324,17 +292,10 @@ class VideoBehaviorTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
-		// ファイル準備
-		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
-		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
-		$contentsId = $video['Video']['mp4_id'];
+		// テストファイル準備
 		$fileName = 'video1.mp4';
-		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
-		$folder = new Folder();
-		$folder->create($filePath);
-		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
-		$file->copy($filePath . DS . $fileName);
-		$file->close();
+		$contentsId = $video['Video']['mp4_id'];
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
 
 		// modelモック
 		$videoMock = $this->getMockForModel('Videos.Video', ['validateVideoFile']);
@@ -346,9 +307,8 @@ class VideoBehaviorTest extends VideoAppTest {
 		// 動画変換とデータ保存
 		$rtn = $videoMock->saveConvertVideo($data, $video, $roomId);
 
-		//アップロードテストのためのディレクトリ削除
-		$folder = new Folder();
-		$folder->delete(TMP . 'tests' . DS . 'file');
+		// テストファイル削除
+		$this->_deleteTestFile();
 
 		$this->assertFalse($rtn);
 	}

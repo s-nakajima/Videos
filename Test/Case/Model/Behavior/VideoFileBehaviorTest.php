@@ -32,14 +32,10 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
-		// ファイル準備
-		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
-		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応する
-		$folder = new Folder();
-		$folder->create(TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $video['Video']['mp4_id']);
-		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . 'video1.mp4');
-		$file->copy(TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $video['Video']['mp4_id'] . DS . 'video1.mp4');
-		$file->close();
+		// テストファイル準備
+		$fileName = 'video1.mp4';
+		$contentsId = $video['Video']['mp4_id'];
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
 
 		// VideoBehavior.php 29行目付近よりコピー
 		// 元動画 取得
@@ -70,9 +66,8 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		// ファイルチェック 変換後動画ファイル
 		$data = $this->Video->validateVideoFile($data, Video::VIDEO_FILE_FIELD, $this->Video->alias, 'mp4_id', 0);
 
-		//アップロードテストのためのディレクトリ削除
-		$folder = new Folder();
-		$folder->delete(TMP . 'tests' . DS . 'file');
+		// テストファイル削除
+		$this->_deleteTestFile();
 
 		$this->assertInternalType('array', $data);
 	}
@@ -93,12 +88,10 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
-		// ファイル準備
-		$folder = new Folder();
-		$folder->create(TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $video['Video']['mp4_id']);
-		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . 'video1.mp4');
-		$file->copy(TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $video['Video']['mp4_id'] . DS . 'video1.mp4');
-		$file->close();
+		// テストファイル準備
+		$fileName = 'video1.mp4';
+		$contentsId = $video['Video']['mp4_id'];
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
 
 		// 元動画 取得
 		$noConvert = $this->Video->FileModel->findById($video['Video']['mp4_id']);
@@ -124,9 +117,8 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		// ファイルチェック 変換後動画ファイル
 		$data = $this->Video->validateVideoFile($data, Video::VIDEO_FILE_FIELD, $this->Video->alias, 'mp4_id', 0);
 
-		//アップロードテストのためのディレクトリ削除
-		$folder = new Folder();
-		$folder->delete(TMP . 'tests' . DS . 'file');
+		// テストファイル削除
+		$this->_deleteTestFile();
 
 		$this->assertFalse($data);
 	}
@@ -146,12 +138,10 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
-		// ファイル準備
-		$folder = new Folder();
-		$folder->create(TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $video['Video']['mp4_id']);
-		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . 'video1.mp4');
-		$file->copy(TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $video['Video']['mp4_id'] . DS . 'video1.mp4');
-		$file->close();
+		// テストファイル準備
+		$fileName = 'video1.mp4';
+		$contentsId = $video['Video']['mp4_id'];
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
 
 		// 元動画 取得
 		$noConvert = $this->Video->FileModel->findById($video['Video']['mp4_id']);
@@ -181,9 +171,8 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		// ファイルチェック 変換後動画ファイル
 		$data = $this->Video->validateVideoFile($data, Video::VIDEO_FILE_FIELD, $this->Video->alias, 'mp4_id', 0);
 
-		//アップロードテストのためのディレクトリ削除
-		$folder = new Folder();
-		$folder->delete(TMP . 'tests' . DS . 'file');
+		// テストファイル削除
+		$this->_deleteTestFile();
 
 		$this->assertInternalType('array', $data);
 	}
@@ -209,12 +198,10 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
-		// ファイル準備
-		$folder = new Folder();
-		$folder->create(TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $video['Video']['mp4_id']);
-		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . 'video1.mp4');
-		$file->copy(TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $video['Video']['mp4_id'] . DS . 'video1.mp4');
-		$file->close();
+		// テストファイル準備
+		$fileName = 'video1.mp4';
+		$contentsId = $video['Video']['mp4_id'];
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
 
 		// modelモック
 		$fileModelMock = $this->getMockForModel('Files.FileModel', ['validateDeletedFiles']);
@@ -251,9 +238,8 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		// ファイルチェック 変換後動画ファイル
 		$data = $this->Video->validateVideoFile($data, Video::VIDEO_FILE_FIELD, $this->Video->alias, 'mp4_id', 0);
 
-		//アップロードテストのためのディレクトリ削除
-		$folder = new Folder();
-		$folder->delete(TMP . 'tests' . DS . 'file');
+		// テストファイル削除
+		$this->_deleteTestFile();
 
 		$this->assertFalse($data);
 	}
@@ -279,12 +265,10 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
-		// ファイル準備
-		$folder = new Folder();
-		$folder->create(TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $video['Video']['mp4_id']);
-		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . 'video1.mp4');
-		$file->copy(TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $video['Video']['mp4_id'] . DS . 'video1.mp4');
-		$file->close();
+		// テストファイル準備
+		$fileName = 'video1.mp4';
+		$contentsId = $video['Video']['mp4_id'];
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
 
 		// modelモック
 		$fileModelMock = $this->getMockForModel('Files.FileModel', ['validateFileAssociated']);
@@ -323,9 +307,8 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		// ファイルチェック 変換後動画ファイル
 		$data = $this->Video->validateVideoFile($data, Video::VIDEO_FILE_FIELD, $this->Video->alias, 'mp4_id', 0);
 
-		//アップロードテストのためのディレクトリ削除
-		$folder = new Folder();
-		$folder->delete(TMP . 'tests' . DS . 'file');
+		// テストファイル削除
+		$this->_deleteTestFile();
 
 		$this->assertFalse($data);
 	}
@@ -350,12 +333,10 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
-		// ファイル準備
-		$folder = new Folder();
-		$folder->create(TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $video['Video']['mp4_id']);
-		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . 'video1.mp4');
-		$file->copy(TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $video['Video']['mp4_id'] . DS . 'video1.mp4');
-		$file->close();
+		// テストファイル準備
+		$fileName = 'video1.mp4';
+		$contentsId = $video['Video']['mp4_id'];
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
 
 		// 元動画 取得
 		$noConvert = $this->Video->FileModel->findById($video['Video']['mp4_id']);
@@ -383,9 +364,8 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		// ファイルの登録 変換後動画ファイル
 		$data = $this->Video->saveVideoFile($data, Video::VIDEO_FILE_FIELD, $this->Video->alias, 'mp4_id', 0);
 
-		//アップロードテストのためのディレクトリ削除
-		$folder = new Folder();
-		$folder->delete(TMP . 'tests' . DS . 'file');
+		// テストファイル削除
+		$this->_deleteTestFile();
 
 		$this->assertInternalType('array', $data);
 	}
@@ -409,12 +389,10 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
-		// ファイル準備
-		$folder = new Folder();
-		$folder->create(TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $video['Video']['mp4_id']);
-		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . 'video1.mp4');
-		$file->copy(TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $video['Video']['mp4_id'] . DS . 'video1.mp4');
-		$file->close();
+		// テストファイル準備
+		$fileName = 'video1.mp4';
+		$contentsId = $video['Video']['mp4_id'];
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
 
 		// 元動画 取得
 		$noConvert = $this->Video->FileModel->findById($video['Video']['mp4_id']);
@@ -449,9 +427,8 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		// ファイルの登録 変換後動画ファイル
 		$data = $this->Video->saveVideoFile($data, Video::VIDEO_FILE_FIELD, $this->Video->alias, 'mp4_id', 0);
 
-		//アップロードテストのためのディレクトリ削除
-		$folder = new Folder();
-		$folder->delete(TMP . 'tests' . DS . 'file');
+		// テストファイル削除
+		$this->_deleteTestFile();
 
 		$this->assertInternalType('array', $data);
 	}

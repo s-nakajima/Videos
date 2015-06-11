@@ -46,17 +46,10 @@ class VideoBehaviorExceptionTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
-		// ファイル準備
-		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
-		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
+		// テストファイル準備
 		$contentsId = $video['Video']['mp4_id'];
 		$fileName = 'video1.mp4';
-		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
-		$folder = new Folder();
-		$folder->create($filePath);
-		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
-		$file->copy($filePath . DS . $fileName);
-		$file->close();
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
 
 		// 例外を発生させるためのモック
 		$videoMock = $this->getMockForModel('Videos.Video', ['save']);
@@ -70,9 +63,8 @@ class VideoBehaviorExceptionTest extends VideoAppTest {
 			// 動画変換とデータ保存
 			$videoMock->saveConvertVideo($data, $video, $roomId);
 		} catch (Exception $e) {
-			//アップロードテストのためのディレクトリ削除
-			$folder = new Folder();
-			$folder->delete(TMP . 'tests' . DS . 'file');
+			// テストファイル削除
+			$this->_deleteTestFile();
 			throw $e;
 		}
 	}
