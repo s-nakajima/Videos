@@ -53,10 +53,6 @@ class VideosAppController extends AppController {
 			$this->throwBadRequest();
 			return false;
 		}
-
-		// 暫定対応(;'∀') 下記はいずれ、ページの左右のおかず表示対応と一緒に、親側で定義される
-		$results = $this->camelizeKeyRecursive(['current' => $this->current]);
-		$this->set($results);
 	}
 
 /**

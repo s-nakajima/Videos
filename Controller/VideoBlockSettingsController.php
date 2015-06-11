@@ -75,7 +75,7 @@ class VideoBlockSettingsController extends VideosAppController {
 		$this->Paginator->settings = array(
 			'VideoBlockSetting' => array(
 				'order' => array('VideoBlockSetting.id' => 'desc'),
-				// 暫定対応(;'∀') blockにファイル容量はtableに持つかどうか、6/15以降に決める
+				// 暫定対応(;'∀') ファイル容量はtableに項目として持つかどうか、6/15以降に決める
 				'joins' => array (
 					array (
 						'type' => 'LEFT',

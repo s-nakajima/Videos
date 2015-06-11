@@ -109,7 +109,7 @@ $this->Html->script(
 					<div class="form-group"></div>
 					<?php $this->Form->unlockField('Tag');
 					echo $this->element('Tags.tag_form', array(
-						'tagData' => $this->request->data['Tag'],
+						'tagData' => isset($this->request->data['Tag']) ? $this->request->data['Tag'] : array(),
 						'modelName' => 'Video',
 					)); ?>
 
@@ -126,7 +126,7 @@ $this->Html->script(
 
 			<?php echo $this->Form->end(); ?>
 
-			<div class="panel-footer" style="border-top-style: none;">
+			<div class="panel-footer" style="/* border-top-style: none; */">
 				<div class="text-right">
 					<?php /* 削除 */ ?>
 					<?php echo $this->Form->create('Video', array(
