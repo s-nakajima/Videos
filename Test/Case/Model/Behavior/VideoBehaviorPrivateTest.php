@@ -25,15 +25,6 @@ class VideoBehaviorPrivateTest extends VideoAppTest {
 	public function testConvertVideo() {
 		App::uses('Video', 'Videos.Model');
 
-		// ファイル準備
-		$folder = new Folder();
-		$folder->create(TMP . 'tests' . DS . 'file' . DS . '3');
-		$file = new File(
-			APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . 'video2.MOV'
-		);
-		$file->copy(TMP . 'tests' . DS . 'file' . DS . '3' . DS . 'video2.MOV');
-		$file->close();
-
 		// AuthComponent::user('id');対応
 		$Session = new CakeSession();
 		$Session->write('Auth.User.id', 1);
@@ -51,7 +42,7 @@ class VideoBehaviorPrivateTest extends VideoAppTest {
 		);
 		$video = array(
 			'Video' => array(
-				'id' => 2,		// video2.MOV
+				'id' => 3,		// video2.MOV
 				'mp4_id' => 3,	// video2.MOV
 			),
 			Video::VIDEO_FILE_FIELD => array(
@@ -61,6 +52,18 @@ class VideoBehaviorPrivateTest extends VideoAppTest {
 			),
 		);
 		$roomId = 1;
+
+		// ファイル準備
+		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
+		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
+		$contentsId = $video['Video']['mp4_id'];
+		$fileName = 'video2.MOV';
+		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
+		$folder = new Folder();
+		$folder->create($filePath);
+		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
+		$file->copy($filePath . DS . $fileName);
+		$file->close();
 
 		// 元動画 取得
 		$noConvert = $this->Video->FileModel->findById($video['Video']['mp4_id']);

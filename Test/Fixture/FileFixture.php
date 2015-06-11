@@ -114,8 +114,9 @@ class FileFixture extends CakeTestFixture {
  * @return void
  */
 	public function init() {
+		$roomId = 1;
 		foreach ($this->records as $i => $recode) {
-			$this->records[$i]['path'] = TMP . 'tests' . DS . 'file' . DS . $recode['id'] . DS;
+			$this->records[$i]['path'] = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $recode['id'] . DS;
 		}
 		parent::init();
 	}

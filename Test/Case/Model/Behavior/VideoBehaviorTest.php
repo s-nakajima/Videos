@@ -23,15 +23,6 @@ class VideoBehaviorTest extends VideoAppTest {
  * @return void
  */
 	public function testSaveConvertVideoMp4() {
-		// ファイル準備
-		$folder = new Folder();
-		$folder->create(TMP . 'tests' . DS . 'file' . DS . '1');
-		$file = new File(
-			APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . 'video1.mp4'
-		);
-		$file->copy(TMP . 'tests' . DS . 'file' . DS . '1' . DS . 'video1.mp4');
-		$file->close();
-
 		// AuthComponent::user('id');対応
 		$Session = new CakeSession();
 		$Session->write('Auth.User.id', 1);
@@ -52,6 +43,18 @@ class VideoBehaviorTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
+		// ファイル準備
+		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
+		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
+		$contentsId = $video['Video']['mp4_id'];
+		$fileName = 'video1.mp4';
+		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
+		$folder = new Folder();
+		$folder->create($filePath);
+		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
+		$file->copy($filePath . DS . $fileName);
+		$file->close();
+
 		// 動画変換とデータ保存
 		$rtn = $this->Video->saveConvertVideo($data, $video, $roomId);
 
@@ -64,11 +67,11 @@ class VideoBehaviorTest extends VideoAppTest {
 
 /**
  * 動画変換とデータ保存 動画変換 失敗テスト
+ * $dataがnullなので、動画変換失敗
  *
  * @return void
  */
 	public function testSaveConvertVideoConvertVideoFail() {
-		// $dataが空なので、動画変換失敗
 		$data = null;
 		$video = array(
 			'Video' => array(
@@ -90,11 +93,11 @@ class VideoBehaviorTest extends VideoAppTest {
 
 /**
  * 動画変換とデータ保存 動画時間取得 失敗テスト
+ * '/var/www/app/app/tmp/tests/file/1/video1.mp4: No such file or directory' ファイルが無いので、再生時間取得失敗
  *
  * @return void
  */
 	public function testSaveConvertVideoGetVideoTimeFail() {
-		// '/var/www/app/app/tmp/tests/file/1/video1.mp4: No such file or directory' ファイルが無いので、再生時間取得失敗
 		$data = array('hoge');
 		$video = array(
 			'Video' => array(
@@ -116,19 +119,11 @@ class VideoBehaviorTest extends VideoAppTest {
 
 /**
  * 動画変換とデータ保存 サムネイル ファイルチェック 失敗テスト
+ * セッションにAuth.User.idをセットしていないので、サムネイル ファイルチェックのvalidetionで、user_id数値チェックエラーで失敗
  *
  * @return void
  */
 	public function testSaveConvertVideoThumbnailValidateFail() {
-		$folder = new Folder();
-		$folder->create(TMP . 'tests' . DS . 'file' . DS . '1');
-		$file = new File(
-			APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . 'video1.mp4'
-		);
-		$file->copy(TMP . 'tests' . DS . 'file' . DS . '1' . DS . 'video1.mp4');
-		$file->close();
-
-		// セッションにAuth.User.idをセットしていないので、サムネイル ファイルチェックのvalidetionで、user_id数値チェックエラーで失敗
 		$data = null;
 		$video = array(
 			'Video' => array(
@@ -141,6 +136,18 @@ class VideoBehaviorTest extends VideoAppTest {
 			),
 		);
 		$roomId = 1;
+
+		// ファイル準備
+		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
+		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
+		$contentsId = $video['Video']['mp4_id'];
+		$fileName = 'video1.mp4';
+		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
+		$folder = new Folder();
+		$folder->create($filePath);
+		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
+		$file->copy($filePath . DS . $fileName);
+		$file->close();
 
 		// 動画変換とデータ保存
 		$rtn = $this->Video->saveConvertVideo($data, $video, $roomId);
@@ -158,15 +165,6 @@ class VideoBehaviorTest extends VideoAppTest {
  * @return void
  */
 	public function testSaveConvertVideoMov() {
-		// ファイル準備
-		$folder = new Folder();
-		$folder->create(TMP . 'tests' . DS . 'file' . DS . '3');
-		$file = new File(
-			APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . 'video2.MOV'
-		);
-		$file->copy(TMP . 'tests' . DS . 'file' . DS . '3' . DS . 'video2.MOV');
-		$file->close();
-
 		// AuthComponent::user('id');対応
 		$Session = new CakeSession();
 		$Session->write('Auth.User.id', 1);
@@ -184,7 +182,7 @@ class VideoBehaviorTest extends VideoAppTest {
 		);
 		$video = array(
 			'Video' => array(
-				'id' => 2,		// video2.MOV
+				'id' => 3,		// video2.MOV
 				'mp4_id' => 3,	// video2.MOV
 			),
 			Video::VIDEO_FILE_FIELD => array(
@@ -194,6 +192,18 @@ class VideoBehaviorTest extends VideoAppTest {
 			),
 		);
 		$roomId = 1;
+
+		// ファイル準備
+		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
+		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
+		$contentsId = $video['Video']['mp4_id'];
+		$fileName = 'video2.MOV';
+		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
+		$folder = new Folder();
+		$folder->create($filePath);
+		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
+		$file->copy($filePath . DS . $fileName);
+		$file->close();
 
 		// 動画変換とデータ保存
 		$rtn = $this->Video->saveConvertVideo($data, $video, $roomId);
@@ -207,11 +217,11 @@ class VideoBehaviorTest extends VideoAppTest {
 
 /**
  * 動画変換とデータ保存 quicktime 動画変換 失敗テスト
+ * ファイルなしのため、動画変換失敗
  *
  * @return void
  */
 	public function testSaveConvertVideoMovConvertVideoFail() {
-		// ファイルなしのため、動画変換失敗
 		$data = array('Video' => array(
 			'block_id' => 2
 		));
@@ -236,30 +246,21 @@ class VideoBehaviorTest extends VideoAppTest {
 
 /**
  * 動画変換とデータ保存 quicktime 動画変換 validateVideoFile 失敗テスト
+ * $data[videoFile][File][slug], [role_type] が空のため、validateエラー
  *
  * @return void
  */
 	public function testSaveConvertVideoMovValidateVideoFileFail() {
-		// ファイル準備
-		$folder = new Folder();
-		$folder->create(TMP . 'tests' . DS . 'file' . DS . '3');
-		$file = new File(
-			APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . 'video2.MOV'
-		);
-		$file->copy(TMP . 'tests' . DS . 'file' . DS . '3' . DS . 'video2.MOV');
-		$file->close();
-
 		// AuthComponent::user('id');対応
 		$Session = new CakeSession();
 		$Session->write('Auth.User.id', 1);
 
-		// $data[videoFile][File][slug], [role_type] が空のため、validateエラー
 		$data = array('Video' => array(
 			'block_id' => 2
 		));
 		$video = array(
 			'Video' => array(
-				'id' => 2,		// video2.MOV
+				'id' => 3,		// video2.MOV
 				'mp4_id' => 3,	// video2.MOV
 			),
 			Video::VIDEO_FILE_FIELD => array(
@@ -270,8 +271,80 @@ class VideoBehaviorTest extends VideoAppTest {
 		);
 		$roomId = 1;
 
+		// ファイル準備
+		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
+		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
+		$contentsId = $video['Video']['mp4_id'];
+		$fileName = 'video2.MOV';
+		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
+		$folder = new Folder();
+		$folder->create($filePath);
+		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
+		$file->copy($filePath . DS . $fileName);
+		$file->close();
+
 		// 動画変換とデータ保存
 		$rtn = $this->Video->saveConvertVideo($data, $video, $roomId);
+
+		//アップロードテストのためのディレクトリ削除
+		$folder = new Folder();
+		$folder->delete(TMP . 'tests' . DS . 'file');
+
+		$this->assertFalse($rtn);
+	}
+
+/**
+ * 動画変換とデータ保存 サムネイル validateVideoFile 失敗テスト
+ * VideoモックによるvalidateVideoFile強制エラー
+ *
+ * @return void
+ */
+	public function testSaveConvertVideoMp4ThumbnailValidateVideoFileFail() {
+		$data = array(
+			'Video' => array(
+				'block_id' => 2
+			),
+			Video::VIDEO_FILE_FIELD => array(
+				'File' => array(
+					'slug' => 'video1',
+					'role_type' => 'room_file_role',
+				),
+			),
+		);
+		$video = array(
+			'Video' => array(
+				'id' => 1,		// video1.mp4
+				'mp4_id' => 1,	// video1.mp4
+			),
+			Video::VIDEO_FILE_FIELD => array(
+				'FilesPlugin' => array(
+					'plugin_key' => 'videos'
+				),
+			),
+		);
+		$roomId = 1;
+
+		// ファイル準備
+		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
+		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
+		$contentsId = $video['Video']['mp4_id'];
+		$fileName = 'video1.mp4';
+		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
+		$folder = new Folder();
+		$folder->create($filePath);
+		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
+		$file->copy($filePath . DS . $fileName);
+		$file->close();
+
+		// modelモック
+		$videoMock = $this->getMockForModel('Videos.Video', ['validateVideoFile']);
+		$videoMock->expects($this->any())
+			->method('validateVideoFile')
+			->will($this->returnValue(false));
+		$videoMock->FileModel = ClassRegistry::init('Files.FileModel');	// Behavior Test用
+
+		// 動画変換とデータ保存
+		$rtn = $videoMock->saveConvertVideo($data, $video, $roomId);
 
 		//アップロードテストのためのディレクトリ削除
 		$folder = new Folder();

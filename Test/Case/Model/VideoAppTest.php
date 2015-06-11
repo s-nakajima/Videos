@@ -32,6 +32,7 @@ class VideoAppTest extends YACakeTestCase {
 		'plugin.files.files_user',
 		'plugin.m17n.language',
 		//'plugin.m17n.languages_page',
+		'plugin.rooms.room',
 		'plugin.tags.tag',
 		'plugin.tags.tags_content',
 		'plugin.users.user',

@@ -139,7 +139,7 @@ class VideoFileBehavior extends ModelBehavior {
 		if (isset($data['DeleteFile'][$index]['File']['id']) && $data['DeleteFile'][$index]['File']['id'] > 0) {
 
 			//データ削除
-			if (!$Model->FileModel->deleteAll(['id' => $data['DeleteFile'][$index]['File']['id']], true, false)) {
+			if (!$Model->FileModel->deleteAll([$Model->FileModel->alias . '.id' => $data['DeleteFile'][$index]['File']['id']], true, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 			if (!$Model->FileModel->deleteFileAssociated($data['DeleteFile'][$index]['File']['id'])) {

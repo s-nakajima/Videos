@@ -154,7 +154,7 @@ class VideoBehavior extends ModelBehavior {
 		// 変換後の動画情報を取得 コマンドインジェクション対策
 		// ffmpeg -i の $retInfo はファイルがあってもなくても1(失敗)なので、エラー時処理は省く
 		$strCmd = Video::FFMPEG_PATH . " -i " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . " 2>&1";
-		exec($strCmd, $arrInfo);
+		exec($strCmd, $arrInfo, $retInfo);
 
 		//動画情報から時間を取得
 		$videoTimeSec = 0;
