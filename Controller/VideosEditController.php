@@ -200,9 +200,6 @@ class VideosEditController extends VideosAppController {
 		if (empty($videoKey)) {
 			$results['video'] = null;
 
-			// タグ対応
-			$this->request->data['Tag'] = array();
-
 			$comments = $this->Comment->getComments(array(
 				'plugin_key' => $this->request->params['plugin'],
 				'content_key' => null,
@@ -217,8 +214,10 @@ class VideosEditController extends VideosAppController {
 
 			$results['video'] = $video['Video'];
 
-			// タグ対応
-			$this->request->data['Tag'] = isset($video['Tag']) ? $video['Tag'] : array();
+			if ($this->request->isGet()) {
+				// タグ対応
+				$this->request->data['Tag'] = isset($video['Tag']) ? $video['Tag'] : array();
+			}
 
 			$comments = $this->Comment->getComments(array(
 				'plugin_key' => $this->request->params['plugin'],
