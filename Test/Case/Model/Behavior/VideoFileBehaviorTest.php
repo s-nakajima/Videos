@@ -562,11 +562,92 @@ class VideoFileBehaviorTest extends VideoAppTest {
 		$data[Video::THUMBNAIL_FIELD]['FilesRoom']['room_id'] = $roomId;
 		$data[Video::THUMBNAIL_FIELD]['FilesUser']['user_id'] = 1;
 
+		// いままでのファイル 削除対象
+		$data['Video']['thumbnail_id'] = 2;
+
 		// ファイルチェック 変換後動画ファイル
 		$data = $this->Video->validateVideoFile($data, Video::THUMBNAIL_FIELD, $this->Video->alias, 'thumbnail_id', 0);
 
 		// ファイルの登録 変換後動画ファイル
 		$data = $this->Video->saveVideoFile($data, Video::THUMBNAIL_FIELD, $this->Video->alias, 'thumbnail_id', 0);
+
+		// テストファイル削除
+		$this->_deleteTestFile();
+
+		$this->assertInternalType('array', $data);
+	}
+
+/**
+ * ファイル削除
+ *
+ * @return void
+ */
+	public function testDeleteFile() {
+		$video = array(
+			'Video' => array(
+				'id' => 2,
+				'thumbnail_id' => 2,	// thumbnail1.jpg
+			),
+		);
+		$roomId = 1;
+
+		// テストファイル準備
+		$fileName = 'thumbnail1.jpg';
+		$contentsId = $video['Video']['thumbnail_id'];
+		$this->_readyTestFile($contentsId, $roomId, $fileName);
+
+		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
+		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
+		$file->copy($filePath . DS . 'thumbnail1_big.jpg');
+		$file->copy($filePath . DS . 'thumbnail1_medium.jpg');
+		$file->copy($filePath . DS . 'thumbnail1_small.jpg');
+		$file->copy($filePath . DS . 'thumbnail1_thumbnail.jpg');
+		$file->close();
+
+		// 元動画 取得
+		$noConvert = $this->Video->FileModel->findById($video['Video']['thumbnail_id']);
+
+		// アップロードファイルの受け取りと移動
+		$noConvertPath = $noConvert['File']["path"];
+		$thumbnailSlug = $noConvert['File']["slug"];
+		//$noConvertExtension = $noConvert['File']["extension"];
+
+		// サムネイル名は動画名で末尾jpgにしたものをセット
+		$videoName = explode('.', $noConvert['File']["name"])[0];
+		$pluginKey = 'videos';
+
+		// サムネイルデータ準備
+		$data['Video'][Video::THUMBNAIL_FIELD]['name'] = $videoName . '.jpg';	// サムネイル名は動画名で末尾jpgにしたものをセット
+		$data['Video'][Video::THUMBNAIL_FIELD]['type'] = 'image/jpeg';
+		$data['Video'][Video::THUMBNAIL_FIELD]['tmp_name'] = $noConvertPath . $thumbnailSlug . '.jpg';
+		$data['Video'][Video::THUMBNAIL_FIELD]['error'] = UPLOAD_ERR_OK;
+		$data['Video'][Video::THUMBNAIL_FIELD]['size'] = filesize($noConvertPath . $thumbnailSlug . '.jpg');
+
+		// Filesテーブルにサムネイルを登録
+		$data[Video::THUMBNAIL_FIELD]['File']['status'] = 1;
+		$data[Video::THUMBNAIL_FIELD]['File']['role_type'] = 'room_file_role';
+		$data[Video::THUMBNAIL_FIELD]['File']['name'] = $videoName . '.jpg';		// サムネイル名は動画名をjpgにしたものをセット
+		$data[Video::THUMBNAIL_FIELD]['File']['alt'] = $videoName . '.jpg';
+		$data[Video::THUMBNAIL_FIELD]['File']['mimetype'] = 'image/jpeg';
+		$data[Video::THUMBNAIL_FIELD]['File']['path'] = '{ROOT}' . 'videos' . '{DS}' . $roomId . '{DS}';		// 自動的に $video['Video']['id'] . '{DS}' が末尾に追記されるので、ここでは追記しない
+		$data[Video::THUMBNAIL_FIELD]['File']['extension'] = 'jpg';
+		$data[Video::THUMBNAIL_FIELD]['File']['tmp_name'] = $noConvertPath . $thumbnailSlug . '.jpg';
+		$data[Video::THUMBNAIL_FIELD]['File']['size'] = filesize($noConvertPath . $thumbnailSlug . '.jpg');
+		$data[Video::THUMBNAIL_FIELD]['File']['slug'] = $thumbnailSlug;
+		$data[Video::THUMBNAIL_FIELD]['File']['original_name'] = $thumbnailSlug;
+
+		$data[Video::THUMBNAIL_FIELD]['FilesPlugin']['plugin_key'] = $pluginKey;	// plugin_keyは、元動画のをセット
+		$data[Video::THUMBNAIL_FIELD]['FilesRoom']['room_id'] = $roomId;
+		$data[Video::THUMBNAIL_FIELD]['FilesUser']['user_id'] = 1;
+
+		// いままでのファイル 削除対象
+		$data['Video']['thumbnail_id'] = 2;
+
+		// ファイルチェック 変換後動画ファイル
+		$data = $this->Video->validateVideoFile($data, Video::THUMBNAIL_FIELD, $this->Video->alias, 'thumbnail_id', 0);
+
+		// ファイル削除
+		$data = $this->Video->deleteFile($data, $this->Video->alias, 'thumbnail_id', 0);
 
 		// テストファイル削除
 		$this->_deleteTestFile();
