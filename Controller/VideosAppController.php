@@ -26,6 +26,7 @@ App::uses('AppController', 'Controller');
  * @property NetCommonsRoomRoleComponent $NetCommonsRoomRole
  * @property PageLayoutComponent $PageLayout
  * @property Video $Video
+ * @property VideoFrameSetting $VideoFrameSetting
  */
 class VideosAppController extends AppController {
 

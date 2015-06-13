@@ -16,7 +16,10 @@ App::uses('YACakeTestCase', 'NetCommons.TestSuite');
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\ContentComments\Test\Case\Model
+ * @property FileModel $FileModel
  * @property Video $Video
+ * @property VideoFrameSetting $VideoFrameSetting
+ * @property VideoViewLog $VideoViewLog
  */
 class VideoAppTest extends YACakeTestCase {
 
@@ -30,6 +33,7 @@ class VideoAppTest extends YACakeTestCase {
 		'plugin.files.files_plugin',
 		'plugin.files.files_room',
 		'plugin.files.files_user',
+		'plugin.frames.frame',
 		'plugin.m17n.language',
 		//'plugin.m17n.languages_page',
 		'plugin.rooms.room',
@@ -38,6 +42,7 @@ class VideoAppTest extends YACakeTestCase {
 		'plugin.users.user',
 		'plugin.videos.file',
 		'plugin.videos.video',
+		'plugin.videos.video_frame_setting',
 		'plugin.videos.video_view_log',	// VideoViewLog model用
 	);
 
@@ -50,6 +55,8 @@ class VideoAppTest extends YACakeTestCase {
 		parent::setUp();
 		$this->Video = ClassRegistry::init('Videos.Video');
 		$this->Video->FileModel = ClassRegistry::init('Files.FileModel');	// Behavior Test用
+		$this->VideoFrameSetting = ClassRegistry::init('Videos.VideoFrameSetting');
+		$this->VideoViewLog = ClassRegistry::init('Videos.VideoViewLog');
 	}
 
 /**
@@ -59,6 +66,8 @@ class VideoAppTest extends YACakeTestCase {
  */
 	public function tearDown() {
 		unset($this->Video);
+		unset($this->VideoFrameSetting);
+		unset($this->VideoViewLog);
 		CakeSession::write('Auth.User', null);
 		parent::tearDown();
 	}

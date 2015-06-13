@@ -47,8 +47,8 @@ class VideoFrameSettingFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'frame_key' => 'Lorem ipsum dolor sit amet',
-			'display_order' => 'Lorem ips',
-			'display_number' => 1,
+			'display_order' => 'title',
+			'display_number' => 20,
 			'created_user' => 1,
 			'created' => '2015-04-01 17:13:33',
 			'modified_user' => 1,

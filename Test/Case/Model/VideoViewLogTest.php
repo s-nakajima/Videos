@@ -20,27 +20,6 @@ App::uses('VideoAppTest', 'Videos.Test/Case/Model');
 class VideoViewLogTest extends VideoAppTest {
 
 /**
- * setUp method
- *
- * @return void
- */
-	public function setUp() {
-		parent::setUp();
-		$this->VideoViewLog = ClassRegistry::init('Videos.VideoViewLog');
-	}
-
-/**
- * tearDown method
- *
- * @return void
- */
-	public function tearDown() {
-		unset($this->VideoViewLog);
-
-		parent::tearDown();
-	}
-
-/**
  * testIndex method
  *
  * @return void

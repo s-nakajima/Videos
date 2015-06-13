@@ -119,8 +119,6 @@ class Video extends VideosAppModel {
  */
 	public $validate = array();
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
 /**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
