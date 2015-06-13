@@ -578,7 +578,7 @@ class VideoFileBehaviorTest extends VideoAppTest {
 	}
 
 /**
- * ファイル削除
+ * ファイル削除 テスト
  *
  * @return void
  */
