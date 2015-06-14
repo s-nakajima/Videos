@@ -75,11 +75,10 @@ class Video extends VideosAppModel {
  *
  * @var string
  */
-	// for CentOS
-	//const FFMPEG_PATH = '/usr/bin/ffmpeg';
+	// for CentOS, Ubuntu 12.04LTS
+	const FFMPEG_PATH = '/usr/bin/ffmpeg';
 	// for Ubuntu
-	//const FFMPEG_PATH = 'avconv';
-	const FFMPEG_PATH = 'ffmpeg';
+	//const FFMPEG_PATH = '/usr/bin/avconv';
 
 /**
  * ffmpeg オプション

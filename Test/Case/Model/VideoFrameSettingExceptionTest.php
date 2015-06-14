@@ -42,11 +42,11 @@ class VideoFrameSettingExceptionTest extends VideoAppTest {
 		);
 
 		// modelモック
-		$videoFrameSettingMock = $this->getMockForModel('Video.VideoFrameSetting', ['save']);
-		$videoFrameSettingMock->expects($this->any())
+		$modelMock = $this->getMockForModel('Video.VideoFrameSetting', ['save']);
+		$modelMock->expects($this->any())
 			->method('save')
 			->will($this->returnValue(false));
 
-		$videoFrameSetting = $videoFrameSettingMock->saveVideoFrameSetting($data);
+		$modelMock->saveVideoFrameSetting($data);
 	}
 }
