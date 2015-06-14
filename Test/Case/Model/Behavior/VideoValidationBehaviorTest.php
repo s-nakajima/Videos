@@ -9,12 +9,12 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('VideoAppTest', 'Videos.Test/Case/Model');
+App::uses('VideoBehaviorAppTest', 'Videos.Test/Case/Model/Behavior');
 
 /**
  * Summary for VideoValidationBehavior Test Case
  */
-class VideoValidationBehaviorTest extends VideoAppTest {
+class VideoValidationBehaviorTest extends VideoBehaviorAppTest {
 
 /**
  * ルール定義 Video::FFMPEG_ENABLE = true;　取得テスト

@@ -17,6 +17,7 @@ App::uses('AppModel', 'Model');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Model
  * @property Block $Block
+ * @property BlockRolePermission $BlockRolePermission
  */
 class VideosAppModel extends AppModel {
 }

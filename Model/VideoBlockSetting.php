@@ -41,7 +41,6 @@ class VideoBlockSetting extends VideosAppModel {
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
 					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => true,
 				),
 			),
 			'use_like' => array(
@@ -227,6 +226,7 @@ class VideoBlockSetting extends VideosAppModel {
 
 			// ブロック入力チェック
 			if (!$this->Block->validateBlock($data)) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
 				return false;
 			}
 

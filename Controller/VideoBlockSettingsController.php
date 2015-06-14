@@ -165,7 +165,7 @@ class VideoBlockSettingsController extends VideosAppController {
 			// 保存
 			if (!$videoBlockSetting = $this->VideoBlockSetting->saveVideoBlockSetting($data)) {
 				// エラー処理
-				if (!$this->handleValidationError($this->VideoBlockSetting->validationErrors) || !$this->handleValidationError($this->Block->validationErrors)) {
+				if (!$this->handleValidationError($this->VideoBlockSetting->validationErrors)) {
 					$videoBlockSetting['VideoBlockSetting'] = $this->data['VideoBlockSetting'];
 					// 入力値セット   "1","0"をbool型に変換
 					$videoBlockSetting = $this->VideoBlockSetting->convertBool($videoBlockSetting);
@@ -231,7 +231,7 @@ class VideoBlockSettingsController extends VideosAppController {
 			// 保存
 			if (!$this->VideoBlockSetting->saveVideoBlockSetting($data)) {
 				// エラー処理
-				if (!$this->handleValidationError($this->VideoBlockSetting->validationErrors) || !$this->handleValidationError($this->Block->validationErrors)) {
+				if (!$this->handleValidationError($this->VideoBlockSetting->validationErrors)) {
 					$videoBlockSetting['VideoBlockSetting'] = $this->data['VideoBlockSetting'];
 					// 入力値セット   "1","0"をbool型に変換
 					$videoBlockSetting = $this->VideoBlockSetting->convertBool($videoBlockSetting);

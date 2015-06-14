@@ -9,13 +9,12 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('VideoAppTest', 'Videos.Test/Case/Model');
-App::uses('CakeSession', 'Model/Datasource');
+App::uses('VideoBehaviorAppTest', 'Videos.Test/Case/Model/Behavior');
 
 /**
  * Summary for VideoFileBehaviorTest Case
  */
-class VideoFileBehaviorTest extends VideoAppTest {
+class VideoFileBehaviorTest extends VideoBehaviorAppTest {
 
 /**
  * ファイルチェック テスト

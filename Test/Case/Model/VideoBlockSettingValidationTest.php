@@ -52,22 +52,6 @@ class VideoBlockSettingValidationTest extends VideoAppTest {
 	}
 
 /**
- * VideoBlockSettingデータ保存 block_key requiredエラー
- * $block['VideoBlockSetting']['block_key'] keyなしのため エラー
- *
- * @return void
- */
-	public function testSaveVideoBlockSettingBlockKeyRequired() {
-		// saveVideoBlockSetting で保存する $data 取得
-		$data = $this->_getVideoBlockSettingTestData();
-		unset($data['VideoBlockSetting']['block_key']);
-
-		$this->VideoBlockSetting->saveVideoBlockSetting($data);
-
-		$this->assertArrayHasKey('block_key', $this->VideoBlockSetting->validationErrors);
-	}
-
-/**
  * VideoBlockSettingデータ保存 Blockテーブル name requiredエラー
  * $block['Block']['name'] keyなしのため エラーを予想していたが、required 効かなかった
  *
@@ -98,5 +82,84 @@ class VideoBlockSettingValidationTest extends VideoAppTest {
 		$this->VideoBlockSetting->saveVideoBlockSetting($data);
 
 		$this->assertArrayHasKey('name', $this->Block->validationErrors);
+	}
+
+/**
+ * blockRolePermissionデータ保存 Validationテスト
+ * $block['VideoBlockSetting']['agree'] bool型に変換できない値のため エラー
+ *
+ * @return void
+ */
+	public function testSaveBlockRolePermissionValidationErrors() {
+		$blockKey = 'block_1';
+		$roomId = 1;
+
+		// 取得
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
+			$blockKey,
+			$roomId
+		);
+
+		$netCommonsBlock = new NetCommonsBlockComponent(new ComponentCollection());
+		$controller = new Controller();
+		$controller->viewVars['languageId'] = 2;
+		$controller->viewVars['roomId'] = 1;
+		$netCommonsBlock->initialize($controller);
+
+		$permissions = $netCommonsBlock->getBlockRolePermissions(
+			$blockKey,
+			array('content_creatable', 'content_publishable', 'content_comment_creatable', 'content_comment_publishable')
+		);
+
+		// 更新時間を再セット
+		unset($videoBlockSetting['VideoBlockSetting']['modified']);
+		$data = Hash::merge(
+			$videoBlockSetting,
+			array('BlockRolePermission' => $permissions['BlockRolePermissions'])
+		);
+		$data['VideoBlockSetting']['agree'] = 'hoge';
+
+		$videoBlockSetting = $this->VideoBlockSetting->saveBlockRolePermission($data);
+
+		$this->assertFalse($videoBlockSetting);
+	}
+
+/**
+ * blockRolePermissionデータ保存 validateBlockRolePermissionsテスト
+ * $data['BlockRolePermission']['content_creatable']['room_administrator']['block_key']等 block_keyのkeyなしエラー
+ *
+ * @return void
+ */
+	public function testSaveBlockRolePermissionValiateBlockRolePermissions() {
+		$blockKey = 'block_1';
+		$roomId = 1;
+
+		// 取得
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
+			$blockKey,
+			$roomId
+		);
+
+		$netCommonsBlock = new NetCommonsBlockComponent(new ComponentCollection());
+		$controller = new Controller();
+		$controller->viewVars['languageId'] = 2;
+		$controller->viewVars['roomId'] = 1;
+		$netCommonsBlock->initialize($controller);
+
+		$permissions = $netCommonsBlock->getBlockRolePermissions(
+			$blockKey,
+			array('content_creatable', 'content_publishable', 'content_comment_creatable', 'content_comment_publishable')
+		);
+
+		// 更新時間を再セット
+		unset($videoBlockSetting['VideoBlockSetting']['modified']);
+		$data = Hash::merge(
+			$videoBlockSetting,
+			array('BlockRolePermission' => $permissions['BlockRolePermissions'])
+		);
+
+		$videoBlockSetting = $this->VideoBlockSetting->saveBlockRolePermission($data);
+
+		$this->assertFalse($videoBlockSetting);
 	}
 }
