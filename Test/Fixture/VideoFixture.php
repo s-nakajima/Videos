@@ -58,7 +58,7 @@ class VideoFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'key' => 'video_1',
-			'block_id' => 2,
+			'block_id' => 5,
 			'language_id' => 1,
 			'title' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'mp4_id' => 1,			// video1.mp4

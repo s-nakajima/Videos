@@ -54,6 +54,8 @@ class VideosAppTest extends YAControllerTestCase {
 		'plugin.rooms.room_role_permission',
 		'plugin.pages.page',
 		'plugin.pages.space',
+		'plugin.tags.tag',
+		'plugin.tags.tags_content',
 		'plugin.users.user',
 		'plugin.users.user_attributes_user',
 		'plugin.videos.file',

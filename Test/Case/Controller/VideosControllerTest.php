@@ -72,6 +72,58 @@ class VideosControllerTest extends VideosAppTest {
 		$this->assertTextEquals('index', $this->controller->view);
 	}
 
+/**
+ * 未ログイン tag別一覧の遷移先 確認テスト
+ *
+ * @return void
+ */
+	public function testTag() {
+		$this->testAction(
+			'/videos/videos/tag/1/id:1',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
+		$this->assertTextEquals('tag', $this->controller->view);
+	}
+
+/**
+ * 未ログイン 詳細表示 確認テスト
+ *
+ * @return void
+ */
+	public function testView() {
+		$fileName = 'thumbnail1.jpg';
+		$contentsId = 2;
+		$roomId = 1;
+
+		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
+		$folder = new Folder();
+		$folder->create($filePath);
+		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
+		$file->copy($filePath . DS . $fileName);
+		$file->copy($filePath . DS . 'thumbnail1_big.jpg');
+		$file->copy($filePath . DS . 'thumbnail1_medium.jpg');
+		$file->copy($filePath . DS . 'thumbnail1_small.jpg');
+		$file->copy($filePath . DS . 'thumbnail1_thumbnail.jpg');
+		$file->close();
+
+		$this->testAction(
+			'/videos/videos/view/1/video_1',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
+
+		// アップロードテストのためのディレクトリ削除
+		$folder = new Folder();
+		$folder->delete(TMP . 'tests' . DS . 'file');
+
+		$this->assertTextEquals('view', $this->controller->view);
+	}
+
 	///**
 	// * 未ログイン 詳細表示の遷移先 確認テスト
 	// *
