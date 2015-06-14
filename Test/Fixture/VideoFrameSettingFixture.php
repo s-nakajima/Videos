@@ -46,7 +46,7 @@ class VideoFrameSettingFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'frame_key' => 'Lorem ipsum dolor sit amet',
+			'frame_key' => 'frame_1',
 			'display_order' => 'title',
 			'display_number' => 20,
 			'created_user' => 1,

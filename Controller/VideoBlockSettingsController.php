@@ -123,7 +123,7 @@ class VideoBlockSettingsController extends VideosAppController {
 	}
 
 /**
- * コンテンツ登録
+ * ブロック設定 登録
  *
  * @return CakeResponse
  */
@@ -150,7 +150,6 @@ class VideoBlockSettingsController extends VideosAppController {
 				return;
 			}
 
-			// 更新時間を再セット
 			$data = Hash::merge(
 				$videoBlockSetting,
 				$block,
@@ -194,7 +193,7 @@ class VideoBlockSettingsController extends VideosAppController {
 	}
 
 /**
- * コンテンツ編集
+ * ブロック設定 編集
  *
  * @return CakeResponse
  */
@@ -263,7 +262,7 @@ class VideoBlockSettingsController extends VideosAppController {
 	}
 
 /**
- * コンテンツ削除
+ * ブロック設定 削除
  *
  * @return CakeResponse
  */

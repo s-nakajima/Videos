@@ -55,7 +55,7 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 	</div>
 </div>
 
-<?php /*
+<?php /* 暫定対応(;'∀')
 <div class="form-group">
 	<div>
 		 echo $this->Form->input('VideoBlockSetting.mail_notice', array(
@@ -77,7 +77,7 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 			'ng-model' => 'videoBlockSetting.useComment',
 		)); ?>
 	</div>
-	<?php /*
+	<?php /* 暫定対応(;'∀')
 	<div style="padding-left: 20px;">
 		echo $this->Form->input('VideoBlockSetting.comment_agree_mail_notice', array(
 			'label' => __d('videos', 'コメントの承認完了通知をメールで通知する'),

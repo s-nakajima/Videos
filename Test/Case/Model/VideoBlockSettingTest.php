@@ -25,9 +25,37 @@ class VideoBlockSettingTest extends VideoAppTest {
  * @return void
  */
 	public function testGetVideoBlockSetting() {
-		$blockKey = '1';
+		$blockKey = 'block_1';
 		$roomId = 1;
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting($blockKey, $roomId);
+
+		$this->assertInternalType('array', $videoBlockSetting);
+	}
+
+/**
+ * VideoBlockSettingデータ取得 新規データ取得 テスト
+ * $blockKey = nullで検索によって、取得データなし時の動作テスト
+ *
+ * @return void
+ */
+	public function testGetVideoBlockSettingCreate() {
+		$blockKey = null;
+		$roomId = 1;
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting($blockKey, $roomId);
+
+		$this->assertInternalType('array', $videoBlockSetting);
+	}
+
+/**
+ * VideoBlockSettingデータ保存 テスト
+ *
+ * @return void
+ */
+	public function testSaveVideoBlockSetting() {
+		// saveVideoBlockSetting で保存する $data 取得
+		$data = $this->_getVideoBlockSettingTestData();
+
+		$videoBlockSetting = $this->VideoBlockSetting->saveVideoBlockSetting($data);
 
 		$this->assertInternalType('array', $videoBlockSetting);
 	}

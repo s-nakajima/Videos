@@ -17,6 +17,7 @@ App::uses('YACakeTestCase', 'NetCommons.TestSuite');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\ContentComments\Test\Case\Model
  * @property FileModel $FileModel
+ * @property Block $Block
  * @property Video $Video
  * @property VideoBlockSetting $VideoBlockSetting
  * @property VideoFrameSetting $VideoFrameSetting
@@ -30,6 +31,7 @@ class VideoAppTest extends YACakeTestCase {
  * @var array
  */
 	public $fixtures = array(
+		'plugin.boxes.box',
 		'plugin.blocks.block',
 		'plugin.files.files_plugin',
 		'plugin.files.files_room',
@@ -37,6 +39,7 @@ class VideoAppTest extends YACakeTestCase {
 		'plugin.frames.frame',
 		'plugin.m17n.language',
 		//'plugin.m17n.languages_page',
+		'plugin.plugin_manager.plugin',
 		'plugin.rooms.room',
 		'plugin.tags.tag',
 		'plugin.tags.tags_content',
@@ -45,7 +48,7 @@ class VideoAppTest extends YACakeTestCase {
 		'plugin.videos.video',
 		'plugin.videos.video_block_setting',
 		'plugin.videos.video_frame_setting',
-		'plugin.videos.video_view_log',	// VideoViewLog model用
+		'plugin.videos.video_view_log',
 	);
 
 /**
@@ -55,6 +58,7 @@ class VideoAppTest extends YACakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
+		$this->Block = ClassRegistry::init('Blocks.Block');	// VideoBlockSetting Test用
 		$this->Video = ClassRegistry::init('Videos.Video');
 		$this->Video->FileModel = ClassRegistry::init('Files.FileModel');	// Behavior Test用
 		$this->VideoBlockSetting = ClassRegistry::init('Videos.VideoBlockSetting');
@@ -68,6 +72,7 @@ class VideoAppTest extends YACakeTestCase {
  * @return void
  */
 	public function tearDown() {
+		unset($this->Block);
 		unset($this->Video);
 		unset($this->VideoBlockSetting);
 		unset($this->VideoFrameSetting);
@@ -113,5 +118,39 @@ class VideoAppTest extends YACakeTestCase {
 		// アップロードテストのためのディレクトリ削除
 		$folder = new Folder();
 		$folder->delete(TMP . 'tests' . DS . 'file');
+	}
+
+/**
+ * saveVideoBlockSetting で保存する $data 取得
+ *
+ * @return array
+ */
+	protected function _getVideoBlockSettingTestData() {
+		// videoBlockSetting 取得
+		$blockKey = 'block_1';
+		$roomId = 1;
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting($blockKey, $roomId);
+
+		// ブロック 初期値 取得
+		$block = $this->Block->create(array(
+			'name' => __d('videos', 'New channel %s', date('YmdHis')),
+		));
+
+		$frameId = 1;
+		$languageId = 2;
+		$pluginKey = 'videos';
+		$data = Hash::merge(
+			$videoBlockSetting,
+			$block,
+			//$this->data,
+			array('Frame' => array('id' => $frameId)),
+			array('Block' => array(
+				'room_id' => $roomId,
+				'language_id' => $languageId,
+				'plugin_key' => $pluginKey,
+			))
+		);
+
+		return $data;
 	}
 }

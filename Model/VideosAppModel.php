@@ -16,6 +16,7 @@ App::uses('AppModel', 'Model');
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Model
+ * @property Block $Block
  */
 class VideosAppModel extends AppModel {
 }

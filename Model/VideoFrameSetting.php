@@ -76,14 +76,14 @@ class VideoFrameSetting extends VideosAppModel {
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
 					'message' => __d('net_commons', 'Invalid request.'),
-					//'required' => true,		// db項目にdefaultが定義されていると required 効かず、default値が設定された
+					'required' => true,		// required 効かず、default値が設定された
 				),
 			),
 			'display_number' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
 					'message' => __d('net_commons', 'Invalid request.'),
-					//'required' => true
+					'required' => true,		// required 効かず、default値が設定された
 				),
 			),
 		));
