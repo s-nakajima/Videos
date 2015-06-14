@@ -17,6 +17,7 @@ App::uses('YACakeTestCase', 'NetCommons.TestSuite');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\ContentComments\Test\Case\Model
  * @property Block $Block
+ * @property FileModel $FileModel
  * @property NetCommonsBlockComponent $NetCommonsBlock
  * @property Video $Video
  * @property VideoBlockSetting $VideoBlockSetting
@@ -45,6 +46,9 @@ class VideoAppTest extends YACakeTestCase {
 		'plugin.blocks.block_role_permission',
 		'plugin.comments.comment',
 		'plugin.content_comments.content_comment',
+		'plugin.files.files_plugin',
+		'plugin.files.files_room',
+		'plugin.files.files_user',
 		'plugin.frames.frame',
 		'plugin.likes.like',
 		'plugin.m17n.language',
@@ -75,6 +79,8 @@ class VideoAppTest extends YACakeTestCase {
 		parent::setUp();
 		$this->Block = ClassRegistry::init('Blocks.Block');							// VideoBlockSetting Test用
 		$this->Video = ClassRegistry::init('Videos.Video');
+		$this->Video->ContentComment = ClassRegistry::init('ContentComments.ContentComment');
+		$this->Video->FileModel = ClassRegistry::init('Files.FileModel');
 		$this->VideoBlockSetting = ClassRegistry::init('Videos.VideoBlockSetting');
 		$this->VideoFrameSetting = ClassRegistry::init('Videos.VideoFrameSetting');
 		$this->VideoViewLog = ClassRegistry::init('Videos.VideoViewLog');
@@ -91,6 +97,7 @@ class VideoAppTest extends YACakeTestCase {
 		unset($this->VideoBlockSetting);
 		unset($this->VideoFrameSetting);
 		unset($this->VideoViewLog);
+		CakeSession::write('Auth.User', null);
 		parent::tearDown();
 	}
 
@@ -100,6 +107,37 @@ class VideoAppTest extends YACakeTestCase {
  * @return void
  */
 	public function testIndex() {
+	}
+
+/**
+ * テストファイル準備
+ *
+ * @param int $contentsId コンテンツID
+ * @param int $roomId ルームID
+ * @param string $fileName ファイル名
+ * @return void
+ */
+	protected function _readyTestFile($contentsId = 1, $roomId = 1, $fileName = 'video1.mp4') {
+		// ファイル準備
+		// 本来は      /{TMP}/file/{roomId}/{contentsId} だけど、
+		// テストの為、/{TMP}/file/{roomId}/{fileId} で対応。　　そのため、{contentsId}、{fileId}は同じにしないと、削除で失敗する。
+		$filePath = TMP . 'tests' . DS . 'file' . DS . $roomId . DS . $contentsId;
+		$folder = new Folder();
+		$folder->create($filePath);
+		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
+		$file->copy($filePath . DS . $fileName);
+		$file->close();
+	}
+
+/**
+ * テストファイル削除
+ *
+ * @return void
+ */
+	protected function _deleteTestFile() {
+		// アップロードテストのためのディレクトリ削除
+		$folder = new Folder();
+		$folder->delete(TMP . 'tests' . DS . 'file');
 	}
 
 /**

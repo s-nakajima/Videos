@@ -18,6 +18,7 @@ App::uses('AppModel', 'Model');
  * @package NetCommons\Videos\Model
  * @property Block $Block
  * @property BlockRolePermission $BlockRolePermission
+ * @property Comment $Comment
  */
 class VideosAppModel extends AppModel {
 }

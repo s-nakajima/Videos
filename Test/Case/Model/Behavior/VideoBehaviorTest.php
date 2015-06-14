@@ -23,8 +23,8 @@ class VideoBehaviorTest extends VideoBehaviorAppTest {
  */
 	public function testSaveConvertVideoMp4() {
 		// AuthComponent::user('id');対応
-		$Session = new CakeSession();
-		$Session->write('Auth.User.id', 1);
+		$session = new CakeSession();
+		$session->write('Auth.User.id', 1);
 
 		$data = array('Video' => array(
 			'block_id' => 2
@@ -152,8 +152,8 @@ class VideoBehaviorTest extends VideoBehaviorAppTest {
  */
 	public function testSaveConvertVideoMov() {
 		// AuthComponent::user('id');対応
-		$Session = new CakeSession();
-		$Session->write('Auth.User.id', 1);
+		$session = new CakeSession();
+		$session->write('Auth.User.id', 1);
 
 		$data = array(
 			'Video' => array(
@@ -233,8 +233,8 @@ class VideoBehaviorTest extends VideoBehaviorAppTest {
  */
 	public function testSaveConvertVideoMovValidateVideoFileFail() {
 		// AuthComponent::user('id');対応
-		$Session = new CakeSession();
-		$Session->write('Auth.User.id', 1);
+		$session = new CakeSession();
+		$session->write('Auth.User.id', 1);
 
 		$data = array('Video' => array(
 			'block_id' => 2

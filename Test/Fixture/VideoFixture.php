@@ -57,7 +57,7 @@ class VideoFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'key' => 'Lorem ipsum dolor sit amet',
+			'key' => 'video_1',
 			'block_id' => 2,
 			'language_id' => 1,
 			'title' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
@@ -78,7 +78,7 @@ class VideoFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => 2,
-			'key' => 'Lorem ipsum dolor sit amet',
+			'key' => 'video_2',
 			'block_id' => 2,
 			'language_id' => 1,
 			'title' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
@@ -99,7 +99,7 @@ class VideoFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => 3,
-			'key' => 'Lorem ipsum dolor sit amet',
+			'key' => 'video_3',
 			'block_id' => 2,
 			'language_id' => 1,
 			'title' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
