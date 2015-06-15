@@ -19,6 +19,7 @@
             <directory suffix=".php">app/Plugin/Comments</directory>
             <directory suffix=".php">app/Plugin/Containers</directory>
             <directory suffix=".php">app/Plugin/ContentComments</directory>
+            <directory suffix=".ctp">app/Plugin/ContentComments</directory>
             <directory suffix=".php">app/Plugin/DebugKit</directory>
             <directory suffix=".ctp">app/Plugin/DebugKit</directory>
             <directory suffix=".php">app/Plugin/Files</directory>
@@ -34,7 +35,9 @@
             <directory suffix=".php">app/Plugin/Pages</directory>
             <directory suffix=".ctp">app/Plugin/Pages</directory>
             <directory suffix=".php">app/Plugin/PluginManager</directory>
+            <directory suffix=".php">app/Plugin/Roles</directory>
             <directory suffix=".ctp">app/Plugin/Roles</directory>
+            <directory suffix=".php">app/Plugin/Rooms</directory>
             <directory suffix=".ctp">app/Plugin/Rooms</directory>
             <directory suffix=".php">app/Plugin/TinyMCE</directory>
             <directory suffix=".php">app/Plugin/Tags</directory>
