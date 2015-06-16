@@ -45,16 +45,6 @@ class VideosEditControllerTest extends VideosTestBase {
 	}
 
 /**
- * tearDown method
- *
- * @return void
- */
-	public function tearDown() {
-		unset($this->controller);
-		parent::tearDown();
-	}
-
-/**
  * 管理者ログイン後 登録画面 表示テスト
  *
  * @return void

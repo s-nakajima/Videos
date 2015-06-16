@@ -1,6 +1,6 @@
 <?php
 /**
- * VideoFrameSettingsControllerTest Case
+ * VideoBlockRolePermissionsControllerTest Case
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -13,13 +13,13 @@
 App::uses('VideosTestBase', 'Videos.Test/Case/Controller');
 
 /**
- * VideoFrameSettingsControllerTest Case
+ * VideoBlockRolePermissionsControllerTest Case
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Announcements\Test\Case\Controller
  */
-class VideoFrameSettingsControllerTest extends VideosTestBase {
+class VideoBlockRolePermissionsControllerTest extends VideosTestBase {
 
 /**
  * setUp method
@@ -33,7 +33,7 @@ class VideoFrameSettingsControllerTest extends VideosTestBase {
 		YACakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
 
 		$this->generate(
-			'Videos.VideoFrameSettings',
+			'Videos.VideoBlockRolePermissions',
 			array(
 				'components' => array(
 					'Auth' => array('user'),
@@ -52,37 +52,12 @@ class VideoFrameSettingsControllerTest extends VideosTestBase {
 	public function testEdit() {
 		RolesControllerTest::login($this);
 
-		$frameId = 2;
+		$frameId = 1;
+		$blockId = 1;
 		$this->testAction(
-			'/videos/videos_edit/edit/' . $frameId,
+			'/videos/video_block_role_permissions/edit/' . $frameId . '/' . $blockId,
 			array(
 				'method' => 'get',
-				'return' => 'view',
-			)
-		);
-		$this->assertTextEquals('edit', $this->controller->view);
-
-		AuthGeneralControllerTest::logout($this);
-	}
-
-/**
- * 管理者ログイン後 表示方法変更画面 編集テスト
- *
- * @return void
- */
-	public function testEditPost() {
-		RolesControllerTest::login($this);
-
-		$data = array(
-			//'VideoFrameSetting' => array(), 暫定対応(;'∀') 登録・編集値の具体的に記述する予定
-		);
-
-		$frameId = 2;
-		$this->testAction(
-			'/videos/videos_edit/edit/' . $frameId,
-			array(
-				'method' => 'post',
-				'data' => $data,
 				'return' => 'view',
 			)
 		);

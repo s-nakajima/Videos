@@ -80,6 +80,7 @@ class VideoBlockRolePermissionsController extends VideosAppController {
 			$this->viewVars['roomId']
 		);
 
+		// 暫定対応(;'∀') content_publishableいる？？
 		$permissions = $this->NetCommonsBlock->getBlockRolePermissions(
 			$this->viewVars['blockKey'],
 			array('content_creatable', 'content_publishable', 'content_comment_creatable', 'content_comment_publishable')

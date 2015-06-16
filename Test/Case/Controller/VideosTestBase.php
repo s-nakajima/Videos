@@ -85,6 +85,7 @@ class VideosTestBase extends YAControllerTestCase {
  * @return void
  */
 	public function tearDown() {
+		unset($this->controller);
 		Configure::write('Config.language', null);
 		CakeSession::write('Auth.User', null);
 		parent::tearDown();

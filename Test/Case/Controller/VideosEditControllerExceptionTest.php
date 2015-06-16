@@ -45,16 +45,6 @@ class VideosEditControllerExceptionTest extends VideosTestBase {
 	}
 
 /**
- * tearDown method
- *
- * @return void
- */
-	public function tearDown() {
-		unset($this->controller);
-		parent::tearDown();
-	}
-
-/**
  * 管理者ログイン後  編集画面表示 例外テスト
  * $videoKey なしのため、エラー
  *

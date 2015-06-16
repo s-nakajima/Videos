@@ -45,16 +45,6 @@ class VideoBlockSettingsControllerTest extends VideosTestBase {
 	}
 
 /**
- * tearDown method
- *
- * @return void
- */
-	public function tearDown() {
-		unset($this->controller);
-		parent::tearDown();
-	}
-
-/**
  * 管理者ログイン後 ブロック一覧 表示テスト
  *
  * @return void

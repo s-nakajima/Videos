@@ -45,16 +45,6 @@ class VideosControllerTest extends VideosTestBase {
 	}
 
 /**
- * tearDown method
- *
- * @return void
- */
-	public function tearDown() {
-		unset($this->controller);
-		parent::tearDown();
-	}
-
-/**
  * 未ログイン 一覧表示（初期表示）の遷移先 確認テスト
  *
  * @return void
