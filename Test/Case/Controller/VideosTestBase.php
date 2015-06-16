@@ -90,4 +90,12 @@ class VideosTestBase extends YAControllerTestCase {
 		CakeSession::write('Auth.User', null);
 		parent::tearDown();
 	}
+
+/**
+ * testIndex method
+ *
+ * @return void
+ */
+	public function testIndex() {
+	}
 }
