@@ -55,7 +55,7 @@ $this->Html->script(
 					)); ?>
 
 					<?php /* ffmpeg=OFF */ ?>
-					<?php if (!Video::FFMPEG_ENABLE) : ?>
+					<?php /* if (!Video::FFMPEG_ENABLE) : ?>
 						<div class="form-group">
 							<?php echo $this->Form->input('video_time', array(
 								'type' => 'text',
@@ -73,7 +73,7 @@ $this->Html->script(
 								'field' => 'video_time',
 							]); ?>
 						</div>
-					<?php endif; ?>
+					<?php endif; */ ?>
 
 					<div class="form-group">
 						<?php echo $this->Form->input('title', array(

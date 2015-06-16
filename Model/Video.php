@@ -216,14 +216,14 @@ class Video extends VideosAppModel {
  * @return bool
  */
 	public function beforeSave($options = array()) {
-		if (!self::FFMPEG_ENABLE) {
+		/* if (!self::FFMPEG_ENABLE) {
 			// 再生時間
 			if (isset($this->data[$this->alias]['video_time']) && gettype($this->data[$this->alias]['video_time']) == 'string') {
 				//時：分：秒を秒に変更
 				$times = explode(":", $this->data[$this->alias]['video_time']);
 				$this->data[$this->alias]['video_time'] = intval(trim($times[0])) * 3600 + intval($times[1]) * 60 + $times[2];
 			}
-		}
+		} */
 		return parent::beforeSave($options);
 	}
 

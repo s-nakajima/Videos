@@ -199,14 +199,17 @@ $this->Html->script(
 													<?php endif; ?>
 												</a>
 											</div>
-											<?php /* 動画時間 */ ?>
-											<div style="width: 140px;">
-												<div class="text-right" style="margin-top: -20px; margin-right: 2px;">
-													<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
-														<?php echo $relatedVideo['video']['videoTimeView']; ?>
-													</span>
+											<?php /* 再生時間 */ ?>
+											<?php /* ffmpeg=ON */ ?>
+											<?php if (Video::FFMPEG_ENABLE) : ?>
+												<div style="width: 140px;">
+													<div class="text-right" style="margin-top: -20px; margin-right: 2px;">
+														<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
+															<?php echo $relatedVideo['video']['videoTimeView']; ?>
+														</span>
+													</div>
 												</div>
-											</div>
+											<?php endif; ?>
 										</div>
 									</div>
 									<?php /* タイトル、投稿者、各種回数 */ ?>

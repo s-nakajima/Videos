@@ -15,7 +15,7 @@
 class VideoValidationBehavior extends ModelBehavior {
 
 /**
- * ルール定義 Video::FFMPEG_ENABLE = true;
+ * ルール定義 ffmpeg=ON
  *
  * @param Model $Model モデル
  * @return array
@@ -81,7 +81,7 @@ class VideoValidationBehavior extends ModelBehavior {
 	}
 
 /**
- * ルール定義 Video::FFMPEG_ENABLE = false;
+ * ルール定義 ffmpeg=OFF
  *
  * @param Model $Model モデル
  * @param array $options Options passed from Model::save().
@@ -116,7 +116,7 @@ class VideoValidationBehavior extends ModelBehavior {
 					//'on' => 'create', // Limit validation to 'create' or 'update' operations
 				),
 			),
-			// 再生時間
+			/* // 再生時間
 			'video_time' => array(
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
@@ -128,7 +128,7 @@ class VideoValidationBehavior extends ModelBehavior {
 					'rule' => '/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/i',
 					'message' => __d('videos', 'There is an error in the time of format'),	//time format is incorrect
 				),
-			),
+			), */
 		));
 
 		// 登録時

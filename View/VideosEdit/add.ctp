@@ -68,7 +68,8 @@ $this->Html->script(
 							'overwriteEnable' => false,
 						)); ?>
 
-						<div class="form-group">
+						<?php
+						/* <div class="form-group">
 							<?php echo $this->Form->input('video_time', array(
 								'type' => 'text',
 								'label' => __d('videos', 'Play time') . $this->element('NetCommons.required'),
@@ -84,7 +85,7 @@ $this->Html->script(
 								'model' => 'Video',
 								'field' => 'video_time',
 							]); ?>
-						</div>
+						</div>  */ ?>
 					<?php endif; ?>
 
 					<div class="form-group">
