@@ -52,7 +52,23 @@ class VideoBlockSettingFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'block_key' => 'block_1',
+			'block_key' => 'block_5',
+			'use_like' => 1,
+			'use_unlike' => 1,
+			'use_comment' => 1,
+			'agree' => 1,
+			'mail_notice' => 1,
+			'auto_play' => 1,
+			'comment_agree' => 1,
+			'comment_agree_mail_notice' => 1,
+			'created_user' => 1,
+			'created' => '2015-04-01 17:08:40',
+			'modified_user' => 1,
+			'modified' => '2015-04-01 17:08:40'
+		),
+		array(
+			'id' => 2,
+			'block_key' => 'block_2',
 			'use_like' => 1,
 			'use_unlike' => 1,
 			'use_comment' => 1,

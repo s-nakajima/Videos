@@ -1,6 +1,6 @@
 <?php
 /**
- * VideosAppController Test Case
+ * VideosTestBase
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,17 +10,19 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('AuthGeneralControllerTest', 'AuthGeneral.Test/Case/Controller');
+App::uses('RolesControllerTest', 'Roles.Test/Case/Controller');
 App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
 
 /**
- * VideosAppController Test Case
+ * VideosTestBase
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Test\Case\Controller
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class VideosAppTest extends YAControllerTestCase {
+class VideosTestBase extends YAControllerTestCase {
 
 /**
  * Fixtures
@@ -46,11 +48,13 @@ class VideosAppTest extends YAControllerTestCase {
 		'plugin.m17n.language',
 		'plugin.m17n.languages_page',
 		'plugin.plugin_manager.plugin',
+		'plugin.roles.role',
 		'plugin.roles.default_role_permission',
 		'plugin.rooms.plugins_room',
 		'plugin.rooms.roles_room',
 		'plugin.rooms.roles_rooms_user',
 		'plugin.rooms.room',
+		'plugin.rooms.room_role',
 		'plugin.rooms.room_role_permission',
 		'plugin.pages.page',
 		'plugin.pages.space',
@@ -84,13 +88,5 @@ class VideosAppTest extends YAControllerTestCase {
 		Configure::write('Config.language', null);
 		CakeSession::write('Auth.User', null);
 		parent::tearDown();
-	}
-
-/**
- * testIndex method
- *
- * @return void
- */
-	public function testIndex() {
 	}
 }

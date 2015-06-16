@@ -120,7 +120,7 @@ class VideosEditController extends VideosAppController {
 		// フレームKeyなしはアクセスさせない
 		if (empty($videoKey)) {
 			$this->throwBadRequest();
-			return false;
+			return;
 		}
 
 		$results = $this->__init($videoKey);

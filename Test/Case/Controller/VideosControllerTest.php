@@ -10,9 +10,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('ContentCommentsComponent', 'ContentComments.Controller/Component');
-App::uses('VideosAppTest', 'Videos.Test/Case/Controller');
-App::uses('VideosController', 'Videos.Controller');
+App::uses('VideosTestBase', 'Videos.Test/Case/Controller');
 
 /**
  * VideosController Test Case
@@ -21,7 +19,7 @@ App::uses('VideosController', 'Videos.Controller');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Announcements\Test\Case\Controller
  */
-class VideosControllerTest extends VideosAppTest {
+class VideosControllerTest extends VideosTestBase {
 
 /**
  * setUp method
@@ -62,8 +60,9 @@ class VideosControllerTest extends VideosAppTest {
  * @return void
  */
 	public function testIndex() {
+		$frameId = 1;
 		$this->testAction(
-			'/videos/videos/index/1',
+			'/videos/videos/index/' . $frameId,
 			array(
 				'method' => 'get',
 				'return' => 'view',
@@ -78,8 +77,9 @@ class VideosControllerTest extends VideosAppTest {
  * @return void
  */
 	public function testTag() {
+		$frameId = 1;
 		$this->testAction(
-			'/videos/videos/tag/1/id:1',
+			'/videos/videos/tag/' . $frameId . '/id:1',
 			array(
 				'method' => 'get',
 				'return' => 'view',
@@ -109,8 +109,10 @@ class VideosControllerTest extends VideosAppTest {
 		$file->copy($filePath . DS . 'thumbnail1_thumbnail.jpg');
 		$file->close();
 
+		$frameId = 1;
+		$videoKey = 'video_1';
 		$this->testAction(
-			'/videos/videos/view/1/video_1',
+			'/videos/videos/view/' . $frameId . '/' . $videoKey,
 			array(
 				'method' => 'get',
 				'return' => 'view',
