@@ -9,12 +9,12 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('VideoBehaviorAppTest', 'Videos.Test/Case/Model/Behavior');
+App::uses('VideoBehaviorTestBase', 'Videos.Test/Case/Model/Behavior');
 
 /**
  * Summary for VideoBehavior Test Case
  */
-class VideoBehaviorConvSecToHourTest extends VideoBehaviorAppTest {
+class VideoBehaviorConvSecToHourTest extends VideoBehaviorTestBase {
 
 /**
  * 秒を時：分：秒に変更 (表示用)テスト 秒単位

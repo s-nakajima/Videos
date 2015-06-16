@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('VideoAppTest', 'Videos.Test/Case/Model');
+App::uses('VideoTestBase', 'Videos.Test/Case/Model');
 
 /**
  * VideoTest Case
@@ -17,7 +17,7 @@ App::uses('VideoAppTest', 'Videos.Test/Case/Model');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\ContentComments\Test\Case\Model
  */
-class VideoTest extends VideoAppTest {
+class VideoTest extends VideoTestBase {
 
 /**
  * Videoデータ取得 テスト

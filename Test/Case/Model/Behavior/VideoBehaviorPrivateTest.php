@@ -9,12 +9,12 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('VideoBehaviorAppTest', 'Videos.Test/Case/Model/Behavior');
+App::uses('VideoBehaviorTestBase', 'Videos.Test/Case/Model/Behavior');
 
 /**
  * Summary for VideoBehaviorPrivateTest Case
  */
-class VideoBehaviorPrivateTest extends VideoBehaviorAppTest {
+class VideoBehaviorPrivateTest extends VideoBehaviorTestBase {
 
 /**
  * 動画変換テスト

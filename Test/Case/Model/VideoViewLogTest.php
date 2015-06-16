@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('VideoAppTest', 'Videos.Test/Case/Model');
+App::uses('VideoTestBase', 'Videos.Test/Case/Model');
 
 /**
  * VideoViewLog Test Case
@@ -17,7 +17,7 @@ App::uses('VideoAppTest', 'Videos.Test/Case/Model');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Test\Case\Model
  */
-class VideoViewLogTest extends VideoAppTest {
+class VideoViewLogTest extends VideoTestBase {
 
 /**
  * testIndex method

@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('VideoAppTest', 'Videos.Test/Case/Model');
+App::uses('VideoTestBase', 'Videos.Test/Case/Model');
 App::uses('Controller', 'Controller');
 
 /**
@@ -18,7 +18,7 @@ App::uses('Controller', 'Controller');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Test\Case\Model
  */
-class VideoBlockSettingTest extends VideoAppTest {
+class VideoBlockSettingTest extends VideoTestBase {
 
 /**
  * VideoBlockSettingデータ取得 テスト

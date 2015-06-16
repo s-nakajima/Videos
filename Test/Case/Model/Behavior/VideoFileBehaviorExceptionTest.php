@@ -9,12 +9,12 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('VideoBehaviorAppTest', 'Videos.Test/Case/Model/Behavior');
+App::uses('VideoBehaviorTestBase', 'Videos.Test/Case/Model/Behavior');
 
 /**
  * Summary for VideoFileBehaviorExceptionTest Case
  */
-class VideoFileBehaviorExceptionTest extends VideoBehaviorAppTest {
+class VideoFileBehaviorExceptionTest extends VideoBehaviorTestBase {
 
 /**
  * ファイルの登録 例外テスト

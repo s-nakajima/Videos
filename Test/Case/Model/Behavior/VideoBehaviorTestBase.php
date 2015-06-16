@@ -1,6 +1,6 @@
 <?php
 /**
- * VideoBehaviorAppTest Case
+ * VideoBehaviorTest Base
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -9,21 +9,13 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('VideoAppTest', 'Videos.Test/Case/Model');
+App::uses('VideoTestBase', 'Videos.Test/Case/Model');
 
 /**
- * VideoBehaviorAppTest Case
+ * VideoBehaviorTest Base
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\ContentComments\Test\Case\Model
  */
-class VideoBehaviorAppTest extends VideoAppTest {
-
-/**
- * testIndex method
- *
- * @return void
- */
-	public function testIndex() {
-	}
+class VideoBehaviorTestBase extends VideoTestBase {
 }

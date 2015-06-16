@@ -1,6 +1,6 @@
 <?php
 /**
- * VideoApp Test Case
+ * VideoTest Base
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -12,7 +12,7 @@
 App::uses('YACakeTestCase', 'NetCommons.TestSuite');
 
 /**
- * VideoApp Test Case
+ * VideoTest Base
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\ContentComments\Test\Case\Model
@@ -24,7 +24,7 @@ App::uses('YACakeTestCase', 'NetCommons.TestSuite');
  * @property VideoFrameSetting $VideoFrameSetting
  * @property VideoViewLog $VideoViewLog
  */
-class VideoAppTest extends YACakeTestCase {
+class VideoTestBase extends YACakeTestCase {
 
 /**
  * use component
@@ -99,14 +99,6 @@ class VideoAppTest extends YACakeTestCase {
 		unset($this->VideoViewLog);
 		CakeSession::write('Auth.User', null);
 		parent::tearDown();
-	}
-
-/**
- * testIndex method
- *
- * @return void
- */
-	public function testIndex() {
 	}
 
 /**
