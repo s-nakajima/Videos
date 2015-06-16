@@ -102,8 +102,8 @@ class VideoTest extends VideoTestBase {
 		$data[Video::VIDEO_FILE_FIELD]['File']['role_type'] = 'room_file_role';
 
 		// 暫定対応(;'∀') 登録後、$this->saveConvertVideo($data, $video, $roomId)の下記で落ちるので、モックで対応
-		// $noConvert = $Model->FileModel->findById($video['Video']['mp4_id']);
-		// Uninitialized string offset: -1
+		//   $noConvert = $Model->FileModel->findById($video['Video']['mp4_id']);
+		//   Uninitialized string offset: -1
 		// modelモック
 		$modelMock = $this->getMockForModel('Videos.Video', ['saveConvertVideo']);
 		$modelMock->expects($this->any())
@@ -134,7 +134,6 @@ class VideoTest extends VideoTestBase {
 		$video = $this->Video->create();
 		$data = Hash::merge(
 			$video,
-			//$data,
 			array($this->Video->alias => array(
 				'status' => $status,
 				'block_id' => $blockId,
@@ -168,7 +167,6 @@ class VideoTest extends VideoTestBase {
 		$video = $this->Video->create();
 		$data = Hash::merge(
 			$video,
-			//$data,
 			array($this->Video->alias => array(
 				'status' => $status,
 				'block_id' => $blockId,

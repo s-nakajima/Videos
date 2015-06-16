@@ -94,7 +94,7 @@ class VideoBlockSettingTest extends VideoTestBase {
 		$netCommonsBlock = new NetCommonsBlockComponent(new ComponentCollection());
 		$controller = new Controller();
 		$controller->viewVars['languageId'] = 2;
-		$controller->viewVars['roomId'] = 1;
+		$controller->viewVars['roomId'] = $roomId;
 		$netCommonsBlock->initialize($controller);
 
 		$permissions = $netCommonsBlock->getBlockRolePermissions(

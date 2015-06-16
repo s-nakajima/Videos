@@ -76,7 +76,7 @@ class VideosController extends VideosAppController {
  */
 	public function beforeFilter() {
 		// ゲストアクセスOKのアクションを設定
-		$this->Auth->allow('index', 'tag', 'view');
+		$this->Auth->allow('tag');
 		parent::beforeFilter();
 	}
 

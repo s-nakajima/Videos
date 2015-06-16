@@ -19,6 +19,9 @@ App::uses('AppModel', 'Model');
  * @property Block $Block
  * @property BlockRolePermission $BlockRolePermission
  * @property Comment $Comment
+ * @property ContentComment $ContentComment
+ * @property TagsContent $TagsContent
+ * @property Like $Like
  */
 class VideosAppModel extends AppModel {
 }

@@ -513,16 +513,17 @@ class Video extends VideosAppModel {
 			// 値をセット
 			$this->set($data);
 
+			// 動画データ登録
+			$video = $this->save(null, false);
+			if (!$video) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
 			//コメントの登録
 			if ($this->Comment->data) {
 				if (!$this->Comment->save(null, false)) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
-			}
-			// 動画データ登録
-			$video = $this->save(null, false);
-			if (!$video) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			$dataSource->commit();

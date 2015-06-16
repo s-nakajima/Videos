@@ -49,6 +49,7 @@
             <directory suffix=".php">lib/Cake</directory>
             <directory suffix=".php">vendors</directory>
             <directory suffix="Test.php">app/Plugin</directory>
+            <directory suffix="Fixture.php">app/Plugin</directory>
         </blacklist>
     </filter>
     <logging>
