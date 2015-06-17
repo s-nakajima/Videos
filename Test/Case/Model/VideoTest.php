@@ -160,17 +160,15 @@ class VideoTest extends VideoTestBase {
  */
 	public function testEditSaveVideo() {
 		$status = NetCommonsBlockComponent::STATUS_APPROVED;
-		$blockId = 2;
-		$languageId = 2;
-		$blockKey = 'block_2';
+		$blockKey = 'block_5';
+		$videoId = 1;
 		// 登録データ作成
-		$video = $this->Video->create();
+		$video = $this->Video->findById($videoId);
+
 		$data = Hash::merge(
 			$video,
 			array($this->Video->alias => array(
 				'status' => $status,
-				'block_id' => $blockId,
-				'language_id' => $languageId,
 				'title' => '動画タイトル名',
 			)),
 			array('Comment' => array(

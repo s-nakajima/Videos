@@ -22,6 +22,13 @@ class VideoValidationBehavior extends ModelBehavior {
  */
 	public function rules(Model $Model) {
 		$rules = Hash::merge($Model->validate, array(
+			'block_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
+				),
+			),
 			'title' => array(
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
@@ -29,49 +36,29 @@ class VideoValidationBehavior extends ModelBehavior {
 					'required' => true,
 				),
 			),
-			'key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					//'message' => 'Your custom message here',
-					//'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
-				),
-			),
-			'block_id' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					//'message' => 'Your custom message here',
-					//'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
-				),
-			),
+			// 登録時のみ使っている
 			Video::VIDEO_FILE_FIELD => array(
 				'upload-file' => array(
-						'rule' => array('uploadError'),
-						'message' => array(__d('files', 'ファイルを指定してください'))
-					),
+					'rule' => array('uploadError'),
+					'message' => array(__d('files', 'ファイルを指定してください'))
+				),
 				'extension' => array(
-					'rule' => array('isValidExtension', explode(',', Video::VIDEO_EXTENSION)),
+					'rule' => array('extension', explode(',', Video::VIDEO_EXTENSION)),
 					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
 				),
-				// mimetypeだとwmvをチェックできなかったので、isValidMimeTypeを使う
 				'mimetype' => array(
-					'rule' => array('isValidMimeType', explode(',', Video::VIDEO_MIME_TYPE)),
+					'rule' => array('mimeType', explode(',', Video::VIDEO_MIME_TYPE)),
 					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
 				),
 			),
-			// 任意
+			// 編集時のみ使っている
 			Video::THUMBNAIL_FIELD => array(
 				'extension' => array(
-					'rule' => array('isValidExtension', explode(',', Video::THUMBNAIL_EXTENSION), false),
+					'rule' => array('extension', explode(',', Video::THUMBNAIL_EXTENSION)),
 					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
 				),
 				'mimetype' => array(
-					'rule' => array('isValidMimeType', explode(',', Video::THUMBNAIL_MIME_TYPE), false),
+					'rule' => array('mimeType', explode(',', Video::THUMBNAIL_MIME_TYPE)),
 					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
 				),
 			),
@@ -89,31 +76,18 @@ class VideoValidationBehavior extends ModelBehavior {
  */
 	public function rulesFfmpegOff(Model $Model, $options = array()) {
 		$rules = Hash::merge($Model->validate, array(
+			'block_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
+				),
+			),
 			'title' => array(
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'title')),
 					'required' => true,
-				),
-			),
-			'key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					//'message' => 'Your custom message here',
-					//'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
-				),
-			),
-			'block_id' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					//'message' => 'Your custom message here',
-					//'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
 				),
 			),
 			/* // 再生時間
@@ -134,19 +108,18 @@ class VideoValidationBehavior extends ModelBehavior {
 		// 登録時
 		if (in_array('add', $options)) {
 			$rules = Hash::merge($rules, array(
-				// mp4のみ
+				// 必須 mp4のみ
 				Video::VIDEO_FILE_FIELD => array(
 					'upload-file' => array(
 						'rule' => array('uploadError'),
 						'message' => array(__d('files', 'ファイルを指定してください'))
 					),
 					'extension' => array(
-						'rule' => array('isValidExtension', array('mp4')),
+						'rule' => array('extension', array('mp4')),
 						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
 					),
-					// mimetypeだとwmvをチェックできなかったので、isValidMimeTypeを使う
 					'mimetype' => array(
-						'rule' => array('isValidMimeType', array('video/mp4')),
+						'rule' => array('mimeType', array('video/mp4')),
 						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
 					),
 				),
@@ -157,11 +130,11 @@ class VideoValidationBehavior extends ModelBehavior {
 						'message' => array(__d('files', 'ファイルを指定してください'))
 					),
 					'extension' => array(
-						'rule' => array('isValidExtension', explode(',', Video::THUMBNAIL_EXTENSION)),
+						'rule' => array('extension', explode(',', Video::THUMBNAIL_EXTENSION)),
 						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
 					),
 					'mimetype' => array(
-						'rule' => array('isValidMimeType', explode(',', Video::THUMBNAIL_MIME_TYPE)),
+						'rule' => array('mimeType', explode(',', Video::THUMBNAIL_MIME_TYPE)),
 						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
 					),
 				),
@@ -173,11 +146,11 @@ class VideoValidationBehavior extends ModelBehavior {
 				// 任意
 				Video::THUMBNAIL_FIELD => array(
 					'extension' => array(
-						'rule' => array('isValidExtension', explode(',', Video::THUMBNAIL_EXTENSION), false),
+						'rule' => array('extension', explode(',', Video::THUMBNAIL_EXTENSION)),
 						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
 					),
 					'mimetype' => array(
-						'rule' => array('isValidMimeType', explode(',', Video::THUMBNAIL_MIME_TYPE), false),
+						'rule' => array('mimeType', explode(',', Video::THUMBNAIL_MIME_TYPE)),
 						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
 					),
 				),

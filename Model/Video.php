@@ -46,7 +46,7 @@ class Video extends VideosAppModel {
  *
  * @var string
  */
-	const VIDEO_MIME_TYPE = 'video/mpeg,video/mpg,video/avi,video/quicktime,video/x-ms-wmv,video/x-flv,video/mp4';
+	const VIDEO_MIME_TYPE = 'video/mpeg,video/mpg,video/avi,video/quicktime,video/x-ms-wmv,video/x-ms-asf,video/x-flv,video/mp4';
 
 /**
  * サムネイル 拡張子
@@ -132,7 +132,7 @@ class Video extends VideosAppModel {
 		if (self::FFMPEG_ENABLE) {
 			$this->validate = $this->rules();
 		} else {
-			$this->validate = $this->rulesFfmpegOff();
+			$this->validate = $this->rulesFfmpegOff($options);
 		}
 
 		return parent::beforeValidate($options);

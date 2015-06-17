@@ -107,7 +107,7 @@ class VideoTestBase extends YACakeTestCase {
  * @param int $contentsId コンテンツID
  * @param int $roomId ルームID
  * @param string $fileName ファイル名
- * @return void
+ * @return string tmpFullPath
  */
 	protected function _readyTestFile($contentsId = 1, $roomId = 1, $fileName = 'video1.mp4') {
 		// ファイル準備
@@ -118,7 +118,10 @@ class VideoTestBase extends YACakeTestCase {
 		$folder->create($filePath);
 		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
 		$file->copy($filePath . DS . $fileName);
+		$file->copy($filePath . DS . $fileName . '.tmp');
 		$file->close();
+
+		return $filePath . DS . $fileName . '.tmp';
 	}
 
 /**

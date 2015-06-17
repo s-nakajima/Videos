@@ -35,6 +35,7 @@ class AllVideosTest extends CakeTestSuite {
 			'VideoTestBase.php',
 			'VideoBehaviorTestBase.php',
 			'VideosTestBase.php',
+			'VideoValidationTestBase.php',
 		);
 		$files = $Folder->tree(null, $exceptions, 'files');
 		foreach ($files as $file) {
