@@ -279,12 +279,11 @@ class VideoBehavior extends ModelBehavior {
  * @return bool true:ffmpegコマンドあり、false:ffmepgコマンドなし
  */
 	public function getFfmpegEnable(Model $Model) {
-		// コマンドを探す
 		$strCmd = 'which ' . Video::FFMPEG_PATH . ' 2>&1';
 		exec($strCmd, $arr);
 
 		// コマンドあり
-		if ($arr[0] === Video::FFMPEG_PATH) {
+		if (isset($arr[0]) && $arr[0] === Video::FFMPEG_PATH) {
 			return true;
 		}
 
