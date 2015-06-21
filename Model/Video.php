@@ -126,7 +126,7 @@ class Video extends VideosAppModel {
  */
 	public function beforeValidate($options = array()) {
 		// FFMPEG有効フラグをセット
-		$this->ffmpegEnable = $this->getFfmpegEnable();
+		$this->ffmpegEnable = $this->isFfmpegEnable();
 
 		// サムネイル 任意 対応
 		if (isset($this->data['Video'][Video::THUMBNAIL_FIELD]) &&
