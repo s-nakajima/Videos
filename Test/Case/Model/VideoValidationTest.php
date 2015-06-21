@@ -41,6 +41,27 @@ class VideoValidationTest extends VideoValidationTestBase {
 	}
 
 /**
+ * 登録Videoデータ保存 validateVideoFile エラー戻り値テスト
+ * $data['videoFile']['File']['role_type'] keyなしのため、エラー
+ *
+ * @return void
+ */
+	public function testAddSaveVideoValidateVideoFile() {
+		// テスト準備
+		$roomId = 1;
+		$data = $this->_readyTestSaveVideoData($roomId);
+		$modelMock = $this->_readyVideoMock();
+		unset($data[Video::VIDEO_FILE_FIELD]['File']['role_type']);
+
+		$video = $modelMock->addSaveVideo($data, $roomId);
+
+		// テストファイル削除
+		$this->_deleteTestFile();
+
+		$this->assertFalse($video);
+	}
+
+/**
  * 登録Videoデータ保存 validateByStatus エラー戻り値テスト
  * $data['Comment']['comment'] = null のため、エラー
  *

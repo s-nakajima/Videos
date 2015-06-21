@@ -118,10 +118,10 @@ class VideoTestBase extends YACakeTestCase {
 		$folder->create($filePath);
 		$file = new File(APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName);
 		$file->copy($filePath . DS . $fileName);
-		$file->copy($filePath . DS . $fileName . '.tmp');
+		$file->copy(TMP . 'tests' . DS . 'file' . DS . $fileName . '.tmp');	//一時ファイル
 		$file->close();
 
-		return $filePath . DS . $fileName . '.tmp';
+		return TMP . 'tests' . DS . 'file' . DS . $fileName . '.tmp';
 	}
 
 /**
