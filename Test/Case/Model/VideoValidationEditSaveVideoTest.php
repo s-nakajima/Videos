@@ -20,6 +20,118 @@ App::uses('VideoValidationTestBase', 'Videos.Test/Case/Model');
 class VideoValidationEditSaveVideoTest extends VideoValidationTestBase {
 
 /**
+ * 編集Videoデータ保存 リデーションエラー戻り値テスト
+ * $data['Video']['title'] keyなしのため、エラー
+ *
+ * @return void
+ */
+	public function testEditSaveVideoValidationErrors() {
+		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$blockKey = 'block_5';
+		$videoId = 1;
+		// 登録データ作成
+		$video = $this->Video->findById($videoId);
+
+		$data = Hash::merge(
+			$video,
+			array($this->Video->alias => array(
+				'status' => $status,
+				//'title' => '動画タイトル名',
+				'title' => null,
+			)),
+			array('Comment' => array(
+				'block_key' => $blockKey,
+				'comment' => '承認コメント',
+			))
+		);
+		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
+		$this->Video->hasOne = array();
+
+		$video = $this->Video->editSaveVideo($data);
+
+		$this->assertFalse($video);
+	}
+
+/**
+ * 編集Videoデータ保存 validateVideoFile サムネイル エラー戻り値テスト
+ * $data['thumbnail']['File']['role_type'] = null のため、エラー
+ *
+ * @return void
+ */
+	public function testEditSaveVideoValidateVideoFile() {
+		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$blockKey = 'block_5';
+		$videoId = 1;
+		// 登録データ作成
+		$video = $this->Video->findById($videoId);
+
+		$fileName = 'thumbnail1.jpg';
+		$data = Hash::merge(
+			$video,
+			array($this->Video->alias => array(
+				'status' => $status,
+				'title' => '動画タイトル名',
+			)),
+			array('Comment' => array(
+				'block_key' => $blockKey,
+				//'comment' => '承認コメント',
+				'comment' => null,
+			)),
+			array(Video::THUMBNAIL_FIELD => array(
+				'FilesPlugin' => array(
+					'plugin_key' => 'videos'
+				),
+				'File' => array(
+					'name' => $fileName,
+					'extension' => 'image/jpeg',
+					'slug' => 'thumbnail1',
+					//'role_type' => 'room_file_role',
+					'role_type' => null,
+				),
+			))
+		);
+		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
+		$this->Video->hasOne = array();
+
+		$video = $this->Video->editSaveVideo($data);
+
+		$this->assertFalse($video);
+	}
+
+/**
+ * 編集Videoデータ保存 validateByStatus テスト
+ * $data['Comment']['comment'] = null のため、エラー
+ *
+ * @return void
+ */
+	public function testEditSaveVideoValidateByStatus() {
+		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$blockKey = 'block_5';
+		$videoId = 1;
+		// 登録データ作成
+		$video = $this->Video->findById($videoId);
+
+		$data = Hash::merge(
+			$video,
+			array($this->Video->alias => array(
+				'status' => $status,
+				'title' => '動画タイトル名',
+			)),
+			array('Comment' => array(
+				'block_key' => $blockKey,
+				//'comment' => '承認コメント',
+				'comment' => null,
+			))
+		);
+		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
+		$this->Video->hasOne = array();
+
+		$video = $this->Video->editSaveVideo($data);
+
+		$this->assertFalse($video);
+	}
+
+/**
  * 編集Videoデータ保存 title required エラー
  * $data['Video']['title'] keyなしのため、エラー
  *
