@@ -265,10 +265,30 @@ class VideoBehavior extends ModelBehavior {
  * @param int $totalSec 秒
  * @return string 時：分：秒
  */
-	public function convSecToHourEdit(Model $Model, $totalSec) {
-		$sec = $totalSec % 60;
-		$min = (int)($totalSec / 60) % 60;
-		$hour = (int)($totalSec / (60 * 60));
-		return sprintf("%02d:%02d:%02d", $hour, $min, $sec);
+	//	public function convSecToHourEdit(Model $Model, $totalSec) {
+	//		$sec = $totalSec % 60;
+	//		$min = (int)($totalSec / 60) % 60;
+	//		$hour = (int)($totalSec / (60 * 60));
+	//		return sprintf("%02d:%02d:%02d", $hour, $min, $sec);
+	//	}
+
+/**
+ * ffmpeg 有効フラグ 取得
+ *
+ * @param Model $Model モデル
+ * @return bool true:ffmpegコマンドあり、false:ffmepgコマンドなし
+ */
+	public function getFfmpegEnable(Model $Model) {
+		// コマンドを探す
+		$strCmd = 'which ' . Video::FFMPEG_PATH . ' 2>&1';
+		exec($strCmd, $arr);
+
+		// コマンドあり
+		if ($arr[0] === Video::FFMPEG_PATH) {
+			return true;
+		}
+
+		// コマンドなし
+		return false;
 	}
 }

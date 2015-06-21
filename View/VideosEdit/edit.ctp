@@ -35,7 +35,7 @@ $this->Html->script(
 				<div class="panel-body has-feedback">
 
 					<?php // ffmpeg=ON
-					if (Video::FFMPEG_ENABLE) {
+					if ($ffmpegEnable) {
 						$thumbnailHelpBlockMessage = __d('videos', 'Please register if you want to change.') . sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
 					} else {
 						$thumbnailHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);

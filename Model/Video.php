@@ -63,22 +63,12 @@ class Video extends VideosAppModel {
 	const THUMBNAIL_MIME_TYPE = 'image/jpeg,image/png,image/gif';
 
 /**
- * ffmpeg 有効フラグ
- * レンタルサーバ等、ffmpegを利用できない場合、falseにする
- *
- * @var bool
- */
-	const FFMPEG_ENABLE = true;
-
-/**
  * ffmpeg パス
  *
  * @var string
  */
-	// for CentOS, Ubuntu 12.04LTS
-	const FFMPEG_PATH = '/usr/bin/ffmpeg';
-	// for Ubuntu
-	//const FFMPEG_PATH = '/usr/bin/avconv';
+	const FFMPEG_PATH = '/usr/bin/ffmpeg';		// for CentOS, Ubuntu 12.04LTS
+	//const FFMPEG_PATH = '/usr/bin/avconv';	// for Ubuntu
 
 /**
  * ffmpeg オプション
@@ -86,6 +76,13 @@ class Video extends VideosAppModel {
  * @var string
  */
 	const FFMPEG_OPTION = '-acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k';
+
+/**
+ * ffmpeg 有効フラグ
+ *
+ * @var bool
+ */
+	public $ffmpegEnable = true;
 
 /**
  * use behaviors
@@ -128,8 +125,18 @@ class Video extends VideosAppModel {
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
-		// ffmpeg = on
-		if (self::FFMPEG_ENABLE) {
+		// FFMPEG有効フラグをセット
+		$this->ffmpegEnable = $this->getFfmpegEnable();
+
+		// サムネイル 任意 対応
+		if (isset($this->data['Video'][Video::THUMBNAIL_FIELD]) &&
+			isset($this->data['Video'][Video::THUMBNAIL_FIELD]['size']) &&
+			$this->data['Video'][Video::THUMBNAIL_FIELD]['size'] === 0) {
+
+			unset($this->data['Video'][Video::THUMBNAIL_FIELD]);
+		}
+
+		if ($this->ffmpegEnable) {
 			$this->validate = $this->rules();
 		} else {
 			$this->validate = $this->rulesFfmpegOff($options);
@@ -201,7 +208,7 @@ class Video extends VideosAppModel {
 				}
 				// 秒を時：分：秒に変更
 				$results[$key][$alias]['video_time_view'] = $this->convSecToHour($row['video_time']);
-				$results[$key][$alias]['video_time_edit'] = $this->convSecToHourEdit($row['video_time']);
+				//$results[$key][$alias]['video_time_edit'] = $this->convSecToHourEdit($row['video_time']);
 			}
 		}
 		return $results;

@@ -60,37 +60,37 @@ class VideoBehaviorConvSecToHourTest extends VideoBehaviorTestBase {
  *
  * @return void
  */
-	public function testConvSecToHourEditSec() {
-		$totalSec = 9;
-
-		$time = $this->Video->convSecToHourEdit($totalSec);
-
-		$this->assertEquals('00:00:09', $time);
-	}
+	//	public function testConvSecToHourEditSec() {
+	//		$totalSec = 9;
+	//
+	//		$time = $this->Video->convSecToHourEdit($totalSec);
+	//
+	//		$this->assertEquals('00:00:09', $time);
+	//	}
 
 /**
  * 秒を時：分：秒に変更 (編集用)テスト 分単位
  *
  * @return void
  */
-	public function testConvSecToHourEditMin() {
-		$totalSec = 60;
-
-		$time = $this->Video->convSecToHourEdit($totalSec);
-
-		$this->assertEquals('00:01:00', $time);
-	}
+	//	public function testConvSecToHourEditMin() {
+	//		$totalSec = 60;
+	//
+	//		$time = $this->Video->convSecToHourEdit($totalSec);
+	//
+	//		$this->assertEquals('00:01:00', $time);
+	//	}
 
 /**
  * 秒を時：分：秒に変更 (編集用)テスト 時間単位
  *
  * @return void
  */
-	public function testConvSecToHourEditHour() {
-		$totalSec = 3600;
-
-		$time = $this->Video->convSecToHourEdit($totalSec);
-
-		$this->assertEquals('01:00:00', $time);
-	}
+	//	public function testConvSecToHourEditHour() {
+	//		$totalSec = 3600;
+	//
+	//		$time = $this->Video->convSecToHourEdit($totalSec);
+	//
+	//		$this->assertEquals('01:00:00', $time);
+	//	}
 }

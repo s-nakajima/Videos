@@ -139,7 +139,7 @@
 									</div>
 									<?php /* 再生時間 */ ?>
 									<?php /* ffmpeg=ON */ ?>
-									<?php if (Video::FFMPEG_ENABLE) : ?>
+									<?php if ($ffmpegEnable) : ?>
 										<div style="width: 140px;">
 											<div class="text-right" style="margin-top: -20px; margin-right: 2px;">
 												<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
