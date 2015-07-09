@@ -265,9 +265,12 @@ $this->Html->script(
 <div class="row">
 	<div class="col-xs-12">
 		<?php echo $this->element('ContentComments.index', array(
-			'formName' => 'Video',
+			'pluginKey' => $this->request->params['plugin'],
+			'contentKey' => $video['video']['key'],
+			'isCommentApproved' => $videoBlockSetting['commentAgree'],
 			'useComment' => $videoBlockSetting['useComment'],
 			'contentCommentCnt' => $video['contentCommentCnt']['cnt'],
+			'redirectUrl' => '/videos/videos/view/' . $frameId . '/' . $video['video']['key'],
 		)); ?>
 	</div>
 </div>
