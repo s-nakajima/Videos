@@ -168,14 +168,6 @@ class VideosController extends VideosAppController {
 
 		// コメントを利用する
 		if ($videoBlockSetting['VideoBlockSetting']['use_comment']) {
-			if ($this->request->isPost()) {
-				// コメントする
-				if (!$this->ContentComments->comment('videos', $video['Video']['key'], $videoBlockSetting['VideoBlockSetting']['comment_agree'])) {
-					$this->throwBadRequest();
-					return;
-				}
-			}
-
 			// コンテンツコメントの取得
 			$contentComments = $this->ContentComment->getContentComments(array(
 				'block_key' => $this->viewVars['blockKey'],
