@@ -66,7 +66,7 @@ class VideosController extends VideosAppController {
 		'ContentComments.ContentComments',
 		'Cookie',
 		'Paginator',						// ページャ
-		'NetCommons.NetCommonsRoomRole',
+		'NetCommons.NetCommonsRoomRole',	// パーミッション取得
 	);
 
 /**
