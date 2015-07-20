@@ -164,7 +164,7 @@ class VideoBlockSetting extends VideosAppModel {
 		// 暫定対応(;'∀')
 		// $videoBlockSetting = $this->create(); の戻り値、boolean型が"1","0"のまま。
 		// $videoBlockSetting = $this->find('first', array()); の戻り値は、boolean型だとtrue,false。
-		// anglarjsでcheckboxを制御する場合、boolean型のtrue,false。 cakephpでcheckboxを制御する場合、formhelperのdefaultに設定する値は、"1","0"と違うため、変換が必要
+		// anglarJSでcheckboxを制御する場合、boolean型のtrue,false。 cakephpでcheckboxを制御する場合、formhelperのdefaultに設定する値は、"1","0"と違うため、変換が必要
 
 		// bool項目
 		$boolKeys = array(
@@ -214,7 +214,6 @@ class VideoBlockSetting extends VideosAppModel {
 				return false;
 			}
 
-			// 暫定対応(;'∀')
 			// ブロック名必須チェック追加
 			$this->Block->validate['name'] = array(
 				'notEmpty' => array(

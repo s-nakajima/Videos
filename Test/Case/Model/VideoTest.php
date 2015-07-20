@@ -170,6 +170,13 @@ class VideoTest extends VideoTestBase {
 			array($this->Video->alias => array(
 				'status' => $status,
 				'title' => '動画タイトル名',
+				Video::THUMBNAIL_FIELD => array(
+					'name' => '',
+					'type' => '',
+					'tmp_name' => '',
+					'size' => 0,
+					'error' => -4,
+				),
 			)),
 			array('Comment' => array(
 				'block_key' => $blockKey,

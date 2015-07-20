@@ -45,12 +45,16 @@ class VideoValidationAddNoConvertSaveVideoTest extends VideoValidationTestBase {
 				'comment' => '承認コメント',
 			))
 		);
+		$modelMock = $this->getMockForModel('Videos.Video', ['isFfmpegEnable']);
+		$modelMock->expects($this->any())
+			->method('isFfmpegEnable')
+			->will($this->returnValue(false));
 		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
-		$this->Video->hasOne = array();
+		$modelMock->hasOne = array();
 
-		$this->Video->addNoConvertSaveVideo($data);
+		$modelMock->addNoConvertSaveVideo($data);
 
-		$this->assertArrayHasKey('title', $this->Video->validationErrors);
+		$this->assertArrayHasKey('title', $modelMock->validationErrors);
 	}
 
 /**
@@ -79,12 +83,16 @@ class VideoValidationAddNoConvertSaveVideoTest extends VideoValidationTestBase {
 				'comment' => '承認コメント',
 			))
 		);
+		$modelMock = $this->getMockForModel('Videos.Video', ['isFfmpegEnable']);
+		$modelMock->expects($this->any())
+			->method('isFfmpegEnable')
+			->will($this->returnValue(false));
 		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
-		$this->Video->hasOne = array();
+		$modelMock->hasOne = array();
 
-		$this->Video->addNoConvertSaveVideo($data);
+		$modelMock->addNoConvertSaveVideo($data);
 
-		$this->assertArrayHasKey('title', $this->Video->validationErrors);
+		$this->assertArrayHasKey('title', $modelMock->validationErrors);
 	}
 
 /**
@@ -113,12 +121,16 @@ class VideoValidationAddNoConvertSaveVideoTest extends VideoValidationTestBase {
 				'comment' => '承認コメント',
 			))
 		);
+		$modelMock = $this->getMockForModel('Videos.Video', ['isFfmpegEnable']);
+		$modelMock->expects($this->any())
+			->method('isFfmpegEnable')
+			->will($this->returnValue(false));
 		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
-		$this->Video->hasOne = array();
+		$modelMock->hasOne = array();
 
-		$this->Video->addNoConvertSaveVideo($data);
+		$modelMock->addNoConvertSaveVideo($data);
 
-		$this->assertArrayHasKey('block_id', $this->Video->validationErrors);
+		$this->assertArrayHasKey('block_id', $modelMock->validationErrors);
 	}
 
 /**
@@ -147,12 +159,16 @@ class VideoValidationAddNoConvertSaveVideoTest extends VideoValidationTestBase {
 				'comment' => '承認コメント',
 			))
 		);
+		$modelMock = $this->getMockForModel('Videos.Video', ['isFfmpegEnable']);
+		$modelMock->expects($this->any())
+			->method('isFfmpegEnable')
+			->will($this->returnValue(false));
 		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
-		$this->Video->hasOne = array();
+		$modelMock->hasOne = array();
 
-		$this->Video->addNoConvertSaveVideo($data);
+		$modelMock->addNoConvertSaveVideo($data);
 
-		$this->assertArrayHasKey('block_id', $this->Video->validationErrors);
+		$this->assertArrayHasKey('block_id', $modelMock->validationErrors);
 	}
 
 /**
@@ -166,16 +182,21 @@ class VideoValidationAddNoConvertSaveVideoTest extends VideoValidationTestBase {
 		$roomId = 1;
 		$data = $this->_readyTestSaveVideoData($roomId);
 		$data['Video'][Video::VIDEO_FILE_FIELD]['error'] = 4;
-		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
-		$this->Video->hasOne = array();
 
-		$this->Video->addNoConvertSaveVideo($data);
+		$modelMock = $this->getMockForModel('Videos.Video', ['isFfmpegEnable']);
+		$modelMock->expects($this->any())
+			->method('isFfmpegEnable')
+			->will($this->returnValue(false));
+		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
+		$modelMock->hasOne = array();
+
+		$modelMock->addNoConvertSaveVideo($data);
 
 		// テストファイル削除
 		$this->_deleteTestFile();
 
-		//var_dump($this->Video->validationErrors);
-		$this->assertArrayHasKey('videoFile', $this->Video->validationErrors);
+		//var_dump($modelMock->validationErrors);
+		$this->assertArrayHasKey('videoFile', $modelMock->validationErrors);
 	}
 
 /**
@@ -190,16 +211,21 @@ class VideoValidationAddNoConvertSaveVideoTest extends VideoValidationTestBase {
 		$contentsId = 2;
 		$fileName = 'thumbnail1.jpg';
 		$data = $this->_readyTestSaveVideoData($roomId, $contentsId, $fileName);
-		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
-		$this->Video->hasOne = array();
 
-		$this->Video->addNoConvertSaveVideo($data);
+		$modelMock = $this->getMockForModel('Videos.Video', ['isFfmpegEnable']);
+		$modelMock->expects($this->any())
+			->method('isFfmpegEnable')
+			->will($this->returnValue(false));
+		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
+		$modelMock->hasOne = array();
+
+		$modelMock->addNoConvertSaveVideo($data);
 
 		// テストファイル削除
 		$this->_deleteTestFile();
 
-		//var_dump($this->Video->validationErrors);
-		$this->assertArrayHasKey('videoFile', $this->Video->validationErrors);
+		//var_dump($modelMock->validationErrors);
+		$this->assertArrayHasKey('videoFile', $modelMock->validationErrors);
 	}
 
 /**
@@ -214,16 +240,21 @@ class VideoValidationAddNoConvertSaveVideoTest extends VideoValidationTestBase {
 		$contentsId = 4;
 		$fileName = 'thumbnail1.mp4';	// 拡張子偽装したjpg
 		$data = $this->_readyTestSaveVideoData($roomId, $contentsId, $fileName);
-		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
-		$this->Video->hasOne = array();
 
-		$this->Video->addNoConvertSaveVideo($data);
+		$modelMock = $this->getMockForModel('Videos.Video', ['isFfmpegEnable']);
+		$modelMock->expects($this->any())
+			->method('isFfmpegEnable')
+			->will($this->returnValue(false));
+		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
+		$modelMock->hasOne = array();
+
+		$modelMock->addNoConvertSaveVideo($data);
 
 		// テストファイル削除
 		$this->_deleteTestFile();
 
-		//var_dump($this->Video->validationErrors);
-		$this->assertArrayHasKey('videoFile', $this->Video->validationErrors);
+		//var_dump($modelMock->validationErrors);
+		$this->assertArrayHasKey('videoFile', $modelMock->validationErrors);
 	}
 
 /**
@@ -237,18 +268,21 @@ class VideoValidationAddNoConvertSaveVideoTest extends VideoValidationTestBase {
 		$roomId = 1;
 		$data = $this->_readyTestSaveVideoData($roomId);
 		$data['Video'][Video::THUMBNAIL_FIELD]['error'] = 4;
-		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
-		$this->Video->hasOne = array();
 
-		$this->Video->addNoConvertSaveVideo($data);
+		$modelMock = $this->getMockForModel('Videos.Video', ['isFfmpegEnable']);
+		$modelMock->expects($this->any())
+			->method('isFfmpegEnable')
+			->will($this->returnValue(false));
+		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
+		$modelMock->hasOne = array();
+
+		$modelMock->addNoConvertSaveVideo($data);
 
 		// テストファイル削除
 		$this->_deleteTestFile();
 
-		// 暫定対応(;'∀') FFMPEG_ENABLE = false;にオーバーライト出来ないので、validateが ffmepg = on のままのため、テストできず。
-		// ffmepgフラグを改造予定
-		//var_dump($this->Video->validationErrors);
-		$this->assertArrayHasKey('thumbnail', $this->Video->validationErrors);
+		//var_dump($modelMock->validationErrors);
+		$this->assertArrayHasKey('thumbnail', $modelMock->validationErrors);
 	}
 
 /**
@@ -290,16 +324,20 @@ class VideoValidationAddNoConvertSaveVideoTest extends VideoValidationTestBase {
 				),
 			))
 		);
+		$modelMock = $this->getMockForModel('Videos.Video', ['isFfmpegEnable']);
+		$modelMock->expects($this->any())
+			->method('isFfmpegEnable')
+			->will($this->returnValue(false));
 		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
-		$this->Video->hasOne = array();
+		$modelMock->hasOne = array();
 
-		$this->Video->addNoConvertSaveVideo($data);
+		$modelMock->addNoConvertSaveVideo($data);
 
 		// テストファイル削除
 		$this->_deleteTestFile();
 
-		//var_dump($this->Video->validationErrors);
-		$this->assertArrayHasKey('thumbnail', $this->Video->validationErrors);
+		//var_dump($modelMock->validationErrors);
+		$this->assertArrayHasKey('thumbnail', $modelMock->validationErrors);
 	}
 
 /**
@@ -341,15 +379,19 @@ class VideoValidationAddNoConvertSaveVideoTest extends VideoValidationTestBase {
 				),
 			))
 		);
+		$modelMock = $this->getMockForModel('Videos.Video', ['isFfmpegEnable']);
+		$modelMock->expects($this->any())
+			->method('isFfmpegEnable')
+			->will($this->returnValue(false));
 		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
-		$this->Video->hasOne = array();
+		$modelMock->hasOne = array();
 
-		$this->Video->addNoConvertSaveVideo($data);
+		$modelMock->addNoConvertSaveVideo($data);
 
 		// テストファイル削除
 		$this->_deleteTestFile();
 
-		//var_dump($this->Video->validationErrors);
-		$this->assertArrayHasKey('thumbnail', $this->Video->validationErrors);
+		//var_dump($modelMock->validationErrors);
+		$this->assertArrayHasKey('thumbnail', $modelMock->validationErrors);
 	}
 }
