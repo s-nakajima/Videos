@@ -233,7 +233,7 @@ class VideosController extends VideosAppController {
 		$results['frame'] = $frame['Frame'];
 
 		//ソート
-		$order = $this->__order();
+		$order = $this->__order($videoFrameSetting);
 		$results['displayOrderPaginator'] = key($order) . '.' . $order[key($order)];
 
 		//表示件数
@@ -286,16 +286,17 @@ class VideosController extends VideosAppController {
 /**
  * ソート条件 取得
  *
+ * @param array $videoFrameSetting videoFrameSetting
  * @return array ソート条件
  */
-	private function __order() {
+	private function __order($videoFrameSetting) {
 		$sort = $this->_getNamed('sort');
 		$direction = $this->_getNamed('direction');
 
 		//ソート
 		if (isset($sort) && isset($direction)) {
 			$order = array($sort => $direction);
-		} elseif (isset($videoFrameSetting['VideoFrameSetting']['display_order'])) {
+		} else {
 			$displayOrder = $videoFrameSetting['VideoFrameSetting']['display_order'];
 			if ($displayOrder == VideoFrameSetting::DISPLAY_ORDER_NEW) {
 				$order = array('Video.created' => 'desc');
@@ -306,11 +307,7 @@ class VideosController extends VideosAppController {
 				// 暫定対応(;'∀') 評価順はLikesプラグインが対応していないので、対応を先送りする
 				//} elseif ($displayOrder == VideoFrameSetting::DISPLAY_ORDER_LIKE) {
 				//	$order = array('Video.like_counts' => 'desc');
-			} else {
-				$order = array('Video.created' => 'desc');
 			}
-		} else {
-			$order = array('Video.created' => 'desc');
 		}
 
 		return $order;
