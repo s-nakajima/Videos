@@ -54,6 +54,16 @@ class VideoFrameSettingFixture extends CakeTestFixture {
 			'modified_user' => 1,
 			'modified' => '2015-04-01 17:13:33'
 		),
+		array(
+			'id' => 2,
+			'frame_key' => 'frame_2',
+			'display_order' => 'play',
+			'display_number' => 10,
+			'created_user' => 1,
+			'created' => '2015-04-01 17:13:33',
+			'modified_user' => 1,
+			'modified' => '2015-04-01 17:13:33'
+		),
 	);
 
 }
