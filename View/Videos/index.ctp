@@ -23,7 +23,7 @@
 	<?php /* ブロック選択済み */ ?>
 <?php else : ?>
 
-    <header>
+	<header>
 		<?php /* タグ検索時、タイトル表示 */ ?>
 		<?php if (!empty($listTitle)) : ?>
 			<h1><?php echo $listTitle ?></h1>
@@ -41,15 +41,15 @@
 				</div>
 			</div>
 		<?php endif; ?>
-    </header>
+	</header>
 
 	<?php /* 検索 */ ?>
 	<?php if ($this->Paginator->param('count') == 0) : ?>
 		<div><?php echo __d('videos', 'There are no videos that are currently published.'); ?></div>
 	<?php else : ?>
 		<?php /* 件数、ソート順、表示件数 */ ?>
-        <p>
-        <div class="row">
+		<p>
+		<div class="row">
 			<div class="col-sm-3 col-xs-4">
 				<div class="form-inline text-left text-nowrap">
 					<strong><?php echo sprintf(__d('videos', '%s items'), $this->Paginator->param('count')); ?></strong>
@@ -114,11 +114,12 @@
 
 				</div>
 			</div>
-        </div>
-        </p>
+		</div>
+		</p>
 
 		<?php /* 動画一覧 */ ?>
-        <div class="row">
+		<div class="row">
+
 			<?php foreach ($videos as $video) : ?>
 				<article>
 					<div class="col-xs-12">
@@ -194,10 +195,10 @@
 					</div>
 				</article>
 			<?php endforeach; ?>
-        </div>
+		</div>
 
 		<?php /* ページャ */ ?>
-        <footer>
+		<footer>
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="text-center">
@@ -223,7 +224,7 @@
 					</div>
 				</div>
 			</div>
-        </footer>
+		</footer>
 	<?php endif; ?>
 <?php endif; ?>
 
