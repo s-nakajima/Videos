@@ -88,7 +88,7 @@ class VideosEditController extends VideosAppController {
 				))
 			);
 
-			if ($this->Video->ffmpegEnable) {
+			if (Video::isFfmpegEnable()) {
 				// 登録
 				$this->Video->addSaveVideo($data, $this->viewVars['roomId']);
 			} else {
@@ -253,8 +253,6 @@ class VideosEditController extends VideosAppController {
 				$results['thumbnail'] = $file['File'];
 			}
 		}
-		// ffmpeg 有効フラグ
-		$results['ffmpegEnable'] = $this->Video->ffmpegEnable;
 
 		// キーをキャメル変換
 		$results = $this->camelizeKeyRecursive($results);

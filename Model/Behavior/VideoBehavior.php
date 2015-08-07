@@ -271,26 +271,4 @@ class VideoBehavior extends ModelBehavior {
 	//		$hour = (int)($totalSec / (60 * 60));
 	//		return sprintf("%02d:%02d:%02d", $hour, $min, $sec);
 	//	}
-
-/**
- * ffmpeg 有効フラグ 取得
- *
- * @param Model $Model モデル
- * @return bool true:ffmpegコマンドあり、false:ffmepgコマンドなし
- */
-	public function isFfmpegEnable(Model $Model) {
-		$strCmd = 'which ' . Video::FFMPEG_PATH . ' 2>&1';
-		exec($strCmd, $arr);
-
-		// ffmpegコマンドがあるかどうかは環境に依存するため、true or false の両方を通すテストケースは書けない。
-		// isFfmpegEnableをモックにして、強制的に true or false を返してテストするので、問題ないと思う。
-
-		// コマンドあり
-		if (isset($arr[0]) && $arr[0] === Video::FFMPEG_PATH) {
-			return true;
-		}
-
-		// コマンドなし
-		return false;
-	}
 }

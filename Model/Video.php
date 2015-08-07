@@ -82,7 +82,7 @@ class Video extends VideosAppModel {
  *
  * @var bool
  */
-	public $ffmpegEnable = true;
+	private static $__isFfmpegEnable = null;
 
 /**
  * use behaviors
@@ -125,18 +125,15 @@ class Video extends VideosAppModel {
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
-		// FFMPEG有効フラグをセット
-		$this->ffmpegEnable = $this->isFfmpegEnable();
-
 		// サムネイル 任意 対応
-		if (isset($this->data['Video'][Video::THUMBNAIL_FIELD]) &&
-			isset($this->data['Video'][Video::THUMBNAIL_FIELD]['size']) &&
-			$this->data['Video'][Video::THUMBNAIL_FIELD]['size'] === 0) {
+		if (isset($this->data['Video'][self::THUMBNAIL_FIELD]) &&
+			isset($this->data['Video'][self::THUMBNAIL_FIELD]['size']) &&
+			$this->data['Video'][self::THUMBNAIL_FIELD]['size'] === 0) {
 
-			unset($this->data['Video'][Video::THUMBNAIL_FIELD]);
+			unset($this->data['Video'][self::THUMBNAIL_FIELD]);
 		}
 
-		if ($this->ffmpegEnable) {
+		if (self::isFfmpegEnable()) {
 			$this->validate = $this->rules();
 		} else {
 			$this->validate = $this->rulesFfmpegOff($options);
@@ -232,6 +229,33 @@ class Video extends VideosAppModel {
 			}
 		} */
 		return parent::beforeSave($options);
+	}
+
+/**
+ * FFMPEG有効フラグをセット
+ *
+ * @return bool
+ */
+	public static function isFfmpegEnable() {
+		if (isset(self::$__isFfmpegEnable)) {
+			return self::$__isFfmpegEnable;
+		}
+
+		$strCmd = 'which ' . self::FFMPEG_PATH . ' 2>&1';
+		exec($strCmd, $arr);
+
+		// ffmpegコマンドがあるかどうかは環境に依存するため、true or false の両方を通すテストケースは書けない。
+		// isFfmpegEnableをモックにして、強制的に true or false を返してテストするので、問題ないと思う。
+
+		if (isset($arr[0]) && $arr[0] === self::FFMPEG_PATH) {
+			// コマンドあり
+			self::$__isFfmpegEnable = true;
+		} else {
+			// コマンドなし
+			self::$__isFfmpegEnable = false;
+		}
+
+		return self::$__isFfmpegEnable;
 	}
 
 /**

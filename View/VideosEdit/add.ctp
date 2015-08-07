@@ -34,7 +34,7 @@ $this->Html->script(
 				<div class="panel-body has-feedback">
 
 					<?php // ffmpeg=ON
-					if ($ffmpegEnable) {
+					if (Video::isFfmpegEnable()) {
 						$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::VIDEO_EXTENSION);
 					} else {
 						$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), 'mp4');
@@ -53,7 +53,7 @@ $this->Html->script(
 					)); ?>
 
 					<?php /* ffmpeg=OFF */ ?>
-					<?php if (!$ffmpegEnable) : ?>
+					<?php if (!Video::isFfmpegEnable()) : ?>
 						<?php echo $this->element('VideosEdit/file', array(
 							'pluginName' => 'Videos',
 							'label' => __d('videos', 'Thumbnail') . $this->element('NetCommons.required'),

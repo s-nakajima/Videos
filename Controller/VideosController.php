@@ -199,8 +199,6 @@ class VideosController extends VideosAppController {
 			// アクセス情報を記録
 			$this->Cookie->write('video_history', $cookie, false, '1 hour');
 		}
-		// ffmpeg 有効フラグ
-		$results['ffmpegEnable'] = $this->Video->ffmpegEnable;
 
 		// キーをキャメル変換
 		$results = $this->camelizeKeyRecursive($results);
@@ -274,8 +272,6 @@ class VideosController extends VideosAppController {
 			);
 			$results['videos'] = $this->Paginator->paginate($this->Video->alias);
 		}
-		// ffmpeg 有効フラグ
-		$results['ffmpegEnable'] = $this->Video->ffmpegEnable;
 
 		// キーをキャメル変換
 		$results = $this->camelizeKeyRecursive($results);
