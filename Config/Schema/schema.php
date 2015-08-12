@@ -28,7 +28,7 @@ class VideosSchema extends CakeSchema {
 /**
  * before
  *
- * @param array $event savent
+ * @param array $event event
  * @return bool
  */
 	public function before($event = array()) {
@@ -38,7 +38,7 @@ class VideosSchema extends CakeSchema {
 /**
  * after
  *
- * @param array $event savent
+ * @param array $event event
  * @return bool
  */
 	public function after($event = array()) {
