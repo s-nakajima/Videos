@@ -117,48 +117,6 @@ class Videos extends CakeMigration {
 	);
 
 /**
- * recodes
- *
- * @var array $migration
- */
-	public $records = array(
-		'Plugin' => array(
-			array(
-				'language_id' => 1,
-				'key' => 'videos',
-				'namespace' => 'netcommons/videos',
-				'name' => 'Video',
-				'type' => 1,
-				'default_action' => 'videos/index',
-				'default_setting_action' => 'video_block_settings/index',
-			),
-			array(
-				'language_id' => 2,
-				'key' => 'videos',
-				'namespace' => 'netcommons/videos',
-				'name' => '動画',
-				'type' => 1,
-				'default_action' => 'videos/index',
-				'default_setting_action' => 'video_block_settings/index',
-			),
-		),
-
-		'PluginsRole' => array(
-			array(
-				'role_key' => 'room_administrator',
-				'plugin_key' => 'videos'
-			),
-		),
-
-		'PluginsRoom' => array(
-			array(
-				'room_id' => '1',
-				'plugin_key' => 'videos'
-			),
-		),
-	);
-
-/**
  * Before migration callback
  *
  * @param string $direction Direction of migration process (up or down)
@@ -175,36 +133,6 @@ class Videos extends CakeMigration {
  * @return bool Should process continue
  */
 	public function after($direction) {
-		if ($direction === 'down') {
-			return true;
-		}
-
-		foreach ($this->records as $model => $records) {
-			if (!$this->updateRecords($model, $records)) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-/**
- * Update model records
- *
- * @param string $model model name to update
- * @param string $records records to be stored
- * @param string $scope ?
- * @return bool Should process continue
- */
-	public function updateRecords($model, $records, $scope = null) {
-		$Model = $this->generateModel($model);
-		foreach ($records as $record) {
-			$Model->create();
-			if (!$Model->save($record, false)) {
-				return false;
-			}
-		}
-
 		return true;
 	}
 }
