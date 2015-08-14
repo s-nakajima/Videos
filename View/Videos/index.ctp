@@ -161,7 +161,7 @@
 														<h2><?php echo $video['video']['title']; ?></h2>
 													</a>
 												</div>
-												<a href="#"><?php echo $video['userAttributesUser']['value'] ?></a><br />
+												<a href="#"><?php echo $video['user']['handlename'] ?></a><br />
 												<span style="padding-right: 15px;">
 													<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
 												</span>
