@@ -75,7 +75,7 @@ $this->Html->script(
 					<a href="#">
 						<?php echo $this->Html->image('/videos/img/avatar.png', array(
 							'class' => 'media-object',
-							'alt' => $video['userAttributesUser']['value'],
+							'alt' => $video['user']['handlename'],
 							'width' => '60',
 							'height' => '60',
 						)); ?>
@@ -85,7 +85,7 @@ $this->Html->script(
 					<div class="row">
 						<div class="col-xs-6">
 							<?php /* 投稿者 */ ?>
-							<span style="padding-left: 5px; padding-right: 15px;"><a href="#"><?php echo $video['userAttributesUser']['value']; ?></a><br />
+							<span style="padding-left: 5px; padding-right: 15px;"><a href="#"><?php echo $video['user']['handlename']; ?></a><br />
 						</div>
 						<div class="col-xs-6 text-right" style="font-size: 18px;">
 							<?php /* 再生回数 */ ?>
@@ -220,7 +220,7 @@ $this->Html->script(
 													<h2><?php echo $relatedVideo['video']['title']; ?></h2>
 												</a>
 											</div>
-											<a href="#"><?php echo $relatedVideo['userAttributesUser']['value'] ?></a><br />
+											<a href="#"><?php echo $relatedVideo['user']['handlename'] ?></a><br />
 											<span style="padding-right: 15px;">
 												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $relatedVideo['video']['playNumber'] ?>
 											</span>

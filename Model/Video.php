@@ -169,23 +169,12 @@ class Video extends VideosAppModel {
 			'fields' => '',
 			'order' => ''
 		),
-	);
-
-/**
- * hasOne associations
- *
- * @var array
- */
-	public $hasOne = array(
-		'UserAttributesUser' => array(
-			'className' => 'Users.UserAttributesUser',
-			'foreignKey' => false,
-			'conditions' => array(
-				'UserAttributesUser.user_id = Video.created_user',
-				'UserAttributesUser.language_id = Block.language_id',
-				'UserAttributesUser.key = "nickname"',
-			),
-			'fields' => 'value',
+		'User' => array(
+			'className' => 'Users.User',
+			'foreignKey' => 'created_user',
+			'conditions' => '',
+			'fields' => 'handlename',
+			'order' => ''
 		),
 	);
 
