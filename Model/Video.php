@@ -82,7 +82,7 @@ class Video extends VideosAppModel {
  *
  * @var bool
  */
-	private static $__isFfmpegEnable = null;
+	protected static $__isFfmpegEnable = null;
 
 /**
  * use behaviors
@@ -198,53 +198,6 @@ class Video extends VideosAppModel {
 			}
 		}
 		return $results;
-	}
-
-/**
- * Before save method. Called before all saves
- *
- * Handles setup of file uploads
- *
- * @param array $options Options passed from Model::save().
- * @return bool
- */
-	public function beforeSave($options = array()) {
-		/* if (!self::FFMPEG_ENABLE) {
-			// 再生時間
-			if (isset($this->data[$this->alias]['video_time']) && gettype($this->data[$this->alias]['video_time']) == 'string') {
-				//時：分：秒を秒に変更
-				$times = explode(":", $this->data[$this->alias]['video_time']);
-				$this->data[$this->alias]['video_time'] = intval(trim($times[0])) * 3600 + intval($times[1]) * 60 + $times[2];
-			}
-		} */
-		return parent::beforeSave($options);
-	}
-
-/**
- * FFMPEG有効フラグをセット
- *
- * @return bool
- */
-	public static function isFfmpegEnable() {
-		if (isset(self::$__isFfmpegEnable)) {
-			return self::$__isFfmpegEnable;
-		}
-
-		$strCmd = 'which ' . self::FFMPEG_PATH . ' 2>&1';
-		exec($strCmd, $arr);
-
-		// ffmpegコマンドがあるかどうかは環境に依存するため、true or false の両方を通すテストケースは書けない。
-		// isFfmpegEnableをモックにして、強制的に true or false を返してテストするので、問題ないと思う。
-
-		if (isset($arr[0]) && $arr[0] === self::FFMPEG_PATH) {
-			// コマンドあり
-			self::$__isFfmpegEnable = true;
-		} else {
-			// コマンドなし
-			self::$__isFfmpegEnable = false;
-		}
-
-		return self::$__isFfmpegEnable;
 	}
 
 /**
