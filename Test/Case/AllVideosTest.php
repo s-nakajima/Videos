@@ -40,7 +40,7 @@ class AllVideosTest extends CakeTestSuite {
 		$files = $Folder->tree(null, $exceptions, 'files');
 		foreach ($files as $file) {
 			if (substr($file, -4) === '.php') {
-				$suite->addTestFile($file);
+				//$suite->addTestFile($file);
 			}
 		}
 
