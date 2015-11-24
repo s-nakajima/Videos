@@ -20,6 +20,13 @@ App::uses('VideosAppController', 'Videos.Controller');
 class VideoBlockRolePermissionsController extends VideosAppController {
 
 /**
+ * layout
+ *
+ * @var array
+ */
+	public $layout = 'NetCommons.setting';
+
+/**
  * use model
  *
  * @var array
@@ -34,14 +41,13 @@ class VideoBlockRolePermissionsController extends VideosAppController {
  * @var array
  */
 	public $components = array(
-		//'NetCommons.NetCommonsBlock',
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array(
-				'block_index' => array('url' => array('controller' => 'video_block_settings')),
+				'block_index' => array('url' => array('controller' => 'video_blocks')),
 				'frame_settings' => array('url' => array('controller' => 'video_frame_settings')),
 			),
 			'blockTabs' => array(
-				'block_settings' => array('url' => array('controller' => 'video_block_settings')),
+				'block_settings' => array('url' => array('controller' => 'video_blocks')),
 				'role_permissions' => array('url' => array('controller' => 'video_block_role_permissions')),
 			),
 		),
@@ -54,22 +60,13 @@ class VideoBlockRolePermissionsController extends VideosAppController {
 	);
 
 /**
- * beforeFilter
+ * use helpers
  *
- * @return void
+ * @var array
  */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		// 権限判定が必要
-		$this->Auth->deny('edit');
-
-		$this->layout = 'NetCommons.setting';
-		//$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		//$this->set($results);
-
-		//タブの設定
-		$this->initTabs('block_index', 'role_permissions');
-	}
+	public $helpers = array(
+		'Blocks.BlockRolePermissionForm'
+	);
 
 /**
  * 権限設定 編集
@@ -77,20 +74,13 @@ class VideoBlockRolePermissionsController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$blockId = (int)$this->params['pass'][1];
-		$this->set('blockId', $blockId);
-
 		// 取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(Current::read('Block.key'));
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
 
-		$permissions = $this->NetCommonsBlock->getBlockRolePermissions(
-			$this->viewVars['blockKey'],
-			array('content_creatable', 'content_comment_creatable', 'content_comment_publishable')
+		$permissions = $this->Workflow->getBlockRolePermissions(
+			array('content_creatable', 'content_publishable', 'content_comment_creatable', 'content_comment_publishable')
 		);
+		$this->set('roles', $permissions['Roles']);
 
 		if ($this->request->isPost()) {
 			// 更新時間を再セット
@@ -104,7 +94,7 @@ class VideoBlockRolePermissionsController extends VideosAppController {
 			if ($this->handleValidationError($this->VideoBlockSetting->validationErrors)) {
 				// 正常時
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/videos/video_block_settings/index/' . $this->viewVars['frameId']);
+					$this->redirect('/videos/video_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}

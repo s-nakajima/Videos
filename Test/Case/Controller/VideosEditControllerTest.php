@@ -75,7 +75,7 @@ class VideosEditControllerTest extends VideosTestBase {
 
 		$data = array(
 			//'Video' => array(), 暫定対応(;'∀') 登録値の具体的に記述する予定
-			sprintf('save_%s', NetCommonsBlockComponent::STATUS_PUBLISHED) => ''
+			sprintf('save_%s', WorkflowComponent::STATUS_PUBLISHED) => ''
 		);
 
 		$frameId = 2;
@@ -127,7 +127,7 @@ class VideosEditControllerTest extends VideosTestBase {
 			'Comment' => array(
 				'comment' => null
 			),
-			sprintf('save_%s', NetCommonsBlockComponent::STATUS_PUBLISHED) => ''
+			sprintf('save_%s', WorkflowComponent::STATUS_PUBLISHED) => ''
 		);
 
 		$frameId = 2;

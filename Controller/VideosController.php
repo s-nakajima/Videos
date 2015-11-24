@@ -160,7 +160,7 @@ class VideosController extends VideosAppController {
 		$results['relatedVideos'] = $relatedVideos;
 
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting($this->viewVars['blockKey']);
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
 		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
 		// コメントを利用する
@@ -240,7 +240,7 @@ class VideosController extends VideosAppController {
 		}
 
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(Current::read('Block.key'));
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
 		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
 		// 暫定対応しない(;'∀')

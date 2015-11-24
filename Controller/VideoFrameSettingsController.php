@@ -44,11 +44,11 @@ class VideoFrameSettingsController extends VideosAppController {
 		//'NetCommons.NetCommonsBlock',
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array(
-				'block_index' => array('url' => array('controller' => 'video_block_settings')),
+				'block_index' => array('url' => array('controller' => 'video_blocks')),
 				'frame_settings' => array('url' => array('controller' => 'video_frame_settings')),
 			),
 			'blockTabs' => array(
-				'block_settings' => array('url' => array('controller' => 'video_block_settings')),
+				'block_settings' => array('url' => array('controller' => 'video_blocks')),
 				'role_permissions' => array('url' => array('controller' => 'video_block_role_permissions')),
 			),
 		),

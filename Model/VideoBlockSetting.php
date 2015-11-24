@@ -116,12 +116,11 @@ class VideoBlockSetting extends VideosAppModel {
 /**
  * VideoBlockSettingデータ取得
  *
- * @param string $blockKey blocks.key
  * @return array
  */
-	public function getVideoBlockSetting($blockKey) {
+	public function getVideoBlockSetting() {
 		$conditions = array(
-			$this->alias . '.block_key' => $blockKey,
+			$this->alias . '.block_key' => Current::read('Block.key'),
 		);
 
 		$joins = array(

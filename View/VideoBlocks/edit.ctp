@@ -25,7 +25,7 @@
 			'controller' => 'VideoBlockSettings',
 			'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
 			'callback' => 'Videos.VideoBlockSettings/edit_form',
-			'cancelUrl' => '/videos/video_block_settings/index/' . $frameId
+			'cancelUrl' => '/videos/video_blocks/index/' . $frameId
 		)); ?>
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>

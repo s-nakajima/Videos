@@ -12,11 +12,11 @@
 ?>
 
 <div class="modal-body">
-	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
+	<?php echo $this->BlockTabs->main(BlockTabsComponent::MAIN_TAB_BLOCK_INDEX); ?>
 
 	<div class="tab-content">
-		<div class="text-right">
-			<a class="btn btn-success" href="<?php echo $this->Html->url('/videos/video_block_settings/add/' . $frameId);?>">
+			<div class="text-right">
+			<a class="btn btn-success" href="<?php echo $this->Html->url('/videos/video_blocks/add/' . $frameId);?>">
 				<span class="glyphicon glyphicon-plus"> </span>
 			</a>
 		</div>
@@ -62,7 +62,7 @@
 									)); ?>
 								</td>
 								<td>
-									<a href="<?php echo $this->Html->url('/videos/video_block_settings/edit/' . $frameId . '/' . (int)$videoBlockSetting['block']['id']); ?>">
+									<a href="<?php echo $this->Html->url('/videos/video_blocks/edit/' . $frameId . '/' . (int)$videoBlockSetting['block']['id']); ?>">
 										<?php echo h($videoBlockSetting['block']['name']); ?>
 									</a>
 								</td>

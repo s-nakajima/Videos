@@ -54,7 +54,7 @@ class VideoBlockSettingsControllerTest extends VideosTestBase {
 
 		$frameId = 1;
 		$this->testAction(
-			'/videos/video_block_settings/index/' . $frameId,
+			'/videos/video_blocks/index/' . $frameId,
 			array(
 				'method' => 'get',
 				'return' => 'view',

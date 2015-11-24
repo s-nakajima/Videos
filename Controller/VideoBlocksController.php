@@ -17,7 +17,14 @@ App::uses('VideosAppController', 'Videos.Controller');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Controller
  */
-class VideoBlockSettingsController extends VideosAppController {
+class VideoBlocksController extends VideosAppController {
+
+/**
+ * layout
+ *
+ * @var array
+ */
+	public $layout = 'NetCommons.setting';
 
 /**
  * use model
@@ -27,7 +34,7 @@ class VideoBlockSettingsController extends VideosAppController {
 	public $uses = array(
 		'Videos.VideoBlockSetting',
 		'Blocks.Block',
-		'Frames.Frame',
+		//'Frames.Frame',
 	);
 
 /**
@@ -36,34 +43,33 @@ class VideoBlockSettingsController extends VideosAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		//'NetCommons.NetCommonsFrame',
-//		'NetCommons.NetCommonsRoomRole' => array(
-//			//コンテンツの権限設定
-//			'allowedActions' => array(
-//				'blockEditable' => array('index', 'add', 'edit', 'delete'),
-//			),
-//		),
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array(
+				'block_index' => array('url' => array('controller' => 'video_blocks')),
+				'frame_settings' => array('url' => array('controller' => 'video_frame_settings')),
+			),
+			'blockTabs' => array(
+				'block_settings' => array('url' => array('controller' => 'video_blocks')),
+				'role_permissions' => array('url' => array('controller' => 'video_block_role_permissions')),
+			),
+		),
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'index,add,edit,delete' => 'block_editable',
+			),
+		),
 		'Paginator',
 	);
 
 /**
- * beforeFilter
+ * use helpers
  *
- * @return void
+ * @var array
  */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		// 権限判定が必要
-		$this->Auth->deny('index', 'add', 'edit', 'delete');
-
-		$this->layout = 'NetCommons.setting';
-		//$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		//$this->set($results);
-
-		//タブの設定
-		$this->initTabs('block_index', 'block_settings');
-	}
+	public $helpers = array(
+		'Blocks.BlockForm',
+	);
 
 /**
  * ブロック一覧表示
@@ -93,7 +99,7 @@ class VideoBlockSettingsController extends VideosAppController {
 				'conditions' => array(
 					'Block.key = VideoBlockSetting.block_key',
 					'Block.language_id' => $this->viewVars['languageId'],
-					'Block.room_id' => $this->viewVars['roomId'],
+					'Block.room_id' => Current::read('Room.id'),
 				),
 				'fields' => array(
 					'*',
@@ -102,24 +108,18 @@ class VideoBlockSettingsController extends VideosAppController {
 			)
 		);
 
-		try {
-			if (! $videoBlockSetting = $this->Paginator->paginate('VideoBlockSetting')) {
-				$this->view = 'not_found';
-				return;
-			}
-		} catch (Exception $ex) {
-			if (isset($this->request['paging']) && $this->params['named']) {
-				$this->redirect('/videos/video_block_settings/index/' . $this->viewVars['frameId']);
-				return;
-			}
-			CakeLog::error($ex);
-			throw $ex;
+		$videoBlockSetting = $this->Paginator->paginate('VideoBlockSetting');
+		if (! $videoBlockSetting) {
+			$this->view = 'Blocks.Blocks/not_found';
+			return;
 		}
 
 		$results['videoBlockSettings'] = $videoBlockSetting;
 
 		$results = $this->camelizeKeyRecursive($results);
 		$this->set($results);
+
+		$this->request->data['Frame'] = Current::read('Frame');
 	}
 
 /**
@@ -131,7 +131,7 @@ class VideoBlockSettingsController extends VideosAppController {
 		$this->view = 'VideoBlockSettings/edit';
 
 		// 初期値 取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(null);
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
 
 		// ブロック 初期値 取得
 		$block = $this->Block->create(array(
@@ -172,7 +172,7 @@ class VideoBlockSettingsController extends VideosAppController {
 			} else {
 				// ajax以外は、リダイレクト
 				if (!$this->request->is('ajax')) {
-					$this->redirect('/videos/video_block_settings/index/' . $this->viewVars['frameId']);
+					$this->redirect('/videos/video_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}
@@ -195,21 +195,21 @@ class VideoBlockSettingsController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
+//		if (! $this->NetCommonsBlock->validateBlockId()) {
+//			$this->setAction('throwBadRequest');
+//			return false;
+//		}
 		$blockId = (int)$this->params['pass'][1];
 		$this->set('blockId', $blockId);
 
 		// ブロック取得
 		if (!$block = $this->Block->findById($blockId)) {
-			$this->throwBadRequest();
+			$this->setAction('throwBadRequest');
 			return false;
 		};
 
 		// 取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting($block['Block']['key']);
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
 
 		if ($this->request->isPost()) {
 
@@ -235,7 +235,7 @@ class VideoBlockSettingsController extends VideosAppController {
 			} else {
 				// ajax以外は、リダイレクト
 				if (!$this->request->is('ajax')) {
-					$this->redirect('/videos/video_block_settings/index/' . $this->viewVars['frameId']);
+					$this->redirect('/videos/video_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}
@@ -261,10 +261,10 @@ class VideoBlockSettingsController extends VideosAppController {
  * @return CakeResponse
  */
 	public function delete() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
+//		if (! $this->NetCommonsBlock->validateBlockId()) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
 		$blockId = (int)$this->params['pass'][1];
 
 		if ($this->request->isDelete()) {
@@ -283,7 +283,7 @@ class VideoBlockSettingsController extends VideosAppController {
 
 			// ajax以外は、リダイレクト
 			if (!$this->request->is('ajax')) {
-				$this->redirect('/videos/video_block_settings/index/' . $this->viewVars['frameId']);
+				$this->redirect('/videos/video_blocks/index/' . $this->viewVars['frameId']);
 			}
 			return;
 		}

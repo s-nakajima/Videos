@@ -96,7 +96,7 @@ $this->Html->script(
 					<div class="row">
 						<div class="col-xs-12 text-right" <?php echo $this->element('Likes.like_init_attributes', array(
 							'contentKey' => $video['video']['key'],
-							'disabled' => !(! isset($video['like']) && $video['video']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED),
+							'disabled' => !(! isset($video['like']) && $video['video']['status'] === WorkflowComponent::STATUS_PUBLISHED),
 							'likeCounts' => (int)$video['video']['likeCounts'],
 							'unlikeCounts' => (int)$video['video']['unlikeCounts'],
 						)); ?>>

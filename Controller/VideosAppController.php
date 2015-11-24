@@ -20,8 +20,7 @@ App::uses('AppController', 'Controller');
  * @property FileModel $FileModel
  * @property FileUploadComponent $FileUpload
  * @property ContentCommentsComponent $ContentComments
- * @property NetCommonsBlockComponent $NetCommonsBlock
- * @property NetCommonsWorkflowComponent $NetCommonsWorkflow
+ * @property WorkflowComponent $Workflow
  * @property PermissionComponent $Permission
  * @property PageLayoutComponent $PageLayout
  * @property Video $Video
@@ -36,25 +35,9 @@ class VideosAppController extends AppController {
  * @var array
  */
 	public $components = array(
-		'Security',
-		//'NetCommons.NetCommonsFrame',		// frameId, frameKey等を自動セット
 		'Pages.PageLayout',
+		'Security',
 	);
-
-/**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-
-		// フレームIDなしはアクセスさせない
-//		if (!$this->NetCommonsFrame->validateFrameId()) {
-//			$this->throwBadRequest();
-//			return false;
-//		}
-	}
 
 /**
  * initTabs
@@ -64,61 +47,61 @@ class VideosAppController extends AppController {
  * @return void
  */
 	public function initTabs($mainActiveTab, $blockActiveTab) {
-		if (isset($this->params['pass'][1])) {
-			$blockId = (int)$this->params['pass'][1];
-		} else {
-			$blockId = null;
-		}
-
-		//タブの設定
-		$settingTabs = array(
-			'tabs' => array(
-				'block_index' => array(
-					'url' => array(
-						'plugin' => $this->params['plugin'],
-						'controller' => 'video_block_settings',
-						'action' => 'index',
-						$this->viewVars['frameId'],
-					)
-				),
-				'frame_settings' => array(
-					'url' => array(
-						'plugin' => $this->params['plugin'],
-						'controller' => 'video_frame_settings',
-						'action' => 'edit',
-						$this->viewVars['frameId'],
-					)
-				),
-			),
-			'active' => $mainActiveTab
-		);
-		$this->set('settingTabs', $settingTabs);
-
-		$blockSettingTabs = array(
-			'tabs' => array(
-				'block_settings' => array(
-					'url' => array(
-						'plugin' => $this->params['plugin'],
-						'controller' => 'video_block_settings',
-						'action' => $this->params['action'],
-						$this->viewVars['frameId'],
-						$blockId
-					)
-				),
-				'role_permissions' => array(
-					'url' => array(
-						'plugin' => $this->params['plugin'],
-						'controller' => 'video_block_role_permissions',
-						'action' => 'edit',
-						$this->viewVars['frameId'],
-						$blockId
-					)
-				),
-			),
-			'active' => $blockActiveTab
-		);
-
-		$this->set('blockSettingTabs', $blockSettingTabs);
+//		if (isset($this->params['pass'][1])) {
+//			$blockId = (int)$this->params['pass'][1];
+//		} else {
+//			$blockId = null;
+//		}
+//
+//		//タブの設定
+//		$settingTabs = array(
+//			'tabs' => array(
+//				'block_index' => array(
+//					'url' => array(
+//						'plugin' => $this->params['plugin'],
+//						'controller' => 'video_block_settings',
+//						'action' => 'index',
+//						$this->viewVars['frameId'],
+//					)
+//				),
+//				'frame_settings' => array(
+//					'url' => array(
+//						'plugin' => $this->params['plugin'],
+//						'controller' => 'video_frame_settings',
+//						'action' => 'edit',
+//						$this->viewVars['frameId'],
+//					)
+//				),
+//			),
+//			'active' => $mainActiveTab
+//		);
+//		$this->set('settingTabs', $settingTabs);
+//
+//		$blockSettingTabs = array(
+//			'tabs' => array(
+//				'block_settings' => array(
+//					'url' => array(
+//						'plugin' => $this->params['plugin'],
+//						'controller' => 'video_block_settings',
+//						'action' => $this->params['action'],
+//						$this->viewVars['frameId'],
+//						$blockId
+//					)
+//				),
+//				'role_permissions' => array(
+//					'url' => array(
+//						'plugin' => $this->params['plugin'],
+//						'controller' => 'video_block_role_permissions',
+//						'action' => 'edit',
+//						$this->viewVars['frameId'],
+//						$blockId
+//					)
+//				),
+//			),
+//			'active' => $blockActiveTab
+//		);
+//
+//		$this->set('blockSettingTabs', $blockSettingTabs);
 	}
 
 /**
