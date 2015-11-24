@@ -41,11 +41,21 @@ class VideoFrameSettingsController extends VideosAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockEditable' => array('edit')
+		//'NetCommons.NetCommonsBlock',
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array(
+				'block_index' => array('url' => array('controller' => 'video_block_settings')),
+				'frame_settings' => array('url' => array('controller' => 'video_frame_settings')),
+			),
+			'blockTabs' => array(
+				'block_settings' => array('url' => array('controller' => 'video_block_settings')),
+				'role_permissions' => array('url' => array('controller' => 'video_block_role_permissions')),
+			),
+		),
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'edit' => 'page_editable',
 			),
 		),
 	);
@@ -61,8 +71,8 @@ class VideoFrameSettingsController extends VideosAppController {
 		$this->Auth->deny('edit');
 
 		// 暫定対応(;'∀') 下記はいずれ、ページの左右のおかず表示対応と一緒に、親側で定義される
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
+		//$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
+		//$this->set($results);
 
 		//タブの設定
 		$this->initTabs('frame_settings', '');
@@ -75,10 +85,12 @@ class VideoFrameSettingsController extends VideosAppController {
  */
 	public function edit() {
 		// 取得
-		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
-			$this->viewVars['frameKey'],
-			$this->viewVars['roomId']
-		);
+//		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
+//			$this->viewVars['frameKey'],
+//			$this->viewVars['roomId']
+//		);
+		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(true);
+
 
 		if ($this->request->isPost()) {
 			// 更新時間を再セット

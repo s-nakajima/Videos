@@ -27,8 +27,7 @@ class VideoBlockSettingTest extends VideoTestBase {
  */
 	public function testGetVideoBlockSetting() {
 		$blockKey = 'block_1';
-		$roomId = 1;
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting($blockKey, $roomId);
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting($blockKey);
 
 		$this->assertInternalType('array', $videoBlockSetting);
 	}

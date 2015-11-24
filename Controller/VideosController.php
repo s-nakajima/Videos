@@ -66,7 +66,7 @@ class VideosController extends VideosAppController {
 		'ContentComments.ContentComments',
 		'Cookie',
 		'Paginator',						// ページャ
-		'NetCommons.NetCommonsRoomRole',	// パーミッション取得
+		//'NetCommons.NetCommonsRoomRole',	// パーミッション取得
 	);
 
 /**
@@ -160,10 +160,7 @@ class VideosController extends VideosAppController {
 		$results['relatedVideos'] = $relatedVideos;
 
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
-			$this->viewVars['blockKey'],
-			$this->viewVars['roomId']
-		);
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting($this->viewVars['blockKey']);
 		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
 		// コメントを利用する
@@ -214,15 +211,17 @@ class VideosController extends VideosAppController {
  */
 	private function __list($extraConditions = array()) {
 		// 表示系(並び順、表示件数)の設定取得
-		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
-			$this->viewVars['frameKey'],
-			$this->viewVars['roomId']
-		);
+//		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
+//			$this->viewVars['frameKey'],
+//			$this->viewVars['roomId']
+//		);
+		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(true);
+
 		$results['videoFrameSetting'] = $videoFrameSetting['VideoFrameSetting'];
 
 		// フレーム取得
 		$conditions = array(
-			$this->Frame->alias . '.key' => $this->viewVars['frameKey'],
+			$this->Frame->alias . '.key' => Current::read('Frame.key'),
 		);
 		$frame = $this->Frame->find('first', array(
 			'recursive' => 0,
@@ -241,10 +240,7 @@ class VideosController extends VideosAppController {
 		}
 
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
-			$this->viewVars['blockKey'],
-			$this->viewVars['roomId']
-		);
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(Current::read('Block.key'));
 		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
 		// 暫定対応しない(;'∀')

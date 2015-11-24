@@ -21,9 +21,8 @@ App::uses('AppController', 'Controller');
  * @property FileUploadComponent $FileUpload
  * @property ContentCommentsComponent $ContentComments
  * @property NetCommonsBlockComponent $NetCommonsBlock
- * @property NetCommonsFrameComponent $NetCommonsFrame
  * @property NetCommonsWorkflowComponent $NetCommonsWorkflow
- * @property NetCommonsRoomRoleComponent $NetCommonsRoomRole
+ * @property PermissionComponent $Permission
  * @property PageLayoutComponent $PageLayout
  * @property Video $Video
  * @property VideoFrameSetting $VideoFrameSetting
@@ -38,7 +37,7 @@ class VideosAppController extends AppController {
  */
 	public $components = array(
 		'Security',
-		'NetCommons.NetCommonsFrame',		// frameId, frameKey等を自動セット
+		//'NetCommons.NetCommonsFrame',		// frameId, frameKey等を自動セット
 		'Pages.PageLayout',
 	);
 
@@ -51,10 +50,10 @@ class VideosAppController extends AppController {
 		parent::beforeFilter();
 
 		// フレームIDなしはアクセスさせない
-		if (!$this->NetCommonsFrame->validateFrameId()) {
-			$this->throwBadRequest();
-			return false;
-		}
+//		if (!$this->NetCommonsFrame->validateFrameId()) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
 	}
 
 /**

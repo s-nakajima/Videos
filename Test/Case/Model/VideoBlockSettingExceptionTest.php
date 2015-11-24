@@ -202,13 +202,9 @@ class VideoBlockSettingExceptionTest extends VideoTestBase {
 		$this->setExpectedException('InternalErrorException');
 
 		$blockKey = 'block_1';
-		$roomId = 1;
 
 		// 取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
-			$blockKey,
-			$roomId
-		);
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting($blockKey);
 
 		$netCommonsBlock = new NetCommonsBlockComponent(new ComponentCollection());
 		$controller = new Controller();
@@ -249,13 +245,9 @@ class VideoBlockSettingExceptionTest extends VideoTestBase {
 		$this->setExpectedException('InternalErrorException');
 
 		$blockKey = 'block_1';
-		$roomId = 1;
 
 		// 取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
-			$blockKey,
-			$roomId
-		);
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting($blockKey);
 
 		$netCommonsBlock = new NetCommonsBlockComponent(new ComponentCollection());
 		$controller = new Controller();

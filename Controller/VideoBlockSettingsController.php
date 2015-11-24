@@ -37,13 +37,13 @@ class VideoBlockSettingsController extends VideosAppController {
  */
 	public $components = array(
 		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsFrame',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockEditable' => array('index', 'add', 'edit', 'delete'),
-			),
-		),
+		//'NetCommons.NetCommonsFrame',
+//		'NetCommons.NetCommonsRoomRole' => array(
+//			//コンテンツの権限設定
+//			'allowedActions' => array(
+//				'blockEditable' => array('index', 'add', 'edit', 'delete'),
+//			),
+//		),
 		'Paginator',
 	);
 
@@ -58,8 +58,8 @@ class VideoBlockSettingsController extends VideosAppController {
 		$this->Auth->deny('index', 'add', 'edit', 'delete');
 
 		$this->layout = 'NetCommons.setting';
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
+		//$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
+		//$this->set($results);
 
 		//タブの設定
 		$this->initTabs('block_index', 'block_settings');
@@ -131,10 +131,7 @@ class VideoBlockSettingsController extends VideosAppController {
 		$this->view = 'VideoBlockSettings/edit';
 
 		// 初期値 取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
-			null,
-			$this->viewVars['roomId']
-		);
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(null);
 
 		// ブロック 初期値 取得
 		$block = $this->Block->create(array(
@@ -212,10 +209,7 @@ class VideoBlockSettingsController extends VideosAppController {
 		};
 
 		// 取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
-			$block['Block']['key'],
-			$this->viewVars['roomId']
-		);
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting($block['Block']['key']);
 
 		if ($this->request->isPost()) {
 

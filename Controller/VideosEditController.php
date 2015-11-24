@@ -38,13 +38,13 @@ class VideosEditController extends VideosAppController {
 	public $components = array(
 		'Files.FileUpload',					// FileUpload
 		'NetCommons.NetCommonsWorkflow',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'contentEditable' => array('add', 'edit', 'delete'),
-				'contentCreatable' => array('add', 'edit', 'delete'),
-			),
-		),
+//		'NetCommons.NetCommonsRoomRole' => array(
+//			//コンテンツの権限設定
+//			'allowedActions' => array(
+//				'contentEditable' => array('add', 'edit', 'delete'),
+//				'contentCreatable' => array('add', 'edit', 'delete'),
+//			),
+//		),
 	);
 
 /**

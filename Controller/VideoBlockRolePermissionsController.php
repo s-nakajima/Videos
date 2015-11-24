@@ -34,11 +34,21 @@ class VideoBlockRolePermissionsController extends VideosAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'contentPublishable' => array('edit')
+		//'NetCommons.NetCommonsBlock',
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array(
+				'block_index' => array('url' => array('controller' => 'video_block_settings')),
+				'frame_settings' => array('url' => array('controller' => 'video_frame_settings')),
+			),
+			'blockTabs' => array(
+				'block_settings' => array('url' => array('controller' => 'video_block_settings')),
+				'role_permissions' => array('url' => array('controller' => 'video_block_role_permissions')),
+			),
+		),
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'edit' => 'block_permission_editable',
 			),
 		),
 	);
@@ -54,8 +64,8 @@ class VideoBlockRolePermissionsController extends VideosAppController {
 		$this->Auth->deny('edit');
 
 		$this->layout = 'NetCommons.setting';
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
+		//$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
+		//$this->set($results);
 
 		//タブの設定
 		$this->initTabs('block_index', 'role_permissions');
@@ -75,10 +85,7 @@ class VideoBlockRolePermissionsController extends VideosAppController {
 		$this->set('blockId', $blockId);
 
 		// 取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(
-			$this->viewVars['blockKey'],
-			$this->viewVars['roomId']
-		);
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(Current::read('Block.key'));
 
 		$permissions = $this->NetCommonsBlock->getBlockRolePermissions(
 			$this->viewVars['blockKey'],

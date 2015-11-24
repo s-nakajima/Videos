@@ -111,36 +111,52 @@ class VideoFrameSetting extends VideosAppModel {
 /**
  * VideoFrameSettingデータ取得
  *
- * @param string $frameKey frames.key
- * @param int $roomId rooms.id
+ * @param bool $created If True, the results of the Model::find() to create it if it was null
  * @return array
  */
-	public function getVideoFrameSetting($frameKey, $roomId) {
+	public function getVideoFrameSetting($created) {
+	//public function getVideoFrameSetting($frameKey, $roomId) {
 		$conditions = array(
-			$this->alias . '.frame_key' => $frameKey,
+			'frame_key' => Current::read('Frame.key')
 		);
 
-		$joins = array(
-			array(
-				'type' => 'inner',
-				'table' => 'frames',
-				'alias' => 'Frame2',
-				'conditions' => array(
-					$this->alias . '.frame_key = Frame2.key',
-					'Frame2.room_id = ' . $roomId,
-				),
-			),
+		$videoFrameSetting = $this->find('first', array(
+				'recursive' => -1,
+				'conditions' => $conditions,
+			)
 		);
 
-		if (!$videoFrameSetting = $this->find('first', array(
-			'recursive' => 0,
-			'joins' => $joins,
-			'conditions' => $conditions,
-			'order' => $this->alias . '.id DESC'
-		))
-		) {
-			//初期値を設定
-			$videoFrameSetting = $this->create();
+//		$conditions = array(
+//			$this->alias . '.frame_key' => $frameKey,
+//		);
+//
+//		$joins = array(
+//			array(
+//				'type' => 'inner',
+//				'table' => 'frames',
+//				'alias' => 'Frame2',
+//				'conditions' => array(
+//					$this->alias . '.frame_key = Frame2.key',
+//					//'Frame2.room_id = ' . $roomId,
+//				),
+//			),
+//		);
+//
+//		if (!$videoFrameSetting = $this->find('first', array(
+//			'recursive' => 0,
+//			'joins' => $joins,
+//			'conditions' => $conditions,
+//			'order' => $this->alias . '.id DESC'
+//		))
+//		) {
+//			//初期値を設定
+//			$videoFrameSetting = $this->create();
+//		}
+
+		if ($created && ! $videoFrameSetting) {
+			$videoFrameSetting = $this->create(array(
+				'frame_key' => Current::read('Frame.key'),
+			));
 		}
 
 		return $videoFrameSetting;
