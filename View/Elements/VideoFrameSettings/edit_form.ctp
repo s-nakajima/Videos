@@ -11,40 +11,29 @@
  */
 ?>
 
+<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.frame_key'); ?>
+
 <div class="row form-group">
 	<div class="col-xs-12">
 		<?php echo $this->Form->label(__d('videos', 'Display order')); ?>
 	</div>
 	<div class="col-xs-12">
 		<?php echo $this->Form->select('VideoFrameSetting.display_order',
-				VideoFrameSetting::getDisplayOrderOptions(),
-				array(
-					//'label' => false,
-					'type' => 'select',
-					'class' => 'form-control',
-					'default' => $videoFrameSetting['displayOrder'],
-					//'legend' => false,
-					'empty' => false,
-				)
-			); ?>
+			VideoFrameSetting::getDisplayOrderOptions(),
+			array(
+				//'label' => false,
+				'type' => 'select',
+				'class' => 'form-control',
+				'default' => $this->request->data['VideoFrameSetting']['display_order'],
+				//'legend' => false,
+				'empty' => false,
+			)
+		); ?>
 	</div>
 </div>
 
-<div class="row form-group">
-	<div class="col-xs-12">
-		<?php echo $this->Form->label(__d('videos', 'Display number')); ?>
-	</div>
-	<div class="col-xs-12">
-		<?php echo $this->Form->select('VideoFrameSetting.display_number',
-				VideoFrameSetting::getDisplayNumberOptions(),
-				array(
-					//'label' => false,
-					'type' => 'select',
-					'class' => 'form-control',
-					'default' => $videoFrameSetting['displayNumber'],
-					//'legend' => false,
-					'empty' => false,
-				)
-			); ?>
-	</div>
-</div>
+<?php echo $this->DisplayNumber->select('VideoFrameSetting.display_number', array(
+	'label' => __d('videos', 'Display number'),
+));

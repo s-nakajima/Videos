@@ -24,7 +24,7 @@
 			'action' => 'edit' . '/' . $frameId . '/' . $blockId,
 			'callback' => 'Videos.VideoBlockRolePermissions/edit_form',
 			'cancelUrl' => '/videos/video_blocks/index/' . $frameId,
-			'options' => array('ng-controller' => 'VideoBlockSettingsEdit'),
+			'options' => array('ng-controller' => 'VideoBlocksEdit'),
 		)); ?>
 	</div>
 </div>

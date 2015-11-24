@@ -88,7 +88,7 @@
 				<div class="text-center">
 					<?php echo $this->element('NetCommons.paginator', array(
 						'url' => Hash::merge(
-							array('controller' => 'VideoBlockSettings', 'action' => 'index', $frameId),
+							array('controller' => 'VideoBlocks', 'action' => 'index', $frameId),
 							$this->Paginator->params['named']
 						)
 					)); ?>

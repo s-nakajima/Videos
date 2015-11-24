@@ -128,7 +128,7 @@ class VideoBlocksController extends VideosAppController {
  * @return CakeResponse
  */
 	public function add() {
-		$this->view = 'VideoBlockSettings/edit';
+		$this->view = 'VideoBlocks/edit';
 
 		// 初期値 取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();

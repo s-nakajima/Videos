@@ -111,12 +111,12 @@ NetCommonsApp.controller('VideoFrameSettings',
 
 
 /**
- * VideoBlockSettings コンテンツ Javascript
+ * VideoBlocksEdit コンテンツ Javascript
  *
  * @param {string} Controller name
  * @param {function($scope, NetCommonsTab)} Controller
  */
-NetCommonsApp.controller('VideoBlockSettingsEdit',
+NetCommonsApp.controller('VideoBlocksEdit',
     function($scope, NetCommonsTab) {
 
       /**

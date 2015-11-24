@@ -13,7 +13,7 @@
 
 <?php echo $this->Html->script('/videos/js/videos.js', array('plugin' => false, 'once' => true, 'inline' => false)); ?>
 
-<div class="modal-body" ng-controller="VideoBlockSettingsEdit"
+<div class="modal-body" ng-controller="VideoBlocksEdit"
 	 ng-init="initialize(<?php echo h(json_encode($videoBlockSetting)) . ',' . h(json_encode($block)); ?>)">
 
 	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
@@ -22,17 +22,17 @@
 		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-			'controller' => 'VideoBlockSettings',
+			'controller' => 'VideoBlocks',
 			'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
-			'callback' => 'Videos.VideoBlockSettings/edit_form',
+			'callback' => 'Videos.VideoBlocks/edit_form',
 			'cancelUrl' => '/videos/video_blocks/index/' . $frameId
 		)); ?>
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>
 			<?php echo $this->element('Blocks.delete_form', array(
-				'controller' => 'VideoBlockSettings',
+				'controller' => 'VideoBlocks',
 				'action' => 'delete/' . $frameId . '/' . $blockId,
-				'callback' => 'Videos.VideoBlockSettings/delete_form'
+				'callback' => 'Videos.VideoBlocks/delete_form'
 			)); ?>
 		<?php endif; ?>
 	</div>
