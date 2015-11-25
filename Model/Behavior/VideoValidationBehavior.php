@@ -30,8 +30,8 @@ class VideoValidationBehavior extends ModelBehavior {
 				),
 			),
 			'title' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'title')),
 					'required' => true,
 				),
@@ -84,16 +84,16 @@ class VideoValidationBehavior extends ModelBehavior {
 				),
 			),
 			'title' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'title')),
 					'required' => true,
 				),
 			),
 			/* // 再生時間
 			'video_time' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'play time')),
 					'required' => true,
 				),

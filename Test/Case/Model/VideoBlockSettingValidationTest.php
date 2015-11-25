@@ -36,7 +36,7 @@ class VideoBlockSettingValidationTest extends VideoTestBase {
 	}
 
 /**
- * VideoBlockSettingデータ保存 block_key notEmptyエラー
+ * VideoBlockSettingデータ保存 block_key notBlankエラー
  * $block['VideoBlockSetting']['block_key'] = null のため エラー
  *
  * @return void
@@ -69,7 +69,7 @@ class VideoBlockSettingValidationTest extends VideoTestBase {
 	}
 
 /**
- * VideoBlockSettingデータ保存 Blockテーブル name notEmptyエラー
+ * VideoBlockSettingデータ保存 Blockテーブル name notBlankエラー
  * $block['Block']['name'] = nullのため エラー
  *
  * @return void

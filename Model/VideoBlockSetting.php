@@ -38,8 +38,8 @@ class VideoBlockSetting extends VideosAppModel {
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
 			'block_key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 				),
 			),
@@ -214,8 +214,8 @@ class VideoBlockSetting extends VideosAppModel {
 
 			// ブロック名必須チェック追加
 			$this->Block->validate['name'] = array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'channel')),
 					'required' => true,		// required 効かず
 				),

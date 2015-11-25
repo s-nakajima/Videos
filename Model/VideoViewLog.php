@@ -35,8 +35,8 @@ class VideoViewLog extends VideosAppModel {
  */
 	public $validate = array(
 		'video_key' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
