@@ -75,7 +75,10 @@ class VideoBlockRolePermissionsController extends VideosAppController {
  */
 	public function edit() {
 		// 取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
+		if (! $videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting()) {
+			$this->throwBadRequest();
+			return false;
+		}
 
 		$permissions = $this->Workflow->getBlockRolePermissions(
 			array('content_creatable', 'content_publishable', 'content_comment_creatable', 'content_comment_publishable')
@@ -83,12 +86,31 @@ class VideoBlockRolePermissionsController extends VideosAppController {
 		$this->set('roles', $permissions['Roles']);
 
 		if ($this->request->isPost()) {
-			// 更新時間を再セット
-			unset($videoBlockSetting['VideoBlockSetting']['modified']);
-			$data = Hash::merge(
-				$videoBlockSetting,
-				$this->data
+			if ($this->VideoBlockSetting->saveBlockRolePermission($this->request->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
+				return;
+			}
+			$this->NetCommons->handleValidationError($this->VideoBlockSetting->validationErrors);
+			$this->request->data['BlockRolePermission'] = Hash::merge(
+				$permissions['BlockRolePermissions'],
+				$this->request->data['BlockRolePermission']
 			);
+
+		} else {
+			$this->request->data['VideoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
+			$this->request->data['Block'] = $videoBlockSetting['Block'];
+			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
+			$this->request->data['Frame'] = Current::read('Frame');
+		}
+
+/*
+		if ($this->request->isPost()) {
+//			// 更新時間を再セット
+//			unset($videoBlockSetting['VideoBlockSetting']['modified']);
+//			$data = Hash::merge(
+//				$videoBlockSetting,
+//				$this->data
+//			);
 
 			$this->VideoBlockSetting->saveBlockRolePermission($data);
 			if ($this->handleValidationError($this->VideoBlockSetting->validationErrors)) {
@@ -101,14 +123,15 @@ class VideoBlockRolePermissionsController extends VideosAppController {
 		}
 
 		$results = array(
-			'blockRolePermissions' => $permissions['BlockRolePermissions'],
-			'roles' => $permissions['Roles'],
-			'videoBlockSetting' => $videoBlockSetting['VideoBlockSetting'],
+			'BlockRolePermissions' => $permissions['BlockRolePermissions'],
+			//'Roles' => $permissions['Roles'],
+			'VideoBlockSetting' => $videoBlockSetting['VideoBlockSetting'],
 		);
 
 		// キーをキャメル変換
-		$results = $this->camelizeKeyRecursive($results);
+		//$results = $this->camelizeKeyRecursive($results);
 
 		$this->set($results);
+		*/
 	}
 }

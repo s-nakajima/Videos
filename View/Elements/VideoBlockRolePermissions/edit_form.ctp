@@ -11,11 +11,26 @@
  */
 ?>
 
-<?php echo $this->Form->hidden('Block.id', array(
-	'value' => $blockId,
+<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
+
+<?php echo $this->element('Blocks.block_creatable_setting', array(
+	'settingPermissions' => array(
+		'content_creatable' => __d('blocks', 'Content creatable roles'),
+	),
 )); ?>
 
-<?php echo $this->element('Blocks.block_role_setting', array(
+<?php echo $this->element('Blocks.block_approval_setting', array(
+	'model' => 'VideoBlockSetting',
+	'useWorkflow' => 'agree',
+	'options' => array(
+		Block::NEED_APPROVAL => __d('blocks', 'Need approval in both %s and comments ', __d('videos', 'video')),
+		Block::NEED_COMMENT_APPROVAL => __d('blocks', 'Need only comments approval'),
+		Block::NOT_NEED_APPROVAL => __d('blocks', 'Not need approval'),
+	),
+)); ?>
+
+
+<?php /*echo $this->element('Blocks.block_role_setting', array(
 	'roles' => $roles,
 	'model' => 'VideoBlockSetting',
 	'useWorkflow' => 'agree',
@@ -32,4 +47,4 @@
 		Block::NEED_COMMENT_APPROVAL => __d('blocks', 'Need only comments approval'),
 		Block::NOT_NEED_APPROVAL => __d('blocks', 'Not need approval'),
 	),
-));
+)); */

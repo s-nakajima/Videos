@@ -11,20 +11,18 @@
  */
 ?>
 
-<?php echo $this->Html->script('/videos/js/videos.js', false); ?>
+<?php //echo $this->Html->script('/videos/js/videos.js', false); ?>
 
-<div class="modal-body">
-	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
+<div class="block-setting-body">
+	<?php echo $this->BlockTabs->main(BlockTabsComponent::MAIN_TAB_BLOCK_INDEX); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
+		<?php echo $this->BlockTabs->block(BlockTabsComponent::BLOCK_TAB_PERMISSION); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-			'controller' => 'VideoBlockRolePermission',
-			'action' => 'edit' . '/' . $frameId . '/' . $blockId,
+			'model' => 'VideoBlockRolePermission',
 			'callback' => 'Videos.VideoBlockRolePermissions/edit_form',
-			'cancelUrl' => '/videos/video_blocks/index/' . $frameId,
-			'options' => array('ng-controller' => 'VideoBlocksEdit'),
+			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 		)); ?>
 	</div>
 </div>
