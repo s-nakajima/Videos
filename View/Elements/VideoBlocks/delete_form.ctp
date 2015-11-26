@@ -9,15 +9,15 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-
-echo $this->Form->hidden('Block.id', array('value' => $block['id']));
 ?>
+
+<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
 
 <div class="inline-block">
 	<?php echo sprintf(__d('net_commons', 'Delete all data associated with the %s.'), __d('videos', 'channel')); ?>
 </div>
-<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"> </span> ' . __d('net_commons', 'Delete'), array(
-	'name' => 'delete',
-	'class' => 'btn btn-danger pull-right',
-	'onclick' => 'return confirm(\'' . sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'channel')) . '\')'
-));
+<?php echo $this->Button->delete(
+	__d('net_commons', 'Delete'),
+	sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'channel')),
+	array('addClass' => 'pull-right')
+);
