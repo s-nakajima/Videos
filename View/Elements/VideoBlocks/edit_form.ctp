@@ -9,34 +9,21 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-
-echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $block['id'] : null));
+//echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $block['id'] : null));
 ?>
 
-<div class="row form-group">
-	<div class="col-xs-12">
-		<?php echo $this->Form->input('Block.name', array(
-			'type' => 'text',
-			'label' => __d('videos', 'Channel name') . $this->element('NetCommons.required'),
-			'error' => false,
-			'class' => 'form-control',
-			'default' => (isset($block['name']) ? $block['name'] : '')
-		)); ?>
-	</div>
+<?php echo $this->element('Blocks.form_hidden'); ?>
 
-	<div class="col-xs-12">
-		<?php echo $this->element('NetCommons.errors', array(
-			'errors' => $this->validationErrors,
-			'model' => 'Block',
-			'field' => 'name',
-		)); ?>
-	</div>
-</div>
+<?php echo $this->NetCommonsForm->input('Block.name', array(
+	'type' => 'text',
+	'label' => __d('videos', 'Channel name'),
+	'required' => true
+)); ?>
 
 <?php echo $this->element('Blocks.public_type'); ?>
 
-<div class="form-group">
-	<div>
+<div class="row form-group">
+	<div class="col-xs-12">
 		<?php echo $this->Form->input('VideoBlockSetting.use_like', array(
 			'label' => '<span class="glyphicon glyphicon-thumbs-up"> </span> ' . __d('likes', 'Use like button'),
 			'div' => false,
@@ -44,7 +31,7 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 			'ng-model' => 'videoBlockSetting.useLike',
 		)); ?>
 	</div>
-	<div style="padding-left: 20px;">
+	<div class="col-xs-offset-1 col-xs-11">
 		<?php echo $this->Form->input('VideoBlockSetting.use_unlike', array(
 			'label' => '<span class="glyphicon glyphicon-thumbs-down"> </span> ' . __d('likes', 'Use unlike button'),
 			'div' => false,
@@ -67,8 +54,8 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 	</div>
 </div> */ ?>
 
-<div class="form-group">
-	<div>
+<div class="row form-group">
+	<div class="col-xs-12">
 		<?php echo $this->Form->input('VideoBlockSetting.use_comment', array(
 			'label' => __d('content_comments', 'Use comment'),
 			'div' => false,
@@ -90,8 +77,8 @@ echo $this->Form->hidden('Block.id', array('value' => isset($block['id']) ? $blo
 	</div> */ ?>
 </div>
 
-<div class="form-group">
-	<div>
+<div class="row form-group">
+	<div class="col-xs-12">
 		<?php echo $this->Form->input('VideoBlockSetting.auto_play', array(
 			'label' => __d('videos', 'Automatically play video'),
 			'div' => false,

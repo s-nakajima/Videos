@@ -27,6 +27,20 @@ class VideoBlockSetting extends VideosAppModel {
 	public $validate = array();
 
 /**
+ * use behaviors
+ *
+ * @var array
+ */
+	public $actsAs = array(
+		'Blocks.Block' => array(
+			'name' => 'Block.name',
+			'loadModels' => array(
+				'WorkflowComment' => 'Workflow.WorkflowComment',
+			)
+		),
+	);
+
+/**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
  *
@@ -114,6 +128,25 @@ class VideoBlockSetting extends VideosAppModel {
 	);
 
 /**
+ * Create Faq data
+ *
+ * @return array
+ */
+	public function createVideoBlockSetting() {
+		$this->VideoBlockSetting = ClassRegistry::init('Videos.VideoBlockSetting');
+
+
+		$videoBlockSetting = $this->createAll(array(
+			'Block' => array(
+				'name' => __d('videos', 'New channel %s', date('YmdHis')),
+			),
+		));
+		$videoBlockSetting = Hash::merge($videoBlockSetting, $this->VideoBlockSetting->create());
+
+		return $videoBlockSetting;
+	}
+
+/**
  * VideoBlockSettingデータ取得
  *
  * @return array
@@ -123,21 +156,22 @@ class VideoBlockSetting extends VideosAppModel {
 			$this->alias . '.block_key' => Current::read('Block.key'),
 		);
 
-		$joins = array(
-			array(
-				'type' => 'inner',
-				'table' => 'blocks',
-				'alias' => 'Block',
-				'conditions' => array(
-					$this->alias . '.block_key = Block.key',
-					'Block.room_id = ' . Current::read('Room.id'),
-				),
-			),
-		);
+//		$joins = array(
+//			array(
+//				'type' => 'inner',
+//				'table' => 'blocks',
+//				'alias' => 'Block',
+//				'conditions' => array(
+//					$this->alias . '.block_key = Block.key',
+//					'Block.room_id = ' . Current::read('Room.id'),
+//				),
+//			),
+//		);
 
 		if (!$videoBlockSetting = $this->find('first', array(
-			'recursive' => -1,
-			'joins' => $joins,
+			//'recursive' => -1,
+			'recursive' => 0,
+			//'joins' => $joins,
 			'conditions' => $conditions,
 			'order' => $this->alias . '.id DESC'
 		))
@@ -195,68 +229,70 @@ class VideoBlockSetting extends VideosAppModel {
 	public function saveVideoBlockSetting($data) {
 		$this->loadModels(array(
 			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
-			'Block' => 'Blocks.Block',
+			//'Block' => 'Blocks.Block',
 		));
 
 		//トランザクションBegin
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		// 値をセット
+		$this->set($data);
+		if (! $this->validates()) {
+			$this->rollback();
+			return false;
+		}
 
 		try {
-			// 値をセット
-			$this->set($data);
+//			// 入力チェック
+//			$this->validates();
+//			if ($this->validationErrors) {
+//				return false;
+//			}
 
-			// 入力チェック
-			$this->validates();
-			if ($this->validationErrors) {
-				return false;
-			}
+//			// ブロック名必須チェック追加
+//			$this->Block->validate['name'] = array(
+//				'notBlank' => array(
+//					'rule' => array('notBlank'),
+//					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'channel')),
+//					'required' => true,		// required 効かず
+//				),
+//			);
+//
+//			// ブロック入力チェック
+//			if (!$this->Block->validateBlock($data)) {
+//				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
+//				return false;
+//			}
 
-			// ブロック名必須チェック追加
-			$this->Block->validate['name'] = array(
-				'notBlank' => array(
-					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'channel')),
-					'required' => true,		// required 効かず
-				),
-			);
+//			//ブロックの保存
+//			$block = $this->Block->saveByFrameId($data['Frame']['id'], $data['Block']);
 
-			// ブロック入力チェック
-			if (!$this->Block->validateBlock($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
-				return false;
-			}
-
-			//ブロックの保存
-			$block = $this->Block->saveByFrameId($data['Frame']['id'], $data['Block']);
-
-			// block.keyを含める
-			$data = Hash::merge(
-				$data,
-				array('VideoBlockSetting' => array('block_key' => $block['Block']['key']))
-			);
-
-			// 値をセット
-			$this->set($data);
+//			// block.keyを含める
+//			$data = Hash::merge(
+//				$data,
+//				array('VideoBlockSetting' => array('block_key' => $block['Block']['key']))
+//			);
+//
+//			// 値をセット
+//			$this->set($data);
 
 			$videoBlockSetting = $this->save(null, false);
 			if (!$videoBlockSetting) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			$dataSource->commit();
+			$this->commit();
 
-			$videoBlockSetting = Hash::merge(
-				$videoBlockSetting,
-				array('Block' => array('id' => $block['Block']['id']))
-			);
+//			$videoBlockSetting = Hash::merge(
+//				$videoBlockSetting,
+//				array('Block' => array('id' => $block['Block']['id']))
+//			);
 
-		} catch (InternalErrorException $ex) {
-			$dataSource->rollback();
-			CakeLog::write(LOG_ERR, $ex);
-			throw $ex;
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
 		}
-		return $videoBlockSetting;
+		return true;
 	}
 
 /**

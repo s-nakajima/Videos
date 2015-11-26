@@ -11,29 +11,33 @@
  */
 ?>
 
-<?php echo $this->Html->script('/videos/js/videos.js', array('plugin' => false, 'once' => true, 'inline' => false)); ?>
+<?php //echo $this->Html->script('/videos/js/videos.js', array('plugin' => false, 'once' => true, 'inline' => false)); ?>
 
-<div class="modal-body" ng-controller="VideoBlocksEdit"
-	 ng-init="initialize(<?php echo h(json_encode($videoBlockSetting)) . ',' . h(json_encode($block)); ?>)">
+<article class="block-setting-body">
 
-	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
+	<?php echo $this->BlockTabs->main(BlockTabsComponent::MAIN_TAB_BLOCK_INDEX); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
+		<?php echo $this->BlockTabs->block(BlockTabsComponent::BLOCK_TAB_SETTING); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-			'controller' => 'VideoBlocks',
-			'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
+			'model' => 'Videos',
 			'callback' => 'Videos.VideoBlocks/edit_form',
-			'cancelUrl' => '/videos/video_blocks/index/' . $frameId
+			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 		)); ?>
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>
 			<?php echo $this->element('Blocks.delete_form', array(
-				'controller' => 'VideoBlocks',
-				'action' => 'delete/' . $frameId . '/' . $blockId,
+				'model' => 'VideoBlock',
+				'action' => NetCommonsUrl::actionUrl(array(
+					'controller' => $this->params['controller'],
+					'action' => 'delete',
+					'block_id' => Current::read('Block.id'),
+					'frame_id' => Current::read('Frame.id')
+				)),
 				'callback' => 'Videos.VideoBlocks/delete_form'
 			)); ?>
+
 		<?php endif; ?>
 	</div>
-</div>
+</article>

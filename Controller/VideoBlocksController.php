@@ -128,8 +128,24 @@ class VideoBlocksController extends VideosAppController {
  * @return CakeResponse
  */
 	public function add() {
-		$this->view = 'VideoBlocks/edit';
+		$this->view = 'edit';
 
+		if ($this->request->isPost()) {
+			//登録処理
+			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
+				return;
+			}
+			$this->NetCommons->handleValidationError($this->VideoBlockSetting->validationErrors);
+
+		} else {
+			//表示処理(初期データセット)
+			$this->request->data = $this->VideoBlockSetting->createVideoBlockSetting();
+			$this->request->data['Frame'] = Current::read('Frame');
+		}
+
+
+/*
 		// 初期値 取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
 
@@ -184,9 +200,10 @@ class VideoBlocksController extends VideosAppController {
 		);
 
 		// キーをキャメル変換
-		$results = $this->camelizeKeyRecursive($results);
+		//$results = $this->camelizeKeyRecursive($results);
 
 		$this->set($results);
+*/
 	}
 
 /**
