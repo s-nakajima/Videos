@@ -12,6 +12,7 @@
 ?>
 
 <?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
 
 <div class="inline-block">
 	<?php echo sprintf(__d('net_commons', 'Delete all data associated with the %s.'), __d('videos', 'channel')); ?>

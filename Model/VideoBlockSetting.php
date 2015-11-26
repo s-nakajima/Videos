@@ -305,8 +305,8 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	public function deleteVideoBlockSetting($data) {
 		$this->loadModels(array(
-			'Block' => 'Blocks.Block',
-			'Comment' => 'Comments.Comment',
+//			'Block' => 'Blocks.Block',
+//			'Comment' => 'Comments.Comment',
 			'ContentComment' => 'ContentComments.ContentComment',
 			'FileModel' => 'Files.FileModel',		// FileUpload
 			'Like' => 'Likes.Like',
@@ -317,37 +317,33 @@ class VideoBlockSetting extends VideosAppModel {
 		));
 
 		//トランザクションBegin
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		// 多言語コンテンツ削除対応
+		// 対象のブロックID一覧を取得
+		$conditions = array(
+			$this->Block->alias . '.key' => $data['Block']['key']
+		);
+		$blockIds = $this->Block->find('list', array(
+			'recursive' => -1,
+			'conditions' => $conditions,
+		));
+		$blockIds = array_keys($blockIds);
+
+		$conditions = array(
+			$this->Tag->alias . '.block_id' => $blockIds
+		);
+		$tagIds = $this->Tag->find('list', array(
+			'recursive' => -1,
+			'conditions' => $conditions,
+		));
+		$tagIds = array_keys($tagIds);
 
 		try {
-			// 多言語コンテンツ削除対応
-			// 対象のブロックID一覧を取得
-			$conditions = array(
-				$this->Block->alias . '.key' => $data['Block']['key']
-			);
-			$blockIds = $this->Block->find('list', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-			));
-			$blockIds = array_keys($blockIds);
-
-			$conditions = array(
-				$this->Tag->alias . '.block_id' => $blockIds
-			);
-			$tagIds = $this->Tag->find('list', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-			));
-			$tagIds = array_keys($tagIds);
-
 			// VideoBlockSetting削除
 			if (! $this->deleteAll(array($this->alias . '.block_key' => $data['Block']['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
-			//Blockデータ削除
-			$this->Block->deleteBlock($data['Block']['key']);
 
 			// 動画削除
 			if (! $this->Video->deleteAll(array($this->Video->alias . '.block_id' => $blockIds), false)) {
@@ -358,9 +354,9 @@ class VideoBlockSetting extends VideosAppModel {
 			// 本来、データと物理ファイル削除。共通処理が完成したら、実装する
 
 			// 承認コメント削除
-			if (! $this->Comment->deleteAll(array($this->Comment->alias . '.block_key' => $data['Block']['key']), false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+//			if (! $this->Comment->deleteAll(array($this->Comment->alias . '.block_key' => $data['Block']['key']), false)) {
+//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//			}
 
 			// コンテンツコメント 削除
 			if (! $this->ContentComment->deleteAll(array($this->ContentComment->alias . '.block_key' => $data['Block']['key']), false)) {
@@ -382,13 +378,17 @@ class VideoBlockSetting extends VideosAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			$dataSource->commit();
+			//Blockデータ削除
+			$this->deleteBlock($data['Block']['key']);
 
-		} catch (InternalErrorException $ex) {
-			$dataSource->rollback();
-			CakeLog::write(LOG_ERR, $ex);
-			throw $ex;
+			//トランザクションCommit
+			$this->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
 		}
+
 		return true;
 	}
 

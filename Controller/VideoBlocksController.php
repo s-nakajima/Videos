@@ -213,7 +213,10 @@ class VideoBlocksController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit() {
+//$this->log('hoge-debug11111', 'debug');
+//var_dump($this->request->isPut());
 		if ($this->request->isPut()) {
+//$this->log('hoge-debug22222', 'debug');
 			//登録処理
 			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
@@ -299,6 +302,16 @@ class VideoBlocksController extends VideosAppController {
  * @return CakeResponse
  */
 	public function delete() {
+		if ($this->request->isDelete()) {
+			if ($this->VideoBlockSetting->deleteVideoBlockSetting($this->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
+				return;
+			}
+		}
+
+		$this->throwBadRequest();
+
+/*
 //		if (! $this->NetCommonsBlock->validateBlockId()) {
 //			$this->throwBadRequest();
 //			return false;
@@ -326,5 +339,6 @@ class VideoBlocksController extends VideosAppController {
 			return;
 		}
 		$this->throwBadRequest();
+*/
 	}
 }
