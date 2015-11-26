@@ -38,6 +38,7 @@ class VideoBlockSetting extends VideosAppModel {
 				'WorkflowComment' => 'Workflow.WorkflowComment',
 			)
 		),
+		'Blocks.BlockRolePermission',
 	);
 
 /**
@@ -405,45 +406,47 @@ class VideoBlockSetting extends VideosAppModel {
 		));
 
 		//トランザクションBegin
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		$this->set($data);
+		if (! $this->validates()) {
+			$this->rollback();
+			return false;
+		}
 
 		try {
-			// 値をセット
-			$this->set($data);
 
-			// 入力チェック VideoBlockSetting
-			$this->validates();
-			if ($this->validationErrors) {
-				return false;
-			}
-			// 入力チェック blockRolePermission
-			foreach ($data[$this->BlockRolePermission->alias] as $value) {
-				if (! $this->BlockRolePermission->validateBlockRolePermissions($value)) {
-					$this->validationErrors = Hash::merge($this->validationErrors, $this->BlockRolePermission->validationErrors);
-					return false;
-				}
-			}
-
-			// 保存 VideoBlockSetting
-			$videoBlockSetting = $this->save(null, false);
-			if (!$videoBlockSetting) {
+//			// 入力チェック blockRolePermission
+//			foreach ($data[$this->BlockRolePermission->alias] as $value) {
+//				if (! $this->BlockRolePermission->validateBlockRolePermissions($value)) {
+//					$this->validationErrors = Hash::merge($this->validationErrors, $this->BlockRolePermission->validationErrors);
+//					return false;
+//				}
+//			}
+//
+//			// 保存 VideoBlockSetting
+//			$videoBlockSetting = $this->save(null, false);
+//			if (!$videoBlockSetting) {
+//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//			}
+//			// 保存 blockRolePermission
+//			foreach ($data[$this->BlockRolePermission->alias] as $value) {
+//				if (! $this->BlockRolePermission->saveMany($value, ['validate' => false])) {
+//					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//				}
+//			}
+			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-			// 保存 blockRolePermission
-			foreach ($data[$this->BlockRolePermission->alias] as $value) {
-				if (! $this->BlockRolePermission->saveMany($value, ['validate' => false])) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			}
 
-			$dataSource->commit();
+			//トランザクションCommit
+			$this->commit();
 
-		} catch (InternalErrorException $ex) {
-			$dataSource->rollback();
-			CakeLog::write(LOG_ERR, $ex);
-			throw $ex;
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
 		}
-		return $videoBlockSetting;
+
+		return true;
 	}
 }

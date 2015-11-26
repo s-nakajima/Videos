@@ -101,7 +101,7 @@ class Video extends VideosAppModel {
 		),
 		'Likes.Like',					// いいね
 		'NetCommons.OriginalKey',		// 自動でkeyセット
-		'NetCommons.Publishable',		// 自動でis_active, is_latestセット
+		//'NetCommons.Publishable',		// 自動でis_active, is_latestセット
 		'Tags.Tag',
 		'Videos.Video',					// 動画変換
 		'Videos.VideoFile',				// FileUpload

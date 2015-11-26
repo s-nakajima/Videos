@@ -99,7 +99,7 @@ class VideoBlockRolePermissionsController extends VideosAppController {
 		} else {
 			$this->request->data['VideoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 			$this->request->data['Block'] = $videoBlockSetting['Block'];
-			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
+			$this->request->data['blockRolePermission'] = $permissions['BlockRolePermissions'];
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
 
