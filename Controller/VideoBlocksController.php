@@ -114,10 +114,11 @@ class VideoBlocksController extends VideosAppController {
 			return;
 		}
 
-		$results['videoBlockSettings'] = $videoBlockSetting;
+		//$results['videoBlockSettings'] = $videoBlockSetting;
 
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+		//$results = $this->camelizeKeyRecursive($results);
+		//$this->set($results);
+		$this->set('videoBlockSettings', $videoBlockSetting);
 
 		$this->request->data['Frame'] = Current::read('Frame');
 	}
@@ -212,11 +213,30 @@ class VideoBlocksController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit() {
+		if ($this->request->isPut()) {
+			//登録処理
+			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
+				return;
+			}
+			$this->NetCommons->handleValidationError($this->VideoBlockSetting->validationErrors);
+
+		} else {
+			//表示処理(初期データセット)
+			if (! $videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting()) {
+				$this->throwBadRequest();
+				return false;
+			}
+			$this->request->data = Hash::merge($this->request->data, $videoBlockSetting);
+			$this->request->data['Frame'] = Current::read('Frame');
+		}
+
+
 //		if (! $this->NetCommonsBlock->validateBlockId()) {
 //			$this->setAction('throwBadRequest');
 //			return false;
 //		}
-		$blockId = (int)$this->params['pass'][1];
+/*		$blockId = (int)$this->params['pass'][1];
 		$this->set('blockId', $blockId);
 
 		// ブロック取得
@@ -270,6 +290,7 @@ class VideoBlocksController extends VideosAppController {
 		$results = $this->camelizeKeyRecursive($results);
 
 		$this->set($results);
+*/
 	}
 
 /**
