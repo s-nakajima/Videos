@@ -108,13 +108,13 @@ $labelOverwriteFile = __d('files', 'Overwrite file.');
 			'value' => 'room_file_role'
 		)); ?>
 		<?php echo $this->Form->hidden($field . '.File.path', array(
-			'value' => '{ROOT}' . $pluginNameLower . '{DS}' . $roomId . '{DS}'
+			'value' => '{ROOT}' . $pluginNameLower . '{DS}' . Current::read('Room.id') . '{DS}'
 		)); ?>
 		<?php echo $this->Form->hidden($field . '.FilesPlugin.plugin_key', array(
 			'value' => $pluginKey
 		)); ?>
 		<?php echo $this->Form->hidden($field . '.FilesRoom.room_id', array(
-			'value' => $roomId
+			'value' => Current::read('Room.id')
 		)); ?>
 		<?php echo $this->Form->hidden($field . '.FilesUser.user_id', array(
 			'value' => (int)AuthComponent::user('id')
@@ -122,10 +122,10 @@ $labelOverwriteFile = __d('files', 'Overwrite file.');
 		<p class="help-block"><?php echo h($helpBlockMessage); ?></p>
 	</div>
 
-	<?php echo $this->element(
-		'NetCommons.errors', [
-		'errors' => $this->validationErrors,
-		'model' => $model,
-		'field' => $field,
-	]); ?>
+<!--	--><?php //echo $this->element(
+//		'NetCommons.errors', [
+//		'errors' => $this->validationErrors,
+//		'model' => $model,
+//		'field' => $field,
+//	]); ?>
 </div>

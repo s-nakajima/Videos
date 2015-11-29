@@ -270,7 +270,7 @@ class VideosController extends VideosAppController {
 		}
 
 		// キーをキャメル変換
-		$results = $this->camelizeKeyRecursive($results);
+		//$results = $this->camelizeKeyRecursive($results);
 
 		return $results;
 	}

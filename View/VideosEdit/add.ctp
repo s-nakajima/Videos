@@ -13,7 +13,7 @@
 <?php
 $this->Html->script(
 	array(
-		'/net_commons/js/workflow.js',
+		//'/net_commons/js/workflow.js',
 		'/tags/js/tags.js',
 		'/videos/js/videos.js',
 	),
@@ -21,10 +21,10 @@ $this->Html->script(
 );?>
 
 <div>
-	<div class="modal-body">
+	<article class="modal-body">
 
 		<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>
-		<?php echo $this->Form->create('Video', array(
+		<?php echo $this->NetCommonsForm->create('Video',array(
 			'name' => 'form',
 			'novalidate' => true,
 			'type' => 'file',
@@ -48,7 +48,7 @@ $this->Html->script(
 						'pluginKey' => $this->request->params['plugin'],
 						'index' => 0,
 						'helpBlockMessage' => $videoHelpBlockMessage,
-						'file' => $videoFile,
+						'file' => $video_file,
 						'deleteEnable' => false,
 					)); ?>
 
@@ -97,12 +97,12 @@ $this->Html->script(
 							//'ng-model' => 'video.title',
 						)); ?>
 
-						<?php echo $this->element(
-							'NetCommons.errors', [
-							'errors' => $this->validationErrors,
-							'model' => 'Video',
-							'field' => 'title',
-						]); ?>
+<!--						--><?php //echo $this->element(
+//							'NetCommons.errors', [
+//							'errors' => $this->validationErrors,
+//							'model' => 'Video',
+//							'field' => 'title',
+//						]); ?>
 					</div>
 
 					<label for="description">
@@ -126,17 +126,14 @@ $this->Html->script(
 
 					<hr />
 
-					<?php echo $this->element('Comments.form'); ?>
-
-				</div>
-				<div class="panel-footer">
-					<div class="text-center">
-						<?php echo $this->element('NetCommons.workflow_buttons'); ?>
-					</div>
+					<?php echo $this->Workflow->inputComment('Video.status'); ?>
 				</div>
 			</div>
 
-		<?php echo $this->Form->end(); ?>
+			<?php echo $this->Workflow->buttons('Video.status'); ?>
+		<?php echo $this->NetCommonsForm->end(); ?>
 
-	</div>
+		<?php echo $this->Workflow->comments(); ?>
+
+	</article>
 </div>

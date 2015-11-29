@@ -16,7 +16,7 @@
 <article>
 
 	<?php /* ブロック未選択 */ ?>
-	<?php if (empty($frame['blockId'])) : ?>
+	<?php if (empty($frame['block_id'])) : ?>
 
 		<div><?php echo __d('videos', 'There are no videos that are currently published.'); ?></div>
 
@@ -30,14 +30,19 @@
 			<?php endif; ?>
 
 			<?php /* 上部ボタン */ ?>
-			<?php if ($contentEditable): ?>
+			<?php if (Current::permission('content_editable')) : ?>
 				<div class="row">
 					<div class="col-xs-12 text-right">
-						<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Add'); ?>">
-							<a href="<?php echo $this->Html->url('/videos/videos_edit/add/' . $frameId); ?>" class="btn btn-success">
-								<span class="glyphicon glyphicon-plus"> </span>
-							</a>
-						</span>
+						<?php
+						$addUrl = $this->NetCommonsHtml->url(array(
+							'controller' => 'videos_edit',
+							'action' => 'add',
+							'frame_id' => Current::read('Frame.id')
+						));
+						echo $this->Button->addLink('',
+							$addUrl,
+						array('tooltip' => __d('videos', '追加')));
+						?>
 					</div>
 				</div>
 			<?php endif; ?>

@@ -25,7 +25,7 @@ class VideosEditController extends VideosAppController {
  * @var array
  */
 	public $uses = array(
-		'Comments.Comment',					// 承認コメント
+//		'Comments.Comment',					// 承認コメント
 		'Files.FileModel',					// FileUpload
 		'Videos.Video',
 	);
@@ -37,26 +37,23 @@ class VideosEditController extends VideosAppController {
  */
 	public $components = array(
 		'Files.FileUpload',					// FileUpload
-		'NetCommons.NetCommonsWorkflow',
-//		'NetCommons.NetCommonsRoomRole' => array(
-//			//コンテンツの権限設定
-//			'allowedActions' => array(
-//				'contentEditable' => array('add', 'edit', 'delete'),
-//				'contentCreatable' => array('add', 'edit', 'delete'),
-//			),
-//		),
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'add,edit,delete' => 'content_creatable',
+			),
+		),
+//		'NetCommons.NetCommonsWorkflow',
 	);
 
 /**
- * beforeFilter
+ * use helpers
  *
- * @return void
+ * @var array
  */
-	public function beforeFilter() {
-		// 権限判定が必要
-		$this->Auth->deny('add', 'edit', 'delete');
-		parent::beforeFilter();
-	}
+	public $helpers = array(
+		'Workflow.Workflow',
+	);
 
 /**
  * 登録
@@ -64,6 +61,34 @@ class VideosEditController extends VideosAppController {
  * @return CakeResponse
  */
 	public function add() {
+//		if ($this->request->isPost()) {
+//			//登録処理
+//			$data = $this->data;
+//			$data['FaqQuestion']['status'] = $this->Workflow->parseStatus();
+//			unset($data['FaqQuestion']['id']);
+//
+//			if ($this->FaqQuestion->saveFaqQuestion($data)) {
+//				$this->redirect(NetCommonsUrl::backToPageUrl());
+//				return;
+//			}
+//			$this->NetCommons->handleValidationError($this->FaqQuestion->validationErrors);
+//
+//		} else {
+//			//表示処理
+//			$this->request->data = Hash::merge($this->request->data,
+//				$this->FaqQuestion->create(array(
+//					'faq_id' => $this->viewVars['faq']['id'],
+//				)),
+//				$this->FaqQuestionOrder->create(array(
+//					'faq_key' => $this->viewVars['faq']['key'],
+//				))
+//			);
+//			$this->request->data['Faq'] = $this->viewVars['faq'];
+//			$this->request->data['Frame'] = Current::read('Frame');
+//			$this->request->data['Block'] = Current::read('Block');
+//		}
+
+
 		if ($this->request->isPost()) {
 			if (!$status = $this->NetCommonsWorkflow->parseStatus()) {
 				$this->throwBadRequest();
@@ -103,9 +128,56 @@ class VideosEditController extends VideosAppController {
 					$this->redirect('/videos/videos/index/' . $this->viewVars['frameId']);
 				}
 			}
+		} else {
+			//表示処理
+			$this->request->data = Hash::merge($this->request->data,
+				$this->Video->create()
+			);
+			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Block'] = Current::read('Block');
+
+
+			$results['video'] = null;
+
+//			$comments = $this->Comment->getComments(array(
+//				'plugin_key' => $this->request->params['plugin'],
+//				'content_key' => null,
+//			));
+
+//			$results['comments'] = $comments;
+//			$results['content_status'] = null;
+
+			// ファイル取得 動画ファイル
+			$results['video_file'] = null;
+			if (isset($video['Video']['mp4_id'])) {
+				if ($file = $this->FileModel->find('first', array(
+					'recursive' => -1,
+					'conditions' => array(
+						$this->FileModel->alias . '.id' => $video['Video']['mp4_id']
+					)
+				))) {
+					$results['video_file'] = $file['File'];
+				}
+			}
+
+			//ファイル取得 サムネイル
+			$results['thumbnail'] = null;
+			if (isset($video['Video']['thumbnail_id'])) {
+				if ($file = $this->FileModel->find('first', array(
+					'recursive' => -1,
+					'conditions' => array(
+						$this->FileModel->alias . '.id' => $video['Video']['thumbnail_id']
+					)
+				))) {
+					$results['thumbnail'] = $file['File'];
+				}
+			}
+
+			// キーをキャメル変換
+			//$results = $this->camelizeKeyRecursive($results);
 		}
 
-		$results = $this->__init();
+//		$results = $this->__init();
 		$this->set($results);
 	}
 
@@ -200,10 +272,10 @@ class VideosEditController extends VideosAppController {
 		if (empty($videoKey)) {
 			$results['video'] = null;
 
-			$comments = $this->Comment->getComments(array(
-				'plugin_key' => $this->request->params['plugin'],
-				'content_key' => null,
-			));
+//			$comments = $this->Comment->getComments(array(
+//				'plugin_key' => $this->request->params['plugin'],
+//				'content_key' => null,
+//			));
 		} else {
 
 			// ワークフロー表示条件 取得
@@ -255,7 +327,7 @@ class VideosEditController extends VideosAppController {
 		}
 
 		// キーをキャメル変換
-		$results = $this->camelizeKeyRecursive($results);
+		//$results = $this->camelizeKeyRecursive($results);
 
 		return $results;
 	}
