@@ -35,7 +35,7 @@ $this->Html->script(
 		<div class="row">
 			<div class="col-xs-12 text-right" style="padding-bottom: 10px;">
 				<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
-					<a href="<?php echo $this->Html->url('/videos/videos_edit/edit/' . $frameId . '/' . $video['video']['key']); ?>" class="btn btn-primary">
+					<a href="<?php echo $this->Html->url('/videos/videos_edit/edit/' . $frameId . '/' . $video['Video']['key']); ?>" class="btn btn-primary">
 						<span class="glyphicon glyphicon-edit"> </span>
 					</a>
 				</span>
@@ -50,23 +50,21 @@ $this->Html->script(
 		<div style="padding-bottom: 20px;">
 			<?php /* 動画プレイヤー */ ?>
 			<?php echo $this->element('Videos/player', array(
-				'fileMp4Url' => $video['fileMp4']['url'],
-				'fileThumbnailUrl' => $video['fileThumbnail']['urlBig'],
-				'isAutoPlay' => $videoBlockSetting['autoPlay'],
+				'fileMp4Url' => $video['FileMp4']['url'],
+				'fileThumbnailUrl' => $video['FileThumbnail']['url_big'],
+				'isAutoPlay' => $videoBlockSetting['auto_play'],
 			)); ?>
 		</div>
 
 		<div class="panel panel-default video-description">
 			<div>
 				<?php /* タイトル */ ?>
-				<h1><?php echo $video['video']['title']; ?></h1>
+				<h1><?php echo $video['Video']['title']; ?></h1>
 			</div>
 			<p>
 			<div>
 				<?php /* ステータス */ ?>
-				<?php echo $this->element('NetCommons.status_label', array(
-					'status' => $video['video']['status']
-				)); ?>
+				<?php echo $this->Workflow->label($video['Video']['status']); ?>
 			</div>
 			</p>
 			<div class="media">
@@ -75,7 +73,7 @@ $this->Html->script(
 					<a href="#">
 						<?php echo $this->Html->image('/videos/img/avatar.png', array(
 							'class' => 'media-object',
-							'alt' => $video['user']['handlename'],
+							'alt' => $video['User']['handlename'],
 							'width' => '60',
 							'height' => '60',
 						)); ?>
@@ -85,25 +83,27 @@ $this->Html->script(
 					<div class="row">
 						<div class="col-xs-6">
 							<?php /* 投稿者 */ ?>
-							<span style="padding-left: 5px; padding-right: 15px;"><a href="#"><?php echo $video['user']['handlename']; ?></a><br />
+							<span style="padding-left: 5px; padding-right: 15px;"><a href="#"><?php echo $video['User']['handlename']; ?></a><br />
 						</div>
 						<div class="col-xs-6 text-right" style="font-size: 18px;">
 							<?php /* 再生回数 */ ?>
-							<?php echo sprintf(__d('videos', 'Views %s times'), $video['video']['playNumber']); ?>
+							<?php echo sprintf(__d('videos', 'Views %s times'), $video['Video']['play_number']); ?>
 						</div>
 					</div>
-
+<?php //var_dump($video); ?>
 					<div class="row">
-						<div class="col-xs-12 text-right" <?php echo $this->element('Likes.like_init_attributes', array(
-							'contentKey' => $video['video']['key'],
-							'disabled' => !(! isset($video['like']) && $video['video']['status'] === WorkflowComponent::STATUS_PUBLISHED),
-							'likeCounts' => (int)$video['video']['likeCounts'],
-							'unlikeCounts' => (int)$video['video']['unlikeCounts'],
-						)); ?>>
-							<?php if ($contentEditable): ?>
+						<div class="col-xs-12 text-right">
+<!--						<div class="col-xs-12 text-right" --><?php //echo $this->element('Likes.like_init_attributes', array(
+//							'contentKey' => $video['Video']['key'],
+//							'disabled' => !(! isset($video['like']) && $video['Video']['status'] === WorkflowComponent::STATUS_PUBLISHED),
+//							'likeCounts' => (int)$video['Video']['like_counts'],
+//							'unlikeCounts' => (int)$video['Video']['unlike_counts'],
+//						)); ?>
+
+							<?php if (Current::permission('content_editable')): ?>
 								<span style="padding-right: 15px;">
 									<?php /* ダウンロード */ ?>
-									<a href="<?php echo isset($video['fileMp4']['download']) ? $this->Html->url($video['fileMp4']['download']) : ''; ?>">
+									<a href="<?php echo isset($video['FileMp4']['download']) ? $this->Html->url($video['FileMp4']['download']) : ''; ?>">
 										<?php echo __d('videos', 'Downloads'); ?>
 									</a>
 								</span>
@@ -115,29 +115,7 @@ $this->Html->script(
 							</span>
 
 							<?php /* いいね */ ?>
-							<?php if ($videoBlockSetting['useLike']) : ?>
-								<span class="text-left">
-									<?php /* コンテンツが読めたらいいね、よくないね出来る */ ?>
-									<?php if ($contentReadable): ?>
-										<?php echo $this->element('Likes.like_button', array('isLiked' => Like::IS_LIKE)); ?>
-									<?php else : ?>
-										<span class="glyphicon glyphicon-thumbs-up" style="padding-right: 3px;"><?php echo $video['video']['likeCounts']; ?></span>
-									<?php endif; ?>
-								</span>
-
-								<?php /* よくないね */ ?>
-								<?php if ($videoBlockSetting['useUnlike']) : ?>
-									&nbsp;
-									<span class="text-left">
-										<?php /* コンテンツが読めたらいいね、よくないね出来る */ ?>
-										<?php if (Current::permission('content_readable')) : ?>
-											<?php echo $this->element('Likes.like_button', array('isLiked' => Like::IS_UNLIKE)); ?>
-										<?php else : ?>
-											<span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php echo $video['video']['unlikeCounts']; ?>
-										<?php endif; ?>
-									</span>
-								<?php endif; ?>
-							<?php endif; ?>
+							<?php echo $this->Like->buttons('Video', $videoBlockSetting, $video); ?>
 							&nbsp;
 						</div>
 					</div>
@@ -146,15 +124,15 @@ $this->Html->script(
 			</div>
 			<div class="form-group video-embed" style="display: none;">
 				<?php /* 埋め込みコード(非表示) */ ?>
-				<input type="text" class="form-control video-embed-text" value='<iframe width="400" height="300" src="<?php echo $this->Html->url($video['fileMp4']['url'], true); ?>" frameborder="0" allowfullscreen></iframe>'>
+				<input type="text" class="form-control video-embed-text" value='<iframe width="400" height="300" src="<?php echo $this->Html->url($video['FileMp4']['url'], true); ?>" frameborder="0" allowfullscreen></iframe>'>
 			</div>
 			<div>
 				<?php /* 登録日 */ ?>
-				<strong><?php echo __d('videos', 'Registration Date') . '：' . $this->Date->dateFormat($video['video']['created']); ?></strong>
+				<strong><?php echo __d('videos', 'Registration Date') . '：' . $this->Date->dateFormat($video['Video']['created']); ?></strong>
 			</div>
 			<div>
 				<?php /* 本文 */ ?>
-				<?php echo $video['video']['description']; ?>
+				<?php echo $video['Video']['description']; ?>
 			</div>
 			<div>
 				<?php /* Tags */ ?>
@@ -178,7 +156,7 @@ $this->Html->script(
 <div class="row">
 	<div class="col-xs-12">
 		<p>
-		<div id="nc-related-videos-<?php echo (int)$frameId; ?>" ng-controller="RelatedVideos">
+		<div id="nc-related-videos-<?php echo  Current::read('Frame.id'); ?>" ng-controller="RelatedVideos">
 			<?php $i = 0; ?>
 			<?php foreach ($relatedVideos as $relatedVideo) : ?>
 				<article>
@@ -190,10 +168,10 @@ $this->Html->script(
 									<div class="pull-left">
 										<div>
 											<div>
-												<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $relatedVideo['video']['key']); ?>">
-													<?php if (isset($relatedVideo['fileThumbnail']['urlThumbnail'])) : ?>
-														<?php echo $this->Html->image($relatedVideo['fileThumbnail']['urlThumbnail'], array(
-															'alt' => $relatedVideo['video']['title'],
+												<a href="<?php echo $this->Html->url('/videos/videos/view/' . Current::read('Frame.id') . '/' . $relatedVideo['Video']['key'] . '?frame_id=' . Current::read('Frame.id')); ?>">
+													<?php if (isset($relatedVideo['FileThumbnail']['url_thumbnail'])) : ?>
+														<?php echo $this->Html->image($relatedVideo['FileThumbnail']['url_thumbnail'], array(
+															'alt' => $relatedVideo['Video']['title'],
 															'style' => 'width: 140px; height: auto;'
 														)); ?>
 													<?php endif; ?>
@@ -205,7 +183,7 @@ $this->Html->script(
 												<div style="width: 140px;">
 													<div class="text-right" style="margin-top: -20px; margin-right: 2px;">
 														<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
-															<?php echo $relatedVideo['video']['videoTimeView']; ?>
+															<?php echo $relatedVideo['Video']['video_time_view']; ?>
 														</span>
 													</div>
 												</div>
@@ -216,26 +194,26 @@ $this->Html->script(
 									<div class="media-body">
 										<small>
 											<div>
-												<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $relatedVideo['video']['key']); ?>">
-													<h2><?php echo $relatedVideo['video']['title']; ?></h2>
+												<a href="<?php echo $this->Html->url('/videos/videos/view/' . Current::read('Frame.id') . '/' . $relatedVideo['Video']['key'] . '?frame_id=' . Current::read('Frame.id')); ?>">
+													<h2><?php echo $relatedVideo['Video']['title']; ?></h2>
 												</a>
 											</div>
-											<a href="#"><?php echo $relatedVideo['user']['handlename'] ?></a><br />
+											<a href="#"><?php echo $relatedVideo['User']['handlename'] ?></a><br />
 											<span style="padding-right: 15px;">
-												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $relatedVideo['video']['playNumber'] ?>
+												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $relatedVideo['Video']['play_number'] ?>
 											</span>
 											<span style="padding-right: 15px;">
-												<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo $relatedVideo['contentCommentCnt']['cnt']; ?>
+												<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo $relatedVideo['ContentCommentCnt']['cnt']; ?>
 											</span>
 
-											<?php if ($videoBlockSetting['useLike']) : ?>
+											<?php if ($videoBlockSetting['use_like']) : ?>
 												<?php /* いいね */ ?>
 												<span style="padding-right: 15px;">
-													<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php echo $relatedVideo['video']['likeCounts'] ?>
+													<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php echo $relatedVideo['Video']['likeCounts'] ?>
 												</span>
-												<?php if ($videoBlockSetting['useUnlike']) : ?>
+												<?php if ($videoBlockSetting['use_unlike']) : ?>
 													<?php /* よくないね */ ?>
-													<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php echo $relatedVideo['video']['unlikeCounts'] ?>
+													<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php echo $relatedVideo['Video']['unlikeCounts'] ?>
 												<?php endif; ?>
 											<?php endif; ?>
 										</small>
@@ -266,11 +244,11 @@ $this->Html->script(
 	<div class="col-xs-12">
 		<?php echo $this->element('ContentComments.index', array(
 			'pluginKey' => $this->request->params['plugin'],
-			'contentKey' => $video['video']['key'],
-			'isCommentApproved' => $videoBlockSetting['commentAgree'],
-			'useComment' => $videoBlockSetting['useComment'],
-			'contentCommentCnt' => $video['contentCommentCnt']['cnt'],
-			'redirectUrl' => '/videos/videos/view/' . $frameId . '/' . $video['video']['key'],
+			'contentKey' => $video['Video']['key'],
+			'isCommentApproved' => $videoBlockSetting['comment_agree'],
+			'useComment' => $videoBlockSetting['use_comment'],
+			'contentCommentCnt' => $video['ContentCommentCnt']['cnt'],
+			'redirectUrl' => '/videos/videos/view/' . Current::read('Frame.id') . '/' . $video['Video']['key'] . '?frame_id=' . Current::read('Frame.id'),
 		)); ?>
 	</div>
 </div>
@@ -279,9 +257,14 @@ $this->Html->script(
 <footer>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<a href="<?php echo $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null); ?>" class="btn btn-default">
-				<?php echo __d("videos", "Back to list") ?>
-			</a>
+			<?php echo $this->NetCommonsHtml->link(
+				__d("videos", "Back to list"),
+				NetCommonsUrl::backToPageUrl(),
+				array(
+					'title' => __d("videos", "Back to list"),
+					'class' => "btn btn-default",
+				)
+			); ?>
 		</div>
 	</div>
 </footer>
