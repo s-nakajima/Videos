@@ -24,25 +24,27 @@
 
 <?php echo $this->element('Blocks.public_type'); ?>
 
-<div class="row form-group">
-	<div class="col-xs-12">
-		<?php echo $this->Form->input('VideoBlockSetting.use_like', array(
-			'label' => '<span class="glyphicon glyphicon-thumbs-up"> </span> ' . __d('likes', 'Use like button'),
-			'div' => false,
-			'type' => 'checkbox',
-			'ng-model' => 'videoBlockSetting.useLike',
-		)); ?>
-	</div>
-	<div class="col-xs-offset-1 col-xs-11">
-		<?php echo $this->Form->input('VideoBlockSetting.use_unlike', array(
-			'label' => '<span class="glyphicon glyphicon-thumbs-down"> </span> ' . __d('likes', 'Use unlike button'),
-			'div' => false,
-			'type' => 'checkbox',
-			'ng-model' => 'videoBlockSetting.useUnlike',
-			'ng-disabled' => '!videoBlockSetting.useLike',
-		)); ?>
-	</div>
-</div>
+<?php echo $this->Like->setting('VideoBlockSetting.use_like', 'VideoBlockSetting.use_unlike'); ?>
+
+<!--<div class="row form-group">-->
+<!--	<div class="col-xs-12">-->
+<!--		--><?php //echo $this->Form->input('VideoBlockSetting.use_like', array(
+//			'label' => '<span class="glyphicon glyphicon-thumbs-up"> </span> ' . __d('likes', 'Use like button'),
+//			'div' => false,
+//			'type' => 'checkbox',
+//			'ng-model' => 'videoBlockSetting.useLike',
+//		)); ?>
+<!--	</div>-->
+<!--	<div class="col-xs-offset-1 col-xs-11">-->
+<!--		--><?php //echo $this->Form->input('VideoBlockSetting.use_unlike', array(
+//			'label' => '<span class="glyphicon glyphicon-thumbs-down"> </span> ' . __d('likes', 'Use unlike button'),
+//			'div' => false,
+//			'type' => 'checkbox',
+//			'ng-model' => 'videoBlockSetting.useUnlike',
+//			'ng-disabled' => '!videoBlockSetting.useLike',
+//		)); ?>
+<!--	</div>-->
+<!--</div>-->
 
 <?php /* 暫定対応(;'∀')
 <div class="form-group">
@@ -56,16 +58,20 @@
 	</div>
 </div> */ ?>
 
+<?php echo $this->NetCommonsForm->inlineCheckbox('VideoBlockSetting.use_comment', array(
+	'label' => __d('content_comments', 'Use comment')
+)); ?>
+
 <div class="row form-group">
-	<div class="col-xs-12">
-		<?php echo $this->Form->input('VideoBlockSetting.use_comment', array(
-			'label' => __d('content_comments', 'Use comment'),
-			'div' => false,
-			'type' => 'checkbox',
-			//'default' => $videoBlockSetting['useComment'],
-			'ng-model' => 'videoBlockSetting.useComment',
-		)); ?>
-	</div>
+<!--	<div class="col-xs-12">-->
+<!--		--><?php //echo $this->Form->input('VideoBlockSetting.use_comment', array(
+//			'label' => __d('content_comments', 'Use comment'),
+//			'div' => false,
+//			'type' => 'checkbox',
+//			//'default' => $videoBlockSetting['useComment'],
+//			'ng-model' => 'videoBlockSetting.useComment',
+//		)); ?>
+<!--	</div>-->
 	<?php /* 暫定対応(;'∀')
 	<div style="padding-left: 20px;">
 		echo $this->Form->input('VideoBlockSetting.comment_agree_mail_notice', array(
@@ -79,13 +85,17 @@
 	</div> */ ?>
 </div>
 
-<div class="row form-group">
-	<div class="col-xs-12">
-		<?php echo $this->Form->input('VideoBlockSetting.auto_play', array(
-			'label' => __d('videos', 'Automatically play video'),
-			'div' => false,
-			'type' => 'checkbox',
-			'ng-model' => 'videoBlockSetting.autoPlay',
-		)); ?>
-	</div>
-</div>
+<?php echo $this->NetCommonsForm->inlineCheckbox('VideoBlockSetting.auto_play', array(
+	'label' => __d('videos', 'Automatically play video')
+)); ?>
+
+<!--<div class="row form-group">-->
+<!--	<div class="col-xs-12">-->
+<!--		--><?php //echo $this->Form->input('VideoBlockSetting.auto_play', array(
+//			'label' => __d('videos', 'Automatically play video'),
+//			'div' => false,
+//			'type' => 'checkbox',
+//			'ng-model' => 'videoBlockSetting.autoPlay',
+//		)); ?>
+<!--	</div>-->
+<!--</div>-->

@@ -39,7 +39,7 @@ class VideosController extends VideosAppController {
  * @var array
  */
 	public $uses = array(
-		'Blocks.Block',
+//		'Blocks.Block',
 		'ContentComments.ContentComment',	// コンテンツコメント
 		'Frames.Frame',
 		'Videos.Video',

@@ -63,6 +63,7 @@ class VideoBlocksController extends VideosAppController {
  */
 	public $helpers = array(
 		'Blocks.BlockForm',
+		'Likes.Like',
 	);
 
 /**
