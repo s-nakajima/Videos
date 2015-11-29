@@ -87,10 +87,12 @@
 									'direction' => 'desc'
 								),*/
 							); ?>
+
 							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 								<?php echo $displayOrderOptions[$displayOrderPaginator]['label']; ?>
 								<span class="caret"></span>
 							</button>
+
 							<ul class="dropdown-menu" role="menu">
 								<?php foreach ($displayOrderOptions as $key => $sort) : ?>
 									<li<?php echo $key == $displayOrderPaginator ? ' class="active"' : ''; ?>>
@@ -101,20 +103,7 @@
 						</span>
 
 						<?php /* 表示件数 */ ?>
-						<span class="btn-group text-left">
-							<?php $displayNumberOptions = VideoFrameSetting::getDisplayNumberOptions(); ?>
-							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-								<?php echo $displayNumberOptions[$this->Paginator->param('limit')]; ?>
-								<span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu" role="menu">
-								<?php foreach ($displayNumberOptions as $count => $label) : ?>
-									<li<?php echo (int)$this->Paginator->param('limit') === $count ? ' class="active"' : ''; ?>>
-										<?php echo $this->Paginator->link($label, array('limit' => $count, 'page' => '1')); ?>
-									</li>
-								<?php endforeach; ?>
-							</ul>
-						</span>
+						<?php echo $this->DisplayNumber->dropDownToggle(); ?>
 
 					</div>
 				</div>
@@ -133,10 +122,10 @@
 
 									<div class="pull-left">
 										<div>
-											<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $video['video']['key']); ?>">
+											<a href="<?php echo $this->Html->url('/videos/videos/view/' . Current::read('Frame.id') . '/' . $video['Video']['key']); ?>">
 												<?php if (isset($video['fileThumbnail']['urlThumbnail'])) : ?>
 													<?php echo $this->Html->image($video['fileThumbnail']['urlThumbnail'], array(
-														'alt' => $video['video']['title'],
+														'alt' => $video['Video']['title'],
 														'style' => 'width: 140px; height: auto;'
 													)); ?>
 												<?php endif; ?>
@@ -148,7 +137,7 @@
 											<div style="width: 140px;">
 												<div class="text-right" style="margin-top: -20px; margin-right: 2px;">
 													<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
-														<?php echo $video['video']['videoTimeView']; ?>
+														<?php echo $video['Video']['video_time_view']; ?>
 													</span>
 												</div>
 											</div>
@@ -161,34 +150,34 @@
 											<div class="col-xs-12">
 												<small>
 													<div>
-														<a href="<?php echo $this->Html->url('/videos/videos/view/' . $frameId . '/' . $video['video']['key']); ?>">
-															<h2><?php echo $video['video']['title']; ?></h2>
+														<a href="<?php echo $this->Html->url('/videos/videos/view/' . Current::read('Frame.id') . '/' . $video['Video']['key']); ?>">
+															<h2><?php echo $video['Video']['title']; ?></h2>
 														</a>
 													</div>
-													<a href="#"><?php echo $video['user']['handlename'] ?></a><br />
+													<a href="#"><?php echo $video['User']['handlename'] ?></a><br />
 													<span style="padding-right: 15px;">
-														<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['video']['playNumber'] ?>
+														<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['Video']['play_number'] ?>
 													</span>
 													<span style="padding-right: 15px;">
-														<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo $video['contentCommentCnt']['cnt']; ?>
+														<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo $video['ContentCommentCnt']['cnt']; ?>
 													</span>
 
-													<?php if ($videoBlockSetting['useLike']) : ?>
-														<?php /* いいね */ ?>
-														<span style="padding-right: 15px;">
-															<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php echo $video['video']['likeCounts'] ?>
-														</span>
-														<?php if ($videoBlockSetting['useUnlike']) : ?>
-															<?php /* よくないね */ ?>
-															<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php echo $video['video']['unlikeCounts'] ?>
-														<?php endif; ?>
-													<?php endif; ?>
+													<?php echo $this->Like->display($videoBlockSetting, $video); ?>
+
+<!--													--><?php //if ($videoBlockSetting['use_like']) : ?>
+<!--														--><?php ///* いいね */ ?>
+<!--														<span style="padding-right: 15px;">-->
+<!--															<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> --><?php //echo $video['Video']['likeCounts'] ?>
+<!--														</span>-->
+<!--														--><?php //if ($videoBlockSetting['use_unlike']) : ?>
+<!--															--><?php ///* よくないね */ ?>
+<!--															<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> --><?php //echo $video['Video']['unlikeCounts'] ?>
+<!--														--><?php //endif; ?>
+<!--													--><?php //endif; ?>
 												</small>
 												<div>
 													<?php /* ステータス */ ?>
-													<?php echo $this->element('NetCommons.status_label', array(
-														'status' => $video['video']['status']
-													)); ?>
+													<?php echo $this->Workflow->label($video['Video']['status']); ?>
 												</div>
 											</div>
 										</div>
@@ -202,33 +191,34 @@
 			</div>
 
 			<?php /* ページャ */ ?>
-			<footer>
-				<div class="row">
-					<div class="col-xs-12">
-						<div class="text-center">
-							<nav>
-								<ul class="pagination">
-									<?php echo $this->Paginator->first('«', array(
-										'tag' => 'li',
-									)); ?>
-									<?php echo $this->Paginator->numbers(array(
-										'tag' => 'li',
-										'currentTag' => 'a',
-										'currentClass' => 'active',
-										'separator' => '',
-										'first' => false,
-										'last' => false,
-										'modulus' => '4',
-									)); ?>
-									<?php echo $this->Paginator->last('»', array(
-										'tag' => 'li',
-									)); ?>
-								</ul>
-							</nav>
-						</div>
-					</div>
-				</div>
-			</footer>
+			<?php echo $this->element('NetCommons.paginator'); ?>
+<!--			<footer>-->
+<!--				<div class="row">-->
+<!--					<div class="col-xs-12">-->
+<!--						<div class="text-center">-->
+<!--							<nav>-->
+<!--								<ul class="pagination">-->
+<!--									--><?php //echo $this->Paginator->first('«', array(
+//										'tag' => 'li',
+//									)); ?>
+<!--									--><?php //echo $this->Paginator->numbers(array(
+//										'tag' => 'li',
+//										'currentTag' => 'a',
+//										'currentClass' => 'active',
+//										'separator' => '',
+//										'first' => false,
+//										'last' => false,
+//										'modulus' => '4',
+//									)); ?>
+<!--									--><?php //echo $this->Paginator->last('»', array(
+//										'tag' => 'li',
+//									)); ?>
+<!--								</ul>-->
+<!--							</nav>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</footer>-->
 		<?php endif; ?>
 	<?php endif; ?>
 

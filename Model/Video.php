@@ -370,13 +370,12 @@ class Video extends VideosAppModel {
 		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
 		$this->loadModels(array(
 			'Video' => 'Videos.Video',
-			'Comment' => 'Comments.Comment',
+//			'Comment' => 'Comments.Comment',
 			'FileModel' => 'Files.FileModel',
 		));
 
 		//トランザクションBegin
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
 		try {
 			// 値をセット

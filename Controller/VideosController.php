@@ -53,7 +53,9 @@ class VideosController extends VideosAppController {
  * @var array
  */
 	public $helpers = array(
+		'Likes.Like',
 		'NetCommons.Date',					// 詳細日付表示
+		'NetCommons.DisplayNumber',
 		'NetCommons.Token',
 	);
 
@@ -86,32 +88,89 @@ class VideosController extends VideosAppController {
  * @return void
  */
 	public function index() {
-		//条件
-//		$conditions = array(
-//			'FaqQuestion.faq_id' => $this->viewVars['faq']['id'],
-//		);
-//		if (isset($this->params['named']['category_id'])) {
-//			$conditions['FaqQuestion.category_id'] = $this->params['named']['category_id'];
+//		$this->BbsArticle->bindModelBbsArticle(false);
+//		$this->BbsArticle->bindModelBbsArticlesUser(false);
+
+//		$query = array();
+//		//条件
+//		$query['conditions'] = $this->BbsArticle->getWorkflowConditions(array(
+//			'BbsArticleTree.parent_id' => null,
+//			'BbsArticle.bbs_id' => $this->viewVars['bbs']['id'],
+//		));
+//		//ソート
+//		if (isset($this->params['named']['sort']) && isset($this->params['named']['direction'])) {
+//			$query['order'] = array($this->params['named']['sort'] => $this->params['named']['direction']);
+//		} else {
+//			$query['order'] = array('BbsArticle.created' => 'desc');
+//		}
+//		//表示件数
+//		if (isset($this->params['named']['limit'])) {
+//			$query['limit'] = (int)$this->params['named']['limit'];
+//		} else {
+//			$query['limit'] = $this->viewVars['bbsFrameSetting']['articles_per_page'];
 //		}
 //
+//		$this->Paginator->settings = $query;
+//		try {
+//			$bbsArticles = $this->Paginator->paginate('BbsArticle');
+//		} catch (Exception $ex) {
+//			CakeLog::error($ex);
+//			throw $ex;
+//		}
+//		$this->set('bbsArticles', $bbsArticles);
+
+
+
+		$query = array();
+
+		//条件
+//		$conditions = array(
+//			'Video.block_id' => Current::read('Block.id'),
+//		);
+
 //		//取得
-//		$faqQuestions = $this->FaqQuestion->getWorkflowContents('all', array(
+//		$videos = $this->Video->getWorkflowContents('all', array(
 //			'recursive' => 0,
 //			'conditions' => $conditions
 //		));
-//		$this->set('faqQuestions', $faqQuestions);
-
+//		$this->set('videos', $videos);
 		//条件
-		$conditions = array(
+		$query['conditions'] = $this->Video->getWorkflowContents(array(
 			'Video.block_id' => Current::read('Block.id'),
+		));
+		//ソート
+		if (isset($this->params['named']['sort']) && isset($this->params['named']['direction'])) {
+			$query['order'] = array($this->params['named']['sort'] => $this->params['named']['direction']);
+		} else {
+			$query['order'] = array('Video.created' => 'desc');
+		}
+
+		// 表示系(並び順、表示件数)の設定取得
+		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(true);
+
+		//表示件数
+		if (isset($this->params['named']['limit'])) {
+			$query['limit'] = (int)$this->params['named']['limit'];
+		} else {
+			$query['limit'] = $videoFrameSetting['VideoFrameSetting']['display_number'];
+		}
+
+		// 暫定！！！
+		$query['fields'] = array(
+			'*',
+			'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
 		);
 
-		//取得
-		$videos = $this->Video->getWorkflowContents('all', array(
-			'recursive' => 0,
-			'conditions' => $conditions
-		));
+		$this->Paginator->settings = $query;
+		try {
+			$videos = $this->Paginator->paginate('Video');
+		} catch (Exception $ex) {
+			CakeLog::error($ex);
+			throw $ex;
+		}
 		$this->set('videos', $videos);
+
+
 //var_dump($videos);
 
 		// フレーム取得
@@ -123,6 +182,16 @@ class VideosController extends VideosAppController {
 			'conditions' => $conditions,
 		));
 		$results['frame'] = $frame['Frame'];
+
+		// 利用系(コメント利用、高く評価を利用等)の設定取得
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
+		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
+
+		//ソート
+		$order = $this->__order($videoFrameSetting);
+		$results['displayOrderPaginator'] = key($order) . '.' . $order[key($order)];
+
+		$this->set($results);
 
 		// 表示系(並び順、表示件数)の設定取得
 //		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(true);
@@ -180,7 +249,7 @@ class VideosController extends VideosAppController {
 		// 一覧取得
 //		$results = $this->__list();
 
-		$this->set($results);
+//		$this->set($results);
 	}
 
 /**
