@@ -122,14 +122,28 @@
 
 									<div class="pull-left">
 										<div>
-											<a href="<?php echo $this->Html->url('/videos/videos/view/' . Current::read('Frame.id') . '/' . $video['Video']['key']); ?>">
-												<?php if (isset($video['FileThumbnail']['url_thumbnail'])) : ?>
-													<?php echo $this->Html->image($video['FileThumbnail']['url_thumbnail'], array(
-														'alt' => $video['Video']['title'],
-														'style' => 'width: 140px; height: auto;'
-													)); ?>
-												<?php endif; ?>
-											</a>
+											<?php
+											$urlThumbnail = null;
+											if (isset($video['FileThumbnail']['url_thumbnail'])) {
+												$urlThumbnail = $this->Html->image($video['FileThumbnail']['url_thumbnail'], array(
+													'alt' => $video['Video']['title'],
+													'style' => 'width: 140px; height: auto;'
+												));
+											}
+											?>
+											<?php echo $this->NetCommonsHtml->link(
+												$urlThumbnail,
+												array('action' => 'view', 'key' => $video['Video']['key'])
+											); ?>
+
+<!--											<a href="--><?php //echo $this->Html->url('/videos/videos/view/' . Current::read('Frame.id') . '/' . $video['Video']['key']); ?><!--">-->
+<!--												--><?php //if (isset($video['FileThumbnail']['url_thumbnail'])) : ?>
+<!--													--><?php //echo $this->Html->image($video['FileThumbnail']['url_thumbnail'], array(
+//														'alt' => $video['Video']['title'],
+//														'style' => 'width: 140px; height: auto;'
+//													)); ?>
+<!--												--><?php //endif; ?>
+<!--											</a>-->
 										</div>
 										<?php /* 再生時間 */ ?>
 										<?php /* ffmpeg=ON */ ?>

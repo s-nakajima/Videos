@@ -30,7 +30,7 @@ $this->Html->script(
 <article>
 
 <?php /* 上部ボタン */ ?>
-<?php if ($contentEditable): ?>
+<?php if (Current::permission('content_editable')) : ?>
 	<header>
 		<div class="row">
 			<div class="col-xs-12 text-right" style="padding-bottom: 10px;">
@@ -130,7 +130,7 @@ $this->Html->script(
 									&nbsp;
 									<span class="text-left">
 										<?php /* コンテンツが読めたらいいね、よくないね出来る */ ?>
-										<?php if ($contentReadable): ?>
+										<?php if (Current::permission('content_readable')) : ?>
 											<?php echo $this->element('Likes.like_button', array('isLiked' => Like::IS_UNLIKE)); ?>
 										<?php else : ?>
 											<span class="glyphicon glyphicon-thumbs-down" style="padding-right: 3px;"></span><?php echo $video['video']['unlikeCounts']; ?>

@@ -175,12 +175,11 @@ class VideosController extends VideosAppController {
 //var_dump($videos);
 
 		// フレーム取得
-		$conditions = array(
-			$this->Frame->alias . '.key' => Current::read('Frame.key'),
-		);
 		$frame = $this->Frame->find('first', array(
 			'recursive' => 0,
-			'conditions' => $conditions,
+			'conditions' => array(
+				$this->Frame->alias . '.key' => Current::read('Frame.key'),
+			),
 		));
 		$results['frame'] = $frame['Frame'];
 
@@ -287,38 +286,204 @@ class VideosController extends VideosAppController {
  * @return CakeResponse
  */
 	public function view($frameId, $videoKey = null) {
-		// フレームKeyなしはアクセスさせない
-		if (empty($videoKey)) {
+		//参照権限チェック
+//		if (! $this->BbsArticle->canReadWorkflowContent()) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
+//
+//		$bbsArticleKey = null;
+//		if (isset($this->params['pass'][1])) {
+//			$bbsArticleKey = $this->params['pass'][1];
+//		}
+//
+//		$this->BbsArticle->bindModelBbsArticle(false);
+//		$this->BbsArticle->bindModelBbsArticlesUser(false);
+//		$this->BbsArticleTree->bindModelBbsArticle(false);
+//		$this->BbsArticleTree->bindModelBbsArticlesUser(false);
+//
+//		//カレント記事の取得
+//		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
+//			'recursive' => 0,
+//			'conditions' => array(
+//				$this->BbsArticle->alias . '.bbs_id' => $this->viewVars['bbs']['id'],
+//				$this->BbsArticle->alias . '.key' => $bbsArticleKey
+//			)
+//		));
+//		if (! $bbsArticle) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
+//		$this->set('currentBbsArticle', $bbsArticle);
+//
+//		$conditions = $this->BbsArticle->getWorkflowConditions();
+//
+//		//根記事の取得
+//		if ($bbsArticle['BbsArticleTree']['root_id'] > 0) {
+//			$rootBbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
+//				'recursive' => 0,
+//				'conditions' => array(
+//					$this->BbsArticleTree->alias . '.id' => $bbsArticle['BbsArticleTree']['root_id'],
+//				)
+//			));
+//			if (! $rootBbsArticle) {
+//				$this->throwBadRequest();
+//				return false;
+//			}
+//			$this->set('rootBbsArticle', $rootBbsArticle);
+//		}
+//
+//		//親記事の取得
+//		if ($bbsArticle['BbsArticleTree']['parent_id'] > 0) {
+//			if ($bbsArticle['BbsArticleTree']['parent_id'] !== $bbsArticle['BbsArticleTree']['root_id']) {
+//				$parentBbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
+//					'recursive' => 0,
+//					'conditions' => array(
+//						$this->BbsArticleTree->alias . '.id' => $bbsArticle['BbsArticleTree']['parent_id'],
+//					)
+//				));
+//				if (! $parentBbsArticle) {
+//					$this->throwBadRequest();
+//					return false;
+//				}
+//				$this->set('parentBbsArticle', $parentBbsArticle);
+//			} else {
+//				$this->set('parentBbsArticle', $rootBbsArticle);
+//			}
+//		}
+//
+//		//子記事の取得
+//		$this->BbsArticleTree->Behaviors->load('Tree', array(
+//			'scope' => array('OR' => $conditions)
+//		));
+//		$children = $this->BbsArticleTree->children(
+//			$bbsArticle['BbsArticleTree']['id'], false, null, 'BbsArticleTree.id DESC', null, 1, 1
+//		);
+//		$children = Hash::combine($children, '{n}.BbsArticleTree.id', '{n}');
+//
+//		$this->set('bbsArticleChildren', $children);
+//
+//		//既読
+//		$this->BbsArticle->readToArticle($bbsArticle['BbsArticle']['key']);
+
+//		$this->view = 'view';
+
+		//参照権限チェック
+//		if (! $this->Video->canReadWorkflowContent()) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
+
+//		// フレームKeyなしはアクセスさせない
+//		if (empty($videoKey)) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
+
+		//条件
+//		$conditions = array(
+//			'Video.block_id' => Current::read('Block.id'),
+//		);
+
+//		//取得
+//		$videos = $this->Video->getWorkflowContents('all', array(
+//			'recursive' => 0,
+//			'conditions' => $conditions
+//		));
+
+
+		//カレント記事の取得
+		$video = $this->Video->getWorkflowContents('first', array(
+			'recursive' => 1,
+			'fields' => array(
+				'*',
+				'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
+			),
+			'conditions' => array(
+				$this->Video->alias . '.key' => $videoKey
+			)
+		));
+		if (! $video) {
 			$this->throwBadRequest();
 			return false;
 		}
+		$this->set('video', $video);
+//var_dump($video);
+
+//		$video = $this->find('first', array(
+//			'recursive' => 1,
+//			'fields' => $fields,
+//			'conditions' => $conditions,
+//			'order' => $this->alias . '.id DESC'
+//		));
 
 		// ワークフロー表示条件 取得
-		$conditions = $this->_getWorkflowConditions($videoKey);
+//		$conditions = $this->_getWorkflowConditions($videoKey);
+//
+//		$fields = array(
+//			'*',
+//			'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
+//		);
+//		//動画の取得
+//		$video = $this->Video->getVideo($conditions, $fields);
+//		$results['video'] = $video;
 
-		$fields = array(
-			'*',
-			'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
-		);
-		//動画の取得
-		$video = $this->Video->getVideo($conditions, $fields);
-		$results['video'] = $video;
-
-		// 一覧条件で再取得
-		$workflowConditions = $this->_getWorkflowConditions();
-
-		//関連動画の取得条件
-		$conditions = array(
-			$this->Video->alias . '.created_user' => $video['Video']['created_user'],
-			'NOT' => array(
-				$this->Video->alias . '.id' => $video['Video']['id'],
-			),
-		);
-		$conditions = Hash::merge($workflowConditions, $conditions);
+		// モデルからビヘイビアをはずす
+		//$this->Video->Behaviors->unload('Tags.Tag');
 
 		//関連動画の取得
-		$relatedVideos = $this->Video->getVideos($conditions);
-		$results['relatedVideos'] = $relatedVideos;
+		$relatedVideos = $this->Video->getWorkflowContents('all', array(
+			'recursive' => 1,
+			'fields' => array(
+				'*',
+				'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
+			),
+			'conditions' => array(
+				$this->Video->alias . '.created_user' => $video['Video']['created_user'],
+				'NOT' => array(
+					$this->Video->alias . '.id' => $video['Video']['id'],
+				),
+			),
+			'order' => $this->Video->alias . '.id DESC'
+		));
+//var_dump($relatedVideos);
+//		if (! $relatedVideos) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
+		$this->set('relatedVideos', $relatedVideos);
+
+
+
+
+//		$videos = $this->find('all', array(
+//			'recursive' => 1,
+//			'fields' => array(
+//				'*',
+//				'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
+//			),
+//			'conditions' => $conditions,
+//			'order' => $this->alias . '.id DESC'
+//		));
+
+
+
+
+//		// 一覧条件で再取得
+//		$workflowConditions = $this->_getWorkflowConditions();
+//
+//		//関連動画の取得条件
+//		$conditions = array(
+//			$this->Video->alias . '.created_user' => $video['Video']['created_user'],
+//			'NOT' => array(
+//				$this->Video->alias . '.id' => $video['Video']['id'],
+//			),
+//		);
+//		$conditions = Hash::merge($workflowConditions, $conditions);
+//
+//		//関連動画の取得
+//		$relatedVideos = $this->Video->getVideos($conditions);
+//		$results['relatedVideos'] = $relatedVideos;
 
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
@@ -328,7 +493,7 @@ class VideosController extends VideosAppController {
 		if ($videoBlockSetting['VideoBlockSetting']['use_comment']) {
 			// コンテンツコメントの取得
 			$contentComments = $this->ContentComment->getContentComments(array(
-				'block_key' => $this->viewVars['blockKey'],
+				'block_key' => Current::read('Block.key'),
 				'plugin_key' => $this->request->params['plugin'],
 				'content_key' => $video['Video']['key'],
 			));
@@ -359,7 +524,7 @@ class VideosController extends VideosAppController {
 		}
 
 		// キーをキャメル変換
-		$results = $this->camelizeKeyRecursive($results);
+		//$results = $this->camelizeKeyRecursive($results);
 
 		$this->set($results);
 	}
