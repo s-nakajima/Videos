@@ -156,7 +156,7 @@ $this->Html->script(
 <div class="row">
 	<div class="col-xs-12">
 		<p>
-		<div id="nc-related-videos-<?php echo  Current::read('Frame.id'); ?>" ng-controller="RelatedVideos">
+		<div id="nc-related-videos-<?php echo Current::read('Frame.id'); ?>" ng-controller="RelatedVideos">
 			<?php $i = 0; ?>
 			<?php foreach ($relatedVideos as $relatedVideo) : ?>
 				<article>

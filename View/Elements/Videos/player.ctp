@@ -17,13 +17,13 @@ $isAutoPlay = $isAutoPlay ? 'autoplay' : '';
 <?php /* 右クリック抑止 */ ?>
 <script type="text/javascript">
 	$(function(){
-		$('#nc-video-player-<?php echo (int)$frameId; ?>').on('contextmenu',function(e){
+		$('#nc-video-player-<?php echo Current::read('Frame.id'); ?>').on('contextmenu',function(e){
 			return false;
 		});
 	});
 </script>
 
-<video id="nc-video-player-<?php echo (int)$frameId; ?>"
+<video id="nc-video-player-<?php echo Current::read('Frame.id'); ?>"
 		poster="<?php echo $fileThumbnailUrl; ?>"
 		<?php echo $isAutoPlay; ?>
 		width="100%"
