@@ -69,6 +69,8 @@ $this->Html->script(
 						)); ?>
 
 					<?php endif; ?>
+					<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
+					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
 
 					<?php echo $this->NetCommonsForm->input('Video.title', array(
 						'type' => 'text',
@@ -92,10 +94,11 @@ $this->Html->script(
 					<hr />
 
 					<?php echo $this->Workflow->inputComment('Video.status'); ?>
+
 				</div>
+				<?php echo $this->Workflow->buttons('Video.status'); ?>
 			</div>
 
-			<?php echo $this->Workflow->buttons('Video.status'); ?>
 		<?php echo $this->NetCommonsForm->end(); ?>
 
 		<?php echo $this->Workflow->comments(); ?>
