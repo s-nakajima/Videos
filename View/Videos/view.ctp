@@ -35,7 +35,7 @@ $this->Html->script(
 		<div class="row">
 			<div class="col-xs-12 text-right" style="padding-bottom: 10px;">
 				<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
-					<a href="<?php echo $this->Html->url('/videos/videos_edit/edit/' . $frameId . '/' . $video['Video']['key']); ?>" class="btn btn-primary">
+					<a href="<?php echo $this->Html->url('/videos/videos_edit/edit/' . Current::read('Frame.id') . '/' . $video['Video']['key']. '?frame_id=' . Current::read('Frame.id')); ?>" class="btn btn-primary">
 						<span class="glyphicon glyphicon-edit"> </span>
 					</a>
 				</span>
@@ -206,16 +206,7 @@ $this->Html->script(
 												<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo $relatedVideo['ContentCommentCnt']['cnt']; ?>
 											</span>
 
-											<?php if ($videoBlockSetting['use_like']) : ?>
-												<?php /* いいね */ ?>
-												<span style="padding-right: 15px;">
-													<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php echo $relatedVideo['Video']['likeCounts'] ?>
-												</span>
-												<?php if ($videoBlockSetting['use_unlike']) : ?>
-													<?php /* よくないね */ ?>
-													<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> <?php echo $relatedVideo['Video']['unlikeCounts'] ?>
-												<?php endif; ?>
-											<?php endif; ?>
+											<?php echo $this->Like->display($videoBlockSetting, $relatedVideo); ?>
 										</small>
 									</div>
 								</div>
