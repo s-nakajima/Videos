@@ -293,27 +293,31 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function addSaveVideo($data) {
-		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
 		$this->loadModels(array(
 			'Video' => 'Videos.Video',
-			'Comment' => 'Comments.Comment',
+//			'Comment' => 'Comments.Comment',
 			'FileModel' => 'Files.FileModel',
 		));
 
 		//トランザクションBegin
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		//バリデーション
+		$this->set($data);
+		if (! $this->validates(array('add'))) {
+			//$this->log($this->Video->validationErrors, 'debug');
+			$this->rollback();
+			return false;
+		}
 
 		try {
-			// 値をセット
-			$this->set($data);
 
-			// 入力チェック
-			$this->validates(array('add'));
-			if ($this->validationErrors) {
-				$this->log($this->Video->validationErrors, 'debug');
-				return false;
-			}
+//			// 入力チェック
+//			$this->validates(array('add'));
+//			if ($this->validationErrors) {
+//				$this->log($this->Video->validationErrors, 'debug');
+//				return false;
+//			}
 
 			// ファイルチェック 動画ファイル
 			if (!$data = $this->validateVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0)) {
@@ -333,18 +337,8 @@ class Video extends VideosAppModel {
 			$this->set($data);
 
 			// 動画データ登録
-			$video = $this->save(null, false);
-			if (!$video) {
+			if (! $video = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			//コメントの登録
-			if ($this->Comment->data) {
-				// コンテンツキーをセット
-				$this->Comment->data[$this->Comment->name]['content_key'] = $video['Video']['key'];
-
-				if (!$this->Comment->save(null, false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
 			}
 
 			// 動画変換とデータ保存
@@ -352,12 +346,14 @@ class Video extends VideosAppModel {
 				return false;
 			}
 
-			$dataSource->commit();
-		} catch (InternalErrorException $ex) {
-			$dataSource->rollback();
-			CakeLog::write(LOG_ERR, $ex);
-			throw $ex;
+			//トランザクションCommit
+			$this->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
 		}
+
 		return $video;
 	}
 

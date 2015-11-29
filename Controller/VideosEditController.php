@@ -134,7 +134,7 @@ class VideosEditController extends VideosAppController {
 //			$results['content_status'] = null;
 
 		// ファイル取得 動画ファイル
-		$results['video_file'] = null;
+		$results['videoFile'] = null;
 		if (isset($video['Video']['mp4_id'])) {
 			if ($file = $this->FileModel->find('first', array(
 				'recursive' => -1,
@@ -142,7 +142,7 @@ class VideosEditController extends VideosAppController {
 					$this->FileModel->alias . '.id' => $video['Video']['mp4_id']
 				)
 			))) {
-				$results['video_file'] = $file['File'];
+				$results['videoFile'] = $file['File'];
 			}
 		}
 

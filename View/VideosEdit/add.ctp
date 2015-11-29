@@ -48,7 +48,7 @@ $this->Html->script(
 						'pluginKey' => $this->request->params['plugin'],
 						'index' => 0,
 						'helpBlockMessage' => $videoHelpBlockMessage,
-						'file' => $video_file,
+						'file' => $videoFile,
 						'deleteEnable' => false,
 					)); ?>
 
@@ -68,54 +68,19 @@ $this->Html->script(
 							'overwriteEnable' => false,
 						)); ?>
 
-						<?php
-						/* <div class="form-group">
-							<?php echo $this->Form->input('video_time', array(
-								'type' => 'text',
-								'label' => __d('videos', 'Play time') . $this->element('NetCommons.required'),
-								'error' => false,
-								'class' => 'form-control',
-								//'ng-model' => 'video.videoTime',
-								'default' => '00:00:00',
-							)); ?>
-
-							<?php echo $this->element(
-								'NetCommons.errors', [
-								'errors' => $this->validationErrors,
-								'model' => 'Video',
-								'field' => 'video_time',
-							]); ?>
-						</div>  */ ?>
 					<?php endif; ?>
 
-					<div class="form-group">
-						<?php echo $this->Form->input('title', array(
-							'type' => 'text',
-							'label' => __d('videos', 'Title') . $this->element('NetCommons.required'),
-							'error' => false,
-							'class' => 'form-control',
-							//'ng-model' => 'video.title',
-						)); ?>
+					<?php echo $this->NetCommonsForm->input('Video.title', array(
+						'type' => 'text',
+						'label' => __d('videos', 'Title'),
+						'required' => true,
+					)); ?>
 
-<!--						--><?php //echo $this->element(
-//							'NetCommons.errors', [
-//							'errors' => $this->validationErrors,
-//							'model' => 'Video',
-//							'field' => 'title',
-//						]); ?>
-					</div>
-
-					<label for="description">
-						<?php echo __d('videos', 'Description'); ?>
-					</label>
-					<div class="nc-wysiwyg-alert">
-						<?php echo $this->Form->textarea('description', array(
-							'class' => 'form-control',
-							'id' => 'description',
-							'rows' => 5,
-							//'ng-model' => 'video.description',
-						)); ?>
-					</div>
+					<?php echo $this->NetCommonsForm->input('Video.description', array(
+						'type' => 'textarea',
+						'label' => __d('videos', 'Description'),
+						'rows' => 5,
+					)); ?>
 
 					<div class="form-group"></div>
 					<?php $this->Form->unlockField('Tag');

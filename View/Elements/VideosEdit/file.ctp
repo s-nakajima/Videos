@@ -122,10 +122,15 @@ $labelOverwriteFile = __d('files', 'Overwrite file.');
 		<p class="help-block"><?php echo h($helpBlockMessage); ?></p>
 	</div>
 
-<!--	--><?php //echo $this->element(
-//		'NetCommons.errors', [
-//		'errors' => $this->validationErrors,
-//		'model' => $model,
-//		'field' => $field,
-//	]); ?>
+<!--	C:\projects\NetCommons3\app\Plugin\NetCommons\View\Helper\NetCommonsFormHelper.php-->
+<!--	$output .= $this->Form->input($fieldName, $inputOptions);-->
+<!---->
+<!--	if (is_array($options['error'])) {-->
+<!--	$output .= '<div class="has-error">';-->
+<!--		$output .= $this->Form->error($fieldName, null, Hash::merge(array('class' => 'help-block'), $options['error']));-->
+<!--		$output .= '</div>';-->
+<!--	}-->
+	<div class="has-error">
+		<?php echo $this->Form->error($field, null, array('class' => 'help-block')); ?>
+	</div>
 </div>
