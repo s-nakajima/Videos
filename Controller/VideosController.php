@@ -86,8 +86,99 @@ class VideosController extends VideosAppController {
  * @return void
  */
 	public function index() {
+		//条件
+//		$conditions = array(
+//			'FaqQuestion.faq_id' => $this->viewVars['faq']['id'],
+//		);
+//		if (isset($this->params['named']['category_id'])) {
+//			$conditions['FaqQuestion.category_id'] = $this->params['named']['category_id'];
+//		}
+//
+//		//取得
+//		$faqQuestions = $this->FaqQuestion->getWorkflowContents('all', array(
+//			'recursive' => 0,
+//			'conditions' => $conditions
+//		));
+//		$this->set('faqQuestions', $faqQuestions);
+
+		//条件
+		$conditions = array(
+			'Video.block_id' => Current::read('Block.id'),
+		);
+
+		//取得
+		$videos = $this->Video->getWorkflowContents('all', array(
+			'recursive' => 0,
+			'conditions' => $conditions
+		));
+		$this->set('videos', $videos);
+//var_dump($videos);
+
+		// フレーム取得
+		$conditions = array(
+			$this->Frame->alias . '.key' => Current::read('Frame.key'),
+		);
+		$frame = $this->Frame->find('first', array(
+			'recursive' => 0,
+			'conditions' => $conditions,
+		));
+		$results['frame'] = $frame['Frame'];
+
+		// 表示系(並び順、表示件数)の設定取得
+//		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(true);
+//
+//		$results['videoFrameSetting'] = $videoFrameSetting['VideoFrameSetting'];
+
+//		//ソート
+//		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(true);
+//		$order = $this->__order($videoFrameSetting);
+//		$results['displayOrderPaginator'] = key($order) . '.' . $order[key($order)];
+//
+//		//表示件数
+//		$limit = $this->_getNamed('limit');
+//		if (!isset($limit)) {
+//			$limit = $videoFrameSetting['VideoFrameSetting']['display_number'];
+//		}
+//
+//		// 利用系(コメント利用、高く評価を利用等)の設定取得
+//		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
+//		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
+//
+//		// 暫定対応しない(;'∀')
+//		// blockテーブルのpublic_typeによって 表示・非表示する処理は、6/15以降に対応する
+//
+//		if (!empty($this->viewVars['blockId'])) {
+//
+//
+//
+//			// ワークフロー表示条件 取得
+//			$conditions = $this->_getWorkflowConditions();
+//
+//
+//			if ($extraConditions) {
+//				$conditions = Hash::merge($conditions, $extraConditions);
+//			}
+//
+//			$this->Paginator->settings = array(
+//				$this->Video->alias => array(
+//					'order' => $order,
+//					'fields' => array(
+//						'*',
+//						'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
+//					),
+//					'conditions' => $conditions,
+//					'limit' => $limit
+//				)
+//			);
+//			$results['videos'] = $this->Paginator->paginate($this->Video->alias);
+//		}
+
+		// キーをキャメル変換
+		//$results = $this->camelizeKeyRecursive($results);
+
+
 		// 一覧取得
-		$results = $this->__list();
+//		$results = $this->__list();
 
 		$this->set($results);
 	}

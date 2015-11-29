@@ -22,7 +22,6 @@
 
 		<?php /* ブロック選択済み */ ?>
 	<?php else : ?>
-
 		<header>
 			<?php /* タグ検索時、タイトル表示 */ ?>
 			<?php if (!empty($listTitle)) : ?>

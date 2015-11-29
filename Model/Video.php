@@ -106,6 +106,8 @@ class Video extends VideosAppModel {
 		'Videos.Video',					// 動画変換
 		'Videos.VideoFile',				// FileUpload
 		'Videos.VideoValidation',		// Validation rules
+		'Workflow.Workflow',
+		'Workflow.WorkflowComment',
 	);
 
 /**
@@ -325,10 +327,10 @@ class Video extends VideosAppModel {
 			}
 
 			// ステータスチェック
-			if (!$this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-				return false;
-			}
+//			if (!$this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
+//				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
+//				return false;
+//			}
 
 			// 動画ファイルを一旦登録
 			$data = $this->saveVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0);

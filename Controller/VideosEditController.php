@@ -11,6 +11,7 @@
 
 App::uses('VideosAppController', 'Videos.Controller');
 App::uses('VideosAppModel', 'Videos.Model');
+App::uses('Video', 'Videos.Model');
 
 /**
  * 動画編集系 Controller
@@ -69,8 +70,9 @@ class VideosEditController extends VideosAppController {
 			$data['Video']['status'] = $this->Workflow->parseStatus();
 			unset($data['Video']['id']);
 
-//			// 保存dataの準備
+			// 保存dataの準備
 //			$data = $this->__readySaveData($this->data);
+			$data = $this->__readySaveData($data);
 
 //			// 登録データ作成
 //			$video = $this->Video->create();
