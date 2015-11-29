@@ -213,11 +213,7 @@ class VideoBlocksController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit() {
-//$this->log('hoge-debug11111', 'debug');
-//var_dump($this->request->isPut());
 		if ($this->request->isPut()) {
-//$this->log('hoge-debug22222', 'debug');
-var_dump('aaa');
 			//登録処理
 			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
@@ -226,7 +222,6 @@ var_dump('aaa');
 			$this->NetCommons->handleValidationError($this->VideoBlockSetting->validationErrors);
 
 		} else {
-var_dump('bbb');
 			//表示処理(初期データセット)
 			if (! $videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting()) {
 				$this->throwBadRequest();
