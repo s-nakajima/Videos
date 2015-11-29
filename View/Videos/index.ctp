@@ -112,7 +112,7 @@
 
 			<?php /* 動画一覧 */ ?>
 			<div class="row">
-
+<?php //var_dump($videos); ?>
 				<?php foreach ($videos as $video) : ?>
 					<article>
 						<div class="col-xs-12">
@@ -123,8 +123,8 @@
 									<div class="pull-left">
 										<div>
 											<a href="<?php echo $this->Html->url('/videos/videos/view/' . Current::read('Frame.id') . '/' . $video['Video']['key']); ?>">
-												<?php if (isset($video['fileThumbnail']['urlThumbnail'])) : ?>
-													<?php echo $this->Html->image($video['fileThumbnail']['urlThumbnail'], array(
+												<?php if (isset($video['FileThumbnail']['url_thumbnail'])) : ?>
+													<?php echo $this->Html->image($video['FileThumbnail']['url_thumbnail'], array(
 														'alt' => $video['Video']['title'],
 														'style' => 'width: 140px; height: auto;'
 													)); ?>
@@ -164,16 +164,6 @@
 
 													<?php echo $this->Like->display($videoBlockSetting, $video); ?>
 
-<!--													--><?php //if ($videoBlockSetting['use_like']) : ?>
-<!--														--><?php ///* いいね */ ?>
-<!--														<span style="padding-right: 15px;">-->
-<!--															<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> --><?php //echo $video['Video']['likeCounts'] ?>
-<!--														</span>-->
-<!--														--><?php //if ($videoBlockSetting['use_unlike']) : ?>
-<!--															--><?php ///* よくないね */ ?>
-<!--															<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> --><?php //echo $video['Video']['unlikeCounts'] ?>
-<!--														--><?php //endif; ?>
-<!--													--><?php //endif; ?>
 												</small>
 												<div>
 													<?php /* ステータス */ ?>
@@ -192,33 +182,6 @@
 
 			<?php /* ページャ */ ?>
 			<?php echo $this->element('NetCommons.paginator'); ?>
-<!--			<footer>-->
-<!--				<div class="row">-->
-<!--					<div class="col-xs-12">-->
-<!--						<div class="text-center">-->
-<!--							<nav>-->
-<!--								<ul class="pagination">-->
-<!--									--><?php //echo $this->Paginator->first('«', array(
-//										'tag' => 'li',
-//									)); ?>
-<!--									--><?php //echo $this->Paginator->numbers(array(
-//										'tag' => 'li',
-//										'currentTag' => 'a',
-//										'currentClass' => 'active',
-//										'separator' => '',
-//										'first' => false,
-//										'last' => false,
-//										'modulus' => '4',
-//									)); ?>
-<!--									--><?php //echo $this->Paginator->last('»', array(
-//										'tag' => 'li',
-//									)); ?>
-<!--								</ul>-->
-<!--							</nav>-->
-<!--						</div>-->
-<!--					</div>-->
-<!--				</div>-->
-<!--			</footer>-->
 		<?php endif; ?>
 	<?php endif; ?>
 
