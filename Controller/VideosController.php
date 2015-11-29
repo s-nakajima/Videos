@@ -57,6 +57,7 @@ class VideosController extends VideosAppController {
 		'NetCommons.Date',					// 詳細日付表示
 		'NetCommons.DisplayNumber',
 		'NetCommons.Token',
+		'Workflow.Workflow',
 	);
 
 /**
@@ -135,9 +136,9 @@ class VideosController extends VideosAppController {
 //		));
 //		$this->set('videos', $videos);
 		//条件
-		$query['conditions'] = $this->Video->getWorkflowContents(array(
-			'Video.block_id' => Current::read('Block.id'),
-		));
+//		$query['conditions'] = $this->Video->getWorkflowContents(array(
+//			'Video.block_id' => Current::read('Block.id'),
+//		));
 		//ソート
 		if (isset($this->params['named']['sort']) && isset($this->params['named']['direction'])) {
 			$query['order'] = array($this->params['named']['sort'] => $this->params['named']['direction']);
