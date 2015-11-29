@@ -21,7 +21,7 @@
 		<?php echo $this->BlockTabs->block(BlockTabsComponent::BLOCK_TAB_SETTING); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-			'model' => 'Videos',
+			'model' => 'VideoBlockSetting',
 			'callback' => 'Videos.VideoBlocks/edit_form',
 			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 		)); ?>
