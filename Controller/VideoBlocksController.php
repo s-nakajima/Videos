@@ -44,14 +44,8 @@ class VideoBlocksController extends VideosAppController {
  */
 	public $components = array(
 		'Blocks.BlockTabs' => array(
-			'mainTabs' => array(
-				'block_index' => array('url' => array('controller' => 'video_blocks')),
-				'frame_settings' => array('url' => array('controller' => 'video_frame_settings')),
-			),
-			'blockTabs' => array(
-				'block_settings' => array('url' => array('controller' => 'video_blocks')),
-				'role_permissions' => array('url' => array('controller' => 'video_block_role_permissions')),
-			),
+			'mainTabs' => array('block_index', 'frame_settings'),
+			'blockTabs' => array('block_settings', 'role_permissions'),
 		),
 		'NetCommons.Permission' => array(
 			//アクセスの権限
