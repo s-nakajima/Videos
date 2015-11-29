@@ -151,7 +151,7 @@ class VideosAppController extends AppController {
 		$conditions = array(
 			'Block.id = ' . $this->viewVars['blockId'],
 			'Block.language_id = ' . $this->viewVars['languageId'],
-			'Block.room_id = ' . $this->viewVars['roomId'],
+			'Block.room_id = ' . Current::read('Room.id'),
 			'OR' => array($activeConditions, $latestConditons)
 		);
 

@@ -10,6 +10,7 @@
  */
 
 App::uses('VideosAppController', 'Videos.Controller');
+App::uses('VideosAppModel', 'Videos.Model');
 
 /**
  * 動画編集系 Controller
@@ -61,73 +62,55 @@ class VideosEditController extends VideosAppController {
  * @return CakeResponse
  */
 	public function add() {
-//		if ($this->request->isPost()) {
-//			//登録処理
-//			$data = $this->data;
-//			$data['FaqQuestion']['status'] = $this->Workflow->parseStatus();
-//			unset($data['FaqQuestion']['id']);
-//
-//			if ($this->FaqQuestion->saveFaqQuestion($data)) {
-//				$this->redirect(NetCommonsUrl::backToPageUrl());
-//				return;
-//			}
-//			$this->NetCommons->handleValidationError($this->FaqQuestion->validationErrors);
-//
-//		} else {
-//			//表示処理
-//			$this->request->data = Hash::merge($this->request->data,
-//				$this->FaqQuestion->create(array(
-//					'faq_id' => $this->viewVars['faq']['id'],
+		if ($this->request->isPost()) {
+
+			//登録処理
+			$data = $this->data;
+			$data['Video']['status'] = $this->Workflow->parseStatus();
+			unset($data['Video']['id']);
+
+//			// 保存dataの準備
+//			$data = $this->__readySaveData($this->data);
+
+//			// 登録データ作成
+//			$video = $this->Video->create();
+//			$data = Hash::merge(
+//				$video,
+//				$data,
+//				array($this->Video->alias => array(
+//					'status' => $status,
+//					'block_id' => $this->viewVars['blockId'],
+//					'language_id' => $this->viewVars['languageId'],
 //				)),
-//				$this->FaqQuestionOrder->create(array(
-//					'faq_key' => $this->viewVars['faq']['key'],
+//				array($this->Comment->alias => array(
+//					'block_key' => $this->viewVars['blockKey'],
 //				))
 //			);
-//			$this->request->data['Faq'] = $this->viewVars['faq'];
-//			$this->request->data['Frame'] = Current::read('Frame');
-//			$this->request->data['Block'] = Current::read('Block');
-//		}
 
-
-		if ($this->request->isPost()) {
-			if (!$status = $this->NetCommonsWorkflow->parseStatus()) {
-				$this->throwBadRequest();
-				return;
-			}
-
-			// 保存dataの準備
-			$data = $this->__readySaveData($this->data);
-
-			// 登録データ作成
-			$video = $this->Video->create();
-			$data = Hash::merge(
-				$video,
-				$data,
-				array($this->Video->alias => array(
-					'status' => $status,
-					'block_id' => $this->viewVars['blockId'],
-					'language_id' => $this->viewVars['languageId'],
-				)),
-				array($this->Comment->alias => array(
-					'block_key' => $this->viewVars['blockKey'],
-				))
-			);
-
-			if (Video::isFfmpegEnable()) {
+			if (VideosAppModel::isFfmpegEnable()) {
 				// 登録
-				$this->Video->addSaveVideo($data, $this->viewVars['roomId']);
+				if ($this->Video->addSaveVideo($data)) {
+					$this->redirect(NetCommonsUrl::backToPageUrl());
+					return;
+				}
 			} else {
 				// 登録 動画を自動変換しない
-				$this->Video->addNoConvertSaveVideo($data);
-			}
-
-			// 正常時
-			if ($this->handleValidationError($this->Video->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					// 一覧へ
-					$this->redirect('/videos/videos/index/' . $this->viewVars['frameId']);
+				if ($this->Video->addNoConvertSaveVideo($data)) {
+					$this->redirect(NetCommonsUrl::backToPageUrl());
+					return;
 				}
 			}
+
+			$this->NetCommons->handleValidationError($this->Video->validationErrors);
+
+//			// 正常時
+//			if ($this->handleValidationError($this->Video->validationErrors)) {
+//				if (! $this->request->is('ajax')) {
+//					// 一覧へ
+//					$this->redirect('/videos/videos/index/' . $this->viewVars['frameId']);
+//				}
+//			}
+
 		} else {
 			//表示処理
 			$this->request->data = Hash::merge($this->request->data,
@@ -137,7 +120,10 @@ class VideosEditController extends VideosAppController {
 			$this->request->data['Block'] = Current::read('Block');
 
 
-			$results['video'] = null;
+		}
+
+
+		$results['video'] = null;
 
 //			$comments = $this->Comment->getComments(array(
 //				'plugin_key' => $this->request->params['plugin'],
@@ -147,37 +133,34 @@ class VideosEditController extends VideosAppController {
 //			$results['comments'] = $comments;
 //			$results['content_status'] = null;
 
-			// ファイル取得 動画ファイル
-			$results['video_file'] = null;
-			if (isset($video['Video']['mp4_id'])) {
-				if ($file = $this->FileModel->find('first', array(
-					'recursive' => -1,
-					'conditions' => array(
-						$this->FileModel->alias . '.id' => $video['Video']['mp4_id']
-					)
-				))) {
-					$results['video_file'] = $file['File'];
-				}
+		// ファイル取得 動画ファイル
+		$results['video_file'] = null;
+		if (isset($video['Video']['mp4_id'])) {
+			if ($file = $this->FileModel->find('first', array(
+				'recursive' => -1,
+				'conditions' => array(
+					$this->FileModel->alias . '.id' => $video['Video']['mp4_id']
+				)
+			))) {
+				$results['video_file'] = $file['File'];
 			}
-
-			//ファイル取得 サムネイル
-			$results['thumbnail'] = null;
-			if (isset($video['Video']['thumbnail_id'])) {
-				if ($file = $this->FileModel->find('first', array(
-					'recursive' => -1,
-					'conditions' => array(
-						$this->FileModel->alias . '.id' => $video['Video']['thumbnail_id']
-					)
-				))) {
-					$results['thumbnail'] = $file['File'];
-				}
-			}
-
-			// キーをキャメル変換
-			//$results = $this->camelizeKeyRecursive($results);
 		}
 
-//		$results = $this->__init();
+		//ファイル取得 サムネイル
+		$results['thumbnail'] = null;
+		if (isset($video['Video']['thumbnail_id'])) {
+			if ($file = $this->FileModel->find('first', array(
+				'recursive' => -1,
+				'conditions' => array(
+					$this->FileModel->alias . '.id' => $video['Video']['thumbnail_id']
+				)
+			))) {
+				$results['thumbnail'] = $file['File'];
+			}
+		}
+
+		// キーをキャメル変換
+		//$results = $this->camelizeKeyRecursive($results);
 		$this->set($results);
 	}
 
@@ -229,7 +212,7 @@ class VideosEditController extends VideosAppController {
 			);
 
 			// 登録（ワークフロー対応のため、編集でも常にinsert）
-			$this->Video->editSaveVideo($data, $this->viewVars['roomId']);
+			$this->Video->editSaveVideo($data);
 			// 正常時
 			if ($this->handleValidationError($this->Video->validationErrors)) {
 				if (! $this->request->is('ajax')) {

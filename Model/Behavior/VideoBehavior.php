@@ -20,16 +20,15 @@ class VideoBehavior extends ModelBehavior {
  * @param Model $Model モデル
  * @param array $data received post data
  * @param array $video Video
- * @param int $roomId rooms.id
  * @return bool true on success, false on error
  * @throws InternalErrorException
  */
-	public function saveConvertVideo(Model $Model, $data, $video, $roomId) {
+	public function saveConvertVideo(Model $Model, $data, $video) {
 		// 元動画 取得
 		$noConvert = $Model->FileModel->findById($video['Video']['mp4_id']);
 
 		// --- 動画変換
-		if (! $data = $this->__convertVideo($Model, $data, $video, $noConvert, $roomId)) {
+		if (! $data = $this->__convertVideo($Model, $data, $video, $noConvert)) {
 			$Model->deleteFile($data, $Model->alias, 'mp4_id', 0);	//元動画 削除
 			return false;
 		}
@@ -42,7 +41,7 @@ class VideoBehavior extends ModelBehavior {
 		$data['Video']['video_time'] = $videoTimeSec;
 
 		// --- サムネイル自動作成
-		$data = $this->__generateThumbnail($data, $video[Video::VIDEO_FILE_FIELD]['FilesPlugin']['plugin_key'], $noConvert, $roomId);
+		$data = $this->__generateThumbnail($data, $video[Video::VIDEO_FILE_FIELD]['FilesPlugin']['plugin_key'], $noConvert);
 
 		// ファイルチェック サムネイル
 		if (! $data = $Model->validateVideoFile($data, Video::THUMBNAIL_FIELD, $Model->alias, 'thumbnail_id', 1)) {
@@ -77,11 +76,10 @@ class VideoBehavior extends ModelBehavior {
  * @param array $data received post data
  * @param array $video Video
  * @param array $noConvert File
- * @param int $roomId rooms.id
  * @return mixed Array on success, false on error
  * @throws InternalErrorException
  */
-	private function __convertVideo(Model $Model, $data, $video, $noConvert, $roomId) {
+	private function __convertVideo(Model $Model, $data, $video, $noConvert) {
 		// --- 動画変換
 
 		// アップロードファイルの受け取りと移動
@@ -116,7 +114,7 @@ class VideoBehavior extends ModelBehavior {
 			// Filesテーブルに変換後動画を登録。Delete->Insert
 			$data[Video::VIDEO_FILE_FIELD]['File']['type'] = 'video/mp4';
 			$data[Video::VIDEO_FILE_FIELD]['File']['mimetype'] = 'video/mp4';
-			$data[Video::VIDEO_FILE_FIELD]['File']['path'] = '{ROOT}' . 'videos' . '{DS}' . $roomId . '{DS}' . $video['Video']['id'] . '{DS}';
+			$data[Video::VIDEO_FILE_FIELD]['File']['path'] = '{ROOT}' . 'videos' . '{DS}' . Current::read('Room.id') . '{DS}' . $video['Video']['id'] . '{DS}';
 			$data[Video::VIDEO_FILE_FIELD]['File']['name'] = $videoName . '.mp4';
 			$data[Video::VIDEO_FILE_FIELD]['File']['alt'] = $videoName . '.mp4';
 			$data[Video::VIDEO_FILE_FIELD]['File']['extension'] = 'mp4';
@@ -182,11 +180,10 @@ class VideoBehavior extends ModelBehavior {
  * @param array $data received post data
  * @param string $pluginKey plugin key
  * @param array $noConvert File data
- * @param int $roomId rooms.id
  * @return mixed Array on success, false on error
  * @throws InternalErrorException
  */
-	private function __generateThumbnail($data, $pluginKey, $noConvert, $roomId) {
+	private function __generateThumbnail($data, $pluginKey, $noConvert) {
 		// 元動画
 		$noConvertPath = $noConvert['File']["path"];
 		$noConvertSlug = $noConvert['File']["slug"];
@@ -226,7 +223,7 @@ class VideoBehavior extends ModelBehavior {
 			$data[Video::THUMBNAIL_FIELD]['File']['name'] = $videoName . '.jpg';		// サムネイル名は動画名をjpgにしたものをセット
 			$data[Video::THUMBNAIL_FIELD]['File']['alt'] = $videoName . '.jpg';
 			$data[Video::THUMBNAIL_FIELD]['File']['mimetype'] = 'image/jpeg';
-			$data[Video::THUMBNAIL_FIELD]['File']['path'] = '{ROOT}' . 'videos' . '{DS}' . $roomId . '{DS}';		// 自動的に $video['Video']['id'] . '{DS}' が末尾に追記されるので、ここでは追記しない
+			$data[Video::THUMBNAIL_FIELD]['File']['path'] = '{ROOT}' . 'videos' . '{DS}' . Current::read('Room.id') . '{DS}';		// 自動的に $video['Video']['id'] . '{DS}' が末尾に追記されるので、ここでは追記しない
 			$data[Video::THUMBNAIL_FIELD]['File']['extension'] = 'jpg';
 			$data[Video::THUMBNAIL_FIELD]['File']['tmp_name'] = $noConvertPath . $thumbnailSlug . '.jpg';
 			$data[Video::THUMBNAIL_FIELD]['File']['size'] = filesize($noConvertPath . $thumbnailSlug . '.jpg');
@@ -234,7 +231,7 @@ class VideoBehavior extends ModelBehavior {
 			$data[Video::THUMBNAIL_FIELD]['File']['original_name'] = $thumbnailSlug;
 
 			$data[Video::THUMBNAIL_FIELD]['FilesPlugin']['plugin_key'] = $pluginKey;	// plugin_keyは、元動画のをセット
-			$data[Video::THUMBNAIL_FIELD]['FilesRoom']['room_id'] = $roomId;
+			$data[Video::THUMBNAIL_FIELD]['FilesRoom']['room_id'] = Current::read('Room.id');
 			$data[Video::THUMBNAIL_FIELD]['FilesUser']['user_id'] = AuthComponent::user('id');
 		}
 

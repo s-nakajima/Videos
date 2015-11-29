@@ -289,11 +289,10 @@ class Video extends VideosAppModel {
  * 登録Videoデータ保存
  *
  * @param array $data received post data
- * @param int $roomId rooms.id
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function addSaveVideo($data, $roomId) {
+	public function addSaveVideo($data) {
 		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
 		$this->loadModels(array(
 			'Video' => 'Videos.Video',
@@ -349,7 +348,7 @@ class Video extends VideosAppModel {
 			}
 
 			// 動画変換とデータ保存
-			if (!$this->saveConvertVideo($data, $video, $roomId)) {
+			if (!$this->saveConvertVideo($data, $video)) {
 				return false;
 			}
 
