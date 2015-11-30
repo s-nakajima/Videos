@@ -174,55 +174,168 @@ class VideosEditController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit($frameId, $videoKey = null) {
-		// フレームKeyなしはアクセスさせない
-		if (empty($videoKey)) {
+//		$this->view = 'edit';
+//
+//		$bbsArticleKey = $this->params['pass'][1];
+//		if ($this->request->isPut()) {
+//			$bbsArticleKey = $this->data['BbsArticle']['key'];
+//		}
+//
+//		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
+//			'recursive' => 0,
+//			'conditions' => array(
+//				$this->BbsArticle->alias . '.bbs_id' => $this->viewVars['bbs']['id'],
+//				$this->BbsArticle->alias . '.key' => $bbsArticleKey
+//			)
+//		));
+//
+//		//掲示板の場合は、削除権限と同じ条件とする
+//		if (! $this->BbsArticle->canDeleteWorkflowContent($bbsArticle)) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
+//
+//		if ($this->request->isPut()) {
+//			$data = $this->data;
+//			$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
+//			unset($data['BbsArticle']['id']);
+//
+//			if ($bbsArticle = $this->BbsArticle->saveBbsArticle($data)) {
+//				$url = NetCommonsUrl::actionUrl(array(
+//					'controller' => $this->params['controller'],
+//					'action' => 'view',
+//					'block_id' => $this->data['Block']['id'],
+//					'frame_id' => $this->data['Frame']['id'],
+//					'key' => $bbsArticle['BbsArticle']['key']
+//				));
+//				$this->redirect($url);
+//				return;
+//			}
+//			$this->NetCommons->handleValidationError($this->BbsArticle->validationErrors);
+//
+//		} else {
+//			$this->request->data = $bbsArticle;
+//			if (! $this->request->data) {
+//				$this->throwBadRequest();
+//				return false;
+//			}
+//			$this->request->data['Frame'] = Current::read('Frame');
+//			$this->request->data['Block'] = Current::read('Block');
+//
+//		}
+//
+//		$comments = $this->BbsArticle->getCommentsByContentKey($this->request->data['BbsArticle']['key']);
+//		$this->set('comments', $comments);
+
+		//動画の取得
+		$video = $this->Video->getWorkflowContents('first', array(
+			'recursive' => 1,
+//			'fields' => array(
+//				'*',
+//				'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
+//			),
+			'conditions' => array(
+				$this->Video->alias . '.key' => $videoKey
+			)
+		));
+//		$this->set('video', $video);
+
+
+		//掲示板の場合は、削除権限と同じ条件とする(動画まねてみた。あってるのか？)
+		if (! $this->Video->canDeleteWorkflowContent($video)) {
 			$this->throwBadRequest();
-			return;
+			return false;
 		}
 
-		$results = $this->__init($videoKey);
-		$this->set($results);
+		if ($this->request->isPut()) {
 
-		if ($this->request->isPost()) {
-			if (!$status = $this->NetCommonsWorkflow->parseStatus()) {
-				$this->throwBadRequest();
-				return;
-			}
+			$data = $this->data;
+			$data['Video']['status'] = $this->Workflow->parseStatus();
+			unset($data['Video']['id']);
 
 			// 保存dataの準備
-			$data = $this->__readySaveData($this->data);
-
-			// ワークフロー表示条件 取得
-			$conditions = $this->_getWorkflowConditions($videoKey);
-
-			//動画の取得
-			$video = $this->Video->getVideo($conditions);
-
-			// ワークフロー対応 idを取り除く
-			unset($video['Video']['id']);
-
-			// 更新データ作成
-			$data = Hash::merge(
-				$video,
-				$data,
-				array($this->Video->alias => array(
-					'status' => $status,
-				)),
-				array($this->Comment->alias => array(
-					'block_key' => $this->viewVars['blockKey'],
-				))
-			);
+			$data = $this->__readySaveData($data);
 
 			// 登録（ワークフロー対応のため、編集でも常にinsert）
-			$this->Video->editSaveVideo($data);
-			// 正常時
-			if ($this->handleValidationError($this->Video->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					// 一覧へ
-					$this->redirect('/videos/videos/index/' . $this->viewVars['frameId']);
-				}
+			if ($video = $this->Video->editSaveVideo($data)) {
+				$url = NetCommonsUrl::actionUrl(array(
+					'controller' => $this->params['controller'],
+					'action' => 'view',
+					'block_id' => $this->data['Block']['id'],
+					'frame_id' => $this->data['Frame']['id'],
+					'key' => $video['Video']['key']
+				));
+				$this->redirect($url);
+				return;
 			}
+			$this->NetCommons->handleValidationError($this->Video->validationErrors);
+
+		} else {
+			$this->request->data = $video;
+			if (! $this->request->data) {
+				$this->throwBadRequest();
+				return false;
+			}
+			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Block'] = Current::read('Block');
+
 		}
+
+//		$comments = $this->BbsArticle->getCommentsByContentKey($this->request->data['BbsArticle']['key']);
+//		$this->set('comments', $comments);
+
+
+
+
+		// フレームKeyなしはアクセスさせない
+//		if (empty($videoKey)) {
+//			$this->throwBadRequest();
+//			return;
+//		}
+
+//		$results = $this->__init($videoKey);
+//		$this->set($results);
+//
+//		if ($this->request->isPost()) {
+//			if (!$status = $this->NetCommonsWorkflow->parseStatus()) {
+//				$this->throwBadRequest();
+//				return;
+//			}
+
+//			// 保存dataの準備
+//			$data = $this->__readySaveData($this->data);
+
+//			// ワークフロー表示条件 取得
+//			$conditions = $this->_getWorkflowConditions($videoKey);
+//
+//			//動画の取得
+//			$video = $this->Video->getVideo($conditions);
+
+//			// ワークフロー対応 idを取り除く
+//			unset($video['Video']['id']);
+
+//			// 更新データ作成
+//			$data = Hash::merge(
+//				$video,
+//				$data,
+//				array($this->Video->alias => array(
+//					'status' => $status,
+//				)),
+//				array($this->Comment->alias => array(
+//					'block_key' => $this->viewVars['blockKey'],
+//				))
+//			);
+
+//			// 登録（ワークフロー対応のため、編集でも常にinsert）
+//			$this->Video->editSaveVideo($data);
+//			// 正常時
+//			if ($this->handleValidationError($this->Video->validationErrors)) {
+//				if (! $this->request->is('ajax')) {
+//					// 一覧へ
+//					$this->redirect('/videos/videos/index/' . $this->viewVars['frameId']);
+//				}
+//			}
+//		}
 	}
 
 /**

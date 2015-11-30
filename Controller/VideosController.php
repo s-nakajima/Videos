@@ -392,7 +392,7 @@ class VideosController extends VideosAppController {
 //		));
 
 
-		//カレント記事の取得
+		//動画の取得
 		$video = $this->Video->getWorkflowContents('first', array(
 			'recursive' => 1,
 			'fields' => array(
