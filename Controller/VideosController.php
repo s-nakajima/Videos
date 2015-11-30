@@ -122,7 +122,11 @@ class VideosController extends VideosAppController {
 
 
 
-		$query = array();
+		$query = array(
+			'conditions' => array(
+				$this->Video->alias . '.is_latest' => true,
+			),
+		);
 
 		//条件
 //		$conditions = array(
@@ -508,7 +512,7 @@ class VideosController extends VideosAppController {
 		if (! in_array($video['Video']['id'], $cookieArray, true)) {
 			//再生回数 + 1 で更新
 			$playNumber = $this->Video->updateCountUp($video);
-			$results['video']['Video']['play_number'] = $playNumber;
+			$this->viewVars['video']['Video']['play_number'] = $playNumber;
 
 			// cookie value = コンテンツid & 区切り文字
 			$cookie = $cookie . $video['Video']['id'] . ':';

@@ -259,10 +259,10 @@ class VideosEditController extends VideosAppController {
 			// 登録（ワークフロー対応のため、編集でも常にinsert）
 			if ($video = $this->Video->editSaveVideo($data)) {
 				$url = NetCommonsUrl::actionUrl(array(
-					'controller' => $this->params['controller'],
+					'controller' => 'videos',
 					'action' => 'view',
-					'block_id' => $this->data['Block']['id'],
-					'frame_id' => $this->data['Frame']['id'],
+					'block_id' => Current::read('Block.id'),
+					'frame_id' => Current::read('Frame.id'),
 					'key' => $video['Video']['key']
 				));
 				$this->redirect($url);
@@ -379,7 +379,7 @@ class VideosEditController extends VideosAppController {
 
 			if (!$this->request->is('ajax')) {
 				// 一覧へ
-				$this->redirect('/videos/videos/index/' . $this->viewVars['frameId']);
+				$this->redirect('/videos/videos/index/?frame_id=' . Current::read('Frame.id'));
 			}
 			return;
 		}

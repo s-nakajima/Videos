@@ -35,7 +35,7 @@ $this->Html->script(
 		<div class="row">
 			<div class="col-xs-12 text-right" style="padding-bottom: 10px;">
 				<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
-					<a href="<?php echo $this->Html->url('/videos/videos_edit/edit/' . Current::read('Frame.id') . '/' . $video['Video']['key']. '?frame_id=' . Current::read('Frame.id')); ?>" class="btn btn-primary">
+					<a href="<?php echo $this->Html->url('/videos/videos_edit/edit/' . Current::read('Block.id') . '/' . $video['Video']['key']. '?frame_id=' . Current::read('Frame.id')); ?>" class="btn btn-primary">
 						<span class="glyphicon glyphicon-edit"> </span>
 					</a>
 				</span>

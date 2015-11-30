@@ -470,11 +470,11 @@ class Video extends VideosAppModel {
 				return false;
 			}
 
-			// ステータスチェック
-			if (!$this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-				return false;
-			}
+//			// ステータスチェック
+//			if (!$this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
+//				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
+//				return false;
+//			}
 
 			// ファイルの登録 サムネイル
 			$data = $this->saveVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1);
@@ -488,12 +488,12 @@ class Video extends VideosAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//コメントの登録
-			if ($this->Comment->data) {
-				if (!$this->Comment->save(null, false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			}
+//			//コメントの登録
+//			if ($this->Comment->data) {
+//				if (!$this->Comment->save(null, false)) {
+//					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//				}
+//			}
 
 			$dataSource->commit();
 		} catch (InternalErrorException $ex) {
@@ -534,10 +534,10 @@ class Video extends VideosAppModel {
 			// ファイル 削除 暫定として対応しない(;'∀')
 			// 本来、データと物理ファイル削除。共通処理が完成したら、実装する
 
-			// 承認コメント削除
-			if (! $this->Comment->deleteAll(array($this->Comment->alias . '.content_key' => $data['Video']['key']), false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+//			// 承認コメント削除
+//			if (! $this->Comment->deleteAll(array($this->Comment->alias . '.content_key' => $data['Video']['key']), false)) {
+//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//			}
 
 			// コンテンツコメント 削除
 			if (! $this->ContentComment->deleteAll(array($this->ContentComment->alias . '.content_key' => $data['Video']['key']), false)) {

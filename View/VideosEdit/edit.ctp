@@ -77,6 +77,9 @@ $this->Html->script(
 <?php //var_dump($video); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
+					<?php echo $this->NetCommonsForm->hidden('Video.id'); ?>
+					<?php echo $this->NetCommonsForm->hidden('Video.key'); ?>
+					<?php echo $this->NetCommonsForm->hidden('Video.mp4_id'); ?>
 
 					<?php echo $this->NetCommonsForm->input('Video.title', array(
 						'type' => 'text',
