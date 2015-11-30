@@ -238,7 +238,7 @@ class VideosEditController extends VideosAppController {
 				$this->Video->alias . '.key' => $videoKey
 			)
 		));
-//		$this->set('video', $video);
+		$this->set('video', $video);
 
 
 		//掲示板の場合は、削除権限と同じ条件とする(動画まねてみた。あってるのか？)
@@ -284,6 +284,32 @@ class VideosEditController extends VideosAppController {
 //		$comments = $this->BbsArticle->getCommentsByContentKey($this->request->data['BbsArticle']['key']);
 //		$this->set('comments', $comments);
 
+		// ファイル取得 動画ファイル
+		$results['videoFile'] = null;
+		if (isset($video['Video']['mp4_id'])) {
+			if ($file = $this->FileModel->find('first', array(
+				'recursive' => -1,
+				'conditions' => array(
+					$this->FileModel->alias . '.id' => $video['Video']['mp4_id']
+				)
+			))) {
+				$results['videoFile'] = $file['File'];
+			}
+		}
+
+		//ファイル取得 サムネイル
+		$results['thumbnail'] = null;
+		if (isset($video['Video']['thumbnail_id'])) {
+			if ($file = $this->FileModel->find('first', array(
+				'recursive' => -1,
+				'conditions' => array(
+					$this->FileModel->alias . '.id' => $video['Video']['thumbnail_id']
+				)
+			))) {
+				$results['thumbnail'] = $file['File'];
+			}
+		}
+		$this->set($results);
 
 
 

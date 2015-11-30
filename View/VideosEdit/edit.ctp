@@ -23,7 +23,7 @@ $this->Html->script(
 <div ng-controller="Videos"
 	 ng-init="initialize(<?php echo h(json_encode($video)); ?>)">
 
-	<div class="modal-body">
+	<article class="modal-body">
 
 		<div class="panel panel-default">
 			<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>
@@ -74,37 +74,46 @@ $this->Html->script(
 							]); ?>
 						</div>
 					<?php endif; */ ?>
+<?php //var_dump($video); ?>
+					<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
+					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
 
-					<div class="form-group">
-						<?php echo $this->Form->input('title', array(
-							'type' => 'text',
-							'label' => __d('videos', 'Title') . $this->element('NetCommons.required'),
-							'error' => false,
-							'class' => 'form-control',
-							//'ng-model' => 'video.title',
-							'default' => $video['title'],
-						)); ?>
+					<?php echo $this->NetCommonsForm->input('Video.title', array(
+						'type' => 'text',
+						'label' => __d('videos', 'Title'),
+						'required' => true
+					)); ?>
 
-						<?php echo $this->element(
-							'NetCommons.errors', [
-							'errors' => $this->validationErrors,
-							'model' => 'Video',
-							'field' => 'title',
-						]); ?>
-					</div>
+<!--					<div class="form-group">-->
+<!--<!--						--><?php ////echo $this->Form->input('title', array(
+////							'type' => 'text',
+////							'label' => __d('videos', 'Title') . $this->element('NetCommons.required'),
+////							'error' => false,
+////							'class' => 'form-control',
+////							//'ng-model' => 'video.title',
+////							'default' => $video['Video']['title'],
+////						)); ?>
+<!--					</div>-->
 
-					<label for="description">
-						<?php echo __d('videos', 'Description'); ?>
-					</label>
-					<div class="nc-wysiwyg-alert">
-						<?php echo $this->Form->textarea('description', array(
-							'class' => 'form-control',
-							'id' => 'description',
-							'rows' => 5,
-							//'ng-model' => 'video.description',
-							'default' => $video['description'],
-						)); ?>
-					</div>
+					<?php echo $this->NetCommonsForm->input('Video.description', array(
+						'type' => 'textarea',
+						'label' => __d('videos', 'Description'),
+						'rows' => 5,
+					)); ?>
+
+
+<!--					<label for="description">-->
+<!--						--><?php //echo __d('videos', 'Description'); ?>
+<!--					</label>-->
+<!--					<div class="nc-wysiwyg-alert">-->
+<!--						--><?php //echo $this->Form->textarea('description', array(
+//							'class' => 'form-control',
+//							'id' => 'description',
+//							'rows' => 5,
+//							//'ng-model' => 'video.description',
+//							'default' => $video['description'],
+//						)); ?>
+<!--					</div>-->
 
 					<div class="form-group"></div>
 					<?php $this->Form->unlockField('Tag');
@@ -115,14 +124,17 @@ $this->Html->script(
 
 					<hr />
 
-					<?php echo $this->element('Comments.form'); ?>
+					<?php //echo $this->element('Comments.form'); ?>
+					<?php echo $this->Workflow->inputComment('Video.status'); ?>
 
 				</div>
-				<div class="panel-footer">
-					<div class="text-center">
-						<?php echo $this->element('NetCommons.workflow_buttons'); ?>
-					</div>
-				</div>
+				<?php echo $this->Workflow->buttons('Video.status'); ?>
+
+<!--				<div class="panel-footer">-->
+<!--					<div class="text-center">-->
+<!--						--><?php //echo $this->element('NetCommons.workflow_buttons'); ?>
+<!--					</div>-->
+<!--				</div>-->
 
 			<?php echo $this->Form->end(); ?>
 
@@ -132,26 +144,28 @@ $this->Html->script(
 					<?php echo $this->Form->create('Video', array(
 						'type' => 'delete',
 						'style' => 'display: inline;',
-						'url' => '/videos/videos_edit/delete/' . $frameId,
+						'url' => '/videos/videos_edit/delete/' . Current::read('Frame.id') . '?frame_id=' . Current::read('Frame.id'),
 					)); ?>
 
-						<?php echo $this->Form->hidden('Video.id', array(
-							'value' => $video['id'],
-						)); ?>
-						<?php echo $this->Form->hidden('Video.key', array(
-							'value' => $video['key'],
-						)); ?>
+						<?php echo $this->NetCommonsForm->hidden('Video.id'); ?>
+						<?php echo $this->NetCommonsForm->hidden('Video.key'); ?>
+<!--						--><?php //echo $this->Form->hidden('Video.id', array(
+//							'value' => $video[]['id'],
+//						)); ?>
+<!--						--><?php //echo $this->Form->hidden('Video.key', array(
+//							'value' => $video['key'],
+//						)); ?>
 						<?php echo $this->Form->button("<span class='glyphicon glyphicon-trash'></span>", array(
 							'name' => 'delete',
 							'class' => 'btn btn-danger',
 							'onclick' => 'return confirm(\'' . sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'video')) . '\')'
-						)); ?>
+							)); ?>
 
 					<?php echo $this->Form->end(); ?>
 				</div>
 			</div>
 
 		</div>
-		<?php echo $this->element('Comments.index'); ?>
-	</div>
+		<?php echo $this->Workflow->comments(); ?>
+	</article>
 </div>
