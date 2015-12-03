@@ -35,7 +35,7 @@ $this->Html->script(
 		<div class="row">
 			<div class="col-xs-12 text-right" style="padding-bottom: 10px;">
 				<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
-					<a href="<?php echo NetCommonsUrl::url('/videos/videos_edit/edit/' . Current::read('Block.id') . '/' . $video['Video']['key']); ?>" class="btn btn-primary">
+					<a href="<?php echo $this->NetCommonsHtml->url('/videos/videos_edit/edit/' . Current::read('Block.id') . '/' . $video['Video']['key']); ?>" class="btn btn-primary">
 						<span class="glyphicon glyphicon-edit"> </span>
 					</a>
 				</span>
@@ -103,7 +103,7 @@ $this->Html->script(
 							<?php if (Current::permission('content_editable')): ?>
 								<span style="padding-right: 15px;">
 									<?php /* ダウンロード */ ?>
-									<a href="<?php echo isset($video['FileMp4']['download']) ? NetCommonsUrl::url($video['FileMp4']['download']) : ''; ?>">
+									<a href="<?php echo isset($video['FileMp4']['download']) ? $this->NetCommonsHtml->url($video['FileMp4']['download']) : ''; ?>">
 										<?php echo __d('videos', 'Downloads'); ?>
 									</a>
 								</span>
@@ -124,7 +124,7 @@ $this->Html->script(
 			</div>
 			<div class="form-group video-embed" style="display: none;">
 				<?php /* 埋め込みコード(非表示) */ ?>
-				<input type="text" class="form-control video-embed-text" value='<iframe width="400" height="300" src="<?php echo NetCommonsUrl::url($video['FileMp4']['url'], true); ?>" frameborder="0" allowfullscreen></iframe>'>
+				<input type="text" class="form-control video-embed-text" value='<iframe width="400" height="300" src="<?php echo $this->NetCommonsHtml->url($video['FileMp4']['url'], true); ?>" frameborder="0" allowfullscreen></iframe>'>
 			</div>
 			<div>
 				<?php /* 登録日 */ ?>
@@ -168,7 +168,7 @@ $this->Html->script(
 									<div class="pull-left">
 										<div>
 											<div>
-												<a href="<?php echo NetCommonsUrl::url('/videos/videos/view/' . Current::read('Block.id') . '/' . $relatedVideo['Video']['key']); ?>">
+												<a href="<?php echo $this->NetCommonsHtml->url('/videos/videos/view/' . Current::read('Block.id') . '/' . $relatedVideo['Video']['key']); ?>">
 													<?php if (isset($relatedVideo['FileThumbnail']['url_thumbnail'])) : ?>
 														<?php echo $this->Html->image($relatedVideo['FileThumbnail']['url_thumbnail'], array(
 															'alt' => $relatedVideo['Video']['title'],
@@ -194,7 +194,7 @@ $this->Html->script(
 									<div class="media-body">
 										<small>
 											<div>
-												<a href="<?php echo NetCommonsUrl::url('/videos/videos/view/' . Current::read('Block.id') . '/' . $relatedVideo['Video']['key']); ?>">
+												<a href="<?php echo $this->NetCommonsHtml->url('/videos/videos/view/' . Current::read('Block.id') . '/' . $relatedVideo['Video']['key']); ?>">
 													<h2><?php echo $relatedVideo['Video']['title']; ?></h2>
 												</a>
 											</div>
@@ -239,7 +239,7 @@ $this->Html->script(
 			'isCommentApproved' => $videoBlockSetting['comment_agree'],
 			'useComment' => $videoBlockSetting['use_comment'],
 			'contentCommentCnt' => $video['ContentCommentCnt']['cnt'],
-			'redirectUrl' => '/videos/videos/view/' . Current::read('Frame.id') . '/' . $video['Video']['key'] . '?frame_id=' . Current::read('Frame.id'),
+			'redirectUrl' => '/videos/videos/view/' . Current::read('Block.id') . '/' . $video['Video']['key'] . '?frame_id=' . Current::read('Frame.id'),
 		)); ?>
 	</div>
 </div>
