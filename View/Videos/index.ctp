@@ -136,7 +136,7 @@
 //												array('action' => 'view', 'key' => $video['Video']['key'])
 //											); ?>
 
-											<a href="<?php echo $this->Html->url('/videos/videos/view/' . Current::read('Frame.id') . '/' . $video['Video']['key'] . '?frame_id=' . Current::read('Frame.id')); ?>">
+											<a href="<?php echo NetCommonsUrl::url('/videos/videos/view/' . Current::read('Block.id') . '/' . $video['Video']['key']); ?>">
 												<?php if (isset($video['FileThumbnail']['url_thumbnail'])) : ?>
 													<?php echo $this->Html->image($video['FileThumbnail']['url_thumbnail'], array(
 														'alt' => $video['Video']['title'],
@@ -164,7 +164,7 @@
 											<div class="col-xs-12">
 												<small>
 													<div>
-														<a href="<?php echo $this->Html->url('/videos/videos/view/' . Current::read('Frame.id') . '/' . $video['Video']['key'] . '?frame_id=' . Current::read('Frame.id')); ?>">
+														<a href="<?php echo NetCommonsUrl::url('/videos/videos/view/' . Current::read('Block.id') . '/' . $video['Video']['key']); ?>">
 															<h2><?php echo $video['Video']['title']; ?></h2>
 														</a>
 													</div>

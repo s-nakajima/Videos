@@ -9,8 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-$fileMp4Url = isset($fileMp4Url) ? $this->Html->url(h($fileMp4Url)) : '';
-$fileThumbnailUrl = isset($fileThumbnailUrl) ? $this->Html->url(h($fileThumbnailUrl)) : '';
+$fileMp4Url = isset($fileMp4Url) ? NetCommonsUrl::url($fileMp4Url) : '';
+$fileThumbnailUrl = isset($fileThumbnailUrl) ? NetCommonsUrl::url($fileThumbnailUrl) : '';
 $isAutoPlay = $isAutoPlay ? 'autoplay' : '';
 ?>
 
