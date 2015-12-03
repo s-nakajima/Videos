@@ -30,24 +30,4 @@
 		Block::NEED_COMMENT_APPROVAL => __d('blocks', 'Need only comments approval'),
 		Block::NOT_NEED_APPROVAL => __d('blocks', 'Not need approval'),
 	),
-)); ?>
-
-
-<?php /*echo $this->element('Blocks.block_role_setting', array(
-	'roles' => $roles,
-	'model' => 'VideoBlockSetting',
-	'useWorkflow' => 'agree',
-	'useCommentApproval' => 'comment_agree',
-	'creatablePermissions' => array(
-		'contentCreatable' => __d('blocks', 'Content creatable roles'),
-		'contentCommentCreatable' => __d('blocks', 'Content comment creatable roles'),
-	),
-	'approvalPermissions' => array(
-		'contentCommentPublishable' => __d('blocks', 'Content comment publishable roles'),
-	),
-	'options' => array(
-		Block::NEED_APPROVAL => __d('blocks', 'Need approval in both %s and comments ', __d('videos', 'video')),
-		Block::NEED_COMMENT_APPROVAL => __d('blocks', 'Need only comments approval'),
-		Block::NOT_NEED_APPROVAL => __d('blocks', 'Not need approval'),
-	),
-)); */
+));

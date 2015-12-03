@@ -24,7 +24,7 @@ $this->Html->script(
 	<article class="modal-body">
 
 		<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>
-		<?php echo $this->NetCommonsForm->create('Video',array(
+		<?php echo $this->NetCommonsForm->create('Video', array(
 			'name' => 'form',
 			'novalidate' => true,
 			'type' => 'file',
