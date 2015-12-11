@@ -39,36 +39,39 @@ $this->Html->script(
 					} else {
 						$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), 'mp4');
 					} ?>
-					<?php echo $this->element('VideosEdit/file', array(
-						'pluginName' => 'Videos',
-						'label' => __d('videos', 'Video file') . $this->element('NetCommons.required'),
-						'field' => Video::VIDEO_FILE_FIELD,
-						'fileAccept' => 'video/*',
-						'model' => 'Video',
-						'pluginKey' => $this->request->params['plugin'],
-						'index' => 0,
-						'helpBlockMessage' => $videoHelpBlockMessage,
-						'file' => $videoFile,
-						'deleteEnable' => false,
-					)); ?>
+<!--					--><?php //echo $this->element('VideosEdit/file', array(
+//						'pluginName' => 'Videos',
+//						'label' => __d('videos', 'Video file') . $this->element('NetCommons.required'),
+//						'field' => Video::VIDEO_FILE_FIELD,
+//						'fileAccept' => 'video/*',
+//						'model' => 'Video',
+//						'pluginKey' => $this->request->params['plugin'],
+//						'index' => 0,
+//						'helpBlockMessage' => $videoHelpBlockMessage,
+//						'file' => $videoFile,
+//						'deleteEnable' => false,
+//					)); ?>
+					<?php echo $this->NetCommonsForm->uploadFile(Video::VIDEO_FILE_FIELD); ?>
+					<?php //echo $this->NetCommonsForm->uploadFile('videoFile'); ?>
 
 					<?php /* ffmpeg=OFF */ ?>
-					<?php if (!Video::isFfmpegEnable()) : ?>
-						<?php echo $this->element('VideosEdit/file', array(
-							'pluginName' => 'Videos',
-							'label' => __d('videos', 'Thumbnail') . $this->element('NetCommons.required'),
-							'field' => Video::THUMBNAIL_FIELD,
-							'fileAccept' => 'image/*',
-							'model' => 'Video',
-							'pluginKey' => $this->request->params['plugin'],
-							'index' => 1,
-							'helpBlockMessage' => sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION),
-							'file' => $thumbnail,
-							'deleteEnable' => false,
-							'overwriteEnable' => false,
-						)); ?>
+<!--					--><?php //if (!Video::isFfmpegEnable()) : ?>
+<!--						--><?php //echo $this->element('VideosEdit/file', array(
+//							'pluginName' => 'Videos',
+//							'label' => __d('videos', 'Thumbnail') . $this->element('NetCommons.required'),
+//							'field' => Video::THUMBNAIL_FIELD,
+//							'fileAccept' => 'image/*',
+//							'model' => 'Video',
+//							'pluginKey' => $this->request->params['plugin'],
+//							'index' => 1,
+//							'helpBlockMessage' => sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION),
+//							'file' => $thumbnail,
+//							'deleteEnable' => false,
+//							'overwriteEnable' => false,
+//						)); ?>
+						<?php echo $this->NetCommonsForm->uploadFile('thumbnail'); ?>
 
-					<?php endif; ?>
+<!--					--><?php //endif; ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
 

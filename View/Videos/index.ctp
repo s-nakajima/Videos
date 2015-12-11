@@ -137,12 +137,25 @@
 //											); ?>
 
 											<a href="<?php echo $this->NetCommonsHtml->url('/videos/videos/view/' . Current::read('Block.id') . '/' . $video['Video']['key']); ?>">
-												<?php if (isset($video['FileThumbnail']['url_thumbnail'])) : ?>
-													<?php echo $this->Html->image($video['FileThumbnail']['url_thumbnail'], array(
-														'alt' => $video['Video']['title'],
-														'style' => 'width: 140px; height: auto;'
-													)); ?>
-												<?php endif; ?>
+<!--												--><?php //if (isset($video['FileThumbnail']['url_thumbnail'])) : ?>
+<!--													--><?php //echo $this->Html->image($video['FileThumbnail']['url_thumbnail'], array(
+//														'alt' => $video['Video']['title'],
+//														'style' => 'width: 140px; height: auto;'
+//													)); ?>
+													<?php echo $this->Html->image(
+														$this->NetCommonsHtml->url(
+																[
+																	'action' => 'download',
+																	'key' => $video['Video']['key'],
+																	Video::THUMBNAIL_FIELD,
+																]
+														),
+														[
+															'alt' => $video['Video']['title'],
+															'style' => 'width: 140px; height: auto;'
+														]
+													); ?>
+<!--												--><?php //endif; ?>
 											</a>
 										</div>
 										<?php /* 再生時間 */ ?>

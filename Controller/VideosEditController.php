@@ -28,7 +28,7 @@ class VideosEditController extends VideosAppController {
  */
 	public $uses = array(
 //		'Comments.Comment',					// 承認コメント
-		'Files.FileModel',					// FileUpload
+//		'Files.FileModel',					// FileUpload
 		'Videos.Video',
 	);
 
@@ -54,6 +54,7 @@ class VideosEditController extends VideosAppController {
  * @var array
  */
 	public $helpers = array(
+		'NetCommons.NetCommonsForm',
 		'Workflow.Workflow',
 	);
 
@@ -72,7 +73,8 @@ class VideosEditController extends VideosAppController {
 
 			// 保存dataの準備
 //			$data = $this->__readySaveData($this->data);
-			$data = $this->__readySaveData($data);
+
+//			$data = $this->__readySaveData($data);
 
 //			// 登録データ作成
 //			$video = $this->Video->create();
@@ -135,31 +137,31 @@ class VideosEditController extends VideosAppController {
 //			$results['comments'] = $comments;
 //			$results['content_status'] = null;
 
-		// ファイル取得 動画ファイル
-		$results['videoFile'] = null;
-		if (isset($video['Video']['mp4_id'])) {
-			if ($file = $this->FileModel->find('first', array(
-				'recursive' => -1,
-				'conditions' => array(
-					$this->FileModel->alias . '.id' => $video['Video']['mp4_id']
-				)
-			))) {
-				$results['videoFile'] = $file['File'];
-			}
-		}
-
-		//ファイル取得 サムネイル
-		$results['thumbnail'] = null;
-		if (isset($video['Video']['thumbnail_id'])) {
-			if ($file = $this->FileModel->find('first', array(
-				'recursive' => -1,
-				'conditions' => array(
-					$this->FileModel->alias . '.id' => $video['Video']['thumbnail_id']
-				)
-			))) {
-				$results['thumbnail'] = $file['File'];
-			}
-		}
+//		// ファイル取得 動画ファイル
+//		$results['videoFile'] = null;
+//		if (isset($video['Video']['mp4_id'])) {
+//			if ($file = $this->FileModel->find('first', array(
+//				'recursive' => -1,
+//				'conditions' => array(
+//					$this->FileModel->alias . '.id' => $video['Video']['mp4_id']
+//				)
+//			))) {
+//				$results['videoFile'] = $file['File'];
+//			}
+//		}
+//
+//		//ファイル取得 サムネイル
+//		$results['thumbnail'] = null;
+//		if (isset($video['Video']['thumbnail_id'])) {
+//			if ($file = $this->FileModel->find('first', array(
+//				'recursive' => -1,
+//				'conditions' => array(
+//					$this->FileModel->alias . '.id' => $video['Video']['thumbnail_id']
+//				)
+//			))) {
+//				$results['thumbnail'] = $file['File'];
+//			}
+//		}
 
 		// キーをキャメル変換
 		//$results = $this->camelizeKeyRecursive($results);
@@ -392,69 +394,69 @@ class VideosEditController extends VideosAppController {
  * @param int $videoKey videos.key
  * @return array
  */
-	private function __init($videoKey = null) {
-		if (empty($videoKey)) {
-			$results['video'] = null;
-
+//	private function __init($videoKey = null) {
+//		if (empty($videoKey)) {
+//			$results['video'] = null;
+//
+////			$comments = $this->Comment->getComments(array(
+////				'plugin_key' => $this->request->params['plugin'],
+////				'content_key' => null,
+////			));
+//		} else {
+//
+//			// ワークフロー表示条件 取得
+//			$conditions = $this->_getWorkflowConditions($videoKey);
+//
+//			//取得
+//			$video = $this->Video->getVideo($conditions);
+//
+//			$results['video'] = $video['Video'];
+//
+//			if ($this->request->isGet()) {
+//				// タグ対応
+//				$this->request->data['Tag'] = isset($video['Tag']) ? $video['Tag'] : array();
+//			}
+//
 //			$comments = $this->Comment->getComments(array(
 //				'plugin_key' => $this->request->params['plugin'],
-//				'content_key' => null,
+//				'content_key' => $video['Video']['key'],
 //			));
-		} else {
-
-			// ワークフロー表示条件 取得
-			$conditions = $this->_getWorkflowConditions($videoKey);
-
-			//取得
-			$video = $this->Video->getVideo($conditions);
-
-			$results['video'] = $video['Video'];
-
-			if ($this->request->isGet()) {
-				// タグ対応
-				$this->request->data['Tag'] = isset($video['Tag']) ? $video['Tag'] : array();
-			}
-
-			$comments = $this->Comment->getComments(array(
-				'plugin_key' => $this->request->params['plugin'],
-				'content_key' => $video['Video']['key'],
-			));
-		}
-
-		$results['comments'] = $comments;
-		$results['contentStatus'] = null;
-
-		// ファイル取得 動画ファイル
-		$results['videoFile'] = null;
-		if (isset($video['Video']['mp4_id'])) {
-			if ($file = $this->FileModel->find('first', array(
-				'recursive' => -1,
-				'conditions' => array(
-					$this->FileModel->alias . '.id' => $video['Video']['mp4_id']
-				)
-			))) {
-				$results['videoFile'] = $file['File'];
-			}
-		}
-
-		//ファイル取得 サムネイル
-		$results['thumbnail'] = null;
-		if (isset($video['Video']['thumbnail_id'])) {
-			if ($file = $this->FileModel->find('first', array(
-				'recursive' => -1,
-				'conditions' => array(
-					$this->FileModel->alias . '.id' => $video['Video']['thumbnail_id']
-				)
-			))) {
-				$results['thumbnail'] = $file['File'];
-			}
-		}
-
-		// キーをキャメル変換
-		//$results = $this->camelizeKeyRecursive($results);
-
-		return $results;
-	}
+//		}
+//
+//		$results['comments'] = $comments;
+//		$results['contentStatus'] = null;
+//
+//		// ファイル取得 動画ファイル
+//		$results['videoFile'] = null;
+//		if (isset($video['Video']['mp4_id'])) {
+//			if ($file = $this->FileModel->find('first', array(
+//				'recursive' => -1,
+//				'conditions' => array(
+//					$this->FileModel->alias . '.id' => $video['Video']['mp4_id']
+//				)
+//			))) {
+//				$results['videoFile'] = $file['File'];
+//			}
+//		}
+//
+//		//ファイル取得 サムネイル
+//		$results['thumbnail'] = null;
+//		if (isset($video['Video']['thumbnail_id'])) {
+//			if ($file = $this->FileModel->find('first', array(
+//				'recursive' => -1,
+//				'conditions' => array(
+//					$this->FileModel->alias . '.id' => $video['Video']['thumbnail_id']
+//				)
+//			))) {
+//				$results['thumbnail'] = $file['File'];
+//			}
+//		}
+//
+//		// キーをキャメル変換
+//		//$results = $this->camelizeKeyRecursive($results);
+//
+//		return $results;
+//	}
 
 /**
  * 保存dataの準備

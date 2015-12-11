@@ -50,8 +50,23 @@ $this->Html->script(
 		<div style="padding-bottom: 20px;">
 			<?php /* 動画プレイヤー */ ?>
 			<?php echo $this->element('Videos/player', array(
-				'fileMp4Url' => $video['FileMp4']['url'],
-				'fileThumbnailUrl' => $video['FileThumbnail']['url_big'],
+//				'fileMp4Url' => $video['FileMp4']['url'],
+//				'fileThumbnailUrl' => $video['FileThumbnail']['url_big'],
+				'fileMp4Url' => $this->NetCommonsHtml->url(
+					[
+						'action' => 'download',
+						'key' => $video['Video']['key'],
+						Video::VIDEO_FILE_FIELD,
+					]
+				),
+				'fileThumbnailUrl' => $this->NetCommonsHtml->url(
+					[
+						'action' => 'download',
+						'key' => $video['Video']['key'],
+						Video::THUMBNAIL_FIELD,
+						'big',
+					]
+				),
 				'isAutoPlay' => $videoBlockSetting['auto_play'],
 			)); ?>
 		</div>

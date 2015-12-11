@@ -25,7 +25,7 @@ class Video extends VideosAppModel {
  *
  * @var string
  */
-	const VIDEO_FILE_FIELD = 'videoFile';
+	const VIDEO_FILE_FIELD = 'video_file';
 
 /**
  * file field name サムネイル
@@ -91,14 +91,14 @@ class Video extends VideosAppModel {
  */
 	public $actsAs = array(
 		'ContentComments.ContentComment',
-		'Files.YAUpload' => array(		// FileUpload
-			self::VIDEO_FILE_FIELD => array(
-				//UploadBefavior settings
-			),
-			self::THUMBNAIL_FIELD => array(
-				//UploadBefavior settings
-			),
-		),
+//		'Files.YAUpload' => array(		// FileUpload
+//			self::VIDEO_FILE_FIELD => array(
+//				//UploadBefavior settings
+//			),
+//			self::THUMBNAIL_FIELD => array(
+//				//UploadBefavior settings
+//			),
+//		),
 		'Likes.Like',					// いいね
 		'NetCommons.OriginalKey',		// 自動でkeyセット
 		//'NetCommons.Publishable',		// 自動でis_active, is_latestセット
@@ -108,6 +108,10 @@ class Video extends VideosAppModel {
 		'Videos.VideoValidation',		// Validation rules
 		'Workflow.Workflow',
 		'Workflow.WorkflowComment',
+		'Files.Attachment' => [
+			Video::VIDEO_FILE_FIELD,
+			Video::THUMBNAIL_FIELD,
+		],
 	);
 
 /**
@@ -157,20 +161,20 @@ class Video extends VideosAppModel {
 			'fields' => 'language_id',
 			'order' => ''
 		),
-		'FileMp4' => array(
-			'className' => 'Files.FileModel',
-			'foreignKey' => 'mp4_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'FileThumbnail' => array(
-			'className' => 'Files.FileModel',
-			'foreignKey' => 'thumbnail_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
+//		'FileMp4' => array(
+//			'className' => 'Files.FileModel',
+//			'foreignKey' => 'mp4_id',
+//			'conditions' => '',
+//			'fields' => '',
+//			'order' => ''
+//		),
+//		'FileThumbnail' => array(
+//			'className' => 'Files.FileModel',
+//			'foreignKey' => 'thumbnail_id',
+//			'conditions' => '',
+//			'fields' => '',
+//			'order' => ''
+//		),
 		'User' => array(
 			'className' => 'Users.User',
 			'foreignKey' => 'created_user',
@@ -200,6 +204,32 @@ class Video extends VideosAppModel {
 			}
 		}
 		return $results;
+	}
+
+/**
+ * UserIdと権限から参照可能なEntryを取得するCondition配列を返す
+ *
+ * @param int $blockId ブロックId
+ * @param int $userId アクセスユーザID
+ * @param array $permissions 権限
+ * @param datetime $currentDateTime 現在日時
+ * @return array condition
+ */
+	public function getConditions($blockId, $userId, $permissions, $currentDateTime) {
+		// contentReadable falseなら何も見えない
+		if ($permissions['content_readable'] === false) {
+			$conditions = array('Video.id' => 0); // ありえない条件でヒット0にしてる
+			return $conditions;
+		}
+
+		// デフォルト絞り込み条件
+		$conditions = array(
+			'Video.block_id' => $blockId
+		);
+
+		$conditions = $this->getWorkflowConditions($conditions);
+
+		return $conditions;
 	}
 
 /**
@@ -251,10 +281,10 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function updateCountUp($data) {
-		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
-		$this->loadModels(array(
-			'Video' => 'Videos.Video',
-		));
+//		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
+//		$this->loadModels(array(
+//			'Video' => 'Videos.Video',
+//		));
 
 		$video['Video'] = $data['Video'];
 		//再生回数 + 1
@@ -295,11 +325,11 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function addSaveVideo($data) {
-		$this->loadModels(array(
-			'Video' => 'Videos.Video',
-//			'Comment' => 'Comments.Comment',
-			'FileModel' => 'Files.FileModel',
-		));
+//		$this->loadModels(array(
+////			'Video' => 'Videos.Video',
+////			'Comment' => 'Comments.Comment',
+//			'FileModel' => 'Files.FileModel',
+//		));
 
 		//トランザクションBegin
 		$this->begin();
@@ -321,10 +351,10 @@ class Video extends VideosAppModel {
 //				return false;
 //			}
 
-			// ファイルチェック 動画ファイル
-			if (!$data = $this->validateVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0)) {
-				return false;
-			}
+//			// ファイルチェック 動画ファイル
+//			if (!$data = $this->validateVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0)) {
+//				return false;
+//			}
 
 			// ステータスチェック
 //			if (!$this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
@@ -332,16 +362,18 @@ class Video extends VideosAppModel {
 //				return false;
 //			}
 
-			// 動画ファイルを一旦登録
-			$data = $this->saveVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0);
+//			// 動画ファイルを一旦登録
+//			$data = $this->saveVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0);
 
 			// 値をセット
 			$this->set($data);
 
+//$this->log('video_save_before', 'debug');
 			// 動画データ登録
 			if (! $video = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+//$this->log('video_save_after', 'debug');
 
 			// 動画変換とデータ保存
 			if (!$this->saveConvertVideo($data, $video)) {
@@ -367,12 +399,12 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function addNoConvertSaveVideo($data) {
-		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
-		$this->loadModels(array(
-			'Video' => 'Videos.Video',
-//			'Comment' => 'Comments.Comment',
-			'FileModel' => 'Files.FileModel',
-		));
+//		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
+//		$this->loadModels(array(
+//			'Video' => 'Videos.Video',
+////			'Comment' => 'Comments.Comment',
+//			'FileModel' => 'Files.FileModel',
+//		));
 
 		//トランザクションBegin
 		$this->begin();
@@ -444,12 +476,12 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function editSaveVideo($data) {
-		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
-		$this->loadModels(array(
-			'Video' => 'Videos.Video',
-			'Comment' => 'Comments.Comment',
-			'FileModel' => 'Files.FileModel',
-		));
+//		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
+//		$this->loadModels(array(
+//			'Video' => 'Videos.Video',
+//			'Comment' => 'Comments.Comment',
+//			'FileModel' => 'Files.FileModel',
+//		));
 
 		//トランザクションBegin
 		$dataSource = $this->getDataSource();
@@ -512,14 +544,14 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function deleteVideo($data) {
-		$this->loadModels(array(
-			'Comment' => 'Comments.Comment',
-			'ContentComment' => 'ContentComments.ContentComment',
-			'FileModel' => 'Files.FileModel',		// FileUpload
-			'Like' => 'Likes.Like',
-			'TagsContent' => 'Tags.TagsContent',
-			'Video' => 'Videos.Video',
-		));
+//		$this->loadModels(array(
+////			'Comment' => 'Comments.Comment',
+////			'ContentComment' => 'ContentComments.ContentComment',
+////			'FileModel' => 'Files.FileModel',		// FileUpload
+//			'Like' => 'Likes.Like',
+//			'TagsContent' => 'Tags.TagsContent',
+////			'Video' => 'Videos.Video',
+//		));
 
 		//トランザクションBegin
 		$dataSource = $this->getDataSource();

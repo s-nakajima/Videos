@@ -17,25 +17,34 @@ class VideoBehavior extends ModelBehavior {
 /**
  * 動画変換とデータ保存
  *
- * @param Model $Model モデル
+ * @param Model $model モデル
  * @param array $data received post data
  * @param array $video Video
  * @return bool true on success, false on error
  * @throws InternalErrorException
  */
-	public function saveConvertVideo(Model $Model, $data, $video) {
+	public function saveConvertVideo(Model $model, $data, $video) {
 		// 元動画 取得
-		$noConvert = $Model->FileModel->findById($video['Video']['mp4_id']);
+//		$noConvert = $model->FileModel->findById($video['Video']['mp4_id']);
+
+		// C:\projects\NetCommons3\app\Plugin\Blogs\Controller\BlogEntriesEditController.php #219あたり
+		$UploadFile = ClassRegistry::init('Files.UploadFile');
+//		$path = '/var/www/app/app/Plugin/Files/Test/Fixture/logo.gif';
+//		$path2 = TMP . 'logo.gif';
+//		copy($path, $path2);
+		//$UploadFile->registByFilePath($path2, 'blogs', 'content_key..', 'photo');
+		$UploadFile->registByFilePath($model->date['Video']['video_file']['tmp_name'], 'videos', $video['Video']['key'], Video::VIDEO_FILE_FIELD);
+
 
 		// --- 動画変換
-		if (! $data = $this->__convertVideo($Model, $data, $video, $noConvert)) {
-			$Model->deleteFile($data, $Model->alias, 'mp4_id', 0);	//元動画 削除
+		if (! $data = $this->__convertVideo($model, $data, $video, $noConvert)) {
+			$model->deleteFile($data, $model->alias, 'mp4_id', 0);	//元動画 削除
 			return false;
 		}
 
 		// --- 再生時間を取得
 		if (!$videoTimeSec = $this->__getVideoTime($noConvert)) {
-			$Model->deleteFile($data, $Model->alias, 'mp4_id', 0);	//元動画 削除
+			$model->deleteFile($data, $model->alias, 'mp4_id', 0);	//元動画 削除
 			return false;
 		}
 		$data['Video']['video_time'] = $videoTimeSec;
@@ -44,24 +53,24 @@ class VideoBehavior extends ModelBehavior {
 		$data = $this->__generateThumbnail($data, $video[Video::VIDEO_FILE_FIELD]['FilesPlugin']['plugin_key'], $noConvert);
 
 		// ファイルチェック サムネイル
-		if (! $data = $Model->validateVideoFile($data, Video::THUMBNAIL_FIELD, $Model->alias, 'thumbnail_id', 1)) {
-			$this->log($Model->validationErrors, 'debug');
+		if (! $data = $model->validateVideoFile($data, Video::THUMBNAIL_FIELD, $model->alias, 'thumbnail_id', 1)) {
+			$this->log($model->validationErrors, 'debug');
 			//変換後動画、サムネイル 削除
-			$Model->deleteFile($data, $Model->alias, 'mp4_id', 0);
-			$Model->deleteFile($data, $Model->alias, 'thumbnail_id', 1);
+			$model->deleteFile($data, $model->alias, 'mp4_id', 0);
+			$model->deleteFile($data, $model->alias, 'thumbnail_id', 1);
 
 			return false;
 		}
 
 		// ファイルの登録 サムネイル
-		$data = $Model->saveVideoFile($data, Video::THUMBNAIL_FIELD, $Model->alias, 'thumbnail_id', 1);
+		$data = $model->saveVideoFile($data, Video::THUMBNAIL_FIELD, $model->alias, 'thumbnail_id', 1);
 
 		// --- 動画テーブルを更新
 		// 値をセット
-		$Model->set($data);
+		$model->set($data);
 
 		// 動画データ登録
-		$video = $Model->save(null, false);
+		$video = $model->save(null, false);
 		if (!$video) {
 			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
@@ -72,34 +81,40 @@ class VideoBehavior extends ModelBehavior {
 /**
  * 動画変換
  *
- * @param Model $Model モデル
+ * @param Model $model モデル
  * @param array $data received post data
  * @param array $video Video
  * @param array $noConvert File
  * @return mixed Array on success, false on error
  * @throws InternalErrorException
  */
-	private function __convertVideo(Model $Model, $data, $video, $noConvert) {
+	private function __convertVideo(Model $model, $data, $video, $noConvert) {
 		// --- 動画変換
 
 		// アップロードファイルの受け取りと移動
-		$noConvertPath = $noConvert['File']["path"];
-		$noConvertSlug = $noConvert['File']["slug"];
-		$noConvertExtension = $noConvert['File']["extension"];
+//		$noConvertPath = $noConvert['File']["path"];
+//		$noConvertSlug = $noConvert['File']["slug"];
+//		$noConvertExtension = $noConvert['File']["extension"];
+
+		$noConvertPath = $model->data['Video'][Video::VIDEO_FILE_FIELD]['tmp_name'];
+		//$noConvertSlug = $noConvert['File']["slug"];
+		$noConvertMimeType = $model->data['Video'][Video::VIDEO_FILE_FIELD]['type'];
 
 		// サムネイル名は動画名で末尾jpgにしたものをセット
 		$videoName = explode('.', $noConvert['File']["name"])[0];
 
 		// アップロード済みのvideoFileの入力値を、$dataから除外
-		unset($data[$Model->alias]['videoFile']);
+		unset($data[$model->alias]['videoFile']);
 
 		// mp4は変換しない
-		if ($noConvertExtension != "mp4") {
+//		if ($noConvertExtension != "mp4") {
+		if ($noConvertMimeType != "video/mp4") {
 
 			// 例）ffmpeg -y -i /var/www/html/movies/original/MOV_test_movie.MOV -acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k MOV_test_movie.mp4
 			// 動画変換
 			// 動画変換実施(元動画 > H.264)  コマンドインジェクション対策
-			$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath . $noConvertSlug . '.' . $noConvertExtension) . ' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . ' 2>&1';
+//			$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath . $noConvertSlug . '.' . $noConvertExtension) . ' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . ' 2>&1';
+			$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath) . ' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . ' 2>&1';
 			exec($strCmd, $arr, $ret);
 
 			// 変換エラー時
@@ -122,13 +137,13 @@ class VideoBehavior extends ModelBehavior {
 			$data[Video::VIDEO_FILE_FIELD]['File']['size'] = filesize($noConvertPath . $noConvertSlug . '.mp4');
 
 			// ファイルチェック 変換後動画ファイル
-			if (!$data = $Model->validateVideoFile($data, Video::VIDEO_FILE_FIELD, $Model->alias, 'mp4_id', 0)) {
-				$this->log($Model->validationErrors, 'debug');
+			if (!$data = $model->validateVideoFile($data, Video::VIDEO_FILE_FIELD, $model->alias, 'mp4_id', 0)) {
+				$this->log($model->validationErrors, 'debug');
 				return false;
 			}
 
 			// ファイルの登録 変換後動画ファイル
-			$data = $Model->saveVideoFile($data, Video::VIDEO_FILE_FIELD, $Model->alias, 'mp4_id', 0);
+			$data = $model->saveVideoFile($data, Video::VIDEO_FILE_FIELD, $model->alias, 'mp4_id', 0);
 
 			// 元動画 ファイルのみ削除
 			$file = new File($noConvertPath . $noConvertSlug . '.' . $noConvertExtension);
@@ -241,11 +256,11 @@ class VideoBehavior extends ModelBehavior {
 /**
  * 秒を時：分：秒に変更 (表示用)
  *
- * @param Model $Model モデル
+ * @param Model $model モデル
  * @param int $totalSec 秒
  * @return string 時：分：秒
  */
-	public function convSecToHour(Model $Model, $totalSec) {
+	public function convSecToHour(Model $model, $totalSec) {
 		$sec = $totalSec % 60;
 		$min = (int)($totalSec / 60) % 60;
 		$hour = (int)($totalSec / (60 * 60));
@@ -258,11 +273,11 @@ class VideoBehavior extends ModelBehavior {
 /**
  * 秒を時：分：秒に変更 (編集用)
  *
- * @param Model $Model モデル
+ * @param Model $model モデル
  * @param int $totalSec 秒
  * @return string 時：分：秒
  */
-	//	public function convSecToHourEdit(Model $Model, $totalSec) {
+	//	public function convSecToHourEdit(Model $model, $totalSec) {
 	//		$sec = $totalSec % 60;
 	//		$min = (int)($totalSec / 60) % 60;
 	//		$hour = (int)($totalSec / (60 * 60));

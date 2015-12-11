@@ -162,4 +162,42 @@ class VideosAppController extends AppController {
 
 		return $conditions;
 	}
+
+/**
+ * 権限の取得
+ *
+ * @return array
+ */
+	protected function _getPermission() {
+		$permissionNames = array(
+			'content_readable',
+			'content_creatable',
+			'content_editable',
+			'content_publishable',
+		);
+		$permission = array();
+		foreach ($permissionNames as $key) {
+			$permission[$key] = Current::permission($key);
+		}
+		return $permission;
+	}
+
+/**
+ * 現在の日時を返す
+ *
+ * @return string datetime
+ */
+	protected function _getCurrentDateTime() {
+		return date('Y-m-d H:i:s', $this->_getNow());
+	}
+
+/**
+ * 現在時刻を返す。テストしやすくするためにメソッドに切り出した。
+ *
+ * @return int
+ */
+	protected function _getNow() {
+		return time();
+	}
+
 }

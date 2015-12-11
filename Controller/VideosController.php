@@ -70,6 +70,7 @@ class VideosController extends VideosAppController {
 		'Cookie',
 		'Paginator',						// ページャ
 		//'NetCommons.NetCommonsRoomRole',	// パーミッション取得
+		'Files.Download',
 	);
 
 /**
@@ -79,7 +80,7 @@ class VideosController extends VideosAppController {
  */
 	public function beforeFilter() {
 		// ゲストアクセスOKのアクションを設定
-		$this->Auth->allow('tag');
+		$this->Auth->allow('tag', 'download');
 		parent::beforeFilter();
 	}
 
@@ -531,6 +532,33 @@ class VideosController extends VideosAppController {
 		//$results = $this->camelizeKeyRecursive($results);
 
 		$this->set($results);
+	}
+
+	public function download() {
+		// ここから元コンテンツを取得する処理
+		//$this->_prepare();
+		$key = $this->params['pass'][1];
+		$conditions = $this->Video->getConditions(
+			Current::read('Block.id'),
+			$this->Auth->user('id'),
+			$this->_getPermission(),
+			$this->_getCurrentDateTime()
+		);
+
+		$conditions['Video.key'] = $key;
+		$options = array(
+			'conditions' => $conditions,
+		);
+		$video = $this->Video->find('first', $options);
+		// ここまで元コンテンツを取得する処理
+
+		// ダウンロード実行
+		if ($video) {
+			return $this->Download->doDownload($video['Video']['id']);
+		} else {
+			// 表示できない記事へのアクセスなら404
+			throw new NotFoundException(__('Invalid blog entry'));
+		}
 	}
 
 /**
