@@ -23,57 +23,81 @@ class VideoBehavior extends ModelBehavior {
  * @return bool true on success, false on error
  * @throws InternalErrorException
  */
-	public function saveConvertVideo(Model $model, $data, $video) {
+//	public function saveConvertVideo(Model $model, $data, $video) {
+	public function saveConvertVideo(Model $model, $video) {
 		// 元動画 取得
 //		$noConvert = $model->FileModel->findById($video['Video']['mp4_id']);
+		$UploadFile = ClassRegistry::init('Files.UploadFile');
+		$noConvert = $UploadFile->getFile('videos', $video['Video']['id'], Video::VIDEO_FILE_FIELD);
+
+//$this->log('1111', 'debug');
+//$this->log($model->data, 'debug');
+//$this->log('========================', 'debug');
+//$this->log($data, 'debug');
+//$this->log('========================', 'debug');
+//$this->log($video, 'debug');
+$this->log('========================', 'debug');
+$this->log($noConvert, 'debug');
+$this->log('========================', 'debug');
 
 		// C:\projects\NetCommons3\app\Plugin\Blogs\Controller\BlogEntriesEditController.php #219あたり
-		$UploadFile = ClassRegistry::init('Files.UploadFile');
+//		$UploadFile = ClassRegistry::init('Files.UploadFile');
 //		$path = '/var/www/app/app/Plugin/Files/Test/Fixture/logo.gif';
 //		$path2 = TMP . 'logo.gif';
 //		copy($path, $path2);
 		//$UploadFile->registByFilePath($path2, 'blogs', 'content_key..', 'photo');
-		$UploadFile->registByFilePath($model->date['Video']['video_file']['tmp_name'], 'videos', $video['Video']['key'], Video::VIDEO_FILE_FIELD);
+//		$UploadFile->registByFilePath($model->data['Video'][Video::VIDEO_FILE_FIELD]['tmp_name'], 'videos', $video['Video']['key'], Video::VIDEO_FILE_FIELD);
 
 
 		// --- 動画変換
-		if (! $data = $this->__convertVideo($model, $data, $video, $noConvert)) {
-			$model->deleteFile($data, $model->alias, 'mp4_id', 0);	//元動画 削除
+//		if (! $data = $this->__convertVideo($model, $data, $video, $noConvert)) {
+		if (! $data = $this->__convertVideo($video, $noConvert)) {
+
+			//$model->deleteFile($data, $model->alias, 'mp4_id', 0);	//元動画 削除
+			$UploadFile->removeFile($video['Video']['id'], Video::VIDEO_FILE_FIELD);	//元動画 削除
+			$this->log('saveConvertVideo() -> __convertVideo() false', 'debug');
 			return false;
 		}
 
 		// --- 再生時間を取得
-		if (!$videoTimeSec = $this->__getVideoTime($noConvert)) {
-			$model->deleteFile($data, $model->alias, 'mp4_id', 0);	//元動画 削除
-			return false;
-		}
-		$data['Video']['video_time'] = $videoTimeSec;
+//		if (!$videoTimeSec = $this->__getVideoTime($noConvert)) {
+////		if (!$videoTimeSec = $this->__getVideoTime($data)) {
+//			//$model->deleteFile($data, $model->alias, 'mp4_id', 0);	//元動画 削除
+//			$UploadFile->removeFile($video['Video']['id'], Video::VIDEO_FILE_FIELD);	//元動画 削除
+//			$this->log('saveConvertVideo() -> __getVideoTime() false', 'debug');
+//			$this->log('$videoTimeSec:' . $videoTimeSec, 'debug');
+//			return false;
+//		}
+		$videoTimeSec = $this->__getVideoTime($noConvert);
+$this->log('$videoTimeSec:' . $videoTimeSec, 'debug');
+		$video['Video']['video_time'] = $videoTimeSec;
 
 		// --- サムネイル自動作成
-		$data = $this->__generateThumbnail($data, $video[Video::VIDEO_FILE_FIELD]['FilesPlugin']['plugin_key'], $noConvert);
+//		$data = $this->__generateThumbnail($data, $video[Video::VIDEO_FILE_FIELD]['FilesPlugin']['plugin_key'], $noConvert);
+		$this->__generateThumbnail($video, $noConvert);
 
-		// ファイルチェック サムネイル
-		if (! $data = $model->validateVideoFile($data, Video::THUMBNAIL_FIELD, $model->alias, 'thumbnail_id', 1)) {
-			$this->log($model->validationErrors, 'debug');
-			//変換後動画、サムネイル 削除
-			$model->deleteFile($data, $model->alias, 'mp4_id', 0);
-			$model->deleteFile($data, $model->alias, 'thumbnail_id', 1);
+//		// ファイルチェック サムネイル
+//		if (! $data = $model->validateVideoFile($data, Video::THUMBNAIL_FIELD, $model->alias, 'thumbnail_id', 1)) {
+//			$this->log($model->validationErrors, 'debug');
+//			//変換後動画、サムネイル 削除
+//			$model->deleteFile($data, $model->alias, 'mp4_id', 0);
+//			$model->deleteFile($data, $model->alias, 'thumbnail_id', 1);
+//
+//			return false;
+//		}
 
-			return false;
-		}
-
-		// ファイルの登録 サムネイル
-		$data = $model->saveVideoFile($data, Video::THUMBNAIL_FIELD, $model->alias, 'thumbnail_id', 1);
-
+//		// ファイルの登録 サムネイル
+//		$data = $model->saveVideoFile($data, Video::THUMBNAIL_FIELD, $model->alias, 'thumbnail_id', 1);
+//
 		// --- 動画テーブルを更新
 		// 値をセット
-		$model->set($data);
-
-		// 動画データ登録
-		$video = $model->save(null, false);
-		if (!$video) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-		}
+//		$model->set($data);
+//		$model->set($video);
+//
+//		// 動画データ登録
+//		if (! $video = $model->save(null, false)) {
+//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//		}
 
 		return true;
 	}
@@ -88,7 +112,8 @@ class VideoBehavior extends ModelBehavior {
  * @return mixed Array on success, false on error
  * @throws InternalErrorException
  */
-	private function __convertVideo(Model $model, $data, $video, $noConvert) {
+//	private function __convertVideo(Model $model, $data, $video, $noConvert) {
+	private function __convertVideo($video, $noConvert) {
 		// --- 動画変換
 
 		// アップロードファイルの受け取りと移動
@@ -96,25 +121,34 @@ class VideoBehavior extends ModelBehavior {
 //		$noConvertSlug = $noConvert['File']["slug"];
 //		$noConvertExtension = $noConvert['File']["extension"];
 
-		$noConvertPath = $model->data['Video'][Video::VIDEO_FILE_FIELD]['tmp_name'];
-		//$noConvertSlug = $noConvert['File']["slug"];
-		$noConvertMimeType = $model->data['Video'][Video::VIDEO_FILE_FIELD]['type'];
+//		$noConvertPath = $model->data['Video'][Video::VIDEO_FILE_FIELD]['tmp_name'];
+//		//$noConvertSlug = $noConvert['File']["slug"];
+//		$noConvertMimeType = $model->data['Video'][Video::VIDEO_FILE_FIELD]['type'];
+//		$noConvertPath = $data['Video'][Video::VIDEO_FILE_FIELD]['tmp_name'];
+//		//$noConvertSlug = $noConvert['File']["slug"];
+//		$noConvertMimeType = $data['Video'][Video::VIDEO_FILE_FIELD]['type'];
+		$noConvertPath = APP . WEBROOT_DIR . DS . $noConvert['UploadFile']['path'] . $noConvert['UploadFile']['id'] . DS;
+		$realFileName = $noConvert['UploadFile']["real_file_name"];
+		$noConvertExtension = $noConvert['UploadFile']["extension"];
 
 		// サムネイル名は動画名で末尾jpgにしたものをセット
-		$videoName = explode('.', $noConvert['File']["name"])[0];
+//		$videoName = explode('.', $noConvert['File']["name"])[0];
+		$videoName = explode('.', $realFileName)[0];
 
 		// アップロード済みのvideoFileの入力値を、$dataから除外
-		unset($data[$model->alias]['videoFile']);
+//		unset($data[$model->alias]['videoFile']);
 
 		// mp4は変換しない
-//		if ($noConvertExtension != "mp4") {
-		if ($noConvertMimeType != "video/mp4") {
+		if ($noConvertExtension != "mp4") {
+//		if ($noConvertMimeType != "video/mp4") {
 
 			// 例）ffmpeg -y -i /var/www/html/movies/original/MOV_test_movie.MOV -acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k MOV_test_movie.mp4
 			// 動画変換
 			// 動画変換実施(元動画 > H.264)  コマンドインジェクション対策
 //			$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath . $noConvertSlug . '.' . $noConvertExtension) . ' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . ' 2>&1';
-			$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath) . ' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . ' 2>&1';
+			//        /usr/bin/ffmpeg -y -i '' -acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k '.mp4' 2>&1
+//			$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath) . ' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . ' 2>&1';
+			$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath . $realFileName) . ' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $videoName . '.mp4') . ' 2>&1';
 			exec($strCmd, $arr, $ret);
 
 			// 変換エラー時
@@ -126,31 +160,39 @@ class VideoBehavior extends ModelBehavior {
 				return false;
 			}
 
-			// Filesテーブルに変換後動画を登録。Delete->Insert
-			$data[Video::VIDEO_FILE_FIELD]['File']['type'] = 'video/mp4';
-			$data[Video::VIDEO_FILE_FIELD]['File']['mimetype'] = 'video/mp4';
-			$data[Video::VIDEO_FILE_FIELD]['File']['path'] = '{ROOT}' . 'videos' . '{DS}' . Current::read('Room.id') . '{DS}' . $video['Video']['id'] . '{DS}';
-			$data[Video::VIDEO_FILE_FIELD]['File']['name'] = $videoName . '.mp4';
-			$data[Video::VIDEO_FILE_FIELD]['File']['alt'] = $videoName . '.mp4';
-			$data[Video::VIDEO_FILE_FIELD]['File']['extension'] = 'mp4';
-			$data[Video::VIDEO_FILE_FIELD]['File']['tmp_name'] = $noConvertPath . $noConvertSlug . '.mp4';
-			$data[Video::VIDEO_FILE_FIELD]['File']['size'] = filesize($noConvertPath . $noConvertSlug . '.mp4');
+			$UploadFile = ClassRegistry::init('Files.UploadFile');
+//		$path = '/var/www/app/app/Plugin/Files/Test/Fixture/logo.gif';
+//		$path2 = TMP . 'logo.gif';
+//		copy($path, $path2);
+			//$UploadFile->registByFilePath($path2, 'blogs', 'content_key..', 'photo');
+			$UploadFile->registByFilePath($noConvertPath . $videoName . '.mp4', 'videos', $video['Video']['key'], Video::VIDEO_FILE_FIELD);
 
-			// ファイルチェック 変換後動画ファイル
-			if (!$data = $model->validateVideoFile($data, Video::VIDEO_FILE_FIELD, $model->alias, 'mp4_id', 0)) {
-				$this->log($model->validationErrors, 'debug');
-				return false;
-			}
-
-			// ファイルの登録 変換後動画ファイル
-			$data = $model->saveVideoFile($data, Video::VIDEO_FILE_FIELD, $model->alias, 'mp4_id', 0);
-
-			// 元動画 ファイルのみ削除
-			$file = new File($noConvertPath . $noConvertSlug . '.' . $noConvertExtension);
-			$file->delete();
+//			// Filesテーブルに変換後動画を登録。Delete->Insert
+//			$data[Video::VIDEO_FILE_FIELD]['File']['type'] = 'video/mp4';
+//			$data[Video::VIDEO_FILE_FIELD]['File']['mimetype'] = 'video/mp4';
+//			$data[Video::VIDEO_FILE_FIELD]['File']['path'] = '{ROOT}' . 'videos' . '{DS}' . Current::read('Room.id') . '{DS}' . $video['Video']['id'] . '{DS}';
+//			$data[Video::VIDEO_FILE_FIELD]['File']['name'] = $videoName . '.mp4';
+//			$data[Video::VIDEO_FILE_FIELD]['File']['alt'] = $videoName . '.mp4';
+//			$data[Video::VIDEO_FILE_FIELD]['File']['extension'] = 'mp4';
+//			$data[Video::VIDEO_FILE_FIELD]['File']['tmp_name'] = $noConvertPath . $noConvertSlug . '.mp4';
+//			$data[Video::VIDEO_FILE_FIELD]['File']['size'] = filesize($noConvertPath . $noConvertSlug . '.mp4');
+//
+//			// ファイルチェック 変換後動画ファイル
+//			if (!$data = $model->validateVideoFile($data, Video::VIDEO_FILE_FIELD, $model->alias, 'mp4_id', 0)) {
+//				$this->log($model->validationErrors, 'debug');
+//				return false;
+//			}
+//
+//			// ファイルの登録 変換後動画ファイル
+//			$data = $model->saveVideoFile($data, Video::VIDEO_FILE_FIELD, $model->alias, 'mp4_id', 0);
+//
+//			// 元動画 ファイルのみ削除
+//			$file = new File($noConvertPath . $noConvertSlug . '.' . $noConvertExtension);
+//			$file->delete();
 		}
 
-		return $data;
+//		return $data;
+		return true;
 	}
 
 /**
@@ -160,14 +202,23 @@ class VideoBehavior extends ModelBehavior {
  * @return mixed int on success, false on error
  */
 	private function __getVideoTime($noConvert) {
+//	private function __getVideoTime($data) {
 		// 元動画
-		$noConvertPath = $noConvert['File']["path"];
-		$noConvertSlug = $noConvert['File']["slug"];
+//		$noConvertPath = $noConvert['File']["path"];
+//		$noConvertSlug = $noConvert['File']["slug"];
+//		$noConvertPath = $data['Video'][Video::VIDEO_FILE_FIELD]['tmp_name'];
+//		//$noConvertSlug = $noConvert['File']["slug"];
+		$noConvertPath = APP . WEBROOT_DIR . DS . $noConvert['UploadFile']['path'] . $noConvert['UploadFile']['id'] . DS;
+		$realFileName = $noConvert['UploadFile']["real_file_name"];
+		$videoName = explode('.', $realFileName)[0];
 
 		// 変換後の動画情報を取得 コマンドインジェクション対策
 		// ffmpeg -i の $retInfo はファイルがあってもなくても1(失敗)なので、エラー時処理は省く
-		$strCmd = Video::FFMPEG_PATH . " -i " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . " 2>&1";
+		//$strCmd = Video::FFMPEG_PATH . " -i " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . " 2>&1";
+		$strCmd = Video::FFMPEG_PATH . " -i " . escapeshellarg($noConvertPath . $videoName . '.mp4') . " 2>&1";
 		exec($strCmd, $arrInfo);
+$this->log($strCmd, 'debug');
+$this->log($arrInfo, 'debug');
 
 		//動画情報から時間を取得
 		$videoTimeSec = 0;
@@ -198,22 +249,31 @@ class VideoBehavior extends ModelBehavior {
  * @return mixed Array on success, false on error
  * @throws InternalErrorException
  */
-	private function __generateThumbnail($data, $pluginKey, $noConvert) {
+	//private function __generateThumbnail($data, $pluginKey, $noConvert) {
+	private function __generateThumbnail($video, $noConvert) {
 		// 元動画
-		$noConvertPath = $noConvert['File']["path"];
-		$noConvertSlug = $noConvert['File']["slug"];
-		$videoName = explode('.', $noConvert['File']["name"])[0];
+//		$noConvertPath = $noConvert['File']["path"];
+//		$noConvertSlug = $noConvert['File']["slug"];
+//		$videoName = explode('.', $noConvert['File']["name"])[0];
+//		$noConvertPath = $data['Video'][Video::VIDEO_FILE_FIELD]['tmp_name'];
+//		//$noConvertSlug = $noConvert['File']["slug"];
+		$noConvertPath = APP . WEBROOT_DIR . DS . $noConvert['UploadFile']['path'] . $noConvert['UploadFile']['id'] . DS;
+		$realFileName = $noConvert['UploadFile']["real_file_name"];
+		$videoName = explode('.', $realFileName)[0];
+
 
 		// --- サムネイル自動作成
 		// 動画変換実施(元動画 > サムネイル)
-		$thumbnailSlug = Security::hash(
-			$noConvertPath . $noConvertSlug . '.mp4' . mt_rand() . microtime(), 'md5'
-		);
+//		$thumbnailSlug = Security::hash(
+//			//$noConvertPath . $noConvertSlug . '.mp4' . mt_rand() . microtime(), 'md5'
+//			$noConvertPath . $videoName . '.mp4' . mt_rand() . microtime(), 'md5'
+//		);
 
 		// 例) ffmpeg -ss 1 -vframes 1 -i /var/www/html/movies/play/20130901_072755.mp4 -f image2 /var/www/html/movies/play/20130901_072755.jpg
 		// サムネイルは変換後のmp4 から生成する。mts からサムネイルを生成した場合、灰色画像になりうまく生成できなかった。ファイル形式によりサムネイル生成に制限がある可能性があるため。
 		// コマンドインジェクション対策
-		$strCmd = Video::FFMPEG_PATH . ' -ss 1 -vframes 1 -i ' . escapeshellarg($noConvertPath . $noConvertSlug . ".mp4") . ' -f image2 ' . escapeshellarg($noConvertPath . $thumbnailSlug . '.jpg');
+//		$strCmd = Video::FFMPEG_PATH . ' -ss 1 -vframes 1 -i ' . escapeshellarg($noConvertPath . $noConvertSlug . ".mp4") . ' -f image2 ' . escapeshellarg($noConvertPath . $thumbnailSlug . '.jpg');
+		$strCmd = Video::FFMPEG_PATH . ' -ss 1 -vframes 1 -i ' . escapeshellarg($noConvertPath . $videoName . ".mp4") . ' -f image2 ' . escapeshellarg($noConvertPath . $videoName . '.jpg');
 		exec($strCmd, $arrImage, $retImage);
 
 		// 変換エラー時
@@ -225,32 +285,41 @@ class VideoBehavior extends ModelBehavior {
 			// return はしない。
 
 		} else {
-			// サムネイルデータ準備
-			$data['Video'][Video::THUMBNAIL_FIELD]['name'] = $videoName . '.jpg';	// サムネイル名は動画名で末尾jpgにしたものをセット
-			$data['Video'][Video::THUMBNAIL_FIELD]['type'] = 'image/jpeg';
-			$data['Video'][Video::THUMBNAIL_FIELD]['tmp_name'] = $noConvertPath . $thumbnailSlug . '.jpg';
-			$data['Video'][Video::THUMBNAIL_FIELD]['error'] = UPLOAD_ERR_OK;
-			$data['Video'][Video::THUMBNAIL_FIELD]['size'] = filesize($noConvertPath . $thumbnailSlug . '.jpg');
+			$UploadFile = ClassRegistry::init('Files.UploadFile');
+//		$path = '/var/www/app/app/Plugin/Files/Test/Fixture/logo.gif';
+//		$path2 = TMP . 'logo.gif';
+//		copy($path, $path2);
+			//$UploadFile->registByFilePath($path2, 'blogs', 'content_key..', 'photo');
+			$UploadFile->registByFilePath($noConvertPath . $videoName . '.jpg', 'videos', $video['Video']['key'], Video::THUMBNAIL_FIELD);
 
-			// Filesテーブルにサムネイルを登録
-			$data[Video::THUMBNAIL_FIELD]['File']['status'] = 1;
-			$data[Video::THUMBNAIL_FIELD]['File']['role_type'] = 'room_file_role';
-			$data[Video::THUMBNAIL_FIELD]['File']['name'] = $videoName . '.jpg';		// サムネイル名は動画名をjpgにしたものをセット
-			$data[Video::THUMBNAIL_FIELD]['File']['alt'] = $videoName . '.jpg';
-			$data[Video::THUMBNAIL_FIELD]['File']['mimetype'] = 'image/jpeg';
-			$data[Video::THUMBNAIL_FIELD]['File']['path'] = '{ROOT}' . 'videos' . '{DS}' . Current::read('Room.id') . '{DS}';		// 自動的に $video['Video']['id'] . '{DS}' が末尾に追記されるので、ここでは追記しない
-			$data[Video::THUMBNAIL_FIELD]['File']['extension'] = 'jpg';
-			$data[Video::THUMBNAIL_FIELD]['File']['tmp_name'] = $noConvertPath . $thumbnailSlug . '.jpg';
-			$data[Video::THUMBNAIL_FIELD]['File']['size'] = filesize($noConvertPath . $thumbnailSlug . '.jpg');
-			$data[Video::THUMBNAIL_FIELD]['File']['slug'] = $thumbnailSlug;
-			$data[Video::THUMBNAIL_FIELD]['File']['original_name'] = $thumbnailSlug;
 
-			$data[Video::THUMBNAIL_FIELD]['FilesPlugin']['plugin_key'] = $pluginKey;	// plugin_keyは、元動画のをセット
-			$data[Video::THUMBNAIL_FIELD]['FilesRoom']['room_id'] = Current::read('Room.id');
-			$data[Video::THUMBNAIL_FIELD]['FilesUser']['user_id'] = AuthComponent::user('id');
+//			// サムネイルデータ準備
+//			$data['Video'][Video::THUMBNAIL_FIELD]['name'] = $videoName . '.jpg';	// サムネイル名は動画名で末尾jpgにしたものをセット
+//			$data['Video'][Video::THUMBNAIL_FIELD]['type'] = 'image/jpeg';
+//			$data['Video'][Video::THUMBNAIL_FIELD]['tmp_name'] = $noConvertPath . $thumbnailSlug . '.jpg';
+//			$data['Video'][Video::THUMBNAIL_FIELD]['error'] = UPLOAD_ERR_OK;
+//			$data['Video'][Video::THUMBNAIL_FIELD]['size'] = filesize($noConvertPath . $thumbnailSlug . '.jpg');
+//
+//			// Filesテーブルにサムネイルを登録
+//			$data[Video::THUMBNAIL_FIELD]['File']['status'] = 1;
+//			$data[Video::THUMBNAIL_FIELD]['File']['role_type'] = 'room_file_role';
+//			$data[Video::THUMBNAIL_FIELD]['File']['name'] = $videoName . '.jpg';		// サムネイル名は動画名をjpgにしたものをセット
+//			$data[Video::THUMBNAIL_FIELD]['File']['alt'] = $videoName . '.jpg';
+//			$data[Video::THUMBNAIL_FIELD]['File']['mimetype'] = 'image/jpeg';
+//			$data[Video::THUMBNAIL_FIELD]['File']['path'] = '{ROOT}' . 'videos' . '{DS}' . Current::read('Room.id') . '{DS}';		// 自動的に $video['Video']['id'] . '{DS}' が末尾に追記されるので、ここでは追記しない
+//			$data[Video::THUMBNAIL_FIELD]['File']['extension'] = 'jpg';
+//			$data[Video::THUMBNAIL_FIELD]['File']['tmp_name'] = $noConvertPath . $thumbnailSlug . '.jpg';
+//			$data[Video::THUMBNAIL_FIELD]['File']['size'] = filesize($noConvertPath . $thumbnailSlug . '.jpg');
+//			$data[Video::THUMBNAIL_FIELD]['File']['slug'] = $thumbnailSlug;
+//			$data[Video::THUMBNAIL_FIELD]['File']['original_name'] = $thumbnailSlug;
+//
+//			$data[Video::THUMBNAIL_FIELD]['FilesPlugin']['plugin_key'] = $pluginKey;	// plugin_keyは、元動画のをセット
+//			$data[Video::THUMBNAIL_FIELD]['FilesRoom']['room_id'] = Current::read('Room.id');
+//			$data[Video::THUMBNAIL_FIELD]['FilesUser']['user_id'] = AuthComponent::user('id');
 		}
 
-		return $data;
+//		return $data;
+		return true;
 	}
 
 /**

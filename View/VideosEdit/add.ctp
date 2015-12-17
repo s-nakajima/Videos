@@ -51,11 +51,17 @@ $this->Html->script(
 //						'file' => $videoFile,
 //						'deleteEnable' => false,
 //					)); ?>
-					<?php echo $this->NetCommonsForm->uploadFile(Video::VIDEO_FILE_FIELD); ?>
+					<?php echo $this->NetCommonsForm->uploadFile(Video::VIDEO_FILE_FIELD, array(
+						'label' => __d('videos', 'Video file'),
+						'required' => true,
+					)); ?>
+					<?php /* 暫定対応 */ ?>
+					<div><p class="help-block"><?php echo h($videoHelpBlockMessage); ?></p></div>
+
 					<?php //echo $this->NetCommonsForm->uploadFile('videoFile'); ?>
 
 					<?php /* ffmpeg=OFF */ ?>
-<!--					--><?php //if (!Video::isFfmpegEnable()) : ?>
+					<?php if (!Video::isFfmpegEnable()) : ?>
 <!--						--><?php //echo $this->element('VideosEdit/file', array(
 //							'pluginName' => 'Videos',
 //							'label' => __d('videos', 'Thumbnail') . $this->element('NetCommons.required'),
@@ -69,9 +75,14 @@ $this->Html->script(
 //							'deleteEnable' => false,
 //							'overwriteEnable' => false,
 //						)); ?>
-						<?php echo $this->NetCommonsForm->uploadFile('thumbnail'); ?>
+						<?php echo $this->NetCommonsForm->uploadFile('thumbnail', array(
+							'label' => __d('videos', 'Thumbnail'),
+							'required' => true,
+						)); ?>
+						<?php /* 暫定対応 */ ?>
+						<div><p class="help-block"><?php echo sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION); ?></p></div>
 
-<!--					--><?php //endif; ?>
+					<?php endif; ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
 
