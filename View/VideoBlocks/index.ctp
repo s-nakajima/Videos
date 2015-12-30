@@ -70,7 +70,8 @@
 								<?php endif; ?>
 							</td>
 							<td class="text-right">
-								<?php echo $this->Number->toReadableSize((int)$videoBlockSetting['Size']['size_byte']); ?>
+								<?php //echo $this->Number->toReadableSize((int)$videoBlockSetting['Size']['size_byte']); ?>
+								<?php echo $this->Number->toReadableSize(0); ?>
 							</td>
 						</tr>
 					<?php endforeach; ?>
