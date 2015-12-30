@@ -16,7 +16,6 @@ App::uses('AppController', 'Controller');
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Controller
- * @property Comment $Comment
  * @property FileModel $FileModel
  * @property FileUploadComponent $FileUpload
  * @property ContentCommentsComponent $ContentComments
