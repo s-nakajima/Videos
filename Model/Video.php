@@ -375,14 +375,14 @@ class Video extends VideosAppModel {
 			}
 //$this->log('video_save_after', 'debug');
 
-$this->log('saveConvertVideo before', 'debug');
+//$this->log('saveConvertVideo before', 'debug');
 			// 動画変換とデータ保存
 //			if (!$this->saveConvertVideo($data, $video)) {
 			if (!$this->saveConvertVideo($video)) {
-$this->log('saveConvertVideo [false]', 'debug');
+//$this->log('saveConvertVideo [false]', 'debug');
 				return false;
 			}
-$this->log('saveConvertVideo after', 'debug');
+//$this->log('saveConvertVideo after', 'debug');
 
 			//トランザクションCommit
 			$this->commit();
