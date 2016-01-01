@@ -254,7 +254,8 @@ $this->Html->script(
 			'isCommentApproved' => $videoBlockSetting['comment_agree'],
 			'useComment' => $videoBlockSetting['use_comment'],
 			'contentCommentCnt' => $video['ContentCommentCnt']['cnt'],
-			'redirectUrl' => '/videos/videos/view/' . Current::read('Block.id') . '/' . $video['Video']['key'] . '?frame_id=' . Current::read('Frame.id'),
+			//'redirectUrl' => '/videos/videos/view/' . Current::read('Block.id') . '/' . $video['Video']['key'] . '?frame_id=' . Current::read('Frame.id'),
+			'redirectUrl' => '/videos/videos/view/' . Current::read('Block.id') . '/' . $video['Video']['key'],
 		)); ?>
 	</div>
 </div>
