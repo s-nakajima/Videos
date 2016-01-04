@@ -83,13 +83,6 @@ class VideosController extends VideosAppController {
 		// ゲストアクセスOKのアクションを設定
 		$this->Auth->allow('tag', 'download');
 
-		// コンテントコメントからエラーメッセージを受け取る仕組み http://skgckj.hateblo.jp/entry/2014/02/09/005111
-		if ($this->Session->read('errors')) {
-			foreach ($this->Session->read('errors') as $model => $errors) {
-				$this->$model->validationErrors = $errors;
-			}
-			$this->Session->delete('errors');	//表示は遷移・リロードまでの1回っきりなので消す
-		}
 		parent::beforeFilter();
 	}
 
