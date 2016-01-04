@@ -400,11 +400,6 @@ class VideoBlockSetting extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function saveBlockRolePermission($data) {
-		$this->loadModels(array(
-			'BlockRolePermission' => 'Blocks.BlockRolePermission',
-			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
-		));
-
 		//トランザクションBegin
 		$this->begin();
 
