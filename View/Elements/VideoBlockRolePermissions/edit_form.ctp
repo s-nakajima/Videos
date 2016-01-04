@@ -24,6 +24,7 @@
 <?php echo $this->element('Blocks.block_approval_setting', array(
 	'model' => 'VideoBlockSetting',
 	'useWorkflow' => 'agree',
+	'useCommentApproval' => 'comment_agree',
 	'options' => array(
 		Block::NEED_APPROVAL => __d('blocks', 'Need approval in both %s and comments ', __d('videos', 'video')),
 		Block::NEED_COMMENT_APPROVAL => __d('blocks', 'Need only comments approval'),
