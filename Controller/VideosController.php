@@ -70,7 +70,6 @@ class VideosController extends VideosAppController {
 		'Cookie',
 		'Paginator',						// ページャ
 		//'NetCommons.NetCommonsRoomRole',	// パーミッション取得
-		'Session',
 		'Files.Download' => array(
 			'priority' => 99
 		),
