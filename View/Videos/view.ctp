@@ -246,19 +246,12 @@ $this->Html->script(
 </div>
 
 <?php /* コンテンツコメント */ ?>
-<div class="row">
-	<div class="col-xs-12">
-		<?php echo $this->element('ContentComments.index', array(
-			'pluginKey' => $this->request->params['plugin'],
-			'contentKey' => $video['Video']['key'],
-			'isCommentApproved' => $videoBlockSetting['comment_agree'],
-			'useComment' => $videoBlockSetting['use_comment'],
-			'contentCommentCnt' => $video['ContentCommentCnt']['cnt'],
-			//'redirectUrl' => '/videos/videos/view/' . Current::read('Block.id') . '/' . $video['Video']['key'] . '?frame_id=' . Current::read('Frame.id'),
-			'redirectUrl' => '/videos/videos/view/' . Current::read('Block.id') . '/' . $video['Video']['key'],
-		)); ?>
-	</div>
-</div>
+<?php echo $this->element('ContentComments.index', array(
+	'contentKey' => $video['Video']['key'], // helperで取得。項目名固定。model名＋key固定。できる。
+	'useCommentApproval' => $videoBlockSetting['comment_agree'], // helperで取得。項目名固定。Videoが合わせる。できる
+	'useComment' => $videoBlockSetting['use_comment'], // helperで取得。項目名固定。できる
+	'contentCommentCnt' => $video['ContentCommentCnt']['cnt'], // cntをコンポーネント
+)); ?>
 
 <?php /* 下部ボタン */ ?>
 <footer>

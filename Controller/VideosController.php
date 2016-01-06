@@ -64,6 +64,7 @@ class VideosController extends VideosAppController {
  * use components
  *
  * @var array
+ * @link http://book.cakephp.org/2.0/ja/controllers/components.html#configuring-components
  */
 	public $components = array(
 		'ContentComments.ContentComments',
@@ -506,7 +507,8 @@ class VideosController extends VideosAppController {
 				'content_key' => $video['Video']['key'],
 			));
 
-			$results['contentComments'] = $contentComments;
+			//$results['contentComments'] = $contentComments;
+			$this->request->data['ContentComments'] = $contentComments;
 		}
 
 		// クッキー対応
