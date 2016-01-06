@@ -58,6 +58,7 @@ class VideosController extends VideosAppController {
 		'NetCommons.DisplayNumber',
 		'NetCommons.Token',
 		'Workflow.Workflow',
+		'Users.DisplayUser',
 	);
 
 /**

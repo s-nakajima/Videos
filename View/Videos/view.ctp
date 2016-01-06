@@ -84,15 +84,13 @@ $this->Html->script(
 			</p>
 			<div class="media">
 				<div class="pull-left">
-					<?php /* アバター 暫定対応(;'∀') */ ?>
-					<a href="#">
-						<?php echo $this->Html->image('/videos/img/avatar.png', array(
-							'class' => 'media-object',
-							'alt' => $video['User']['handlename'],
-							'width' => '60',
-							'height' => '60',
-						)); ?>
-					</a>
+					<?php /* アバター */ ?>
+					<?php echo $this->DisplayUser->avatar($video['User'], array(
+						'class' => 'media-object',
+						'alt' => $video['User']['handlename'],
+						'width' => '60',
+						'height' => '60',
+					)); ?>
 				</div>
 				<div class="media-body">
 					<div class="row">
