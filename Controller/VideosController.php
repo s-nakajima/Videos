@@ -166,11 +166,11 @@ class VideosController extends VideosAppController {
 			$query['limit'] = $videoFrameSetting['VideoFrameSetting']['display_number'];
 		}
 
-		// 暫定！！！
-		$query['fields'] = array(
-			'*',
-			'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
-		);
+//		// 暫定！！！
+//		$query['fields'] = array(
+//			'*',
+//			'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
+//		);
 
 		$this->Paginator->settings = $query;
 		try {
@@ -405,10 +405,10 @@ class VideosController extends VideosAppController {
 		//動画の取得
 		$video = $this->Video->getWorkflowContents('first', array(
 			'recursive' => 1,
-			'fields' => array(
-				'*',
-				'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
-			),
+//			'fields' => array(
+//				'*',
+//				'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
+//			),
 			'conditions' => array(
 				$this->Video->alias . '.key' => $videoKey
 			)
@@ -444,10 +444,10 @@ class VideosController extends VideosAppController {
 		//関連動画の取得
 		$relatedVideos = $this->Video->getWorkflowContents('all', array(
 			'recursive' => 1,
-			'fields' => array(
-				'*',
-				'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
-			),
+//			'fields' => array(
+//				'*',
+//				'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
+//			),
 			'conditions' => array(
 				$this->Video->alias . '.created_user' => $video['Video']['created_user'],
 				'NOT' => array(

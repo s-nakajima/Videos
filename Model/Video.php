@@ -90,7 +90,8 @@ class Video extends VideosAppModel {
  * @var array
  */
 	public $actsAs = array(
-		'ContentComments.ContentComment',
+		//'ContentComments.ContentComment',
+		'ContentComments.ContentCommentCount',
 //		'Files.YAUpload' => array(		// FileUpload
 //			self::VIDEO_FILE_FIELD => array(
 //				//UploadBefavior settings
