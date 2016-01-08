@@ -85,7 +85,7 @@ $this->Html->script(
 			<div class="media">
 				<div class="pull-left">
 					<?php /* アバター */ ?>
-					<?php echo $this->DisplayUser->avatar($video['User'], array(
+					<?php echo $this->DisplayUser->avatar($video, array(
 						'class' => 'media-object',
 						'alt' => $video['User']['handlename'],
 						'width' => '60',
