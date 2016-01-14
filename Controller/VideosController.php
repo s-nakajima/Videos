@@ -53,6 +53,7 @@ class VideosController extends VideosAppController {
  * @var array
  */
 	public $helpers = array(
+		'ContentComments.ContentComment',
 		'Likes.Like',
 		//'NetCommons.Date',					// 詳細日付表示
 		'NetCommons.DisplayNumber',
