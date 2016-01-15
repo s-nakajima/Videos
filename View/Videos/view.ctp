@@ -86,17 +86,14 @@ $this->Html->script(
 				<div class="pull-left">
 					<?php /* アバター */ ?>
 					<?php echo $this->DisplayUser->avatar($video, array(
-						'class' => 'media-object',
-						'alt' => $video['User']['handlename'],
-						'width' => '60',
-						'height' => '60',
+						'class' => '',
 					)); ?>
 				</div>
 				<div class="media-body">
 					<div class="row">
 						<div class="col-xs-6">
 							<?php /* 投稿者 */ ?>
-							<span style="padding-left: 5px; padding-right: 15px;"><a href="#"><?php echo $video['User']['handlename']; ?></a><br />
+							<?php echo $this->DisplayUser->handleLink($video); ?>
 						</div>
 						<div class="col-xs-6 text-right" style="font-size: 18px;">
 							<?php /* 再生回数 */ ?>
@@ -215,10 +212,11 @@ $this->Html->script(
 											<span style="padding-right: 15px;">
 												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $relatedVideo['Video']['play_number'] ?>
 											</span>
-											<span style="padding-right: 15px;">
-												<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <?php echo $relatedVideo['ContentCommentCnt']['cnt']; ?>
-											</span>
+<!--											<span style="padding-right: 15px;">-->
+<!--												<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> --><?php //echo $relatedVideo['ContentCommentCnt']['cnt']; ?>
+<!--											</span>-->
 
+											<?php echo $this->ContentComment->count($videoBlockSetting, $relatedVideo); ?>
 											<?php echo $this->Like->display($videoBlockSetting, $relatedVideo); ?>
 										</small>
 									</div>
@@ -244,11 +242,15 @@ $this->Html->script(
 </div>
 
 <?php /* コンテンツコメント */ ?>
-<?php echo $this->element('ContentComments.index', array(
-	'contentKey' => $video['Video']['key'], // helperで取得。項目名固定。model名＋key固定。できる。
-	'useCommentApproval' => $videoBlockSetting['comment_agree'], // helperで取得。項目名固定。Videoが合わせる。できる
-	'useComment' => $videoBlockSetting['use_comment'], // helperで取得。項目名固定。できる
-	'contentCommentCnt' => $video['ContentCommentCnt']['cnt'], // cntをコンポーネント
+<?php //echo $this->element('ContentComments.index', array(
+//	'contentKey' => $video['Video']['key'], // helperで取得。項目名固定。model名＋key固定。できる。
+//	'useCommentApproval' => $videoBlockSetting['comment_agree'], // helperで取得。項目名固定。Videoが合わせる。できる
+//	'useComment' => $videoBlockSetting['use_comment'], // helperで取得。項目名固定。できる
+//	'contentCommentCnt' => $video['ContentCommentCnt']['cnt'], // cntをコンポーネント
+//)); ?>
+<?php echo $this->ContentComment->index('Video', $videoBlockSetting, $video, array(
+	'use_comment' => 'use_comment',
+	'use_comment_approval' => 'comment_agree',
 )); ?>
 
 <?php /* 下部ボタン */ ?>
