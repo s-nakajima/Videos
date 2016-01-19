@@ -69,7 +69,11 @@ class VideosController extends VideosAppController {
  * @link http://book.cakephp.org/2.0/ja/controllers/components.html#configuring-components
  */
 	public $components = array(
-		'ContentComments.ContentComments',
+		'ContentComments.ContentComments' => array(
+			'viewVarsContentKey' => array('video.Video.key'),
+			'viewVarsUseComment' => array('videoBlockSetting.use_comment'),
+			'allow' => array('view'),
+		),
 		'Cookie',
 		'Paginator',						// ページャ
 		//'NetCommons.NetCommonsRoomRole',	// パーミッション取得
@@ -94,6 +98,7 @@ class VideosController extends VideosAppController {
  * 一覧表示
  *
  * @return void
+ * @throws Exception Paginatorによる例外
  */
 	public function index() {
 //		$this->BbsArticle->bindModelBbsArticle(false);
@@ -500,18 +505,18 @@ class VideosController extends VideosAppController {
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
 		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
-		// コメントを利用する
-		if ($videoBlockSetting['VideoBlockSetting']['use_comment']) {
-			// コンテンツコメントの取得
-			$contentComments = $this->ContentComment->getContentComments(array(
-				'block_key' => Current::read('Block.key'),
-				'plugin_key' => $this->request->params['plugin'],
-				'content_key' => $video['Video']['key'],
-			));
-
-			//$results['contentComments'] = $contentComments;
-			$this->request->data['ContentComments'] = $contentComments;
-		}
+//		// コメントを利用する
+//		if ($videoBlockSetting['VideoBlockSetting']['use_comment']) {
+//			// コンテンツコメントの取得
+//			$contentComments = $this->ContentComment->getContentComments(array(
+//				'block_key' => Current::read('Block.key'),
+//				'plugin_key' => $this->request->params['plugin'],
+//				'content_key' => $video['Video']['key'],
+//			));
+//
+//			//$results['contentComments'] = $contentComments;
+//			$this->request->data['ContentComments'] = $contentComments;
+//		}
 
 		// クッキー対応
 		$cookie = $this->Cookie->read('video_history');
