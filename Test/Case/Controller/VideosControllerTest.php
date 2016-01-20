@@ -17,7 +17,7 @@ App::uses('VideosTestBase', 'Videos.Test/Case/Controller');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
- * @package NetCommons\Announcements\Test\Case\Controller
+ * @package NetCommons\Videos\Test\Case\Controller
  */
 class VideosControllerTest extends VideosTestBase {
 
