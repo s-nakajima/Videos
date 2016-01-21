@@ -89,15 +89,20 @@ class VideoBehavior extends ModelBehavior {
 //		// ファイルの登録 サムネイル
 //		$data = $model->saveVideoFile($data, Video::THUMBNAIL_FIELD, $model->alias, 'thumbnail_id', 1);
 //
-		// --- 動画テーブルを更新
+//var_dump($video);
+		$videoTime['Video']['id'] = $video['Video']['id'];
+		$videoTime['Video']['video_time'] = $videoTimeSec;
+
+		// --- 動画時間のみ更新
 		// 値をセット
 //		$model->set($data);
 //		$model->set($video);
-//
-//		// 動画データ登録
-//		if (! $video = $model->save(null, false)) {
-//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//		}
+		$model->set($videoTime);
+
+		// 動画データ登録
+		if (! $videoTime = $model->save(null, false)) {
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+		}
 
 		return true;
 	}
