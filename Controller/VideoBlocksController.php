@@ -126,7 +126,7 @@ class VideoBlocksController extends VideosAppController {
 	public function add() {
 		$this->view = 'edit';
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			//登録処理
 			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));

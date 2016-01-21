@@ -64,7 +64,7 @@ class VideosEditController extends VideosAppController {
  * @return CakeResponse
  */
 	public function add() {
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 
 			//登録処理
 			$data = $this->data;

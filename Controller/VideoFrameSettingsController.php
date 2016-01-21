@@ -69,7 +69,7 @@ class VideoFrameSettingsController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit() {
-		if ($this->request->isPut() || $this->request->isPost()) {
+		if ($this->request->is('put') || $this->request->is('post')) {
 			if ($this->VideoFrameSetting->saveVideoFrameSetting($this->data)) {
 				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
