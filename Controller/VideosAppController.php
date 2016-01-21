@@ -18,6 +18,7 @@ App::uses('AppController', 'Controller');
  * @package NetCommons\Videos\Controller
  * @property FileModel $FileModel
  * @property FileUploadComponent $FileUpload
+ * @property DownloadComponent $Download
  * @property ContentComment $ContentComment
  * @property ContentCommentsComponent $ContentComments
  * @property WorkflowComponent $Workflow

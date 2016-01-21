@@ -51,7 +51,7 @@ $this->log('========================', 'debug');
 
 		// --- 動画変換
 //		if (! $data = $this->__convertVideo($model, $data, $video, $noConvert)) {
-		if (! $data = $this->__convertVideo($video, $noConvert)) {
+		if (! $data = $this->__convertVideo($model, $video, $noConvert)) {
 
 			//$model->deleteFile($data, $model->alias, 'mp4_id', 0);	//元動画 削除
 			$UploadFile->removeFile($video['Video']['id'], Video::VIDEO_FILE_FIELD);	//元動画 削除
@@ -74,7 +74,7 @@ $this->log('$videoTimeSec:' . $videoTimeSec, 'debug');
 
 		// --- サムネイル自動作成
 //		$data = $this->__generateThumbnail($data, $video[Video::VIDEO_FILE_FIELD]['FilesPlugin']['plugin_key'], $noConvert);
-		$this->__generateThumbnail($video, $noConvert);
+		$this->__generateThumbnail($model, $video, $noConvert);
 
 //		// ファイルチェック サムネイル
 //		if (! $data = $model->validateVideoFile($data, Video::THUMBNAIL_FIELD, $model->alias, 'thumbnail_id', 1)) {
@@ -113,7 +113,7 @@ $this->log('$videoTimeSec:' . $videoTimeSec, 'debug');
  * @throws InternalErrorException
  */
 //	private function __convertVideo(Model $model, $data, $video, $noConvert) {
-	private function __convertVideo($video, $noConvert) {
+	private function __convertVideo(Model $model, $video, $noConvert) {
 		// --- 動画変換
 
 		// アップロードファイルの受け取りと移動
@@ -160,12 +160,19 @@ $this->log('$videoTimeSec:' . $videoTimeSec, 'debug');
 				return false;
 			}
 
-			$UploadFile = ClassRegistry::init('Files.UploadFile');
+			//$UploadFile = ClassRegistry::init('Files.UploadFile');
 //		$path = '/var/www/app/app/Plugin/Files/Test/Fixture/logo.gif';
 //		$path2 = TMP . 'logo.gif';
 //		copy($path, $path2);
+			//public function registByFilePath($filePath, $pluginKey, $contentKey, $fieldName) {
+			//public function attachFile(Model $model, $data, $fieldName, $file, $keyFieldName = 'key') {
+			//$file = new File($noConvertPath . $videoName . '.mp4');
+
 			//$UploadFile->registByFilePath($path2, 'blogs', 'content_key..', 'photo');
-			$UploadFile->registByFilePath($noConvertPath . $videoName . '.mp4', 'videos', $video['Video']['key'], Video::VIDEO_FILE_FIELD);
+			//$UploadFile->registByFilePath($noConvertPath . $videoName . '.mp4', 'videos', $video['Video']['key'], Video::VIDEO_FILE_FIELD);
+			//$UploadFile->attachFile($model, $video, Video::VIDEO_FILE_FIELD, $noConvertPath . $videoName . '.mp4');
+			$model->attachFile($video, Video::VIDEO_FILE_FIELD, $noConvertPath . $videoName . '.mp4');
+
 
 //			// Filesテーブルに変換後動画を登録。Delete->Insert
 //			$data[Video::VIDEO_FILE_FIELD]['File']['type'] = 'video/mp4';
@@ -250,7 +257,7 @@ $this->log($arrInfo, 'debug');
  * @throws InternalErrorException
  */
 	//private function __generateThumbnail($data, $pluginKey, $noConvert) {
-	private function __generateThumbnail($video, $noConvert) {
+	private function __generateThumbnail(Model $model, $video, $noConvert) {
 		// 元動画
 //		$noConvertPath = $noConvert['File']["path"];
 //		$noConvertSlug = $noConvert['File']["slug"];
@@ -285,12 +292,16 @@ $this->log($arrInfo, 'debug');
 			// return はしない。
 
 		} else {
-			$UploadFile = ClassRegistry::init('Files.UploadFile');
+			//$UploadFile = ClassRegistry::init('Files.UploadFile');
 //		$path = '/var/www/app/app/Plugin/Files/Test/Fixture/logo.gif';
 //		$path2 = TMP . 'logo.gif';
 //		copy($path, $path2);
 			//$UploadFile->registByFilePath($path2, 'blogs', 'content_key..', 'photo');
-			$UploadFile->registByFilePath($noConvertPath . $videoName . '.jpg', 'videos', $video['Video']['key'], Video::THUMBNAIL_FIELD);
+			//$UploadFile->registByFilePath($noConvertPath . $videoName . '.jpg', 'videos', $video['Video']['key'], Video::THUMBNAIL_FIELD);
+//var_dump($model, $video, Video::THUMBNAIL_FIELD, $noConvertPath . $videoName . '.jpg');
+//var_dump($video, Video::THUMBNAIL_FIELD, $noConvertPath . $videoName . '.jpg');
+			//$UploadFile->attachFile($model, $video, Video::THUMBNAIL_FIELD, $noConvertPath . $videoName . '.jpg');
+			$model->attachFile($video, Video::THUMBNAIL_FIELD, $noConvertPath . $videoName . '.jpg');
 
 
 //			// サムネイルデータ準備
