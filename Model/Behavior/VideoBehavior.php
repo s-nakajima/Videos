@@ -36,9 +36,9 @@ class VideoBehavior extends ModelBehavior {
 //$this->log($data, 'debug');
 //$this->log('========================', 'debug');
 //$this->log($video, 'debug');
-$this->log('========================', 'debug');
-$this->log($noConvert, 'debug');
-$this->log('========================', 'debug');
+//$this->log('========================', 'debug');
+//$this->log($noConvert, 'debug');
+//$this->log('========================', 'debug');
 
 		// C:\projects\NetCommons3\app\Plugin\Blogs\Controller\BlogEntriesEditController.php #219あたり
 //		$UploadFile = ClassRegistry::init('Files.UploadFile');
@@ -55,7 +55,7 @@ $this->log('========================', 'debug');
 
 			//$model->deleteFile($data, $model->alias, 'mp4_id', 0);	//元動画 削除
 			$UploadFile->removeFile($video['Video']['id'], Video::VIDEO_FILE_FIELD);	//元動画 削除
-			$this->log('saveConvertVideo() -> __convertVideo() false', 'debug');
+			$this->log('VideoBehavior::saveConvertVideo() -> __convertVideo() false', 'debug');
 			return false;
 		}
 
@@ -69,7 +69,7 @@ $this->log('========================', 'debug');
 //			return false;
 //		}
 		$videoTimeSec = $this->__getVideoTime($noConvert);
-$this->log('$videoTimeSec:' . $videoTimeSec, 'debug');
+//$this->log('$videoTimeSec:' . $videoTimeSec, 'debug');
 		$video['Video']['video_time'] = $videoTimeSec;
 
 		// --- サムネイル自動作成
@@ -224,8 +224,8 @@ $this->log('$videoTimeSec:' . $videoTimeSec, 'debug');
 		//$strCmd = Video::FFMPEG_PATH . " -i " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . " 2>&1";
 		$strCmd = Video::FFMPEG_PATH . " -i " . escapeshellarg($noConvertPath . $videoName . '.mp4') . " 2>&1";
 		exec($strCmd, $arrInfo);
-$this->log($strCmd, 'debug');
-$this->log($arrInfo, 'debug');
+//$this->log($strCmd, 'debug');
+//$this->log($arrInfo, 'debug');
 
 		//動画情報から時間を取得
 		$videoTimeSec = 0;
@@ -264,8 +264,13 @@ $this->log($arrInfo, 'debug');
 //		$videoName = explode('.', $noConvert['File']["name"])[0];
 //		$noConvertPath = $data['Video'][Video::VIDEO_FILE_FIELD]['tmp_name'];
 //		//$noConvertSlug = $noConvert['File']["slug"];
-		$noConvertPath = APP . WEBROOT_DIR . DS . $noConvert['UploadFile']['path'] . $noConvert['UploadFile']['id'] . DS;
-		$realFileName = $noConvert['UploadFile']["real_file_name"];
+		$UploadFile = ClassRegistry::init('Files.UploadFile');
+		$convert = $UploadFile->getFile('videos', $video['Video']['id'], Video::VIDEO_FILE_FIELD);
+
+		//$noConvertPath = APP . WEBROOT_DIR . DS . $noConvert['UploadFile']['path'] . $noConvert['UploadFile']['id'] . DS;
+		//$realFileName = $noConvert['UploadFile']["real_file_name"];
+		$convertPath = APP . WEBROOT_DIR . DS . $convert['UploadFile']['path'] . $convert['UploadFile']['id'] . DS;
+		$realFileName = $convert['UploadFile']["real_file_name"];
 		$videoName = explode('.', $realFileName)[0];
 
 
@@ -280,7 +285,8 @@ $this->log($arrInfo, 'debug');
 		// サムネイルは変換後のmp4 から生成する。mts からサムネイルを生成した場合、灰色画像になりうまく生成できなかった。ファイル形式によりサムネイル生成に制限がある可能性があるため。
 		// コマンドインジェクション対策
 //		$strCmd = Video::FFMPEG_PATH . ' -ss 1 -vframes 1 -i ' . escapeshellarg($noConvertPath . $noConvertSlug . ".mp4") . ' -f image2 ' . escapeshellarg($noConvertPath . $thumbnailSlug . '.jpg');
-		$strCmd = Video::FFMPEG_PATH . ' -ss 1 -vframes 1 -i ' . escapeshellarg($noConvertPath . $videoName . ".mp4") . ' -f image2 ' . escapeshellarg($noConvertPath . $videoName . '.jpg');
+//		$strCmd = Video::FFMPEG_PATH . ' -ss 1 -vframes 1 -i ' . escapeshellarg($noConvertPath . $videoName . ".mp4") . ' -f image2 ' . escapeshellarg($noConvertPath . $videoName . '.jpg');
+		$strCmd = Video::FFMPEG_PATH . ' -ss 1 -vframes 1 -i ' . escapeshellarg($convertPath . $videoName . ".mp4") . ' -f image2 ' . escapeshellarg($convertPath . $videoName . '.jpg');
 		exec($strCmd, $arrImage, $retImage);
 
 		// 変換エラー時
@@ -301,7 +307,8 @@ $this->log($arrInfo, 'debug');
 //var_dump($model, $video, Video::THUMBNAIL_FIELD, $noConvertPath . $videoName . '.jpg');
 //var_dump($video, Video::THUMBNAIL_FIELD, $noConvertPath . $videoName . '.jpg');
 			//$UploadFile->attachFile($model, $video, Video::THUMBNAIL_FIELD, $noConvertPath . $videoName . '.jpg');
-			$model->attachFile($video, Video::THUMBNAIL_FIELD, $noConvertPath . $videoName . '.jpg');
+			//$model->attachFile($video, Video::THUMBNAIL_FIELD, $noConvertPath . $videoName . '.jpg');
+			$model->attachFile($video, Video::THUMBNAIL_FIELD, $convertPath . $videoName . '.jpg');
 
 
 //			// サムネイルデータ準備
