@@ -549,14 +549,14 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function deleteVideo($data) {
-//		$this->loadModels(array(
-////			'Comment' => 'Comments.Comment',
-////			'ContentComment' => 'ContentComments.ContentComment',
-////			'FileModel' => 'Files.FileModel',		// FileUpload
-//			'Like' => 'Likes.Like',
-//			'TagsContent' => 'Tags.TagsContent',
-////			'Video' => 'Videos.Video',
-//		));
+		$this->loadModels(array(
+//			'Comment' => 'Comments.Comment',
+			'ContentComment' => 'ContentComments.ContentComment',
+//			'FileModel' => 'Files.FileModel',		// FileUpload
+			'Like' => 'Likes.Like',
+			'TagsContent' => 'Tags.TagsContent',
+//			'Video' => 'Videos.Video',
+		));
 
 		//トランザクションBegin
 		$dataSource = $this->getDataSource();
