@@ -17,17 +17,21 @@
 
 <div class="row form-group">
 	<div class="col-xs-12">
-		<?php echo $this->Form->label(__d('videos', 'Display order')); ?>
+		<?php echo $this->NetCommonsForm->label(__d('videos', 'Display order')); ?>
 	</div>
 	<div class="col-xs-12">
-		<?php echo $this->Form->select('VideoFrameSetting.display_order',
-			VideoFrameSetting::getDisplayOrderOptions(),
+		<?php /* http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::select */ ?>
+		<?php echo $this->NetCommonsForm->select('VideoFrameSetting.display_order',
 			array(
-				//'label' => false,
+				VideoFrameSetting::DISPLAY_ORDER_NEW => __d('videos', 'Newest'),
+				VideoFrameSetting::DISPLAY_ORDER_TITLE => __d('videos', 'By title'),
+				VideoFrameSetting::DISPLAY_ORDER_PLAY => __d('videos', 'Viewed'),
+				//VideoFrameSetting::DISPLAY_ORDER_LIKE => __d('videos', 'Reviews'),
+			),
+			array(
 				'type' => 'select',
 				'class' => 'form-control',
 				'default' => $this->request->data['VideoFrameSetting']['display_order'],
-				//'legend' => false,
 				'empty' => false,
 			)
 		); ?>
