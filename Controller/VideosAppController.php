@@ -16,11 +16,11 @@ App::uses('AppController', 'Controller');
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Controller
- * @property FileModel $FileModel
  * @property FileUploadComponent $FileUpload
  * @property DownloadComponent $Download
  * @property ContentComment $ContentComment
  * @property ContentCommentsComponent $ContentComments
+ * @property NetCommonsComponent $NetCommons
  * @property WorkflowComponent $Workflow
  * @property PermissionComponent $Permission
  * @property PageLayoutComponent $PageLayout
@@ -39,71 +39,6 @@ class VideosAppController extends AppController {
 		'Pages.PageLayout',
 		'Security',
 	);
-
-/**
- * initTabs
- *
- * @param string $mainActiveTab Main active tab
- * @param string $blockActiveTab Block active tab
- * @return void
- */
-	public function initTabs($mainActiveTab, $blockActiveTab) {
-//		if (isset($this->params['pass'][1])) {
-//			$blockId = (int)$this->params['pass'][1];
-//		} else {
-//			$blockId = null;
-//		}
-//
-//		//タブの設定
-//		$settingTabs = array(
-//			'tabs' => array(
-//				'block_index' => array(
-//					'url' => array(
-//						'plugin' => $this->params['plugin'],
-//						'controller' => 'video_block_settings',
-//						'action' => 'index',
-//						$this->viewVars['frameId'],
-//					)
-//				),
-//				'frame_settings' => array(
-//					'url' => array(
-//						'plugin' => $this->params['plugin'],
-//						'controller' => 'video_frame_settings',
-//						'action' => 'edit',
-//						$this->viewVars['frameId'],
-//					)
-//				),
-//			),
-//			'active' => $mainActiveTab
-//		);
-//		$this->set('settingTabs', $settingTabs);
-//
-//		$blockSettingTabs = array(
-//			'tabs' => array(
-//				'block_settings' => array(
-//					'url' => array(
-//						'plugin' => $this->params['plugin'],
-//						'controller' => 'video_block_settings',
-//						'action' => $this->params['action'],
-//						$this->viewVars['frameId'],
-//						$blockId
-//					)
-//				),
-//				'role_permissions' => array(
-//					'url' => array(
-//						'plugin' => $this->params['plugin'],
-//						'controller' => 'video_block_role_permissions',
-//						'action' => 'edit',
-//						$this->viewVars['frameId'],
-//						$blockId
-//					)
-//				),
-//			),
-//			'active' => $blockActiveTab
-//		);
-//
-//		$this->set('blockSettingTabs', $blockSettingTabs);
-	}
 
 /**
  * namedパラメータ取得

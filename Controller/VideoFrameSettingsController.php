@@ -41,7 +41,6 @@ class VideoFrameSettingsController extends VideosAppController {
  * @var array
  */
 	public $components = array(
-		//'NetCommons.NetCommonsBlock',
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array('block_index', 'frame_settings'),
 			'blockTabs' => array('block_settings', 'role_permissions'),
@@ -80,49 +79,5 @@ class VideoFrameSettingsController extends VideosAppController {
 			$this->request->data = $this->VideoFrameSetting->getVideoFrameSetting(true);
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
-
-			// 取得
-//		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(
-//			$this->viewVars['frameKey'],
-//			$this->viewVars['roomId']
-//		);
-//		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(true);
-//
-//		if ($this->request->isPost()) {
-//			// 更新時間を再セット
-//			unset($videoFrameSetting['VideoFrameSetting']['modified']);
-//			$data = Hash::merge(
-//				$videoFrameSetting,
-//				$this->data,
-//				array('VideoFrameSetting' => array('frame_key' => $this->viewVars['frameKey'])),
-//				array('Frame' => array('id' => $this->viewVars['frameId']))
-//			);
-//
-//			// 保存
-//			if (!$videoFrameSetting = $this->VideoFrameSetting->saveVideoFrameSetting($data)) {
-//				// エラー処理
-//				if (!$this->handleValidationError($this->VideoFrameSetting->validationErrors)) {
-//					$this->log($this->validationErrors, 'debug');
-//					return;
-//				}
-//
-//				// 正常処理
-//			} else {
-//				// ajax以外は、リダイレクト
-//				if (!$this->request->is('ajax')) {
-//					// 一覧へ戻る
-//					$url = isset($this->viewVars['current']['page']) ? '/' . $this->viewVars['current']['page']['permalink'] : null;
-//					$this->redirect($url);
-//				}
-//				return;
-//			}
-//		}
-//
-//		$results = array('videoFrameSetting' => $videoFrameSetting['VideoFrameSetting']);
-//
-//		// キーをキャメル変換
-//		$results = $this->camelizeKeyRecursive($results);
-//
-//		$this->set($results);
 	}
 }

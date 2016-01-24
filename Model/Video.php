@@ -21,66 +21,48 @@ App::uses('UploadBehavior', 'Upload.Model/Behavior'); //FileUpload
 class Video extends VideosAppModel {
 
 /**
- * file field name 動画ファイル
- *
- * @var string
+ * @var string file field name 動画ファイル
  */
 	const VIDEO_FILE_FIELD = 'video_file';
 
 /**
- * file field name サムネイル
- *
- * @var string
+ * @var string file field name サムネイル
  */
 	const THUMBNAIL_FIELD = 'thumbnail';
 
 /**
- * 動画 拡張子
- *
- * @var string
+ * @var string 動画 拡張子
  */
 	const VIDEO_EXTENSION = 'mpeg,mpg,avi,mov,wmv,flv,mp4';
 
 /**
- * 動画 MIMEタイプ
- *
- * @var string
+ * @var string 動画 MIMEタイプ
  */
 	const VIDEO_MIME_TYPE = 'video/mpeg,video/mpg,video/avi,video/quicktime,video/x-ms-wmv,video/x-ms-asf,video/x-flv,video/mp4';
 
 /**
- * サムネイル 拡張子
- *
- * @var string
+ * @var string サムネイル 拡張子
  */
 	const THUMBNAIL_EXTENSION = 'jpg,png,gif';
 
 /**
- * サムネイル MIMEタイプ
- *
- * @var string
+ * @var string サムネイル MIMEタイプ
  */
 	const THUMBNAIL_MIME_TYPE = 'image/jpeg,image/png,image/gif';
 
 /**
- * ffmpeg パス
- *
- * @var string
+ * @var string ffmpeg パス
  */
 	const FFMPEG_PATH = '/usr/bin/ffmpeg';		// for CentOS, Ubuntu 12.04LTS
 	//const FFMPEG_PATH = '/usr/bin/avconv';	// for Ubuntu
 
 /**
- * ffmpeg オプション
- *
- * @var string
+ * @var string ffmpeg オプション
  */
 	const FFMPEG_OPTION = '-acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k';
 
 /**
- * ffmpeg 有効フラグ
- *
- * @var bool
+ * @var bool ffmpeg 有効フラグ
  */
 	protected static $__isFfmpegEnable = null;
 

@@ -20,30 +20,22 @@ App::uses('VideosAppModel', 'Videos.Model');
 class VideoFrameSetting extends VideosAppModel {
 
 /**
- * 表示順 新着順
- *
- * @var string
+ * @var string 表示順 新着順
  */
 	const DISPLAY_ORDER_NEW = 'new';
 
 /**
- * 表示順 タイトル順
- *
- * @var string
+ * @var string 表示順 タイトル順
  */
 	const DISPLAY_ORDER_TITLE = 'title';
 
 /**
- * 表示順 再生回数順
- *
- * @var string
+ * @var string 表示順 再生回数順
  */
 	const DISPLAY_ORDER_PLAY = 'play';
 
 /**
- * 表示順 評価順
- *
- * @var string
+ * @var string 表示順 評価順
  */
 	const DISPLAY_ORDER_LIKE = 'like';
 
@@ -60,7 +52,7 @@ class VideoFrameSetting extends VideosAppModel {
  *
  * @param array $options Options passed from Model::save().
  * @return bool True if validate operation should continue, false to abort
- * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
+ * @link http://book.cakephp.org/2.0/ja/models/callback-methods.html#beforevalidate
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
@@ -115,7 +107,6 @@ class VideoFrameSetting extends VideosAppModel {
  * @return array
  */
 	public function getVideoFrameSetting($created) {
-	//public function getVideoFrameSetting($frameKey, $roomId) {
 		$conditions = array(
 			'frame_key' => Current::read('Frame.key')
 		);
@@ -125,33 +116,6 @@ class VideoFrameSetting extends VideosAppModel {
 				'conditions' => $conditions,
 			)
 		);
-
-//		$conditions = array(
-//			$this->alias . '.frame_key' => $frameKey,
-//		);
-//
-//		$joins = array(
-//			array(
-//				'type' => 'inner',
-//				'table' => 'frames',
-//				'alias' => 'Frame2',
-//				'conditions' => array(
-//					$this->alias . '.frame_key = Frame2.key',
-//					//'Frame2.room_id = ' . $roomId,
-//				),
-//			),
-//		);
-//
-//		if (!$videoFrameSetting = $this->find('first', array(
-//			'recursive' => 0,
-//			'joins' => $joins,
-//			'conditions' => $conditions,
-//			'order' => $this->alias . '.id DESC'
-//		))
-//		) {
-//			//初期値を設定
-//			$videoFrameSetting = $this->create();
-//		}
 
 		if ($created && ! $videoFrameSetting) {
 			$videoFrameSetting = $this->create(array(
@@ -170,37 +134,30 @@ class VideoFrameSetting extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function saveVideoFrameSetting($data) {
-		$this->loadModels(array(
-			'VideoFrameSetting' => 'Videos.VideoFrameSetting',
-			'Block' => 'Blocks.Block',
-		));
-
 		//トランザクションBegin
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		//バリデーション
+		$this->set($data);
+		if (! $this->validates()) {
+			$this->rollback();
+			return false;
+		}
 
 		try {
-			// 値をセット
-			$this->set($data);
-
-			// 入力チェック
-			$this->validates();
-			if ($this->validationErrors) {
-				return false;
-			}
-
-			$videoFrameSetting = $this->save(null, false);
-			if (!$videoFrameSetting) {
+			// 保存
+			if (! $videoFrameSetting = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			$dataSource->commit();
+			//トランザクションCommit
+			$this->commit();
 
-		} catch (InternalErrorException $ex) {
-			$dataSource->rollback();
-			CakeLog::write(LOG_ERR, $ex);
-			throw $ex;
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
 		}
+
 		return $videoFrameSetting;
 	}
 }
