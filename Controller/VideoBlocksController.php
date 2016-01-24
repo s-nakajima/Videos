@@ -33,6 +33,7 @@ class VideoBlocksController extends VideosAppController {
  */
 	public $uses = array(
 		'Videos.VideoBlockSetting',
+		'Videos.VideoFrameSetting',
 		//'Blocks.Block',
 	);
 
@@ -102,8 +103,7 @@ class VideoBlocksController extends VideosAppController {
 			)
 		);
 
-		$videoBlockSetting = $this->Paginator->paginate('VideoBlockSetting');
-		if (! $videoBlockSetting) {
+		if (! $videoBlockSetting = $this->Paginator->paginate('VideoBlockSetting')) {
 			$this->view = 'Blocks.Blocks/not_found';
 			return;
 		}
@@ -132,7 +132,10 @@ class VideoBlocksController extends VideosAppController {
 		} else {
 			//表示処理(初期データセット)
 			$this->request->data = $this->VideoBlockSetting->createVideoBlockSetting();
+			$this->request->data = Hash::merge($this->request->data, $this->VideoFrameSetting->getVideoFrameSetting(true)); // なぜセットする？
 			$this->request->data['Frame'] = Current::read('Frame');
+			// チャンネル名をBlockテーブルにセットしているため下記必須
+			$this->request->data['Block'] = Current::read('Block');
 		}
 	}
 
@@ -157,69 +160,11 @@ class VideoBlocksController extends VideosAppController {
 				return false;
 			}
 			$this->request->data = Hash::merge($this->request->data, $videoBlockSetting);
+			$this->request->data = Hash::merge($this->request->data, $this->VideoFrameSetting->getVideoFrameSetting(true)); // なぜセットする？
 			$this->request->data['Frame'] = Current::read('Frame');
+			// チャンネル名をBlockテーブルにセットしているため下記必須
+			$this->request->data['Block'] = Current::read('Block');
 		}
-
-
-//		if (! $this->NetCommonsBlock->validateBlockId()) {
-//			$this->setAction('throwBadRequest');
-//			return false;
-//		}
-/*		$blockId = (int)$this->params['pass'][1];
-		$this->set('blockId', $blockId);
-
-		// ブロック取得
-		if (!$block = $this->Block->findById($blockId)) {
-			$this->setAction('throwBadRequest');
-			return false;
-		};
-
-		// 取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
-
-		if ($this->request->isPost()) {
-
-			// 更新時間を再セット
-			unset($videoBlockSetting['VideoBlockSetting']['modified']);
-			$data = Hash::merge(
-				$videoBlockSetting,
-				$block,
-				$this->data,
-				array('Frame' => array('id' => $this->viewVars['frameId']))
-			);
-
-			// 保存
-			if (!$this->VideoBlockSetting->saveVideoBlockSetting($data)) {
-				// エラー処理
-				if (!$this->handleValidationError($this->VideoBlockSetting->validationErrors)) {
-					$videoBlockSetting['VideoBlockSetting'] = $this->data['VideoBlockSetting'];
-					// 入力値セット   "1","0"をbool型に変換
-					$videoBlockSetting = $this->VideoBlockSetting->convertBool($videoBlockSetting);
-				}
-
-				// 正常処理
-			} else {
-				// ajax以外は、リダイレクト
-				if (!$this->request->is('ajax')) {
-					$this->redirect('/videos/video_blocks/index/' . $this->viewVars['frameId']);
-				}
-				return;
-			}
-		}
-
-		if (empty($block)) {
-			$block = $this->Block->create();
-		}
-		$results = array(
-			'videoBlockSetting' => $videoBlockSetting['VideoBlockSetting'],
-			'block' => $block['Block'],
-		);
-
-		// キーをキャメル変換
-		$results = $this->camelizeKeyRecursive($results);
-
-		$this->set($results);
-*/
 	}
 
 /**
