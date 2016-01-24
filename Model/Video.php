@@ -319,27 +319,10 @@ class Video extends VideosAppModel {
 		}
 
 		try {
-
-//			// 入力チェック
-//			$this->validates(array('add'));
-//			if ($this->validationErrors) {
-//				$this->log($this->Video->validationErrors, 'debug');
-//				return false;
-//			}
-
 //			// ファイルチェック 動画ファイル
 //			if (!$data = $this->validateVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0)) {
 //				return false;
 //			}
-
-			// ステータスチェック
-//			if (!$this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
-//				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-//				return false;
-//			}
-
-//			// 動画ファイルを一旦登録
-//			$data = $this->saveVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0);
 
 			// 値をセット
 			$this->set($data);
@@ -350,7 +333,6 @@ class Video extends VideosAppModel {
 			}
 
 			// 動画変換とデータ保存
-//			if (!$this->saveConvertVideo($data, $video)) {
 			if (!$this->saveConvertVideo($video)) {
 				return false;
 			}
@@ -384,62 +366,59 @@ class Video extends VideosAppModel {
 		//トランザクションBegin
 		$this->begin();
 
+		//バリデーション
+		$this->set($data);
+		if (! $this->validates(array('add'))) {
+			$this->rollback();
+			return false;
+		}
+
 		try {
-			// 値をセット
-			$this->set($data);
+//			// ファイルチェック 動画ファイル
+//			if (!$data = $this->validateVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0)) {
+//				return false;
+//			}
+//
+//			// ファイルチェック サムネイル
+//			if (! $data = $this->validateVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1)) {
+//				return false;
+//			}
 
-			// 入力チェック
-			$this->validates(array('add'));
-			if ($this->validationErrors) {
-				return false;
-			}
-
-			// ファイルチェック 動画ファイル
-			if (!$data = $this->validateVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0)) {
-				return false;
-			}
-
-			// ファイルチェック サムネイル
-			if (! $data = $this->validateVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1)) {
-				return false;
-			}
-
-			// ステータスチェック
-			if (!$this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-				return false;
-			}
-
-			// ファイルの登録 動画ファイル
-			$data = $this->saveVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0);
-
-			// ファイルの登録 サムネイル
-			$data = $this->saveVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1);
-
-			// 値をセット
-			$this->set($data);
+//			// ステータスチェック
+//			if (!$this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
+//				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
+//				return false;
+//			}
+//
+//			// ファイルの登録 動画ファイル
+//			$data = $this->saveVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0);
+//
+//			// ファイルの登録 サムネイル
+//			$data = $this->saveVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1);
 
 			// 動画データ登録
-			$video = $this->save(null, false);
-			if (!$video) {
+			if (! $video = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-			//コメントの登録
-			if ($this->Comment->data) {
-				// コンテンツキーをセット
-				$this->Comment->data[$this->Comment->name]['content_key'] = $video['Video']['key'];
 
-				if (!$this->Comment->save(null, false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			}
+//			//コメントの登録
+//			if ($this->Comment->data) {
+//				// コンテンツキーをセット
+//				$this->Comment->data[$this->Comment->name]['content_key'] = $video['Video']['key'];
+//
+//				if (!$this->Comment->save(null, false)) {
+//					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//				}
+//			}
 
-			$dataSource->commit();
-		} catch (InternalErrorException $ex) {
-			$dataSource->rollback();
-			CakeLog::write(LOG_ERR, $ex);
-			throw $ex;
+			//トランザクションCommit
+			$this->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
 		}
+
 		return $video;
 	}
 
@@ -459,23 +438,20 @@ class Video extends VideosAppModel {
 //		));
 
 		//トランザクションBegin
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		//バリデーション
+		$this->set($data);
+		if (! $this->validates(array('edit'))) {
+			$this->rollback();
+			return false;
+		}
 
 		try {
-			// 値をセット
-			$this->set($data);
-
-			// 入力チェック
-			$this->validates(array('edit'));
-			if ($this->validationErrors) {
-				return false;
-			}
-
-			// ファイルチェック サムネイル
-			if (! $data = $this->validateVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1)) {
-				return false;
-			}
+//			// ファイルチェック サムネイル
+//			if (! $data = $this->validateVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1)) {
+//				return false;
+//			}
 
 //			// ステータスチェック
 //			if (!$this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
@@ -483,15 +459,11 @@ class Video extends VideosAppModel {
 //				return false;
 //			}
 
-			// ファイルの登録 サムネイル
-			$data = $this->saveVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1);
-
-			// 値をセット
-			$this->set($data);
+//			// ファイルの登録 サムネイル
+//			$data = $this->saveVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1);
 
 			// 動画データ登録
-			$video = $this->save(null, false);
-			if (!$video) {
+			if (! $video = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
@@ -502,12 +474,14 @@ class Video extends VideosAppModel {
 //				}
 //			}
 
-			$dataSource->commit();
-		} catch (InternalErrorException $ex) {
-			$dataSource->rollback();
-			CakeLog::write(LOG_ERR, $ex);
-			throw $ex;
+			//トランザクションCommit
+			$this->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
 		}
+
 		return $video;
 	}
 
@@ -520,17 +494,16 @@ class Video extends VideosAppModel {
  */
 	public function deleteVideo($data) {
 		$this->loadModels(array(
-//			'Comment' => 'Comments.Comment',
+			//'Comment' => 'Comments.Comment',
 			'ContentComment' => 'ContentComments.ContentComment',
-//			'FileModel' => 'Files.FileModel',		// FileUpload
+			//'FileModel' => 'Files.FileModel',		// FileUpload
 			'Like' => 'Likes.Like',
 			'TagsContent' => 'Tags.TagsContent',
-//			'Video' => 'Videos.Video',
+			//'Video' => 'Videos.Video',
 		));
 
 		//トランザクションBegin
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
 		try {
 			// 動画削除
@@ -561,13 +534,14 @@ class Video extends VideosAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			$dataSource->commit();
+			//トランザクションCommit
+			$this->commit();
 
-		} catch (InternalErrorException $ex) {
-			$dataSource->rollback();
-			CakeLog::write(LOG_ERR, $ex);
-			throw $ex;
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
 		}
+
 		return true;
 	}
 }
