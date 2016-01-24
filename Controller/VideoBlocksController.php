@@ -109,10 +109,6 @@ class VideoBlocksController extends VideosAppController {
 			return;
 		}
 
-		//$results['videoBlockSettings'] = $videoBlockSetting;
-
-		//$results = $this->camelizeKeyRecursive($results);
-		//$this->set($results);
 		$this->set('videoBlockSettings', $videoBlockSetting);
 
 		$this->request->data['Frame'] = Current::read('Frame');
