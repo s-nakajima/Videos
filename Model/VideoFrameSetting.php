@@ -112,10 +112,9 @@ class VideoFrameSetting extends VideosAppModel {
 		);
 
 		$videoFrameSetting = $this->find('first', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-			)
-		);
+			'recursive' => -1,
+			'conditions' => $conditions,
+		));
 
 		if ($created && ! $videoFrameSetting) {
 			$videoFrameSetting = $this->create(array(
