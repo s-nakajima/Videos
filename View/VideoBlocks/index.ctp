@@ -1,6 +1,6 @@
 <?php
 /**
- * block index template
+ * VideoBlocks index template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Ryo Ozawa <ozawa.ryo@withone.co.jp>

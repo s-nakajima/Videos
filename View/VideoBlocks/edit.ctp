@@ -1,6 +1,6 @@
 <?php
 /**
- * コンテンツ template
+ * VideoBlocks edit template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -11,10 +11,7 @@
  */
 ?>
 
-<?php //echo $this->Html->script('/videos/js/videos.js', array('plugin' => false, 'once' => true, 'inline' => false)); ?>
-
 <article class="block-setting-body">
-
 	<?php echo $this->BlockTabs->main(BlockTabsComponent::MAIN_TAB_BLOCK_INDEX); ?>
 
 	<div class="tab-content">
@@ -37,7 +34,6 @@
 				)),
 				'callback' => 'Videos.VideoBlocks/delete_form'
 			)); ?>
-
 		<?php endif; ?>
 	</div>
 </article>
