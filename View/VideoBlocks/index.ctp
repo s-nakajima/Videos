@@ -44,17 +44,7 @@
 					<?php foreach ($videoBlockSettings as $videoBlockSetting) : ?>
 						<tr<?php echo ( Current::read('Block.id') === $videoBlockSetting['Block']['id'] ? ' class="active"' : ''); ?>>
 							<td>
-								<?php echo $this->Form->input('Frame.block_id', array(
-									'type' => 'radio',
-									'name' => 'data[Frame][block_id]',
-									'options' => array((int)$videoBlockSetting['Block']['id'] => ''),
-									'div' => false,
-									'legend' => false,
-									'label' => false,
-									'hiddenField' => false,
-									'checked' => (int)$videoBlockSetting['Block']['id'] === Current::read('Block.id'),
-									'onclick' => 'submit()'
-								)); ?>
+								<?php echo $this->BlockForm->displayFrame('Frame.block_id', $videoBlockSetting['Block']['id']); ?>
 							</td>
 							<td>
 								<?php //var_dump($videoBlockSetting) ?>
