@@ -33,8 +33,7 @@ class VideoBlocksController extends VideosAppController {
  */
 	public $uses = array(
 		'Videos.VideoBlockSetting',
-		'Blocks.Block',
-		//'Frames.Frame',
+		//'Blocks.Block',
 	);
 
 /**
@@ -135,67 +134,6 @@ class VideoBlocksController extends VideosAppController {
 			$this->request->data = $this->VideoBlockSetting->createVideoBlockSetting();
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
-
-
-/*
-		// 初期値 取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
-
-		// ブロック 初期値 取得
-		$block = $this->Block->create(array(
-			'name' => __d('videos', 'New channel %s', date('YmdHis')),
-		));
-
-		if ($this->request->isPost()) {
-
-			//frameの取得
-			$frame = $this->Frame->findById($this->viewVars['frameId']);
-			if (!$frame) {
-				$this->throwBadRequest();
-				return;
-			}
-
-			$data = Hash::merge(
-				$videoBlockSetting,
-				$block,
-				$this->data,
-				array('Frame' => array('id' => $this->viewVars['frameId'])),
-				array('Block' => array(
-					'room_id' => $frame['Frame']['room_id'],
-					'language_id' => $frame['Frame']['language_id'],
-					'plugin_key' => $this->request->params['plugin'],
-				))
-			);
-
-			// 保存
-			if (!$videoBlockSetting = $this->VideoBlockSetting->saveVideoBlockSetting($data)) {
-				// エラー処理
-				if (!$this->handleValidationError($this->VideoBlockSetting->validationErrors)) {
-					$videoBlockSetting['VideoBlockSetting'] = $this->data['VideoBlockSetting'];
-					// 入力値セット   "1","0"をbool型に変換
-					$videoBlockSetting = $this->VideoBlockSetting->convertBool($videoBlockSetting);
-				}
-
-				// 正常処理
-			} else {
-				// ajax以外は、リダイレクト
-				if (!$this->request->is('ajax')) {
-					$this->redirect('/videos/video_blocks/index/' . $this->viewVars['frameId']);
-				}
-				return;
-			}
-		}
-
-		$results = array(
-			'videoBlockSetting' => $videoBlockSetting['VideoBlockSetting'],
-			'block' => $block['Block'],
-		);
-
-		// キーをキャメル変換
-		//$results = $this->camelizeKeyRecursive($results);
-
-		$this->set($results);
-*/
 	}
 
 /**
@@ -204,7 +142,7 @@ class VideoBlocksController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit() {
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			//登録処理
 			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));

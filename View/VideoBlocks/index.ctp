@@ -42,12 +42,11 @@
 				</thead>
 				<tbody>
 					<?php foreach ($videoBlockSettings as $videoBlockSetting) : ?>
-						<tr<?php echo ( Current::read('Block.id') === $videoBlockSetting['Block']['id'] ? ' class="active"' : ''); ?>>
+						<tr<?php echo ( $this->data['Frame']['block_id'] === $videoBlockSetting['Block']['id'] ? ' class="active"' : ''); ?>>
 							<td>
 								<?php echo $this->BlockForm->displayFrame('Frame.block_id', $videoBlockSetting['Block']['id']); ?>
 							</td>
 							<td>
-								<?php //var_dump($videoBlockSetting) ?>
 								<?php echo $this->NetCommonsHtml->editLink($videoBlockSetting['Block']['name'], array('block_id' => $videoBlockSetting['Block']['id'])); ?>
 							</td>
 							<td>
