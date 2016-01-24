@@ -92,14 +92,14 @@ class Video extends VideosAppModel {
 	public $actsAs = array(
 		//'ContentComments.ContentComment',
 		'ContentComments.ContentCommentCount',
-//		'Files.YAUpload' => array(		// FileUpload
-//			self::VIDEO_FILE_FIELD => array(
-//				//UploadBefavior settings
-//			),
-//			self::THUMBNAIL_FIELD => array(
-//				//UploadBefavior settings
-//			),
-//		),
+		//		'Files.YAUpload' => array(		// FileUpload
+		//			self::VIDEO_FILE_FIELD => array(
+		//				//UploadBefavior settings
+		//			),
+		//			self::THUMBNAIL_FIELD => array(
+		//				//UploadBefavior settings
+		//			),
+		//		),
 		'Likes.Like',					// いいね
 		'NetCommons.OriginalKey',		// 自動でkeyセット
 		//'NetCommons.Publishable',		// 自動でis_active, is_latestセット
@@ -128,7 +128,7 @@ class Video extends VideosAppModel {
  *
  * @param array $options Options passed from Model::save().
  * @return bool True if validate operation should continue, false to abort
- * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
+ * @link http://book.cakephp.org/2.0/ja/models/callback-methods.html#beforevalidate
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
@@ -162,20 +162,20 @@ class Video extends VideosAppModel {
 			'fields' => 'language_id',
 			'order' => ''
 		),
-//		'FileMp4' => array(
-//			'className' => 'Files.FileModel',
-//			'foreignKey' => 'mp4_id',
-//			'conditions' => '',
-//			'fields' => '',
-//			'order' => ''
-//		),
-//		'FileThumbnail' => array(
-//			'className' => 'Files.FileModel',
-//			'foreignKey' => 'thumbnail_id',
-//			'conditions' => '',
-//			'fields' => '',
-//			'order' => ''
-//		),
+		//		'FileMp4' => array(
+		//			'className' => 'Files.FileModel',
+		//			'foreignKey' => 'mp4_id',
+		//			'conditions' => '',
+		//			'fields' => '',
+		//			'order' => ''
+		//		),
+		//		'FileThumbnail' => array(
+		//			'className' => 'Files.FileModel',
+		//			'foreignKey' => 'thumbnail_id',
+		//			'conditions' => '',
+		//			'fields' => '',
+		//			'order' => ''
+		//		),
 		'User' => array(
 			'className' => 'Users.User',
 			'foreignKey' => 'created_user',
@@ -186,11 +186,13 @@ class Video extends VideosAppModel {
 	);
 
 /**
- * After find callback. Can be used to modify any results returned by find.
+ * Called after each find operation. Can be used to modify any results returned by find().
+ * Return value should be the (modified) results.
  *
  * @param mixed $results The results of the find operation
  * @param bool $primary Whether this model is being queried directly (vs. being queried as an association)
- * @return mixed An array value will replace the value of $results - any other value will be ignored.
+ * @return mixed Result of the find operation
+ * @link http://book.cakephp.org/2.0/ja/models/callback-methods.html#afterfind
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function afterFind($results, $primary = false) {
@@ -282,39 +284,37 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function updateCountUp($data) {
-//		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
-//		$this->loadModels(array(
-//			'Video' => 'Videos.Video',
-//		));
-
 		$video['Video'] = $data['Video'];
 		//再生回数 + 1
 		$video['Video']['play_number']++;
 
 		//トランザクションBegin
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		// 値をセット
+		$this->set($video);
 
 		try {
-			// 値をセット
-			$this->set($video);
 
-			// 動画データ保存 コールバックoff
-			$video = $this->save(null, array(
+			// コールバックoff
+			$validate = array(
 				'validate' => false,
 				'callbacks' => false,
-			));
+			);
 
-			if (!$video) {
+			// 動画データ保存
+			if (! $video = $this->save(null, $validate)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			};
+			}
 
-			$dataSource->commit();
-		} catch (InternalErrorException $ex) {
-			$dataSource->rollback();
-			CakeLog::write(LOG_ERR, $ex);
-			throw $ex;
+			//トランザクションCommit
+			$this->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
 		}
+
 		return $video[$this->alias]['play_number'];
 	}
 
@@ -326,19 +326,12 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function addSaveVideo($data) {
-//		$this->loadModels(array(
-////			'Video' => 'Videos.Video',
-////			'Comment' => 'Comments.Comment',
-//			'FileModel' => 'Files.FileModel',
-//		));
-
 		//トランザクションBegin
 		$this->begin();
 
 		//バリデーション
 		$this->set($data);
 		if (! $this->validates(array('add'))) {
-			//$this->log($this->Video->validationErrors, 'debug');
 			$this->rollback();
 			return false;
 		}
@@ -369,21 +362,16 @@ class Video extends VideosAppModel {
 			// 値をセット
 			$this->set($data);
 
-//$this->log('video_save_before', 'debug');
 			// 動画データ登録
 			if (! $video = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-//$this->log('video_save_after', 'debug');
 
-//$this->log('saveConvertVideo before', 'debug');
 			// 動画変換とデータ保存
 //			if (!$this->saveConvertVideo($data, $video)) {
 			if (!$this->saveConvertVideo($video)) {
-//$this->log('saveConvertVideo [false]', 'debug');
 				return false;
 			}
-//$this->log('saveConvertVideo after', 'debug');
 
 			//トランザクションCommit
 			$this->commit();
