@@ -75,7 +75,7 @@ $this->Html->script(
 //							'deleteEnable' => false,
 //							'overwriteEnable' => false,
 //						)); ?>
-						<?php echo $this->NetCommonsForm->uploadFile('thumbnail', array(
+						<?php echo $this->NetCommonsForm->uploadFile(Video::THUMBNAIL_FIELD, array(
 							'label' => __d('videos', 'Thumbnail'),
 							'required' => true,
 						)); ?>
