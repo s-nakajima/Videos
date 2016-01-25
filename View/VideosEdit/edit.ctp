@@ -126,44 +126,28 @@ $this->NetCommonsHtml->script(array(
 
 					<hr />
 
-					<?php //echo $this->element('Comments.form'); ?>
 					<?php echo $this->Workflow->inputComment('Video.status'); ?>
 
 				</div>
 				<?php echo $this->Workflow->buttons('Video.status'); ?>
-
-<!--				<div class="panel-footer">-->
-<!--					<div class="text-center">-->
-<!--						--><?php //echo $this->element('NetCommons.workflow_buttons'); ?>
-<!--					</div>-->
-<!--				</div>-->
 
 			<?php echo $this->Form->end(); ?>
 
 			<div class="panel-footer" style="/* border-top-style: none; */">
 				<div class="text-right">
 					<?php /* 削除 */ ?>
-					<?php echo $this->Form->create('Video', array(
+					<?php echo $this->NetCommonsForm->create('Video', array(
 						'type' => 'delete',
-						'style' => 'display: inline;',
 						'url' => '/videos/videos_edit/delete/' . Current::read('Frame.id') . '?frame_id=' . Current::read('Frame.id'),
 					)); ?>
 
 						<?php echo $this->NetCommonsForm->hidden('Video.id'); ?>
 						<?php echo $this->NetCommonsForm->hidden('Video.key'); ?>
-<!--						--><?php //echo $this->Form->hidden('Video.id', array(
-//							'value' => $video[]['id'],
-//						)); ?>
-<!--						--><?php //echo $this->Form->hidden('Video.key', array(
-//							'value' => $video['key'],
-//						)); ?>
-						<?php echo $this->Form->button("<span class='glyphicon glyphicon-trash'></span>", array(
-							'name' => 'delete',
-							'class' => 'btn btn-danger',
-							'onclick' => 'return confirm(\'' . sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'video')) . '\')'
-							)); ?>
+						<?php echo $this->Button->delete('',
+							sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'video'))
+						); ?>
 
-					<?php echo $this->Form->end(); ?>
+					<?php echo $this->NetCommonsForm->end(); ?>
 				</div>
 			</div>
 
