@@ -96,36 +96,5 @@ class VideoBlockRolePermissionsController extends VideosAppController {
 			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
-
-/*
-		if ($this->request->isPost()) {
-//			// 更新時間を再セット
-//			unset($videoBlockSetting['VideoBlockSetting']['modified']);
-//			$data = Hash::merge(
-//				$videoBlockSetting,
-//				$this->data
-//			);
-
-			$this->VideoBlockSetting->saveBlockRolePermission($data);
-			if ($this->handleValidationError($this->VideoBlockSetting->validationErrors)) {
-				// 正常時
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/videos/video_blocks/index/' . $this->viewVars['frameId']);
-				}
-				return;
-			}
-		}
-
-		$results = array(
-			'BlockRolePermissions' => $permissions['BlockRolePermissions'],
-			//'Roles' => $permissions['Roles'],
-			'VideoBlockSetting' => $videoBlockSetting['VideoBlockSetting'],
-		);
-
-		// キーをキャメル変換
-		//$results = $this->camelizeKeyRecursive($results);
-
-		$this->set($results);
-		*/
 	}
 }
