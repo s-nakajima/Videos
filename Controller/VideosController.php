@@ -70,8 +70,8 @@ class VideosController extends VideosAppController {
  */
 	public $components = array(
 		'ContentComments.ContentComments' => array(
-			'viewVarsContentKey' => array('video.Video.key'),
-			'viewVarsUseComment' => array('videoBlockSetting.use_comment'),
+			'viewVarsContentKey' => 'video.Video.key',
+			'viewVarsUseComment' => 'videoBlockSetting.use_comment',
 			'allow' => array('view'),
 		),
 		'Cookie',
