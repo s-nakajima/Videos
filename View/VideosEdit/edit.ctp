@@ -8,17 +8,11 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+$this->NetCommonsHtml->script(array(
+	'/tags/js/tags.js',
+	'/videos/js/videos.js',
+));
 ?>
-
-<?php
-$this->Html->script(
-	array(
-		'/net_commons/js/workflow.js',
-		'/tags/js/tags.js',
-		'/videos/js/videos.js',
-	),
-	array('plugin' => false, 'once' => true, 'inline' => false)
-);?>
 
 <div ng-controller="Videos"
 	 ng-init="initialize(<?php echo h(json_encode($video)); ?>)">
@@ -124,7 +118,7 @@ $this->Html->script(
 <!--					</div>-->
 
 					<div class="form-group"></div>
-					<?php $this->Form->unlockField('Tag');
+					<?php $this->NetCommonsForm->unlockField('Tag');
 					echo $this->element('Tags.tag_form', array(
 						'tagData' => isset($this->request->data['Tag']) ? $this->request->data['Tag'] : array(),
 						'modelName' => 'Video',

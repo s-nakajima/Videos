@@ -430,13 +430,6 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function editSaveVideo($data) {
-//		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
-//		$this->loadModels(array(
-//			'Video' => 'Videos.Video',
-//			'Comment' => 'Comments.Comment',
-//			'FileModel' => 'Files.FileModel',
-//		));
-
 		//トランザクションBegin
 		$this->begin();
 
@@ -448,31 +441,18 @@ class Video extends VideosAppModel {
 		}
 
 		try {
-//			// ファイルチェック サムネイル
-//			if (! $data = $this->validateVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1)) {
-//				return false;
-//			}
+			//			// ファイルチェック サムネイル
+			//			if (! $data = $this->validateVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1)) {
+			//				return false;
+			//			}
 
-//			// ステータスチェック
-//			if (!$this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
-//				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-//				return false;
-//			}
-
-//			// ファイルの登録 サムネイル
-//			$data = $this->saveVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1);
+			//			// ファイルの登録 サムネイル
+			//			$data = $this->saveVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1);
 
 			// 動画データ登録
 			if (! $video = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
-//			//コメントの登録
-//			if ($this->Comment->data) {
-//				if (!$this->Comment->save(null, false)) {
-//					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//				}
-//			}
 
 			//トランザクションCommit
 			$this->commit();
