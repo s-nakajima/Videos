@@ -100,7 +100,6 @@ $this->Html->script(
 							<?php echo sprintf(__d('videos', 'Views %s times'), $video['Video']['play_number']); ?>
 						</div>
 					</div>
-<?php //var_dump($video); ?>
 					<div class="row">
 						<div class="col-xs-12 text-right">
 <!--						<div class="col-xs-12 text-right" --><?php //echo $this->element('Likes.like_init_attributes', array(
