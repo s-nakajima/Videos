@@ -270,7 +270,6 @@ class VideosController extends VideosAppController {
 			throw $ex;
 		}
 		$results['videos'] = $videos;
-		//$this->set('videos', $videos);
 
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
