@@ -74,22 +74,13 @@ class Video extends VideosAppModel {
 	public $actsAs = array(
 		//'ContentComments.ContentComment',
 		'ContentComments.ContentCommentCount',
-		//		'Files.YAUpload' => array(		// FileUpload
-		//			self::VIDEO_FILE_FIELD => array(
-		//				//UploadBefavior settings
-		//			),
-		//			self::THUMBNAIL_FIELD => array(
-		//				//UploadBefavior settings
-		//			),
-		//		),
 		'Likes.Like',					// いいね
 		'NetCommons.OriginalKey',		// 自動でkeyセット
-		//'NetCommons.Publishable',		// 自動でis_active, is_latestセット
 		'Tags.Tag',
 		'Videos.Video',					// 動画変換
 		'Videos.VideoFile',				// FileUpload
 		'Videos.VideoValidation',		// Validation rules
-		'Workflow.Workflow',
+		'Workflow.Workflow',			// 自動でis_active, is_latestセット
 		'Workflow.WorkflowComment',
 		'Files.Attachment' => [
 			Video::VIDEO_FILE_FIELD,
@@ -115,6 +106,7 @@ class Video extends VideosAppModel {
  */
 	public function beforeValidate($options = array()) {
 		// サムネイル 任意 対応
+		// 2016.1.26 (;'∀')古い対応。もやは機能していない。
 		if (isset($this->data['Video'][self::THUMBNAIL_FIELD]) &&
 			isset($this->data['Video'][self::THUMBNAIL_FIELD]['size']) &&
 			$this->data['Video'][self::THUMBNAIL_FIELD]['size'] === 0) {
@@ -144,20 +136,6 @@ class Video extends VideosAppModel {
 			'fields' => 'language_id',
 			'order' => ''
 		),
-		//		'FileMp4' => array(
-		//			'className' => 'Files.FileModel',
-		//			'foreignKey' => 'mp4_id',
-		//			'conditions' => '',
-		//			'fields' => '',
-		//			'order' => ''
-		//		),
-		//		'FileThumbnail' => array(
-		//			'className' => 'Files.FileModel',
-		//			'foreignKey' => 'thumbnail_id',
-		//			'conditions' => '',
-		//			'fields' => '',
-		//			'order' => ''
-		//		),
 		'User' => array(
 			'className' => 'Users.User',
 			'foreignKey' => 'created_user',
@@ -185,7 +163,6 @@ class Video extends VideosAppModel {
 				}
 				// 秒を時：分：秒に変更
 				$results[$key][$alias]['video_time_view'] = $this->convSecToHour($row['video_time']);
-				//$results[$key][$alias]['video_time_edit'] = $this->convSecToHourEdit($row['video_time']);
 			}
 		}
 		return $results;
@@ -194,68 +171,23 @@ class Video extends VideosAppModel {
 /**
  * UserIdと権限から参照可能なEntryを取得するCondition配列を返す
  *
- * @param int $blockId ブロックId
- * @param int $userId アクセスユーザID
- * @param array $permissions 権限
- * @param datetime $currentDateTime 現在日時
  * @return array condition
  */
-	public function getConditions($blockId, $userId, $permissions, $currentDateTime) {
+	public function getConditions() {
 		// contentReadable falseなら何も見えない
-		if ($permissions['content_readable'] === false) {
+		if (! Current::permission('content_readable')) {
 			$conditions = array('Video.id' => 0); // ありえない条件でヒット0にしてる
 			return $conditions;
 		}
 
 		// デフォルト絞り込み条件
 		$conditions = array(
-			'Video.block_id' => $blockId
+			'Video.block_id' => Current::read('Block.id')
 		);
 
 		$conditions = $this->getWorkflowConditions($conditions);
 
 		return $conditions;
-	}
-
-/**
- * Videoデータ取得
- *
- * @param array $conditions Conditions data
- * @param array $fields fields
- * @return array
- */
-	public function getVideo($conditions = array(), $fields = null) {
-		$video = $this->find('first', array(
-			'recursive' => 1,
-			'fields' => $fields,
-			'conditions' => $conditions,
-			'order' => $this->alias . '.id DESC'
-		));
-
-		return $video;
-	}
-
-/**
- * 複数Videoデータ取得
- *
- * @param array $conditions Conditions data
- * @return array
- */
-	public function getVideos($conditions = array()) {
-		// モデルからビヘイビアをはずす
-		$this->Behaviors->unload('Tags.Tag');
-
-		$videos = $this->find('all', array(
-			'recursive' => 1,
-			'fields' => array(
-				'*',
-				'ContentCommentCnt.cnt',	// Behaviorでコンテンツコメント数取得
-			),
-			'conditions' => $conditions,
-			'order' => $this->alias . '.id DESC'
-		));
-
-		return $videos;
 	}
 
 /**
@@ -319,10 +251,10 @@ class Video extends VideosAppModel {
 		}
 
 		try {
-//			// ファイルチェック 動画ファイル
-//			if (!$data = $this->validateVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0)) {
-//				return false;
-//			}
+			//			// ファイルチェック 動画ファイル
+			//			if (!$data = $this->validateVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0)) {
+			//				return false;
+			//			}
 
 			// 値をセット
 			$this->set($data);
