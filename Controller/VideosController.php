@@ -207,12 +207,7 @@ class VideosController extends VideosAppController {
 		// ここから元コンテンツを取得する処理
 		//$this->_prepare();
 		$key = $this->params['pass'][1];
-		$conditions = $this->Video->getConditions(
-			Current::read('Block.id'),
-			$this->Auth->user('id'),
-			$this->_getPermission(),
-			$this->_getCurrentDateTime()
-		);
+		$conditions = $this->Video->getConditions();
 
 		$conditions['Video.key'] = $key;
 		$options = array(
