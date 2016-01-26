@@ -35,10 +35,29 @@ class VideoBlockSetting extends VideosAppModel {
 		'Blocks.Block' => array(
 			'name' => 'Block.name',
 			'loadModels' => array(
+				//'Like' => 'Likes.Like',
 				'WorkflowComment' => 'Workflow.WorkflowComment',
 			)
 		),
+		//'NetCommons.OriginalKey',
 		'Blocks.BlockRolePermission',
+	);
+
+/**
+ * belongsTo associations
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'Block' => array(
+			'className' => 'Blocks.Block',
+			'foreignKey' => false,
+			'conditions' => array(
+				'Block.key = VideoBlockSetting.block_key',
+			),
+			'fields' => '',
+			'order' => ''
+		),
 	);
 
 /**
@@ -112,30 +131,12 @@ class VideoBlockSetting extends VideosAppModel {
 	}
 
 /**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'Block' => array(
-			'className' => 'Blocks.Block',
-			'foreignKey' => false,
-			'conditions' => array(
-				'Block.key = VideoBlockSetting.block_key',
-			),
-			'fields' => '',
-			'order' => ''
-		),
-	);
-
-/**
  * Create Faq data
  *
  * @return array
  */
 	public function createVideoBlockSetting() {
 		$this->VideoBlockSetting = ClassRegistry::init('Videos.VideoBlockSetting');
-
 
 		$videoBlockSetting = $this->createAll(array(
 			'Block' => array(
@@ -157,53 +158,12 @@ class VideoBlockSetting extends VideosAppModel {
 			$this->alias . '.block_key' => Current::read('Block.key'),
 		);
 
-		if (! $videoBlockSetting = $this->find('first', array(
+		$videoBlockSetting = $this->find('first', array(
 			//'recursive' => -1,
 			'recursive' => 0,
-			//'joins' => $joins,
 			'conditions' => $conditions,
 			'order' => $this->alias . '.id DESC'
-		))
-		) {
-			//初期値を設定
-			$videoBlockSetting = $this->create();
-
-			// "1","0"をbool型に変換
-			$videoBlockSetting = $this->convertBool($videoBlockSetting);
-		}
-
-		return $videoBlockSetting;
-	}
-
-/**
- * "1","0"をbool型に変換
- *
- * @param array $videoBlockSetting videoBlockSettingデータ
- * @return array videoBlockSettingデータ
- */
-	public function convertBool($videoBlockSetting) {
-		// 暫定対応(;'∀')
-		// $videoBlockSetting = $this->create(); の戻り値、boolean型が"1","0"のまま。
-		// $videoBlockSetting = $this->find('first', array()); の戻り値は、boolean型だとtrue,false。
-		// anglarJSでcheckboxを制御する場合、boolean型のtrue,false。 cakephpでcheckboxを制御する場合、formhelperのdefaultに設定する値は、"1","0"と違うため、変換が必要
-
-		// bool項目
-		$boolKeys = array(
-			'use_like',
-			'use_unlike',
-			'use_comment',
-			'agree',
-			'mail_notice',
-			'auto_play',
-			'comment_agree',
-			'comment_agree_mail_notice',
-		);
-		// 値にbool項目があったら、boolean型に変換する
-		foreach ($boolKeys as $boolKey) {
-			if (array_key_exists($boolKey, $videoBlockSetting['VideoBlockSetting'])) {
-				$videoBlockSetting['VideoBlockSetting'][$boolKey] = $videoBlockSetting['VideoBlockSetting'][$boolKey] == '1';
-			}
-		}
+		));
 
 		return $videoBlockSetting;
 	}

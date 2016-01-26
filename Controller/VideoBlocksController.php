@@ -132,7 +132,7 @@ class VideoBlocksController extends VideosAppController {
 		} else {
 			//表示処理(初期データセット)
 			$this->request->data = $this->VideoBlockSetting->createVideoBlockSetting();
-			$this->request->data = Hash::merge($this->request->data, $this->VideoFrameSetting->getVideoFrameSetting(true)); // なぜセットする？
+			//$this->request->data = Hash::merge($this->request->data, $this->VideoFrameSetting->getVideoFrameSetting(true)); // なぜセットする？
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
@@ -153,7 +153,7 @@ class VideoBlocksController extends VideosAppController {
 
 		} else {
 			//表示処理(初期データセット)
-			if (! $videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting()) {
+			if (! $videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting()) { //データあり
 				$this->throwBadRequest();
 				return false;
 			}
@@ -171,7 +171,7 @@ class VideoBlocksController extends VideosAppController {
  * @return CakeResponse
  */
 	public function delete() {
-		if ($this->request->isDelete()) {
+		if ($this->request->is('delete')) {
 			if ($this->VideoBlockSetting->deleteVideoBlockSetting($this->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;

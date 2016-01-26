@@ -69,7 +69,7 @@ class VideoBlockRolePermissionsController extends VideosAppController {
  */
 	public function edit() {
 		// 取得
-		if (! $videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting()) {
+		if (! $videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting()) { //データあり
 			$this->throwBadRequest();
 			return false;
 		}

@@ -84,10 +84,16 @@ class VideosController extends VideosAppController {
  * @return void
  */
 	public function beforeFilter() {
+		parent::beforeFilter();
+
+		// ブロック未選択は、何も表示しない
+		//if (! Current::read('Block.id')) {
+		//	$this->setAction('emptyRender');
+		//	return false;
+		//}
+
 		// ゲストアクセスOKのアクションを設定
 		$this->Auth->allow('tag', 'download');
-
-		parent::beforeFilter();
 	}
 
 /**
@@ -165,7 +171,7 @@ class VideosController extends VideosAppController {
 		$this->set('relatedVideos', $relatedVideos);
 
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(); //データあり
 		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
 		// クッキー対応
@@ -229,6 +235,11 @@ class VideosController extends VideosAppController {
  * @throws Exception Paginatorによる例外
  */
 	private function __list($extraConditions = array()) {
+		// ブロック未選択
+		if (empty(Current::read('Frame.block_id'))) {
+			return array();
+		}
+
 		$query = array(
 			'conditions' => array(
 				$this->Video->alias . '.is_latest' => true,
@@ -263,7 +274,7 @@ class VideosController extends VideosAppController {
 		$results['videos'] = $videos;
 
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(); //データあり
 		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
 		//ソート
