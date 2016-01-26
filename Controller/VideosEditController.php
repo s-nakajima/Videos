@@ -157,7 +157,7 @@ class VideosEditController extends VideosAppController {
  * @return CakeResponse
  */
 	public function delete() {
-		if ($this->request->isDelete()) {
+		if ($this->request->is('delete')) {
 			// 削除
 			if (!$this->Video->deleteVideo($this->data)) {
 				$this->throwBadRequest();
