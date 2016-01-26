@@ -16,7 +16,7 @@
 <article>
 
 	<?php /* ブロック未選択 */ ?>
-	<?php if (empty($frame['block_id'])) : ?>
+	<?php if (empty(Current::read('Frame.block_id'))) : ?>
 
 		<div><?php echo __d('videos', 'There are no videos that are currently published.'); ?></div>
 

@@ -157,19 +157,7 @@ class VideoBlockSetting extends VideosAppModel {
 			$this->alias . '.block_key' => Current::read('Block.key'),
 		);
 
-//		$joins = array(
-//			array(
-//				'type' => 'inner',
-//				'table' => 'blocks',
-//				'alias' => 'Block',
-//				'conditions' => array(
-//					$this->alias . '.block_key = Block.key',
-//					'Block.room_id = ' . Current::read('Room.id'),
-//				),
-//			),
-//		);
-
-		if (!$videoBlockSetting = $this->find('first', array(
+		if (! $videoBlockSetting = $this->find('first', array(
 			//'recursive' => -1,
 			'recursive' => 0,
 			//'joins' => $joins,
@@ -228,10 +216,10 @@ class VideoBlockSetting extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function saveVideoBlockSetting($data) {
-		$this->loadModels(array(
-			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
-			//'Block' => 'Blocks.Block',
-		));
+//		$this->loadModels(array(
+//			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
+//			//'Block' => 'Blocks.Block',
+//		));
 
 		//トランザクションBegin
 		$this->begin();
@@ -277,8 +265,7 @@ class VideoBlockSetting extends VideosAppModel {
 //			// 値をセット
 //			$this->set($data);
 
-			$videoBlockSetting = $this->save(null, false);
-			if (!$videoBlockSetting) {
+			if (! $videoBlockSetting = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
