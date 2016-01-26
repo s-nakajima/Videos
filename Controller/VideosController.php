@@ -39,9 +39,7 @@ class VideosController extends VideosAppController {
  * @var array
  */
 	public $uses = array(
-//		'Blocks.Block',
 		'ContentComments.ContentComment',	// コンテンツコメント
-		'Frames.Frame',
 		'Videos.Video',
 		'Videos.VideoBlockSetting',
 		'Videos.VideoFrameSetting',
@@ -55,7 +53,6 @@ class VideosController extends VideosAppController {
 	public $helpers = array(
 		'ContentComments.ContentComment',
 		'Likes.Like',
-		//'NetCommons.Date',					// 詳細日付表示
 		'NetCommons.DisplayNumber',
 		'NetCommons.Token',
 		'Workflow.Workflow',
@@ -76,7 +73,6 @@ class VideosController extends VideosAppController {
 		),
 		'Cookie',
 		'Paginator',						// ページャ
-		//'NetCommons.NetCommonsRoomRole',	// パーミッション取得
 		'Files.Download' => array(
 			'priority' => 99
 		),
