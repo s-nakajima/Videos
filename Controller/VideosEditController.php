@@ -163,9 +163,15 @@ class VideosEditController extends VideosAppController {
 				return;
 			}
 
-			if (!$this->request->is('ajax')) {
+			if (! $this->request->is('ajax')) {
 				// 一覧へ
-				$this->redirect('/videos/videos/index/?frame_id=' . Current::read('Frame.id'));
+				$url = NetCommonsUrl::actionUrl(array(
+					'controller' => 'videos',
+					'action' => 'index',
+					'block_id' => $this->data['Block']['id'],
+					'frame_id' => $this->data['Frame']['id'],
+				));
+				$this->redirect($url);
 			}
 			return;
 		}

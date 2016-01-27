@@ -137,9 +137,16 @@ $this->NetCommonsHtml->script(array(
 				<div class="text-right">
 					<?php /* 削除 */ ?>
 					<?php echo $this->NetCommonsForm->create('Video', array(
+						'name' => 'form',
+						'url' => array(
+							'controller' => 'videos_edit',
+							'action' => 'delete',
+						),
 						'type' => 'delete',
-						'url' => '/videos/videos_edit/delete/' . Current::read('Frame.id') . '?frame_id=' . Current::read('Frame.id'),
 					)); ?>
+						<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
+						<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
+						<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
 
 						<?php echo $this->NetCommonsForm->hidden('Video.id'); ?>
 						<?php echo $this->NetCommonsForm->hidden('Video.key'); ?>

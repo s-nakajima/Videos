@@ -33,14 +33,11 @@
 				<div class="row">
 					<div class="col-xs-12 text-right">
 						<?php
-						$addUrl = $this->NetCommonsHtml->url(array(
-							'controller' => 'videos_edit',
-							'action' => 'add',
-							'frame_id' => Current::read('Frame.id')
-						));
+						$addUrl = $this->NetCommonsHtml->url(array('controller' => 'videos_edit', 'action' => 'add'));
 						echo $this->Button->addLink('',
 							$addUrl,
-						array('tooltip' => __d('videos', '動画の追加')));
+							array('tooltip' => __d('videos', '動画の追加'))
+						);
 						?>
 					</div>
 				</div>
@@ -112,7 +109,6 @@
 
 			<?php /* 動画一覧 */ ?>
 			<div class="row">
-<?php //var_dump($videos); ?>
 				<?php foreach ($videos as $video) : ?>
 					<article>
 						<div class="col-xs-12">
@@ -135,8 +131,7 @@
 //												$urlThumbnail,
 //												array('action' => 'view', 'key' => $video['Video']['key'])
 //											); ?>
-
-											<a href="<?php echo $this->NetCommonsHtml->url('/videos/videos/view/' . Current::read('Block.id') . '/' . $video['Video']['key']); ?>">
+											<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key'])); ?>">
 <!--												--><?php //if (isset($video['FileThumbnail']['url_thumbnail'])) : ?>
 <!--													--><?php //echo $this->Html->image($video['FileThumbnail']['url_thumbnail'], array(
 //														'alt' => $video['Video']['title'],
@@ -144,11 +139,11 @@
 //													)); ?>
 													<?php echo $this->Html->image(
 														$this->NetCommonsHtml->url(
-																[
-																	'action' => 'download',
-																	'key' => $video['Video']['key'],
-																	Video::THUMBNAIL_FIELD,
-																]
+															[
+																'action' => 'download',
+																'key' => $video['Video']['key'],
+																Video::THUMBNAIL_FIELD,
+															]
 														),
 														[
 															'alt' => $video['Video']['title'],
@@ -177,7 +172,7 @@
 											<div class="col-xs-12">
 												<small>
 													<div>
-														<a href="<?php echo $this->NetCommonsHtml->url('/videos/videos/view/' . Current::read('Block.id') . '/' . $video['Video']['key']); ?>">
+														<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key']));?>">
 															<h2><?php echo $video['Video']['title']; ?></h2>
 														</a>
 													</div>
