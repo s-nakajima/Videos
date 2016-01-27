@@ -72,7 +72,7 @@ class Video extends VideosAppModel {
  * @var array
  */
 	public $actsAs = array(
-		//'ContentComments.ContentComment',
+		'ContentComments.ContentCommentDelete',
 		'ContentComments.ContentCommentCount',
 		'Likes.Like',					// いいね
 		'NetCommons.OriginalKey',		// 自動でkeyセット
@@ -407,7 +407,6 @@ class Video extends VideosAppModel {
 	public function deleteVideo($data) {
 		$this->loadModels(array(
 			//'Comment' => 'Comments.Comment',
-			'ContentComment' => 'ContentComments.ContentComment',
 			//'FileModel' => 'Files.FileModel',		// FileUpload
 			'Like' => 'Likes.Like',
 			'TagsContent' => 'Tags.TagsContent',
@@ -418,8 +417,8 @@ class Video extends VideosAppModel {
 		$this->begin();
 
 		try {
-			// 動画削除
-			if (! $this->deleteAll(array($this->alias . '.key' => $data['Video']['key']), false)) {
+			// 動画削除($callbacks = true)
+			if (! $this->deleteAll(array($this->alias . '.key' => $data['Video']['key']), false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
@@ -430,11 +429,6 @@ class Video extends VideosAppModel {
 //			if (! $this->Comment->deleteAll(array($this->Comment->alias . '.content_key' => $data['Video']['key']), false)) {
 //				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 //			}
-
-			// コンテンツコメント 削除
-			if (! $this->ContentComment->deleteAll(array($this->ContentComment->alias . '.content_key' => $data['Video']['key']), false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
 
 			// タグコンテンツ 削除
 			if (! $this->TagsContent->deleteAll(array($this->TagsContent->alias . '.content_id' => $data['Video']['id']), false)) {
