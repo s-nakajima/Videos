@@ -10,7 +10,7 @@
  */
 ?>
 
-<?php echo $this->Html->script('/videos/js/videos.js', array('plugin' => false, 'once' => true, 'inline' => false)); ?>
+<?php echo $this->NetCommonsHtml->script('/videos/js/videos.js'); ?>
 
 <div class="nc-content-list">
 <article>

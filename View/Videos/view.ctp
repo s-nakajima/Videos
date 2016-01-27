@@ -8,23 +8,16 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-?>
 
-<?php
-$this->Html->css(
-	array(
-		'/likes/css/style.css',
-		'/videos/css/style.css',
-	),
-	array('plugin' => false, 'once' => true, 'inline' => false)
-);
-$this->Html->script(
-	array(
-		'/likes/js/likes.js',
-		'/videos/js/videos.js',
-	),
-	array('plugin' => false, 'once' => true, 'inline' => false)
-);
+echo $this->NetCommonsHtml->css(array(
+	'/likes/css/style.css',
+	'/videos/css/style.css',
+));
+
+echo $this->NetCommonsHtml->script(array(
+	'/likes/js/likes.js',
+	'/videos/js/videos.js',
+));
 ?>
 
 <div class="nc-content-list">

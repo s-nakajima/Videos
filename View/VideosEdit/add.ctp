@@ -8,6 +8,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
 $this->NetCommonsHtml->script(array(
 	'/tags/js/tags.js',
 	'/videos/js/videos.js',
