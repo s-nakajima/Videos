@@ -24,7 +24,8 @@ $this->Html->script(
 		'/videos/js/videos.js',
 	),
 	array('plugin' => false, 'once' => true, 'inline' => false)
-);?>
+);
+?>
 
 <div class="nc-content-list">
 <article>
@@ -35,7 +36,11 @@ $this->Html->script(
 		<div class="row">
 			<div class="col-xs-12 text-right" style="padding-bottom: 10px;">
 				<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
-					<a href="<?php echo $this->NetCommonsHtml->url('/videos/videos_edit/edit/' . Current::read('Block.id') . '/' . $video['Video']['key']); ?>" class="btn btn-primary">
+					<a href="<?php echo $this->NetCommonsHtml->url(array(
+						'controller' => 'videos_edit',
+						'action' => 'edit',
+						'key' => $video['Video']['key']
+					)); ?>" class="btn btn-primary">
 						<span class="glyphicon glyphicon-edit"> </span>
 					</a>
 				</span>
@@ -112,7 +117,13 @@ $this->Html->script(
 							<?php if (Current::permission('content_editable')): ?>
 								<span style="padding-right: 15px;">
 									<?php /* ダウンロード */ ?>
-									<a href="<?php echo isset($video['FileMp4']['download']) ? $this->NetCommonsHtml->url($video['FileMp4']['download']) : ''; ?>">
+									<a href="<?php echo $this->NetCommonsHtml->url(
+										[
+											'action' => 'download',
+											'key' => $video['Video']['key'],
+											Video::VIDEO_FILE_FIELD,
+										]
+									); ?>">
 										<?php echo __d('videos', 'Downloads'); ?>
 									</a>
 								</span>
