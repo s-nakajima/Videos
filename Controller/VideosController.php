@@ -49,6 +49,7 @@ class VideosController extends VideosAppController {
  * use helpers
  *
  * @var array
+ * @see NetCommonsAppController::$helpers
  */
 	public $helpers = array(
 		'ContentComments.ContentComment',
@@ -64,6 +65,9 @@ class VideosController extends VideosAppController {
  *
  * @var array
  * @link http://book.cakephp.org/2.0/ja/controllers/components.html#configuring-components
+ * @see NetCommonsAppController::$components
+ * @see ContentCommentsComponent::beforeRender()
+ *
  */
 	public $components = array(
 		'ContentComments.ContentComments' => array(
@@ -82,6 +86,7 @@ class VideosController extends VideosAppController {
  * beforeFilter
  *
  * @return void
+ * @see NetCommonsAppController::beforeFilter()
  */
 	public function beforeFilter() {
 		parent::beforeFilter();

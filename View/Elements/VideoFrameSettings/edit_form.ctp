@@ -20,7 +20,7 @@
 		<?php echo $this->NetCommonsForm->label(__d('videos', 'Display order')); ?>
 	</div>
 	<div class="col-xs-12">
-		<?php /* http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::select */ ?>
+		<?php /* @link http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::select */ ?>
 		<?php echo $this->NetCommonsForm->select('VideoFrameSetting.display_order',
 			array(
 				VideoFrameSetting::DISPLAY_ORDER_NEW => __d('videos', 'Newest'),
