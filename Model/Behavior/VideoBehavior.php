@@ -69,44 +69,46 @@ class VideoBehavior extends ModelBehavior {
  * @throws InternalErrorException
  */
 	private function __convertVideo(Model $model, $video, $noConvert) {
+		$noConvertExtension = $noConvert['UploadFile']["extension"];
+
+		// mp4は変換しない
+		//if ($noConvertMimeType == "video/mp4") {
+		if ($noConvertExtension == "mp4") {
+			return true;
+		}
+
 		// --- 動画変換
 		//		$noConvertMimeType = $data['Video'][Video::VIDEO_FILE_FIELD]['type'];
 		$noConvertPath = APP . WEBROOT_DIR . DS . $noConvert['UploadFile']['path'] . $noConvert['UploadFile']['id'] . DS;
 		$realFileName = $noConvert['UploadFile']["real_file_name"];
-		$noConvertExtension = $noConvert['UploadFile']["extension"];
 
 		// サムネイル名は動画名で末尾jpgにしたものをセット
 		$videoName = explode('.', $realFileName)[0];
 
-		// mp4は変換しない
-		//if ($noConvertMimeType != "video/mp4") {
-		if ($noConvertExtension != "mp4") {
+		// 例）ffmpeg -y -i /var/www/html/movies/original/MOV_test_movie.MOV -acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k MOV_test_movie.mp4
+		// 例）/usr/bin/ffmpeg -y -i '/var/www/app/app/webroot/files/upload_file/real_file_name/1/21/bd14317ad1b299f9074b532116c89da8.MOV' -acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k '/var/www/app/app/webroot/files/upload_file/real_file_name/1/21/bd14317ad1b299f9074b532116c89da8.mp4' 2>&1
+		// 動画変換
+		// 動画変換実施(元動画 > H.264)  コマンドインジェクション対策
+		//$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath . $noConvertSlug . '.' . $noConvertExtension) . ' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . ' 2>&1';
+		$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath . $realFileName) . ' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $videoName . '.mp4') . ' 2>&1';
+		exec($strCmd, $arr, $ret);
 
-			// 例）ffmpeg -y -i /var/www/html/movies/original/MOV_test_movie.MOV -acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k MOV_test_movie.mp4
-			// 例）/usr/bin/ffmpeg -y -i '/var/www/app/app/webroot/files/upload_file/real_file_name/1/21/bd14317ad1b299f9074b532116c89da8.MOV' -acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k '/var/www/app/app/webroot/files/upload_file/real_file_name/1/21/bd14317ad1b299f9074b532116c89da8.mp4' 2>&1
-			// 動画変換
-			// 動画変換実施(元動画 > H.264)  コマンドインジェクション対策
-			//$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath . $noConvertSlug . '.' . $noConvertExtension) . ' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . ' 2>&1';
-			$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath . $realFileName) . ' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $videoName . '.mp4') . ' 2>&1';
-			exec($strCmd, $arr, $ret);
-
-			// 変換エラー時
-			if ($ret != 0) {
-				$this->log("--- ffmpeg H.264 変換エラー", 'debug');
-				$this->log($strCmd, 'debug');
-				$this->log($arr, 'debug');
-				$this->log($ret, 'debug');
-				return false;
-			}
-
-			//変換動画のファイル保存
-			// https://github.com/NetCommons3/Blogs/blob/feature/withFilesTest/Controller/BlogEntriesEditController.php#L234 あたり Blogsのfeature/withFilesTestブランチ参考
-			$model->attachFile($video, Video::VIDEO_FILE_FIELD, $noConvertPath . $videoName . '.mp4');
-
-			//			// 元動画 ファイルのみ削除
-			//			$file = new File($noConvertPath . $noConvertSlug . '.' . $noConvertExtension);
-			//			$file->delete();
+		// 変換エラー時
+		if ($ret != 0) {
+			$this->log("--- ffmpeg H.264 変換エラー", 'debug');
+			$this->log($strCmd, 'debug');
+			$this->log($arr, 'debug');
+			$this->log($ret, 'debug');
+			return false;
 		}
+
+		//変換動画のファイル保存
+		// https://github.com/NetCommons3/Blogs/blob/feature/withFilesTest/Controller/BlogEntriesEditController.php#L234 あたり Blogsのfeature/withFilesTestブランチ参考
+		$model->attachFile($video, Video::VIDEO_FILE_FIELD, $noConvertPath . $videoName . '.mp4');
+
+		//			// 元動画 ファイルのみ削除
+		//			$file = new File($noConvertPath . $noConvertSlug . '.' . $noConvertExtension);
+		//			$file->delete();
 
 		return true;
 	}
