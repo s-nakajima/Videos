@@ -89,7 +89,7 @@ class VideoFileBehavior extends ModelBehavior {
  */
 	public function saveVideoFile(Model $Model, $data, $fileField, $alias, $fileIdColom, $index = 0) {
 		//更新用：ファイル削除
-		$data = $this->deleteFile($Model, $data, $alias, $fileIdColom, $index);
+//		$data = $this->deleteFile($Model, $data, $alias, $fileIdColom, $index);
 
 		//ファイル登録
 		if (isset($data[$fileField])) {
@@ -134,48 +134,48 @@ class VideoFileBehavior extends ModelBehavior {
  * @return mixed Array on success, false on error
  * @throws InternalErrorException
  */
-	public function deleteFile(Model $Model, $data, $alias, $fileIdColom, $index = 0) {
-		if (isset($data['DeleteFile'][$index]['File']['id']) && $data['DeleteFile'][$index]['File']['id'] > 0) {
-
-			//データ削除
-			if (!$Model->FileModel->deleteAll([$Model->FileModel->alias . '.id' => $data['DeleteFile'][$index]['File']['id']], true, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			if (!$Model->FileModel->deleteFileAssociated($data['DeleteFile'][$index]['File']['id'])) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			// 暫定対応(;'∀') コメントアウトする。
-			// 現在、path=フォルダなので、フォルダ削除になっている。2ファイルを1度にアップロードすると同じフォルダにアップロードされる。
-			// 更新時に1ファイルだけアップロードすると、下記フォルダ削除によりもう一方のファイルが消える問題あり。
-			//
-			// 1ファイルのアップロード毎にフォルダが別になれば、下記フォルダ削除のままでも問題解消する。
-			//ファイル削除
-			//$folder = new Folder();
-			//$folder->delete($data['DeleteFile'][$index]['File']['path']);
-			// サムネイルだったら、個別に削除したので、現在のままでも大丈夫
-
-			// ファイル削除
-			$file = new File($data['DeleteFile'][$index]['File']['path'] . $data['DeleteFile'][$index]['File']['name']);
-			$file->delete();
-
-			// サムネイル削除
-			$this->__deleteThumbnail($data['DeleteFile'][$index]['File'], 'url_big');
-			$this->__deleteThumbnail($data['DeleteFile'][$index]['File'], 'url_medium');
-			$this->__deleteThumbnail($data['DeleteFile'][$index]['File'], 'url_small');
-			$this->__deleteThumbnail($data['DeleteFile'][$index]['File'], 'url_thumbnail');
-
-			// 空ならアップロードディレクトリ削除
-			$folder = new Folder($data['DeleteFile'][$index]['File']['path']);
-			if ($folder->dirsize() === 0) {
-				$folder->delete();
-			}
-
-			$data[$alias][$fileIdColom] = 0;
-		}
-
-		return $data;
-	}
+//	public function deleteFile(Model $Model, $data, $alias, $fileIdColom, $index = 0) {
+//		if (isset($data['DeleteFile'][$index]['File']['id']) && $data['DeleteFile'][$index]['File']['id'] > 0) {
+//
+//			//データ削除
+//			if (!$Model->FileModel->deleteAll([$Model->FileModel->alias . '.id' => $data['DeleteFile'][$index]['File']['id']], true, false)) {
+//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//			}
+//			if (!$Model->FileModel->deleteFileAssociated($data['DeleteFile'][$index]['File']['id'])) {
+//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//			}
+//
+//			// 暫定対応(;'∀') コメントアウトする。
+//			// 現在、path=フォルダなので、フォルダ削除になっている。2ファイルを1度にアップロードすると同じフォルダにアップロードされる。
+//			// 更新時に1ファイルだけアップロードすると、下記フォルダ削除によりもう一方のファイルが消える問題あり。
+//			//
+//			// 1ファイルのアップロード毎にフォルダが別になれば、下記フォルダ削除のままでも問題解消する。
+//			//ファイル削除
+//			//$folder = new Folder();
+//			//$folder->delete($data['DeleteFile'][$index]['File']['path']);
+//			// サムネイルだったら、個別に削除したので、現在のままでも大丈夫
+//
+//			// ファイル削除
+//			$file = new File($data['DeleteFile'][$index]['File']['path'] . $data['DeleteFile'][$index]['File']['name']);
+//			$file->delete();
+//
+//			// サムネイル削除
+//			$this->__deleteThumbnail($data['DeleteFile'][$index]['File'], 'url_big');
+//			$this->__deleteThumbnail($data['DeleteFile'][$index]['File'], 'url_medium');
+//			$this->__deleteThumbnail($data['DeleteFile'][$index]['File'], 'url_small');
+//			$this->__deleteThumbnail($data['DeleteFile'][$index]['File'], 'url_thumbnail');
+//
+//			// 空ならアップロードディレクトリ削除
+//			$folder = new Folder($data['DeleteFile'][$index]['File']['path']);
+//			if ($folder->dirsize() === 0) {
+//				$folder->delete();
+//			}
+//
+//			$data[$alias][$fileIdColom] = 0;
+//		}
+//
+//		return $data;
+//	}
 
 /**
  * サムネイル削除
