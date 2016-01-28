@@ -362,11 +362,8 @@ class Video extends VideosAppModel {
  */
 	public function deleteVideo($data) {
 		$this->loadModels(array(
-			//'Comment' => 'Comments.Comment',
-			//'FileModel' => 'Files.FileModel',		// FileUpload
 			'Like' => 'Likes.Like',
 			'TagsContent' => 'Tags.TagsContent',
-			//'Video' => 'Videos.Video',
 		));
 
 		//トランザクションBegin
@@ -380,11 +377,6 @@ class Video extends VideosAppModel {
 
 			// ファイル 削除 暫定として対応しない(;'∀')
 			// 本来、データと物理ファイル削除。共通処理が完成したら、実装する
-
-//			// 承認コメント削除
-//			if (! $this->Comment->deleteAll(array($this->Comment->alias . '.content_key' => $data['Video']['key']), false)) {
-//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//			}
 
 			// タグコンテンツ 削除
 			if (! $this->TagsContent->deleteAll(array($this->TagsContent->alias . '.content_id' => $data['Video']['id']), false)) {
