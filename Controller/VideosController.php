@@ -52,7 +52,10 @@ class VideosController extends VideosAppController {
  * @see NetCommonsAppController::$helpers
  */
 	public $helpers = array(
-		'ContentComments.ContentComment',
+		'ContentComments.ContentComment' => [
+			'use_comment' => 'use_comment',
+			'use_comment_approval' => 'comment_agree',
+		],
 		'Likes.Like',
 		'NetCommons.DisplayNumber',
 		'NetCommons.Token',

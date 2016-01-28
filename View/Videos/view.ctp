@@ -245,16 +245,7 @@ echo $this->NetCommonsHtml->script(array(
 </div>
 
 <?php /* コンテンツコメント */ ?>
-<?php //echo $this->element('ContentComments.index', array(
-//	'contentKey' => $video['Video']['key'], // helperで取得。項目名固定。model名＋key固定。できる。
-//	'useCommentApproval' => $videoBlockSetting['comment_agree'], // helperで取得。項目名固定。Videoが合わせる。できる
-//	'useComment' => $videoBlockSetting['use_comment'], // helperで取得。項目名固定。できる
-//	'contentCommentCnt' => $video['ContentCommentCnt']['cnt'], // cntをコンポーネント
-//)); ?>
-<?php echo $this->ContentComment->index('Video', $videoBlockSetting, $video, array(
-	'use_comment' => 'use_comment',
-	'use_comment_approval' => 'comment_agree',
-)); ?>
+<?php echo $this->ContentComment->index('Video', $videoBlockSetting, $video); ?>
 
 <?php /* 下部ボタン */ ?>
 <footer>
