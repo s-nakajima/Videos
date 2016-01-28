@@ -169,6 +169,33 @@ class Video extends VideosAppModel {
 	}
 
 /**
+ * FFMPEG有効フラグをセット
+ *
+ * @return bool
+ */
+	public static function isFfmpegEnable() {
+		if (isset(Video::$__isFfmpegEnable)) {
+			return Video::$__isFfmpegEnable;
+		}
+
+		$strCmd = 'which ' . Video::FFMPEG_PATH . ' 2>&1';
+		exec($strCmd, $arr);
+
+		// ffmpegコマンドがあるかどうかは環境に依存するため、true or false の両方を通すテストケースは書けない。
+		// isFfmpegEnableをモックにして、強制的に true or false を返してテストするので、問題ないと思う。
+
+		if (isset($arr[0]) && $arr[0] === Video::FFMPEG_PATH) {
+			// コマンドあり
+			Video::$__isFfmpegEnable = true;
+		} else {
+			// コマンドなし
+			Video::$__isFfmpegEnable = false;
+		}
+
+		return Video::$__isFfmpegEnable;
+	}
+
+/**
  * UserIdと権限から参照可能なEntryを取得するCondition配列を返す
  *
  * @return array condition
@@ -264,84 +291,13 @@ class Video extends VideosAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			// 動画変換とデータ保存
-			if (!$this->saveConvertVideo($video)) {
-				return false;
+			if (self::isFfmpegEnable()) {
+				// 動画変換とデータ保存
+				/* @see VideoBehavior::saveConvertVideo() */
+				if (!$this->saveConvertVideo($video)) {
+					return false;
+				}
 			}
-
-			//トランザクションCommit
-			$this->commit();
-
-		} catch (Exception $ex) {
-			//トランザクションRollback
-			$this->rollback($ex);
-		}
-
-		return $video;
-	}
-
-/**
- * 登録Videoデータ保存 動画を自動変換しない
- *
- * @param array $data received post data
- * @return mixed On success Model::$data if its not empty or true, false on failure
- * @throws InternalErrorException
- */
-	public function addNoConvertSaveVideo($data) {
-//		// 登録・更新・削除時のみ利用する。これの内部処理で master に切替。get時は slave1等
-//		$this->loadModels(array(
-//			'Video' => 'Videos.Video',
-////			'Comment' => 'Comments.Comment',
-//			'FileModel' => 'Files.FileModel',
-//		));
-
-		//トランザクションBegin
-		$this->begin();
-
-		//バリデーション
-		$this->set($data);
-		if (! $this->validates(array('add'))) {
-			$this->rollback();
-			return false;
-		}
-
-		try {
-//			// ファイルチェック 動画ファイル
-//			if (!$data = $this->validateVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0)) {
-//				return false;
-//			}
-//
-//			// ファイルチェック サムネイル
-//			if (! $data = $this->validateVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1)) {
-//				return false;
-//			}
-
-//			// ステータスチェック
-//			if (!$this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
-//				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-//				return false;
-//			}
-//
-//			// ファイルの登録 動画ファイル
-//			$data = $this->saveVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0);
-//
-//			// ファイルの登録 サムネイル
-//			$data = $this->saveVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1);
-
-			// 動画データ登録
-			if (! $video = $this->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-//			//コメントの登録
-//			if ($this->Comment->data) {
-//				// コンテンツキーをセット
-//				$this->Comment->data[$this->Comment->name]['content_key'] = $video['Video']['key'];
-//
-//				if (!$this->Comment->save(null, false)) {
-//					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//				}
-//			}
 
 			//トランザクションCommit
 			$this->commit();

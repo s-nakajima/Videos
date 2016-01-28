@@ -67,18 +67,10 @@ class VideosEditController extends VideosAppController {
 			$data['Video']['status'] = $this->Workflow->parseStatus();
 			unset($data['Video']['id']);
 
-			if (VideosAppModel::isFfmpegEnable()) {
-				// 登録
-				if ($this->Video->addSaveVideo($data)) {
-					$this->redirect(NetCommonsUrl::backToPageUrl());
-					return;
-				}
-			} else {
-				// 登録 動画を自動変換しない
-				if ($this->Video->addNoConvertSaveVideo($data)) {
-					$this->redirect(NetCommonsUrl::backToPageUrl());
-					return;
-				}
+			// 登録
+			if ($this->Video->addSaveVideo($data)) {
+				$this->redirect(NetCommonsUrl::backToPageUrl());
+				return;
 			}
 
 			$this->NetCommons->handleValidationError($this->Video->validationErrors);
