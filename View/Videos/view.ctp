@@ -219,7 +219,7 @@ echo $this->NetCommonsHtml->script(array(
 <!--												<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> --><?php //echo $relatedVideo['ContentCommentCnt']['cnt']; ?>
 <!--											</span>-->
 
-											<?php echo $this->ContentComment->count($videoBlockSetting, $relatedVideo); ?>
+											<?php echo $this->ContentComment->count($relatedVideo); ?>
 											<?php echo $this->Like->display($videoBlockSetting, $relatedVideo); ?>
 										</small>
 									</div>
@@ -245,7 +245,7 @@ echo $this->NetCommonsHtml->script(array(
 </div>
 
 <?php /* コンテンツコメント */ ?>
-<?php echo $this->ContentComment->index('Video', $videoBlockSetting, $video); ?>
+<?php echo $this->ContentComment->index($video); ?>
 
 <?php /* 下部ボタン */ ?>
 <footer>

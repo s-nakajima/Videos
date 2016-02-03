@@ -184,7 +184,7 @@
 <!--														<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> --><?php //echo $video['ContentCommentCnt']['cnt']; ?>
 <!--													</span>-->
 
-													<?php echo $this->ContentComment->count($videoBlockSetting, $video); ?>
+													<?php echo $this->ContentComment->count($video); ?>
 													<?php echo $this->Like->display($videoBlockSetting, $video); ?>
 												</small>
 												<div>

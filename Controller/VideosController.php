@@ -52,10 +52,13 @@ class VideosController extends VideosAppController {
  * @see NetCommonsAppController::$helpers
  */
 	public $helpers = array(
-		'ContentComments.ContentComment' => [
-			'use_comment' => 'use_comment',
-			'use_comment_approval' => 'comment_agree',
-		],
+		'ContentComments.ContentComment' => array(
+			'viewVarsKey' => array(
+				'contentKey' => 'video.Video.key',
+				'useComment' => 'videoBlockSetting.use_comment',
+				'useCommentApproval' => 'videoBlockSetting.use_comment_approval',
+			),
+		),
 		'Likes.Like',
 		'NetCommons.DisplayNumber',
 		'NetCommons.Token',
@@ -68,21 +71,22 @@ class VideosController extends VideosAppController {
  *
  * @var array
  * @link http://book.cakephp.org/2.0/ja/controllers/components.html#configuring-components
+ * @link http://book.cakephp.org/2.0/ja/core-libraries/collections.html#id6 デフォルトのプライオリティ 10
  * @see NetCommonsAppController::$components
  * @see ContentCommentsComponent::beforeRender()
  *
  */
 	public $components = array(
 		'ContentComments.ContentComments' => array(
-			'viewVarsContentKey' => 'video.Video.key',
-			'viewVarsUseComment' => 'videoBlockSetting.use_comment',
+			'viewVarsKey' => array(
+				'contentKey' => 'video.Video.key',
+				'useComment' => 'videoBlockSetting.use_comment',
+			),
 			'allow' => array('view'),
 		),
 		'Cookie',
-		'Paginator',						// ページャ
-		'Files.Download' => array(
-			'priority' => 99
-		),
+		'Paginator',									// ページャ
+		'Files.Download' => array('priority' => 99),
 	);
 
 /**
