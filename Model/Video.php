@@ -72,8 +72,7 @@ class Video extends VideosAppModel {
  * @var array
  */
 	public $actsAs = array(
-		'ContentComments.ContentCommentDelete',
-		'ContentComments.ContentCommentCount',
+		'ContentComments.ContentComment',
 		'Likes.Like',					// いいね
 		'NetCommons.OriginalKey',		// 自動でkeyセット
 		'Tags.Tag',
