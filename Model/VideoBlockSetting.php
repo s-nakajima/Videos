@@ -71,12 +71,12 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
-			'block_key' => array(
-				'notBlank' => array(
-					'rule' => array('notBlank'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
+			//			'block_key' => array(
+			//				'notBlank' => array(
+			//					'rule' => array('notBlank'),
+			//					'message' => __d('net_commons', 'Invalid request.'),
+			//				),
+			//			),
 			'use_like' => array(
 				'boolean' => array(
 					'rule' => array('boolean'),
@@ -143,8 +143,9 @@ class VideoBlockSetting extends VideosAppModel {
 				'name' => __d('videos', 'New channel %s', date('YmdHis')),
 			),
 		));
-		$videoBlockSetting = Hash::merge($videoBlockSetting, $this->VideoBlockSetting->create());
-
+		//$videoBlockSetting = Hash::merge($videoBlockSetting, $this->VideoBlockSetting->create());
+//var_dump($videoBlockSetting);
+//$videoBlockSetting[$this->alias]['block_key'] = null;
 		return $videoBlockSetting;
 	}
 

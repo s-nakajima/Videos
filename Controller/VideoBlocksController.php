@@ -134,6 +134,7 @@ class VideoBlocksController extends VideosAppController {
 			$this->request->data = $this->VideoBlockSetting->createVideoBlockSetting();
 			//$this->request->data = Hash::merge($this->request->data, $this->VideoFrameSetting->getVideoFrameSetting(true)); // なぜセットする？
 			$this->request->data['Frame'] = Current::read('Frame');
+//var_dump($this->request->data);
 		}
 	}
 
