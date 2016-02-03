@@ -137,7 +137,13 @@ echo $this->NetCommonsHtml->script(array(
 			</div>
 			<div class="form-group video-embed" style="display: none;">
 				<?php /* 埋め込みコード(非表示) */ ?>
-				<input type="text" class="form-control video-embed-text" value='<iframe width="400" height="300" src="<?php echo $this->NetCommonsHtml->url($video['FileMp4']['url'], true); ?>" frameborder="0" allowfullscreen></iframe>'>
+				<input type="text" class="form-control video-embed-text" value='<iframe width="400" height="300" src="<?php echo $this->NetCommonsHtml->url(
+					[
+						'action' => 'download',
+						'key' => $video['Video']['key'],
+						Video::VIDEO_FILE_FIELD,
+					]
+				); ?>" frameborder="0" allowfullscreen></iframe>'>
 			</div>
 			<div>
 				<?php /* 登録日 */ ?>
