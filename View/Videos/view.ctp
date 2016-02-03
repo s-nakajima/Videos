@@ -245,7 +245,7 @@ echo $this->NetCommonsHtml->script(array(
 </div>
 
 <?php /* コンテンツコメント */ ?>
-<?php echo $this->ContentComment->index(); ?>
+<?php echo $this->ContentComment->index($video); ?>
 
 <?php /* 下部ボタン */ ?>
 <footer>
