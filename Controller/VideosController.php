@@ -252,12 +252,11 @@ class VideosController extends VideosAppController {
 			return array();
 		}
 
-		$query = array(
-			'conditions' => array(
-				$this->Video->alias . '.block_id' => Current::read('Frame.block_id'),
-				$this->Video->alias . '.is_latest' => true,
-			),
-		);
+		/* @see WorkflowBehavior::getWorkflowConditions() */
+		$query['conditions'] = $this->Video->getWorkflowConditions([
+			$this->Video->alias . '.block_id' => Current::read('Frame.block_id'),
+		]);
+
 		$query['conditions'] = Hash::merge($query['conditions'], $extraConditions);
 
 		//ソート
