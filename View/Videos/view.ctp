@@ -142,7 +142,8 @@ echo $this->NetCommonsHtml->script(array(
 						'action' => 'download',
 						'key' => $video['Video']['key'],
 						Video::VIDEO_FILE_FIELD,
-					]
+					],
+					true
 				); ?>" frameborder="0" allowfullscreen></iframe>'>
 			</div>
 			<div>
