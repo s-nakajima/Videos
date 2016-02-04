@@ -30,6 +30,7 @@ class VideoBlockSetting extends VideosAppModel {
  * use behaviors
  *
  * @var array
+ * @see NetCommonsAppModel::$actAs
  */
 	public $actsAs = array(
 		'Blocks.Block' => array(
@@ -177,11 +178,6 @@ class VideoBlockSetting extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function saveVideoBlockSetting($data) {
-//		$this->loadModels(array(
-//			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
-//			//'Block' => 'Blocks.Block',
-//		));
-
 		//トランザクションBegin
 		$this->begin();
 
@@ -193,49 +189,12 @@ class VideoBlockSetting extends VideosAppModel {
 		}
 
 		try {
-//			// 入力チェック
-//			$this->validates();
-//			if ($this->validationErrors) {
-//				return false;
-//			}
-
-//			// ブロック名必須チェック追加
-//			$this->Block->validate['name'] = array(
-//				'notBlank' => array(
-//					'rule' => array('notBlank'),
-//					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'channel')),
-//					'required' => true,		// required 効かず
-//				),
-//			);
-//
-//			// ブロック入力チェック
-//			if (!$this->Block->validateBlock($data)) {
-//				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
-//				return false;
-//			}
-
-//			//ブロックの保存
-//			$block = $this->Block->saveByFrameId($data['Frame']['id'], $data['Block']);
-
-//			// block.keyを含める
-//			$data = Hash::merge(
-//				$data,
-//				array('VideoBlockSetting' => array('block_key' => $block['Block']['key']))
-//			);
-//
-//			// 値をセット
-//			$this->set($data);
-
 			if (! $videoBlockSetting = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
+			//トランザクションCommit
 			$this->commit();
-
-//			$videoBlockSetting = Hash::merge(
-//				$videoBlockSetting,
-//				array('Block' => array('id' => $block['Block']['id']))
-//			);
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
