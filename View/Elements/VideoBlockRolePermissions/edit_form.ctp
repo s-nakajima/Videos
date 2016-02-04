@@ -12,12 +12,14 @@
 ?>
 
 <?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.block_key'); ?>
 
 <?php echo $this->element('Blocks.block_creatable_setting', array(
 	'settingPermissions' => array(
 		'content_creatable' => __d('blocks', 'Content creatable roles'),
+		'content_comment_creatable' => __d('blocks', 'Content comment creatable roles'),
 	),
 )); ?>
 
@@ -25,6 +27,9 @@
 	'model' => 'VideoBlockSetting',
 	'useWorkflow' => 'agree',
 	'useCommentApproval' => 'comment_agree',
+	'settingPermissions' => array(
+		'content_comment_publishable' => __d('blocks', 'Content comment publishable roles'),
+	),
 	'options' => array(
 		Block::NEED_APPROVAL => __d('blocks', 'Need approval in both %s and comments ', __d('videos', 'video')),
 		Block::NEED_COMMENT_APPROVAL => __d('blocks', 'Need only comments approval'),
