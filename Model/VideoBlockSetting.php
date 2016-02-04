@@ -40,7 +40,10 @@ class VideoBlockSetting extends VideosAppModel {
 			// save, delete時にloadModels()
 			// delete時にblock_id, block_keyで紐づいてるデータ削除
 			'loadModels' => array(
-				//'Like' => 'Likes.Like',
+				'ContentComment' => 'ContentComments.ContentComment',
+				'Like' => 'Likes.Like',
+				'Tag' => 'Tags.Tag',
+				'Video' => 'Videos.Video',
 				'WorkflowComment' => 'Workflow.WorkflowComment',
 			)
 		),
@@ -215,37 +218,68 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	public function deleteVideoBlockSetting($data) {
 		$this->loadModels(array(
-			'ContentComment' => 'ContentComments.ContentComment',
-			'FileModel' => 'Files.FileModel',		// FileUpload
+			//'ContentComment' => 'ContentComments.ContentComment',
 			'Like' => 'Likes.Like',
+			'LikesUser' => 'Likes.LikesUser',
 			'Tag' => 'Tags.Tag',
 			'TagsContent' => 'Tags.TagsContent',
-			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
+			'UploadFile' => 'Files.UploadFile',
+			'UploadFilesContent' => 'Files.UploadFilesContent',
 			'Video' => 'Videos.Video',
+			//'VideoBlockSetting' => 'Videos.VideoBlockSetting',
 		));
 
 		//トランザクションBegin
 		$this->begin();
 
 		// 多言語コンテンツ削除対応
-		// 対象のブロックID一覧を取得
-		$conditions = array(
-			$this->Block->alias . '.key' => $data['Block']['key']
-		);
+		// 対象のブロックIDの配列
 		$blockIds = $this->Block->find('list', array(
 			'recursive' => -1,
-			'conditions' => $conditions,
+			'conditions' => array(
+				$this->Block->alias . '.key' => $data['Block']['key']
+			),
 		));
 		$blockIds = array_keys($blockIds);
 
-		$conditions = array(
-			$this->Tag->alias . '.block_id' => $blockIds
-		);
+		// いいねIDの配列
+		$likeIds = $this->Like->find('list', array(
+			'recursive' => -1,
+			'conditions' => array(
+				$this->Like->alias . '.block_key' => $data['Block']['key']
+			),
+		));
+		$likeIds = array_keys($likeIds);
+
+		// タグIDの配列
 		$tagIds = $this->Tag->find('list', array(
 			'recursive' => -1,
-			'conditions' => $conditions,
+			'conditions' => array(
+				$this->Tag->alias . '.block_id' => $blockIds
+			),
 		));
 		$tagIds = array_keys($tagIds);
+
+		// コンテンツキーの配列
+		$videoKeys = $this->Video->find('list', array(
+			'fields' => array(
+				$this->Video->alias . '.key'
+			),
+			'recursive' => -1,
+			'conditions' => array(
+				$this->Video->alias . '.block_id' => $blockIds
+			),
+		));
+		$videoKeys = array_values($videoKeys);
+
+		// アップロードファイルIDの配列
+		$uploadFileIds = $this->UploadFile->find('list', array(
+			'recursive' => -1,
+			'conditions' => array(
+				$this->UploadFile->alias . '.content_key' => $videoKeys
+			),
+		));
+		$uploadFileIds = array_keys($uploadFileIds);
 
 		try {
 			// VideoBlockSetting削除
@@ -254,17 +288,17 @@ class VideoBlockSetting extends VideosAppModel {
 			}
 
 			// 動画削除
-			if (! $this->Video->deleteAll(array($this->Video->alias . '.block_id' => $blockIds), false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			//if (! $this->Video->deleteAll(array($this->Video->alias . '.block_id' => $blockIds), false)) {
+			//	throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			//}
 
 			// ファイル 削除 暫定として対応しない(;'∀')
 			// 本来、データと物理ファイル削除。共通処理が完成したら、実装する
 
 			// コンテンツコメント 削除
-			if (! $this->ContentComment->deleteAll(array($this->ContentComment->alias . '.block_key' => $data['Block']['key']), false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			//if (! $this->ContentComment->deleteAll(array($this->ContentComment->alias . '.block_key' => $data['Block']['key']), false)) {
+			//	throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			//}
 
 			// タグコンテンツ 削除
 			if (! $this->TagsContent->deleteAll(array($this->TagsContent->alias . '.tag_id' => $tagIds), false)) {
@@ -272,12 +306,27 @@ class VideoBlockSetting extends VideosAppModel {
 			}
 
 			// タグ 削除
-			if (! $this->Tag->deleteAll(array($this->Tag->alias . '.block_id' => $blockIds), false)) {
+			//if (! $this->Tag->deleteAll(array($this->Tag->alias . '.block_id' => $blockIds), false)) {
+			//	throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			//}
+
+			// いいねユーザー 削除
+			if (! $this->LikesUser->deleteAll(array($this->LikesUser->alias . '.like_id' => $likeIds), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			// いいね 削除
-			if (! $this->Like->deleteAll(array($this->Like->alias . '.block_key' => $data['Block']['key']), false)) {
+			//if (! $this->Like->deleteAll(array($this->Like->alias . '.block_key' => $data['Block']['key']), false)) {
+			//	throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			//}
+
+			// アップロードファイルコンテンツ 削除
+			if (! $this->UploadFilesContent->deleteAll(array($this->UploadFilesContent->alias . '.upload_file_id' => $uploadFileIds), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			// アップロードファイル 削除
+			if (! $this->UploadFile->deleteAll(array($this->UploadFile->alias . '.content_key' => $videoKeys), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
