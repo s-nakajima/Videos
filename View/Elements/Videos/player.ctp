@@ -23,6 +23,7 @@ $isAutoPlay = $isAutoPlay ? 'autoplay' : '';
 	});
 </script>
 
+<?php /* @link https://developer.mozilla.org/ja/docs/Web/HTML/Element/video */ ?>
 <video id="nc-video-player-<?php echo Current::read('Frame.id'); ?>"
 		poster="<?php echo $fileThumbnailUrl; ?>"
 		<?php echo $isAutoPlay; ?>

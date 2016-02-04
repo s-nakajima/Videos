@@ -85,6 +85,8 @@ class VideoBehavior extends ModelBehavior {
 		// サムネイル名は動画名で末尾jpgにしたものをセット
 		$videoName = explode('.', $realFileName)[0];
 
+		/* @link http://tech.ckme.co.jp/ffmpeg.shtml
+		 * @link http://www.xucker.jpn.org/product/ffmpeg_commands.html */
 		// 例）ffmpeg -y -i /var/www/html/movies/original/MOV_test_movie.MOV -acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k MOV_test_movie.mp4
 		// 例）/usr/bin/ffmpeg -y -i '/var/www/app/app/webroot/files/upload_file/real_file_name/1/21/bd14317ad1b299f9074b532116c89da8.MOV' -acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k '/var/www/app/app/webroot/files/upload_file/real_file_name/1/21/bd14317ad1b299f9074b532116c89da8.mp4' 2>&1
 		// 動画変換
