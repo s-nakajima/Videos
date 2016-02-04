@@ -48,8 +48,8 @@ echo $this->NetCommonsHtml->script(array(
 		<div style="padding-bottom: 20px;">
 			<?php /* 動画プレイヤー */ ?>
 			<?php echo $this->element('Videos/player', array(
-//				'fileMp4Url' => $video['FileMp4']['url'],
-//				'fileThumbnailUrl' => $video['FileThumbnail']['url_big'],
+				//'fileMp4Url' => $video['FileMp4']['url'],
+				//'fileThumbnailUrl' => $video['FileThumbnail']['url_big'],
 				'fileMp4Url' => $this->NetCommonsHtml->url(
 					[
 						'action' => 'download',
@@ -100,13 +100,6 @@ echo $this->NetCommonsHtml->script(array(
 					</div>
 					<div class="row">
 						<div class="col-xs-12 text-right">
-<!--						<div class="col-xs-12 text-right" --><?php //echo $this->element('Likes.like_init_attributes', array(
-//							'contentKey' => $video['Video']['key'],
-//							'disabled' => !(! isset($video['like']) && $video['Video']['status'] === WorkflowComponent::STATUS_PUBLISHED),
-//							'likeCounts' => (int)$video['Video']['like_counts'],
-//							'unlikeCounts' => (int)$video['Video']['unlike_counts'],
-//						)); ?>
-
 							<?php if (Current::permission('content_editable')): ?>
 								<span style="padding-right: 15px;">
 									<?php /* ダウンロード */ ?>
@@ -222,9 +215,6 @@ echo $this->NetCommonsHtml->script(array(
 											<span style="padding-right: 15px;">
 												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $relatedVideo['Video']['play_number'] ?>
 											</span>
-<!--											<span style="padding-right: 15px;">-->
-<!--												<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> --><?php //echo $relatedVideo['ContentCommentCnt']['cnt']; ?>
-<!--											</span>-->
 
 											<?php echo $this->ContentComment->count($relatedVideo); ?>
 											<?php echo $this->Like->display($videoBlockSetting, $relatedVideo); ?>

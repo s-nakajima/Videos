@@ -118,25 +118,7 @@
 
 									<div class="pull-left">
 										<div>
-<!--											--><?php
-//											$urlThumbnail = null;
-//											if (isset($video['FileThumbnail']['url_thumbnail'])) {
-//												$urlThumbnail = $this->Html->image($video['FileThumbnail']['url_thumbnail'], array(
-//													'alt' => $video['Video']['title'],
-//													'style' => 'width: 140px; height: auto;'
-//												));
-//											}
-//											?>
-<!--											--><?php //echo $this->NetCommonsHtml->link(
-//												$urlThumbnail,
-//												array('action' => 'view', 'key' => $video['Video']['key'])
-//											); ?>
 											<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key'])); ?>">
-<!--												--><?php //if (isset($video['FileThumbnail']['url_thumbnail'])) : ?>
-<!--													--><?php //echo $this->Html->image($video['FileThumbnail']['url_thumbnail'], array(
-//														'alt' => $video['Video']['title'],
-//														'style' => 'width: 140px; height: auto;'
-//													)); ?>
 													<?php echo $this->Html->image(
 														$this->NetCommonsHtml->url(
 															[
@@ -150,7 +132,6 @@
 															'style' => 'width: 140px; height: auto;'
 														]
 													); ?>
-<!--												--><?php //endif; ?>
 											</a>
 										</div>
 										<?php /* 再生時間 */ ?>
@@ -180,11 +161,10 @@
 													<span style="padding-right: 15px;">
 														<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['Video']['play_number'] ?>
 													</span>
-<!--													<span style="padding-right: 15px;">-->
-<!--														<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> --><?php //echo $video['ContentCommentCnt']['cnt']; ?>
-<!--													</span>-->
-
+													<?php /* コメント数 */ ?>
 													<?php echo $this->ContentComment->count($video); ?>
+
+													<?php /* いいね */ ?>
 													<?php echo $this->Like->display($videoBlockSetting, $video); ?>
 												</small>
 												<div>
