@@ -254,6 +254,7 @@ class VideosController extends VideosAppController {
 
 		$query = array(
 			'conditions' => array(
+				$this->Video->alias . '.block_id' => Current::read('Frame.block_id'),
 				$this->Video->alias . '.is_latest' => true,
 			),
 		);
