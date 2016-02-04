@@ -77,7 +77,6 @@ class Video extends VideosAppModel {
 		'NetCommons.OriginalKey',		// 自動でkeyセット
 		'Tags.Tag',
 		'Videos.Video',					// 動画変換
-		'Videos.VideoFile',				// FileUpload
 		'Videos.VideoValidation',		// Validation rules
 		'Workflow.Workflow',			// 自動でis_active, is_latestセット
 		'Workflow.WorkflowComment',
