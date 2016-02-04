@@ -253,8 +253,6 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	public function deleteVideoBlockSetting($data) {
 		$this->loadModels(array(
-//			'Block' => 'Blocks.Block',
-//			'Comment' => 'Comments.Comment',
 			'ContentComment' => 'ContentComments.ContentComment',
 			'FileModel' => 'Files.FileModel',		// FileUpload
 			'Like' => 'Likes.Like',
@@ -300,11 +298,6 @@ class VideoBlockSetting extends VideosAppModel {
 
 			// ファイル 削除 暫定として対応しない(;'∀')
 			// 本来、データと物理ファイル削除。共通処理が完成したら、実装する
-
-			// 承認コメント削除
-//			if (! $this->Comment->deleteAll(array($this->Comment->alias . '.block_key' => $data['Block']['key']), false)) {
-//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//			}
 
 			// コンテンツコメント 削除
 			if (! $this->ContentComment->deleteAll(array($this->ContentComment->alias . '.block_key' => $data['Block']['key']), false)) {
@@ -358,26 +351,6 @@ class VideoBlockSetting extends VideosAppModel {
 		}
 
 		try {
-
-//			// 入力チェック blockRolePermission
-//			foreach ($data[$this->BlockRolePermission->alias] as $value) {
-//				if (! $this->BlockRolePermission->validateBlockRolePermissions($value)) {
-//					$this->validationErrors = Hash::merge($this->validationErrors, $this->BlockRolePermission->validationErrors);
-//					return false;
-//				}
-//			}
-//
-//			// 保存 VideoBlockSetting
-//			$videoBlockSetting = $this->save(null, false);
-//			if (!$videoBlockSetting) {
-//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//			}
-//			// 保存 blockRolePermission
-//			foreach ($data[$this->BlockRolePermission->alias] as $value) {
-//				if (! $this->BlockRolePermission->saveMany($value, ['validate' => false])) {
-//					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//				}
-//			}
 			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
