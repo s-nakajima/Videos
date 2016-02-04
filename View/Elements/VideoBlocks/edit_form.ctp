@@ -15,11 +15,10 @@
 
 <?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.id'); ?>
 <?php //echo $this->NetCommonsForm->hidden('VideoBlockSetting.block_key'); ?>
-<?php /* 下記をセットする意味は何だろう？ */ ?>
-<?php //echo $this->NetCommonsForm->hidden('VideoFrameSetting.id'); ?>
-<?php //echo $this->NetCommonsForm->hidden('VideoFrameSetting.frame_key'); ?>
-<?php //echo $this->NetCommonsForm->hidden('VideoFrameSetting.display_order'); ?>
-<?php //echo $this->NetCommonsForm->hidden('VideoFrameSetting.display_number'); ?>
+<?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.frame_key'); ?>
+<?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.display_order'); ?>
+<?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.display_number'); ?>
 
 <?php echo $this->NetCommonsForm->input('Block.name', array(
 	'type' => 'text',

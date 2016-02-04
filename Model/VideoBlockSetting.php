@@ -31,10 +31,14 @@ class VideoBlockSetting extends VideosAppModel {
  *
  * @var array
  * @see NetCommonsAppModel::$actAs
+ * @see BlockBehavior
+ * @see OriginalKeyBehavior
  */
 	public $actsAs = array(
 		'Blocks.Block' => array(
 			'name' => 'Block.name',
+			// save, delete時にloadModels()
+			// delete時にblock_id, block_keyで紐づいてるデータ削除
 			'loadModels' => array(
 				//'Like' => 'Likes.Like',
 				'WorkflowComment' => 'Workflow.WorkflowComment',
@@ -62,12 +66,11 @@ class VideoBlockSetting extends VideosAppModel {
 	);
 
 /**
- * Called during validation operations, before validation. Please note that custom
- * validation rules can be defined in $validate.
+ * beforeValidate
  *
  * @param array $options Options passed from Model::save().
  * @return bool True if validate operation should continue, false to abort
- * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
+ * @link http://book.cakephp.org/2.0/ja/models/callback-methods.html#beforevalidate
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
@@ -132,7 +135,7 @@ class VideoBlockSetting extends VideosAppModel {
 	}
 
 /**
- * Create Faq data
+ * VideoBlockSettingデータ新規作成
  *
  * @return array
  */
@@ -189,7 +192,7 @@ class VideoBlockSetting extends VideosAppModel {
 		}
 
 		try {
-			if (! $videoBlockSetting = $this->save(null, false)) {
+			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
