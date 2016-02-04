@@ -44,7 +44,7 @@ class VideoBlockSetting extends VideosAppModel {
 				'WorkflowComment' => 'Workflow.WorkflowComment',
 			)
 		),
-		//'NetCommons.OriginalKey',
+		'NetCommons.OriginalKey',
 		'Blocks.BlockRolePermission',
 	);
 
