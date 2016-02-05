@@ -34,7 +34,6 @@ class VideoBlocksController extends VideosAppController {
 	public $uses = array(
 		'Videos.VideoBlockSetting',
 		'Videos.VideoFrameSetting',
-		//'Blocks.Block',
 	);
 
 /**
@@ -140,9 +139,8 @@ class VideoBlocksController extends VideosAppController {
 		} else {
 			//表示処理(初期データセット)
 			$this->request->data = $this->VideoBlockSetting->createVideoBlockSetting();
-			$this->request->data = Hash::merge($this->request->data, $this->VideoFrameSetting->getVideoFrameSetting(true)); // なぜセットする？
+			$this->request->data = Hash::merge($this->request->data, $this->VideoFrameSetting->getVideoFrameSetting(true));
 			$this->request->data['Frame'] = Current::read('Frame');
-//var_dump($this->request->data);
 		}
 	}
 
@@ -162,7 +160,7 @@ class VideoBlocksController extends VideosAppController {
 
 		} else {
 			//表示処理(初期データセット)
-			if (! $videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting()) { //データあり
+			if (! $videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting()) {
 				$this->throwBadRequest();
 				return false;
 			}
