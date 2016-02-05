@@ -11,31 +11,32 @@
  * @param {function($scope, NetCommonsTab, NetCommonsWorkflow)} Controller
  */
 NetCommonsApp.controller('Videos',
-    function($scope, NetCommonsTab, NetCommonsWorkflow) {
+    ['$scope', 'NetCommonsTab', 'NetCommonsWorkflow',
+     function($scope, NetCommonsTab, NetCommonsWorkflow) {
 
-      /**
-       * tab
-       *
-       * @type {object}
-       */
-      $scope.tab = NetCommonsTab.new();
+       /**
+        * tab
+        *
+        * @type {object}
+        */
+       $scope.tab = NetCommonsTab.new();
 
-      /**
-       * workflow
-       *
-       * @type {object}
-       */
-      $scope.workflow = NetCommonsWorkflow.new($scope);
+       /**
+        * workflow
+        *
+        * @type {object}
+        */
+       $scope.workflow = NetCommonsWorkflow.new($scope);
 
-      /**
-       * Initialize
-       *
-       * @return {void}
-       */
-      $scope.initialize = function(video) {
-        $scope.video = angular.copy(video);
-      };
-    });
+       /**
+        * Initialize
+        *
+        * @return {void}
+        */
+       $scope.initialize = function(video) {
+         $scope.video = angular.copy(video);
+       };
+     }]);
 
 
 /**
@@ -45,7 +46,7 @@ NetCommonsApp.controller('Videos',
  * @param {function($scope)} Controller
  */
 NetCommonsApp.controller('VideoView',
-    function($scope) {
+    ['$scope', function($scope) {
 
       /**
        * 埋め込みコード
@@ -58,7 +59,7 @@ NetCommonsApp.controller('VideoView',
         // 表示後埋め込みコード選択
         $('input.video-embed-text').select();
       };
-    });
+    }]);
 
 
 /**
@@ -68,7 +69,7 @@ NetCommonsApp.controller('VideoView',
  * @param {function($scope)} Controller
  */
 NetCommonsApp.controller('RelatedVideos',
-    function($scope) {
+    ['$scope', function($scope) {
 
       /**
        * もっと見る
@@ -79,7 +80,7 @@ NetCommonsApp.controller('RelatedVideos',
         $('div.related-video:hidden').removeClass('hidden');
         $('button.related-video-more').hide(0);
       };
-    });
+    }]);
 
 
 /**
@@ -89,7 +90,7 @@ NetCommonsApp.controller('RelatedVideos',
  * @param {function($scope, NetCommonsTab)} Controller
  */
 NetCommonsApp.controller('VideoFrameSettings',
-    function($scope, NetCommonsTab) {
+    ['$scope', 'NetCommonsTab', function($scope, NetCommonsTab) {
 
       /**
        * tab
@@ -107,7 +108,7 @@ NetCommonsApp.controller('VideoFrameSettings',
         $scope.videoFrameSetting = angular.copy(videoFrameSetting);
       };
 
-    });
+    }]);
 
 
 /**
@@ -117,7 +118,7 @@ NetCommonsApp.controller('VideoFrameSettings',
  * @param {function($scope, NetCommonsTab)} Controller
  */
 NetCommonsApp.controller('VideoBlocksEdit',
-    function($scope, NetCommonsTab) {
+    ['$scope', 'NetCommonsTab', function($scope, NetCommonsTab) {
 
       /**
        * tab
@@ -136,5 +137,5 @@ NetCommonsApp.controller('VideoBlocksEdit',
         $scope.block = angular.copy(block);
       };
 
-    });
+    }]);
 
