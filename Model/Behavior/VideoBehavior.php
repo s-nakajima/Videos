@@ -190,21 +190,4 @@ class VideoBehavior extends ModelBehavior {
 
 		return true;
 	}
-
-/**
- * 秒を時：分：秒に変更 (表示用)
- *
- * @param Model $model モデル
- * @param int $totalSec 秒
- * @return string 時：分：秒
- */
-	public function convSecToHour(Model $model, $totalSec) {
-		$sec = $totalSec % 60;
-		$min = (int)($totalSec / 60) % 60;
-		$hour = (int)($totalSec / (60 * 60));
-		if ($hour > 0) {
-			return sprintf("%d:%02d:%02d", $hour, $min, $sec);
-		}
-		return sprintf("%d:%02d", $min, $sec);
-	}
 }

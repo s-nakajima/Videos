@@ -197,16 +197,7 @@ echo $this->NetCommonsHtml->script(array(
 												</a>
 											</div>
 											<?php /* 再生時間 */ ?>
-											<?php /* ffmpeg=ON */ ?>
-											<?php if (Video::isFfmpegEnable()) : ?>
-												<div style="width: 140px;">
-													<div class="text-right" style="margin-top: -20px; margin-right: 2px;">
-														<span style="background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;">
-															<?php echo $relatedVideo['Video']['video_time_view']; ?>
-														</span>
-													</div>
-												</div>
-											<?php endif; ?>
+											<?php echo $this->Video->playTime($relatedVideo['Video']['video_time']); ?>
 										</div>
 									</div>
 									<?php /* タイトル、投稿者、各種回数 */ ?>

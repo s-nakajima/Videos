@@ -143,29 +143,6 @@ class Video extends VideosAppModel {
 	}
 
 /**
- * Called after each find operation. Can be used to modify any results returned by find().
- * Return value should be the (modified) results.
- *
- * @param mixed $results The results of the find operation
- * @param bool $primary Whether this model is being queried directly (vs. being queried as an association)
- * @return mixed Result of the find operation
- * @link http://book.cakephp.org/2.0/ja/models/callback-methods.html#afterfind
- * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
- */
-	public function afterFind($results, $primary = false) {
-		foreach ($results as $key => &$rows) {
-			foreach ($rows as $alias => $row) {
-				if (! isset($row['video_time'])) {
-					continue;
-				}
-				// 秒を時：分：秒に変更
-				$results[$key][$alias]['video_time_view'] = $this->convSecToHour($row['video_time']);
-			}
-		}
-		return $results;
-	}
-
-/**
  * FFMPEG有効フラグをセット
  *
  * @return bool
