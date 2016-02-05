@@ -334,7 +334,8 @@ class VideosController extends VideosAppController {
 			} elseif ($displayOrder == VideoFrameSetting::DISPLAY_ORDER_PLAY) {
 				$order = array('Video.play_number' => 'desc');
 			} elseif ($displayOrder == VideoFrameSetting::DISPLAY_ORDER_LIKE) {
-				$order = array('Video.like_counts' => 'desc');
+				// Like.weight = like_count - unlike_count
+				$order = array('Like.weight' => 'desc');
 			}
 		}
 

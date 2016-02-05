@@ -69,9 +69,9 @@
 								'sort' => 'Video.play_number',
 								'direction' => 'desc'
 							),
-							'Video.like_counts.desc' => array(
+							'Like.weight.desc' => array(
 								'label' => __d('videos', 'Reviews'),
-								'sort' => 'Video.like_counts',
+								'sort' => 'Like.weight',
 								'direction' => 'desc'
 							),
 						); ?>
