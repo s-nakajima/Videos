@@ -111,6 +111,10 @@ class VideosEditController extends VideosAppController {
 			return false;
 		}
 
+		/* @see WorkflowCommentBehavior::getCommentsByContentKey() */
+		$comments = $this->Video->getCommentsByContentKey($videoKey);
+		$this->set('comments', $comments);
+
 		if ($this->request->is('put')) {
 
 			$data = $this->data;
