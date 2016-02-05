@@ -100,10 +100,10 @@ class VideosController extends VideosAppController {
 		parent::beforeFilter();
 
 		// ブロック未選択は、何も表示しない
-		//if (! Current::read('Block.id')) {
-		//	$this->setAction('emptyRender');
-		//	return false;
-		//}
+		if (! Current::read('Block.id')) {
+			$this->setAction('emptyRender');
+			return false;
+		}
 
 		// ゲストアクセスOKのアクションを設定
 		$this->Auth->allow('tag', 'file');
