@@ -129,7 +129,13 @@ $this->NetCommonsHtml->script(array(
 					<?php echo $this->Workflow->inputComment('Video.status'); ?>
 
 				</div>
-				<?php echo $this->Workflow->buttons('Video.status'); ?>
+				<?php echo $this->Workflow->buttons('Video.status', NetCommonsUrl::actionUrl(array(
+					'controller' => 'videos',
+					'action' => 'view',
+					'block_id' => Current::read('Block.id'),
+					'frame_id' => Current::read('Frame.id'),
+					'key' => $this->request->data('Video.key')
+				))); ?>
 
 			<?php echo $this->Form->end(); ?>
 
