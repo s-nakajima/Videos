@@ -255,14 +255,7 @@ echo $this->NetCommonsHtml->script(array(
 <footer>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<?php echo $this->NetCommonsHtml->link(
-				__d("videos", "Back to list"),
-				NetCommonsUrl::backToPageUrl(),
-				array(
-					'title' => __d("videos", "Back to list"),
-					'class' => "btn btn-default",
-				)
-			); ?>
+			<?php echo $this->BackTo->pageLinkButton(__d("videos", "Back to list"), array('icon' => '')); ?>
 		</div>
 	</div>
 </footer>
