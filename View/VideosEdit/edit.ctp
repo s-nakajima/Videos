@@ -71,10 +71,12 @@ $this->NetCommonsHtml->script(array(
 							]); ?>
 						</div>
 					<?php endif; */ ?>
-					<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
-					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.key'); ?>
+					<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
+					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
+					<?php echo $this->NetCommonsForm->hidden('Video.video_time'); ?>
+					<?php echo $this->NetCommonsForm->hidden('Video.play_number'); ?>
 					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::VIDEO_FILE_FIELD . '.id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::VIDEO_FILE_FIELD . '.field_name'); ?>
 					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::THUMBNAIL_FIELD . '.id'); ?>
