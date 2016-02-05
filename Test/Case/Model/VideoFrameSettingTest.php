@@ -25,9 +25,9 @@ class VideoFrameSettingTest extends VideoTestBase {
  * @return void
  */
 	public function testGetVideoFrameSetting() {
-//		$frameKey = '1';
-//		$roomId = 1;
-//		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting($frameKey, $roomId);
+		//		$frameKey = '1';
+		//		$roomId = 1;
+		//		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting($frameKey, $roomId);
 		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(true);
 
 		$this->assertInternalType('array', $videoFrameSetting);
@@ -63,9 +63,9 @@ class VideoFrameSettingTest extends VideoTestBase {
  * @return void
  */
 	public function testSaveVideoFrameSettingEdit() {
-//		$frameKey = '1';
-//		$roomId = 1;
-//		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting($frameKey, $roomId);
+		//		$frameKey = '1';
+		//		$roomId = 1;
+		//		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting($frameKey, $roomId);
 		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(true);
 
 		$data = Hash::merge(

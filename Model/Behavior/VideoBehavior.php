@@ -168,7 +168,6 @@ class VideoBehavior extends ModelBehavior {
 		$realFileName = $convert['UploadFile']["real_file_name"];
 		$videoName = explode('.', $realFileName)[0];
 
-
 		// --- サムネイル自動作成
 		// 例) ffmpeg -ss 1 -vframes 1 -i /var/www/html/movies/play/20130901_072755.mp4 -f image2 /var/www/html/movies/play/20130901_072755.jpg
 		// サムネイルは変換後のmp4 から生成する。mts からサムネイルを生成した場合、灰色画像になりうまく生成できなかった。ファイル形式によりサムネイル生成に制限がある可能性があるため。
