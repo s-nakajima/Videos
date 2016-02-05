@@ -119,10 +119,10 @@
 									<div class="pull-left">
 										<div>
 											<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key'])); ?>">
-													<?php echo $this->Html->image(
+													<?php echo $this->NetCommonsHtml->image(
 														$this->NetCommonsHtml->url(
 															[
-																'action' => 'download',
+																'action' => 'file',
 																'key' => $video['Video']['key'],
 																Video::THUMBNAIL_FIELD,
 															]

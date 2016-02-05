@@ -52,14 +52,14 @@ echo $this->NetCommonsHtml->script(array(
 				//'fileThumbnailUrl' => $video['FileThumbnail']['url_big'],
 				'fileMp4Url' => $this->NetCommonsHtml->url(
 					[
-						'action' => 'download',
+						'action' => 'file',
 						'key' => $video['Video']['key'],
 						Video::VIDEO_FILE_FIELD,
 					]
 				),
 				'fileThumbnailUrl' => $this->NetCommonsHtml->url(
 					[
-						'action' => 'download',
+						'action' => 'file',
 						'key' => $video['Video']['key'],
 						Video::THUMBNAIL_FIELD,
 						'big',
@@ -132,7 +132,7 @@ echo $this->NetCommonsHtml->script(array(
 				<?php /* 埋め込みコード(非表示) */ ?>
 				<input type="text" class="form-control video-embed-text" value='<iframe width="400" height="300" src="<?php echo $this->NetCommonsHtml->url(
 					[
-						'action' => 'download',
+						'action' => 'file',
 						'key' => $video['Video']['key'],
 						Video::VIDEO_FILE_FIELD,
 					],
@@ -181,13 +181,20 @@ echo $this->NetCommonsHtml->script(array(
 									<div class="pull-left">
 										<div>
 											<div>
-												<a href="<?php echo $this->NetCommonsHtml->url('/videos/videos/view/' . Current::read('Block.id') . '/' . $relatedVideo['Video']['key']); ?>">
-													<?php if (isset($relatedVideo['FileThumbnail']['url_thumbnail'])) : ?>
-														<?php echo $this->Html->image($relatedVideo['FileThumbnail']['url_thumbnail'], array(
+												<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $relatedVideo['Video']['key'])); ?>">
+													<?php echo $this->NetCommonsHtml->image(
+														$this->NetCommonsHtml->url(
+															[
+																'action' => 'file',
+																'key' => $relatedVideo['Video']['key'],
+																Video::THUMBNAIL_FIELD,
+															]
+														),
+														[
 															'alt' => $relatedVideo['Video']['title'],
 															'style' => 'width: 140px; height: auto;'
-														)); ?>
-													<?php endif; ?>
+														]
+													); ?>
 												</a>
 											</div>
 											<?php /* 再生時間 */ ?>

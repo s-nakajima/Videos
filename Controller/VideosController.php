@@ -105,7 +105,7 @@ class VideosController extends VideosAppController {
 		//}
 
 		// ゲストアクセスOKのアクションを設定
-		$this->Auth->allow('tag', 'download');
+		$this->Auth->allow('tag', 'file');
 	}
 
 /**
@@ -212,27 +212,50 @@ class VideosController extends VideosAppController {
 	}
 
 /**
- * ダウンロード
+ * サムネイル、動画の表示
  *
  * @return CakeResponse
- * @throws NotFoundException 表示できない記事へのアクセス
+ */
+	public function file() {
+		return $this->__download();
+	}
+
+/**
+ * 動画をファイルとしてダウンロード
+ *
+ * @return CakeResponse
  */
 	public function download() {
+		$options = array(
+			'download' => true
+		);
+		return $this->__download($options);
+	}
+
+/**
+ * ダウンロード
+ *
+ * @param array $options オプション field : ダウンロードのフィールド名, size: nullならオリジナル thumb, small, medium, big
+ * @return CakeResponse
+ * @throws NotFoundException 表示できない記事へのアクセス
+ * @see DownloadComponent::doDownload()
+ */
+	private function __download($options = array()) {
 		// ここから元コンテンツを取得する処理
 		//$this->_prepare();
 		$key = $this->params['pass'][1];
 		$conditions = $this->Video->getConditions();
 
 		$conditions['Video.key'] = $key;
-		$options = array(
+		$query = array(
 			'conditions' => $conditions,
 		);
-		$video = $this->Video->find('first', $options);
+		$video = $this->Video->find('first', $query);
 		// ここまで元コンテンツを取得する処理
 
 		// ダウンロード実行
 		if ($video) {
-			return $this->Download->doDownload($video['Video']['id']);
+			return $this->Download->doDownload($video['Video']['id'], $options);
 		} else {
 			// 表示できない記事へのアクセスなら404
 			throw new NotFoundException(__('Invalid blog entry'));
