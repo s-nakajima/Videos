@@ -36,7 +36,7 @@
 						$addUrl = $this->NetCommonsHtml->url(array('controller' => 'videos_edit', 'action' => 'add'));
 						echo $this->Button->addLink('',
 							$addUrl,
-							array('tooltip' => __d('videos', '動画の追加'))
+							array('tooltip' => __d('videos', 'Add video'))
 						);
 						?>
 					</div>

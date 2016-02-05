@@ -13,133 +13,126 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Controller/VideoBlockSettingsController.php:141
+#: Plugin/Videos/Model/VideoBlockSetting.php:144
+#: Plugin/Videos/Test/Case/Model/VideoTestBase.php:137
 msgid "New channel %s"
 msgstr ""
 
-#: Model/Video.php:137
+#: Plugin/Videos/Model/Behavior/VideoValidationBehavior.php:35;89
 msgid "title"
 msgstr ""
 
-#: Model/Video.php:252
-msgid "play time"
-msgstr ""
-
-#: Model/Video.php:258
-msgid "There is an error in the time of format"
-msgstr ""
-
-#: Model/VideoBlockSetting.php:243
-#: View/Elements/VideoBlockSettings/delete_form.ctp:17;22
-msgid "channel"
-msgstr ""
-
-#: Model/VideoFrameSetting.php:182
-#: View/Videos/index.ctp:65
-msgid "Newest"
-msgstr ""
-
-#: Model/VideoFrameSetting.php:183
-#: View/Videos/index.ctp:70
-msgid "By title"
-msgstr ""
-
-#: Model/VideoFrameSetting.php:184
-#: View/Videos/index.ctp:75
-msgid "Viewed"
-msgstr ""
-
-#: Model/VideoFrameSetting.php:196;197;198;199;200;201
-#: View/Videos/index.ctp:55
-msgid "%s items"
-msgstr ""
-
-#: View/Elements/VideoBlockRolePermissions/edit_form.ctp:31
-#: View/VideosEdit/edit.ctp:147
+#: Plugin/Videos/View/Elements/VideoBlockRolePermissions/edit_form.ctp:34
+#: Plugin/Videos/View/VideosEdit/edit.ctp:162
 msgid "video"
 msgstr ""
 
-#: View/Elements/VideoBlockSettings/edit_form.ctp:20
-#: View/VideoBlockSettings/index.ctp:38
+#: Plugin/Videos/View/Elements/VideoBlocks/delete_form.ctp:18;22
+msgid "channel"
+msgstr ""
+
+#: Plugin/Videos/View/Elements/VideoBlocks/edit_form.ctp:25
+#: Plugin/Videos/View/VideoBlocks/index.ctp:33
 msgid "Channel name"
 msgstr ""
 
-#: View/Elements/VideoBlockSettings/edit_form.ctp:96
+#: Plugin/Videos/View/Elements/VideoBlocks/edit_form.ctp:64
 msgid "Automatically play video"
 msgstr ""
 
-#: View/Elements/VideoFrameSettings/edit_form.ctp:16
+#: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:20
 msgid "Display order"
 msgstr ""
 
-#: View/Elements/VideoFrameSettings/edit_form.ctp:35
+#: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:26
+#: Plugin/Videos/View/Videos/index.ctp:66
+msgid "Newest"
+msgstr ""
+
+#: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:27
+#: Plugin/Videos/View/Videos/index.ctp:71
+msgid "By title"
+msgstr ""
+
+#: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:28
+#: Plugin/Videos/View/Videos/index.ctp:76
+msgid "Viewed"
+msgstr ""
+
+#: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:29
+#: Plugin/Videos/View/Videos/index.ctp:81
+msgid "Reviews"
+msgstr ""
+
+#: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:42
 msgid "Display number"
 msgstr ""
 
-#: View/Elements/Videos/player.ctp:33
+#: Plugin/Videos/View/Elements/Videos/player.ctp:34
 msgid "To play the video requires a browser that supports the video tag."
 msgstr ""
 
-#: View/VideoBlockSettings/index.ctp:44
+#: Plugin/Videos/View/VideoBlocks/index.ctp:39
 msgid "File capacity"
 msgstr ""
 
-#: View/VideoBlockSettings/index.ctp:98
-#: View/VideoBlockSettings/not_found.ctp:32
-#: View/Videos/view.ctp:276
-msgid "Back to list"
-msgstr ""
-
-#: View/Videos/index.ctp:21;48
+#: Plugin/Videos/View/Videos/index.ctp:21;49
 msgid "There are no videos that are currently published."
 msgstr ""
 
-#: View/Videos/view.ctp:92
+#: Plugin/Videos/View/Videos/index.ctp:39
+msgid "Add video"
+msgstr ""
+
+#: Plugin/Videos/View/Videos/index.ctp:56
+msgid "%s items"
+msgstr ""
+
+#: Plugin/Videos/View/Videos/view.ctp:98
 msgid "Views %s times"
 msgstr ""
 
-#: View/Videos/view.ctp:107
+#: Plugin/Videos/View/Videos/view.ctp:113
 msgid "Downloads"
 msgstr ""
 
-#: View/Videos/view.ctp:114
+#: Plugin/Videos/View/Videos/view.ctp:120
 msgid "Embed"
 msgstr ""
 
-#: View/Videos/view.ctp:153
+#: Plugin/Videos/View/Videos/view.ctp:144
 msgid "Registration Date"
 msgstr ""
 
-#: View/VideosEdit/add.ctp:38;40;65
-#: View/VideosEdit/edit.ctp:39;41
+#: Plugin/Videos/View/Videos/view.ctp:248
+msgid "Back to list"
+msgstr ""
+
+#: Plugin/Videos/View/VideosEdit/add.ctp:33;35;51
+#: Plugin/Videos/View/VideosEdit/edit.ctp:31;33
 msgid "support of %s."
 msgstr ""
 
-#: View/VideosEdit/add.ctp:44
+#: Plugin/Videos/View/VideosEdit/add.ctp:38
 msgid "Video file"
 msgstr ""
 
-#: View/VideosEdit/add.ctp:59
-#: View/VideosEdit/edit.ctp:45
+#: Plugin/Videos/View/VideosEdit/add.ctp:47
+#: Plugin/Videos/View/VideosEdit/edit.ctp:49
 msgid "Thumbnail"
 msgstr ""
 
-#: View/VideosEdit/add.ctp:74
-#: View/VideosEdit/edit.ctp:62
-msgid "Play time"
-msgstr ""
-
-#: View/VideosEdit/add.ctp:93
-#: View/VideosEdit/edit.ctp:81
+#: Plugin/Videos/View/VideosEdit/add.ctp:58
+#: Plugin/Videos/View/VideosEdit/edit.ctp:87
 msgid "Title"
 msgstr ""
 
-#: View/VideosEdit/add.ctp:108
-#: View/VideosEdit/edit.ctp:97
+#: Plugin/Videos/View/VideosEdit/add.ctp:64
+#: Plugin/Videos/View/VideosEdit/edit.ctp:104
 msgid "Description"
 msgstr ""
 
-#: View/VideosEdit/edit.ctp:39
+#: Plugin/Videos/View/VideosEdit/edit.ctp:31
 msgid "Please register if you want to change."
 msgstr ""
 
