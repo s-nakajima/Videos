@@ -250,7 +250,7 @@ class VideoBlockSetting extends VideosAppModel {
 		$tagIds = array_keys($tagIds);
 
 		// コンテンツキーの配列
-		$videoKeys = $this->Video->find('list', array(
+		$contentKeys = $this->Video->find('list', array(
 			'fields' => array(
 				$this->Video->alias . '.key'
 			),
@@ -259,13 +259,13 @@ class VideoBlockSetting extends VideosAppModel {
 				$this->Video->alias . '.block_id' => $blockIds
 			),
 		));
-		$videoKeys = array_values($videoKeys);
+		$contentKeys = array_values($contentKeys);
 
 		// アップロードファイルIDの配列
 		$uploadFileIds = $this->UploadFile->find('list', array(
 			'recursive' => -1,
 			'conditions' => array(
-				$this->UploadFile->alias . '.content_key' => $videoKeys
+				$this->UploadFile->alias . '.content_key' => $contentKeys
 			),
 		));
 		$uploadFileIds = array_keys($uploadFileIds);
@@ -295,7 +295,7 @@ class VideoBlockSetting extends VideosAppModel {
 			}
 
 			// アップロードファイル 削除
-			if (! $this->UploadFile->deleteAll(array($this->UploadFile->alias . '.content_key' => $videoKeys), false)) {
+			if (! $this->UploadFile->deleteAll(array($this->UploadFile->alias . '.content_key' => $contentKeys), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
