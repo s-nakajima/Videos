@@ -223,13 +223,7 @@ class VideoBlockSetting extends VideosAppModel {
 
 		// 多言語コンテンツ削除対応
 		// 対象のブロックIDの配列
-		$blockIds = $this->Block->find('list', array(
-			'recursive' => -1,
-			'conditions' => array(
-				$this->Block->alias . '.key' => $data['Block']['key']
-			),
-		));
-		$blockIds = array_keys($blockIds);
+		$blockIds = $this->__getBlockIds($data['Block']['key']);
 
 		// いいねIDの配列
 		$likeIds = $this->Like->find('list', array(
@@ -250,16 +244,7 @@ class VideoBlockSetting extends VideosAppModel {
 		$tagIds = array_keys($tagIds);
 
 		// コンテンツキーの配列
-		$contentKeys = $this->Video->find('list', array(
-			'fields' => array(
-				$this->Video->alias . '.key'
-			),
-			'recursive' => -1,
-			'conditions' => array(
-				$this->Video->alias . '.block_id' => $blockIds
-			),
-		));
-		$contentKeys = array_values($contentKeys);
+		$contentKeys = $this->__getContentKeys($blockIds);
 
 		// アップロードファイルIDの配列
 		$uploadFileIds = $this->UploadFile->find('list', array(
@@ -311,6 +296,43 @@ class VideoBlockSetting extends VideosAppModel {
 		}
 
 		return true;
+	}
+
+/**
+ * ブロックIDの配列
+ *
+ * @param string $blockKey ブロックキー
+ * @return array
+ */
+	private function __getBlockIds($blockKey) {
+		$blockIds = $this->Block->find('list', array(
+			'recursive' => -1,
+			'conditions' => array(
+				$this->Block->alias . '.key' => $blockKey
+			),
+		));
+		$blockIds = array_keys($blockIds);
+		return $blockIds;
+	}
+
+/**
+ * コンテンツキーの配列
+ *
+ * @param array $blockIds ブロックID複数
+ * @return array
+ */
+	private function __getContentKeys($blockIds) {
+		$contentKeys = $this->Video->find('list', array(
+			'fields' => array(
+				$this->Video->alias . '.key'
+			),
+			'recursive' => -1,
+			'conditions' => array(
+				$this->Video->alias . '.block_id' => $blockIds
+			),
+		));
+		$contentKeys = array_values($contentKeys);
+		return $contentKeys;
 	}
 
 /**
