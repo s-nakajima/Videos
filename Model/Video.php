@@ -86,11 +86,11 @@ class Video extends VideosAppModel {
 		],
 	);
 
-	/**
-	 * belongsTo associations
-	 *
-	 * @var array
-	 */
+/**
+ * belongsTo associations
+ *
+ * @var array
+ */
 	public $belongsTo = array(
 		'Block' => array(
 			'className' => 'Blocks.Block',
