@@ -77,8 +77,10 @@ $this->NetCommonsHtml->script(array(
 					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.key'); ?>
-					<?php echo $this->NetCommonsForm->hidden('Video.mp4_id'); ?>
-					<?php echo $this->NetCommonsForm->hidden('Video.thumbnail_id'); ?>
+					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::VIDEO_FILE_FIELD . '.id'); ?>
+					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::VIDEO_FILE_FIELD . '.field_name'); ?>
+					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::THUMBNAIL_FIELD . '.id'); ?>
+					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::THUMBNAIL_FIELD . '.field_name'); ?>
 
 					<?php echo $this->NetCommonsForm->input('Video.title', array(
 						'type' => 'text',
