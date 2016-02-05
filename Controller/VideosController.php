@@ -142,9 +142,6 @@ class VideosController extends VideosAppController {
 		// 一覧取得
 		$results = $this->__list($conditions);
 		$this->set($results);
-
-		// 一覧画面表示
-		//$this->render('index');
 	}
 
 /**
