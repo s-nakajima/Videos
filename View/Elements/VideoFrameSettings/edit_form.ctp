@@ -26,7 +26,7 @@
 				VideoFrameSetting::DISPLAY_ORDER_NEW => __d('videos', 'Newest'),
 				VideoFrameSetting::DISPLAY_ORDER_TITLE => __d('videos', 'By title'),
 				VideoFrameSetting::DISPLAY_ORDER_PLAY => __d('videos', 'Viewed'),
-				//VideoFrameSetting::DISPLAY_ORDER_LIKE => __d('videos', 'Reviews'),
+				VideoFrameSetting::DISPLAY_ORDER_LIKE => __d('videos', 'Reviews'),
 			),
 			array(
 				'type' => 'select',

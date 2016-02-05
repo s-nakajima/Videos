@@ -77,12 +77,11 @@
 									'sort' => 'Video.play_number',
 									'direction' => 'desc'
 								),
-								// 暫定対応(;'∀') 評価順はLikesプラグインが対応していないので、対応を先送りする
-								/*'Video.like_counts.desc' => array(
+								'Video.like_counts.desc' => array(
 									'label' => __d('videos', 'Reviews'),
 									'sort' => 'Video.like_counts',
 									'direction' => 'desc'
-								),*/
+								),
 							); ?>
 
 							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
