@@ -149,12 +149,11 @@ echo $this->NetCommonsHtml->script(array(
 			</div>
 			<div>
 				<?php /* Tags */ ?>
-				<?php if (isset($video['tag'])) : ?>
-					<?php foreach ($video['tag'] as $tag): ?>
-						<?php echo $this->Html->link($tag['name'], array(
+				<?php if (isset($video['Tag'])) : ?>
+					<?php foreach ($video['Tag'] as $tag): ?>
+						<?php echo $this->NetCommonsHtml->link($tag['name'], array(
 							'controller' => 'videos',
 							'action' => 'tag',
-							$frameId,
 							'id' => $tag['id'],
 						),
 						array('class' => 'label label-default')); ?>
