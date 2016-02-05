@@ -5,41 +5,6 @@
 
 
 /**
- * Videos Javascript
- *
- * @param {string} Controller name
- * @param {function($scope, NetCommonsTab, NetCommonsWorkflow)} Controller
- */
-NetCommonsApp.controller('Videos',
-    ['$scope', 'NetCommonsTab', 'NetCommonsWorkflow',
-     function($scope, NetCommonsTab, NetCommonsWorkflow) {
-
-       /**
-        * tab
-        *
-        * @type {object}
-        */
-       $scope.tab = NetCommonsTab.new();
-
-       /**
-        * workflow
-        *
-        * @type {object}
-        */
-       $scope.workflow = NetCommonsWorkflow.new($scope);
-
-       /**
-        * Initialize
-        *
-        * @return {void}
-        */
-       $scope.initialize = function(video) {
-         $scope.video = angular.copy(video);
-       };
-     }]);
-
-
-/**
  * 動画詳細 Javascript
  *
  * @param {string} Controller name

@@ -14,8 +14,6 @@ $this->NetCommonsHtml->script(array(
 ));
 ?>
 
-<!--<div ng-controller="Videos"-->
-<!--	 ng-init="initialize(--><?php //echo h(json_encode($video)); ?><!--)">-->
 <div>
 	<article class="modal-body">
 
