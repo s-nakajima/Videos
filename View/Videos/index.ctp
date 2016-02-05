@@ -14,167 +14,158 @@
 
 <div class="nc-content-list">
 <article>
+	<header>
+		<?php /* タグ検索時、タイトル表示 */ ?>
+		<?php if (!empty($listTitle)) : ?>
+			<h1><?php echo $listTitle ?></h1>
+		<?php endif; ?>
 
-	<?php /* ブロック未選択 */ ?>
-	<?php if (empty(Current::read('Frame.block_id'))) : ?>
-
-		<div><?php echo __d('videos', 'There are no videos that are currently published.'); ?></div>
-
-		<?php /* ブロック選択済み */ ?>
-	<?php else : ?>
-		<header>
-			<?php /* タグ検索時、タイトル表示 */ ?>
-			<?php if (!empty($listTitle)) : ?>
-				<h1><?php echo $listTitle ?></h1>
-			<?php endif; ?>
-
-			<?php /* 上部ボタン */ ?>
-			<?php if (Current::permission('content_editable')) : ?>
-				<div class="row">
-					<div class="col-xs-12 text-right">
-						<?php
-						$addUrl = $this->NetCommonsHtml->url(array('controller' => 'videos_edit', 'action' => 'add'));
-						echo $this->Button->addLink('',
-							$addUrl,
-							array('tooltip' => __d('videos', 'Add video'))
-						);
-						?>
-					</div>
-				</div>
-			<?php endif; ?>
-		</header>
-
-		<?php /* 検索 */ ?>
-		<?php if ($this->Paginator->param('count') == 0) : ?>
-			<div><?php echo __d('videos', 'There are no videos that are currently published.'); ?></div>
-		<?php else : ?>
-			<?php /* 件数、ソート順、表示件数 */ ?>
-			<p>
+		<?php /* 上部ボタン */ ?>
+		<?php if (Current::permission('content_editable')) : ?>
 			<div class="row">
-				<div class="col-sm-3 col-xs-4">
-					<div class="form-inline text-left text-nowrap">
-						<strong><?php echo sprintf(__d('videos', '%s items'), $this->Paginator->param('count')); ?></strong>
-					</div>
-				</div>
-				<div class="col-sm-9 col-xs-8">
-					<div class="form-inline text-right">
-
-						<?php /* ソート順 */ ?>
-						<span class="btn-group text-left">
-							<?php $displayOrderOptions = array(
-								'Video.created.desc' => array(
-									'label' => __d('videos', 'Newest'),
-									'sort' => 'Video.created',
-									'direction' => 'desc'
-								),
-								'Video.title.asc' => array(
-									'label' => __d('videos', 'By title'),
-									'sort' => 'Video.title',
-									'direction' => 'asc'
-								),
-								'Video.play_number.desc' => array(
-									'label' => __d('videos', 'Viewed'),
-									'sort' => 'Video.play_number',
-									'direction' => 'desc'
-								),
-								'Video.like_counts.desc' => array(
-									'label' => __d('videos', 'Reviews'),
-									'sort' => 'Video.like_counts',
-									'direction' => 'desc'
-								),
-							); ?>
-
-							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-								<?php echo $displayOrderOptions[$displayOrderPaginator]['label']; ?>
-								<span class="caret"></span>
-							</button>
-
-							<ul class="dropdown-menu" role="menu">
-								<?php foreach ($displayOrderOptions as $key => $sort) : ?>
-									<li<?php echo $key == $displayOrderPaginator ? ' class="active"' : ''; ?>>
-										<?php echo $this->Paginator->link($sort['label'], array('sort' => $sort['sort'], 'direction' => $sort['direction'])); ?>
-									</li>
-								<?php endforeach; ?>
-							</ul>
-						</span>
-
-						<?php /* 表示件数 */ ?>
-						<?php echo $this->DisplayNumber->dropDownToggle(); ?>
-
-					</div>
+				<div class="col-xs-12 text-right">
+					<?php
+					$addUrl = $this->NetCommonsHtml->url(array('controller' => 'videos_edit', 'action' => 'add'));
+					echo $this->Button->addLink('',
+						$addUrl,
+						array('tooltip' => __d('videos', 'Add video'))
+					);
+					?>
 				</div>
 			</div>
-			</p>
+		<?php endif; ?>
+	</header>
 
-			<?php /* 動画一覧 */ ?>
-			<div class="row">
-				<?php foreach ($videos as $video) : ?>
-					<article>
-						<div class="col-xs-12">
-							<?php /* サムネイル */ ?>
-							<div class="row videos-row-height" style="border: 1px solid #ddd; padding: 5px; margin: 0px 0px 5px 0px;">
-								<div class="media">
+	<?php /* 検索 */ ?>
+	<?php if ($this->Paginator->param('count') == 0) : ?>
+		<div><?php echo __d('videos', 'There are no videos that are currently published.'); ?></div>
+	<?php else : ?>
+		<?php /* 件数、ソート順、表示件数 */ ?>
+		<p>
+		<div class="row">
+			<div class="col-sm-3 col-xs-4">
+				<div class="form-inline text-left text-nowrap">
+					<strong><?php echo sprintf(__d('videos', '%s items'), $this->Paginator->param('count')); ?></strong>
+				</div>
+			</div>
+			<div class="col-sm-9 col-xs-8">
+				<div class="form-inline text-right">
 
-									<div class="pull-left">
-										<div>
-											<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key'])); ?>">
-													<?php echo $this->NetCommonsHtml->image(
-														$this->NetCommonsHtml->url(
-															[
-																'action' => 'file',
-																'key' => $video['Video']['key'],
-																Video::THUMBNAIL_FIELD,
-															]
-														),
+					<?php /* ソート順 */ ?>
+					<span class="btn-group text-left">
+						<?php $displayOrderOptions = array(
+							'Video.created.desc' => array(
+								'label' => __d('videos', 'Newest'),
+								'sort' => 'Video.created',
+								'direction' => 'desc'
+							),
+							'Video.title.asc' => array(
+								'label' => __d('videos', 'By title'),
+								'sort' => 'Video.title',
+								'direction' => 'asc'
+							),
+							'Video.play_number.desc' => array(
+								'label' => __d('videos', 'Viewed'),
+								'sort' => 'Video.play_number',
+								'direction' => 'desc'
+							),
+							'Video.like_counts.desc' => array(
+								'label' => __d('videos', 'Reviews'),
+								'sort' => 'Video.like_counts',
+								'direction' => 'desc'
+							),
+						); ?>
+
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							<?php echo $displayOrderOptions[$displayOrderPaginator]['label']; ?>
+							<span class="caret"></span>
+						</button>
+
+						<ul class="dropdown-menu" role="menu">
+							<?php foreach ($displayOrderOptions as $key => $sort) : ?>
+								<li<?php echo $key == $displayOrderPaginator ? ' class="active"' : ''; ?>>
+									<?php echo $this->Paginator->link($sort['label'], array('sort' => $sort['sort'], 'direction' => $sort['direction'])); ?>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+					</span>
+
+					<?php /* 表示件数 */ ?>
+					<?php echo $this->DisplayNumber->dropDownToggle(); ?>
+
+				</div>
+			</div>
+		</div>
+		</p>
+
+		<?php /* 動画一覧 */ ?>
+		<div class="row">
+			<?php foreach ($videos as $video) : ?>
+				<article>
+					<div class="col-xs-12">
+						<?php /* サムネイル */ ?>
+						<div class="row videos-row-height" style="border: 1px solid #ddd; padding: 5px; margin: 0px 0px 5px 0px;">
+							<div class="media">
+
+								<div class="pull-left">
+									<div>
+										<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key'])); ?>">
+												<?php echo $this->NetCommonsHtml->image(
+													$this->NetCommonsHtml->url(
 														[
-															'alt' => $video['Video']['title'],
-															'style' => 'width: 140px; height: auto;'
+															'action' => 'file',
+															'key' => $video['Video']['key'],
+															Video::THUMBNAIL_FIELD,
 														]
-													); ?>
-											</a>
-										</div>
-										<?php /* 再生時間 */ ?>
-										<?php echo $this->Video->playTime($video['Video']['video_time']); ?>
+													),
+													[
+														'alt' => $video['Video']['title'],
+														'style' => 'width: 140px; height: auto;'
+													]
+												); ?>
+										</a>
 									</div>
+									<?php /* 再生時間 */ ?>
+									<?php echo $this->Video->playTime($video['Video']['video_time']); ?>
+								</div>
 
-									<div class="media-body">
-										<div class="row">
-											<?php /* タイトル、投稿者、各種回数 */ ?>
-											<div class="col-xs-12">
-												<small>
-													<div>
-														<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key']));?>">
-															<h2><?php echo $video['Video']['title']; ?></h2>
-														</a>
-													</div>
-													<a href="#"><?php echo $video['User']['handlename'] ?></a><br />
-													<span style="padding-right: 15px;">
-														<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['Video']['play_number'] ?>
-													</span>
-													<?php /* コメント数 */ ?>
-													<?php echo $this->ContentComment->count($video); ?>
-
-													<?php /* いいね */ ?>
-													<?php echo $this->Like->display($videoBlockSetting, $video); ?>
-												</small>
+								<div class="media-body">
+									<div class="row">
+										<?php /* タイトル、投稿者、各種回数 */ ?>
+										<div class="col-xs-12">
+											<small>
 												<div>
-													<?php /* ステータス */ ?>
-													<?php echo $this->Workflow->label($video['Video']['status']); ?>
+													<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key']));?>">
+														<h2><?php echo $video['Video']['title']; ?></h2>
+													</a>
 												</div>
+												<a href="#"><?php echo $video['User']['handlename'] ?></a><br />
+												<span style="padding-right: 15px;">
+													<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['Video']['play_number'] ?>
+												</span>
+												<?php /* コメント数 */ ?>
+												<?php echo $this->ContentComment->count($video); ?>
+
+												<?php /* いいね */ ?>
+												<?php echo $this->Like->display($videoBlockSetting, $video); ?>
+											</small>
+											<div>
+												<?php /* ステータス */ ?>
+												<?php echo $this->Workflow->label($video['Video']['status']); ?>
 											</div>
 										</div>
 									</div>
-
 								</div>
+
 							</div>
 						</div>
-					</article>
-				<?php endforeach; ?>
-			</div>
+					</div>
+				</article>
+			<?php endforeach; ?>
+		</div>
 
-			<?php /* ページャ */ ?>
-			<?php echo $this->element('NetCommons.paginator'); ?>
-		<?php endif; ?>
+		<?php /* ページャ */ ?>
+		<?php echo $this->element('NetCommons.paginator'); ?>
 	<?php endif; ?>
 
 </article>
