@@ -76,30 +76,37 @@ class VideoBlocksController extends VideosAppController {
 		$this->Paginator->settings = array(
 			'VideoBlockSetting' => array(
 				'order' => array('VideoBlockSetting.id' => 'desc'),
-				// 暫定対応(;'∀') ファイル容量はtableに項目として持つかどうか、6/15以降に決める
-				//				'joins' => array (
-				//					array (
-				//						'type' => 'LEFT',
-				//						//'table' => '(	SELECT count(*) cnt, b.key, sum(f.size) size_byte' .
-				//						'table' => '( SELECT b.key, SUM(f.size) size_byte' .
-				//									' FROM videos v, blocks b, files f' .
-				//									' WHERE v.block_id = b.id' .
-				//									' AND (v.mp4_id = f.id OR v.thumbnail_id = f.id)' .
-				//									" AND b.plugin_key = '" . $this->request->params['plugin'] . "'" .
-				//									' GROUP BY b.key )',
-				//						'alias' => 'Size',
-				//						'conditions' => 'VideoBlockSetting.block_key = Size.key',
-				//					)
-				//				),
+				'joins' => array (
+					array (
+						'type' => 'LEFT',
+						'table' => '( SELECT' .
+									'     blocks.key,' .
+									'     SUM(files.size) size_byte' .
+									' FROM' .
+									'     video_block_settings block_settings,' .
+									'     blocks blocks,' .
+									'     videos videos,' .
+									'     upload_files files' .
+									' WHERE' .
+									'         block_settings.block_key = blocks.key' .
+									'     AND blocks.id = videos.block_id' .
+									"     AND blocks.plugin_key = '" . $this->request->params['plugin'] . "'" .
+									'     AND videos.is_latest = 1' .
+									'     AND videos.key = files.content_key' .
+							'     GROUP BY blocks.key )',
+						'alias' => 'Size',
+						'conditions' => 'VideoBlockSetting.block_key = Size.key',
+					)
+				),
 				'conditions' => array(
 					'Block.key = VideoBlockSetting.block_key',
 					'Block.language_id' => $this->viewVars['languageId'],
 					'Block.room_id' => Current::read('Room.id'),
 				),
-				//				'fields' => array(
-				//					'*',
-				//					'Size.size_byte',
-				//				),
+				'fields' => array(
+					'*',
+					'Size.size_byte',
+				),
 			)
 		);
 
