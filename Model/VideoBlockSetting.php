@@ -78,12 +78,6 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
-			//			'block_key' => array(
-			//				'notBlank' => array(
-			//					'rule' => array('notBlank'),
-			//					'message' => __d('net_commons', 'Invalid request.'),
-			//				),
-			//			),
 			'use_like' => array(
 				'boolean' => array(
 					'rule' => array('boolean'),
@@ -150,9 +144,6 @@ class VideoBlockSetting extends VideosAppModel {
 				'name' => __d('videos', 'New channel %s', date('YmdHis')),
 			),
 		));
-		//$videoBlockSetting = Hash::merge($videoBlockSetting, $this->VideoBlockSetting->create());
-//var_dump($videoBlockSetting);
-//$videoBlockSetting[$this->alias]['block_key'] = null;
 		return $videoBlockSetting;
 	}
 
@@ -218,7 +209,6 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	public function deleteVideoBlockSetting($data) {
 		$this->loadModels(array(
-			//'ContentComment' => 'ContentComments.ContentComment',
 			'Like' => 'Likes.Like',
 			'LikesUser' => 'Likes.LikesUser',
 			'Tag' => 'Tags.Tag',
@@ -226,7 +216,6 @@ class VideoBlockSetting extends VideosAppModel {
 			'UploadFile' => 'Files.UploadFile',
 			'UploadFilesContent' => 'Files.UploadFilesContent',
 			'Video' => 'Videos.Video',
-			//'VideoBlockSetting' => 'Videos.VideoBlockSetting',
 		));
 
 		//トランザクションBegin
@@ -287,38 +276,18 @@ class VideoBlockSetting extends VideosAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			// 動画削除
-			//if (! $this->Video->deleteAll(array($this->Video->alias . '.block_id' => $blockIds), false)) {
-			//	throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			//}
-
 			// ファイル 削除 暫定として対応しない(;'∀')
 			// 本来、データと物理ファイル削除。共通処理が完成したら、実装する
-
-			// コンテンツコメント 削除
-			//if (! $this->ContentComment->deleteAll(array($this->ContentComment->alias . '.block_key' => $data['Block']['key']), false)) {
-			//	throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			//}
 
 			// タグコンテンツ 削除
 			if (! $this->TagsContent->deleteAll(array($this->TagsContent->alias . '.tag_id' => $tagIds), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			// タグ 削除
-			//if (! $this->Tag->deleteAll(array($this->Tag->alias . '.block_id' => $blockIds), false)) {
-			//	throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			//}
-
 			// いいねユーザー 削除
 			if (! $this->LikesUser->deleteAll(array($this->LikesUser->alias . '.like_id' => $likeIds), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
-			// いいね 削除
-			//if (! $this->Like->deleteAll(array($this->Like->alias . '.block_key' => $data['Block']['key']), false)) {
-			//	throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			//}
 
 			// アップロードファイルコンテンツ 削除
 			if (! $this->UploadFilesContent->deleteAll(array($this->UploadFilesContent->alias . '.upload_file_id' => $uploadFileIds), false)) {
