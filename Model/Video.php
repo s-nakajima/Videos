@@ -86,6 +86,28 @@ class Video extends VideosAppModel {
 		],
 	);
 
+	/**
+	 * belongsTo associations
+	 *
+	 * @var array
+	 */
+	public $belongsTo = array(
+		'Block' => array(
+			'className' => 'Blocks.Block',
+			'foreignKey' => 'block_id',
+			'conditions' => '',
+			'fields' => 'language_id',
+			'order' => ''
+		),
+		'User' => array(
+			'className' => 'Users.User',
+			'foreignKey' => 'created_user',
+			'conditions' => '',
+			'fields' => 'handlename',
+			'order' => ''
+		),
+	);
+
 /**
  * Validation rules
  *
@@ -104,7 +126,6 @@ class Video extends VideosAppModel {
  */
 	public function beforeValidate($options = array()) {
 		// サムネイル 任意 対応
-		// 2016.1.26 (;'∀')古い対応。もやは機能していない。
 		if (isset($this->data['Video'][self::THUMBNAIL_FIELD]) &&
 			isset($this->data['Video'][self::THUMBNAIL_FIELD]['size']) &&
 			$this->data['Video'][self::THUMBNAIL_FIELD]['size'] === 0) {
@@ -120,28 +141,6 @@ class Video extends VideosAppModel {
 
 		return parent::beforeValidate($options);
 	}
-
-/**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'Block' => array(
-			'className' => 'Blocks.Block',
-			'foreignKey' => 'block_id',
-			'conditions' => '',
-			'fields' => 'language_id',
-			'order' => ''
-		),
-		'User' => array(
-			'className' => 'Users.User',
-			'foreignKey' => 'created_user',
-			'conditions' => '',
-			'fields' => 'handlename',
-			'order' => ''
-		),
-	);
 
 /**
  * Called after each find operation. Can be used to modify any results returned by find().
@@ -276,14 +275,6 @@ class Video extends VideosAppModel {
 		}
 
 		try {
-			//			// ファイルチェック 動画ファイル
-			//			if (!$data = $this->validateVideoFile($data, self::VIDEO_FILE_FIELD, $this->alias, 'mp4_id', 0)) {
-			//				return false;
-			//			}
-
-			// 値をセット
-			$this->set($data);
-
 			// 動画データ登録
 			if (! $video = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
@@ -321,20 +312,13 @@ class Video extends VideosAppModel {
 
 		//バリデーション
 		$this->set($data);
+		/* @see beforeValidate() */
 		if (! $this->validates(array('edit'))) {
 			$this->rollback();
 			return false;
 		}
 
 		try {
-			//			// ファイルチェック サムネイル
-			//			if (! $data = $this->validateVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1)) {
-			//				return false;
-			//			}
-
-			//			// ファイルの登録 サムネイル
-			//			$data = $this->saveVideoFile($data, self::THUMBNAIL_FIELD, $this->alias, 'thumbnail_id', 1);
-
 			// 動画データ登録
 			if (! $video = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
