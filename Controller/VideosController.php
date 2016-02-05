@@ -281,15 +281,13 @@ class VideosController extends VideosAppController {
 
 		$query['conditions'] = Hash::merge($query['conditions'], $extraConditions);
 
-		//ソート
-		if (isset($this->params['named']['sort']) && isset($this->params['named']['direction'])) {
-			$query['order'] = array($this->params['named']['sort'] => $this->params['named']['direction']);
-		} else {
-			$query['order'] = array('Video.created' => 'desc');
-		}
-
 		// 表示系(並び順、表示件数)の設定取得
 		$videoFrameSetting = $this->VideoFrameSetting->getVideoFrameSetting(true);
+
+		//ソート
+		$order = $this->__order($videoFrameSetting);
+		$query['order'] = $order;
+		$results['displayOrderPaginator'] = key($order) . '.' . $order[key($order)];
 
 		//表示件数
 		if (isset($this->params['named']['limit'])) {
@@ -308,12 +306,8 @@ class VideosController extends VideosAppController {
 		$results['videos'] = $videos;
 
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(); //データあり
+		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
 		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
-
-		//ソート
-		$order = $this->__order($videoFrameSetting);
-		$results['displayOrderPaginator'] = key($order) . '.' . $order[key($order)];
 
 		return $results;
 	}
@@ -339,9 +333,8 @@ class VideosController extends VideosAppController {
 				$order = array('Video.title' => 'asc');
 			} elseif ($displayOrder == VideoFrameSetting::DISPLAY_ORDER_PLAY) {
 				$order = array('Video.play_number' => 'desc');
-				// 暫定対応(;'∀') 評価順はLikesプラグインが対応していないので、対応を先送りする
-				//} elseif ($displayOrder == VideoFrameSetting::DISPLAY_ORDER_LIKE) {
-				//	$order = array('Video.like_counts' => 'desc');
+			} elseif ($displayOrder == VideoFrameSetting::DISPLAY_ORDER_LIKE) {
+				$order = array('Video.like_counts' => 'desc');
 			}
 		}
 
