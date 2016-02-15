@@ -61,6 +61,8 @@ class VideoMailSettingsController extends VideosAppController {
 		'NetCommons.Permission' => array(
 			//アクセスの権限
 			'allow' => array(
+				// 暫定対応
+				//'edit' => 'mail_editable',
 				'edit' => 'mail_content_receivable',
 			),
 		),
@@ -81,6 +83,11 @@ class VideoMailSettingsController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit() {
+		$permissions = $this->Workflow->getBlockRolePermissions(
+			array('mail_content_receivable')
+		);
+		$this->set('roles', $permissions['Roles']);
+
 /*		if (! $videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting()) {
 			$this->throwBadRequest();
 			return false;
