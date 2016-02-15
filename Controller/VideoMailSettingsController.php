@@ -63,7 +63,7 @@ class VideoMailSettingsController extends VideosAppController {
 			'allow' => array(
 				// 暫定対応
 				//'edit' => 'mail_editable',
-				'edit' => 'mail_content_receivable',
+				'edit' => 'block_editable',
 			),
 		),
 	);
