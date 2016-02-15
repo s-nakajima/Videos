@@ -16,11 +16,11 @@
 
 	<div class="tab-content">
 		<?php echo $this->BlockTabs->block('mail_settings'); ?>
-debug now!
-<!--		--><?php //echo $this->element('Blocks.edit_form', array(
-//			'model' => 'VideoBlockRolePermission',
-//			'callback' => 'Videos.VideoBlockRolePermissions/edit_form',
-//			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
-//		)); ?>
+
+		<?php echo $this->element('Mails.edit_form', array(
+			'model' => '',
+			//'callback' => 'Videos.VideoBlockRolePermissions/edit_form',
+			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
+		)); ?>
 	</div>
 </div>
