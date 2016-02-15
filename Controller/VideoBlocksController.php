@@ -40,11 +40,22 @@ class VideoBlocksController extends VideosAppController {
  * use component
  *
  * @var array
+ * @see BlockTabsComponent::startup()
  */
 	public $components = array(
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array('block_index', 'frame_settings'),
-			'blockTabs' => array('block_settings', 'role_permissions'),
+			'blockTabs' => array(
+				'block_settings',
+				'role_permissions',
+				'mail_settings' => array(
+					'url' => array(
+						'plugin' => 'videos',
+						'controller' => 'video_mail_settings',
+						'action' => 'edit',
+					)
+				),
+			),
 		),
 		'NetCommons.Permission' => array(
 			//アクセスの権限
