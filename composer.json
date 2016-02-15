@@ -21,6 +21,7 @@
         "netcommons/content-comments":  "dev-master",
         "netcommons/files":             "dev-master",
         "netcommons/likes":             "dev-master",
+        "netcommons/mails":             "dev-master",
         "netcommons/net-commons":       "dev-master",
         "netcommons/tags":              "dev-master",
         "satooshi/php-coveralls":       "dev-master"
