@@ -16,7 +16,7 @@
 
 	<div class="tab-content">
 		<?php echo $this->BlockTabs->block('mail_settings'); ?>
-aaaa
+debug now!
 <!--		--><?php //echo $this->element('Blocks.edit_form', array(
 //			'model' => 'VideoBlockRolePermission',
 //			'callback' => 'Videos.VideoBlockRolePermissions/edit_form',
