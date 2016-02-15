@@ -51,7 +51,10 @@ class VideoMailSettingsController extends VideosAppController {
 						'plugin' => 'videos',
 						'controller' => 'video_mail_settings',
 						'action' => 'edit',
-					)
+					),
+					// 暫定対応
+					//'label' => __d('mails', 'メール設定'),
+					'label' => 'メール設定',
 				),
 			),
 		),
