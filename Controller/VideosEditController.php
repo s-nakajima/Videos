@@ -202,11 +202,18 @@ class VideosEditController extends VideosAppController {
 		//$mail->setSendMailSetting(Current::read('Block.key'));
 		//$mail->setSendMailSetting();
 
+		//$blockKey = Current::read('Block.key');
+		//$mail->setSendMailSetting($blockKey);
+		$mail->setSendMailSettingPlugin();
+
 		// 通知しない
 		if (! $mail->isMailSend) {
-			CakeLog::debug('__mail - 通知しない');
+//			CakeLog::debug('__mail - 通知しない');
 			return true;
 		}
+
+		$mail->init();
+
 
 		$url = NetCommonsUrl::actionUrl(array(
 			'controller' => 'videos',
@@ -241,29 +248,28 @@ class VideosEditController extends VideosAppController {
 		//$mail->addMailToUsers($users);
 
 		// 送信先メールアドレス 直指定
-		$mail->to('mutaguchi@opensource-workshop.jp');
+		//$mail->to('mutaguchi@opensource-workshop.jp');
 
 		//$languageId = Current::read('Language.id');		//仮
 		//$roomId = Current::read('Room.id');
 		$roomId = Current::read('Room.id');
 
-//CakeLog::debug('__mail - 1');
 		// キューに保存する
 		//$mail->saveQueue($data['Video']['key'], $languageId);
 		//$mail->saveQueue($mail, $data['Video']['key'], $roomId);
-		/** @see MailQueuesComponent::saveQueueRoomId() */
-		if (!$this->MailQueues->saveQueueRoomId($mail, $data['Video']['key'], $roomId)) {
-//CakeLog::debug('__mail - false');
+//		/** @see MailQueuesComponent::saveQueueRoomId() */
+//		if (!$this->MailQueues->saveQueueRoomId($mail, $data['Video']['key'], $roomId)) {
+//			return false;
+//		}
+		// 送信先メールアドレス 直指定パターン　（テストのため）
+		/** @see MailQueuesComponent::saveQueueToAddress() */
+		if (!$this->MailQueues->saveQueueToAddress($mail, $data['Video']['key'], 'mutaguchi@opensource-workshop.jp')) {
 			return false;
 		}
-//CakeLog::debug('__mail - 2');
-
-		// エラー
-		//$this->NetCommons->handleValidationError($MailQueue->validationErrors);
 
 		// メール送信
-		//$mail->sendMail();
-		//MailSend::send();
+		//$mail->sendMail();  //直送信
+		MailSend::send();
 
 		return true;
 	}
