@@ -32,7 +32,7 @@ class VideoMailSettingsController extends VideosAppController {
  * @var array
  */
 	public $uses = array(
-		//'Videos.VideoBlockSetting',
+		'Mails.MailSetting',
 	);
 
 /**
@@ -83,38 +83,32 @@ class VideoMailSettingsController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit() {
-		$permissions = $this->Workflow->getBlockRolePermissions(
-			array('mail_content_receivable')
-		);
-		$this->set('roles', $permissions['Roles']);
-
-/*		if (! $videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting()) {
+		if (! $mailSetting = $this->MailSetting->getMailSettingPlugin()) {
 			$this->throwBadRequest();
 			return false;
 		}
 
 		$permissions = $this->Workflow->getBlockRolePermissions(
-			array('content_creatable', 'content_publishable', 'content_comment_creatable', 'content_comment_publishable')
+			array('mail_content_receivable')
 		);
 		$this->set('roles', $permissions['Roles']);
 
 		if ($this->request->is('post')) {
-			if ($this->VideoBlockSetting->saveBlockRolePermission($this->request->data)) {
-				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
-				return;
-			}
-			$this->NetCommons->handleValidationError($this->VideoBlockSetting->validationErrors);
-			$this->request->data['BlockRolePermission'] = Hash::merge(
-				$permissions['BlockRolePermissions'],
-				$this->request->data['BlockRolePermission']
-			);
+//			if ($this->VideoBlockSetting->saveBlockRolePermission($this->request->data)) {
+//				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
+//				return;
+//			}
+//			$this->NetCommons->handleValidationError($this->VideoBlockSetting->validationErrors);
+//			$this->request->data['BlockRolePermission'] = Hash::merge(
+//				$permissions['BlockRolePermissions'],
+//				$this->request->data['BlockRolePermission']
+//			);
 
 		} else {
-			$this->request->data['VideoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
-			$this->request->data['Block'] = $videoBlockSetting['Block'];
+			$this->request->data['MailSetting'] = $mailSetting['MailSetting'];
+			//$this->request->data['Block'] = $videoBlockSetting['Block'];
 			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
-*/
 	}
 }

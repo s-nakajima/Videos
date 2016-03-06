@@ -20,6 +20,7 @@ App::uses('AppController', 'Controller');
  * @property DownloadComponent $Download
  * @property ContentComment $ContentComment
  * @property ContentCommentsComponent $ContentComments
+ * @property MailSetting $MailSetting
  * @property NetCommonsComponent $NetCommons
  * @property WorkflowComponent $Workflow
  * @property PermissionComponent $Permission

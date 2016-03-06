@@ -18,7 +18,7 @@
 		<?php echo $this->BlockTabs->block('mail_settings'); ?>
 
 		<?php echo $this->element('Mails.edit_form', array(
-			'model' => '',
+			//'model' => 'MailSetting',
 			//'callback' => 'Videos.VideoBlockRolePermissions/edit_form',
 			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 		)); ?>
