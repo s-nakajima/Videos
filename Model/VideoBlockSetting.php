@@ -334,37 +334,4 @@ class VideoBlockSetting extends VideosAppModel {
 		$contentKeys = array_values($contentKeys);
 		return $contentKeys;
 	}
-
-/**
- * blockRolePermissionデータ保存
- *
- * @param array $data received post data
- * @return mixed On success Model::$data if its not empty or true, false on failure
- * @throws InternalErrorException
- */
-	public function saveBlockRolePermission($data) {
-		//トランザクションBegin
-		$this->begin();
-
-		$this->set($data);
-		if (! $this->validates()) {
-			$this->rollback();
-			return false;
-		}
-
-		try {
-			if (! $this->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			//トランザクションCommit
-			$this->commit();
-
-		} catch (Exception $ex) {
-			//トランザクションRollback
-			$this->rollback($ex);
-		}
-
-		return true;
-	}
 }
