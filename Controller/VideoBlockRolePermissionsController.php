@@ -71,6 +71,7 @@ class VideoBlockRolePermissionsController extends VideosAppController {
 		$permissions = $this->Workflow->getBlockRolePermissions(
 			array('content_creatable', 'content_publishable', 'content_comment_creatable', 'content_comment_publishable')
 		);
+		$this->set('roles', $permissions['Roles']);
 
 		if ($this->request->is('post')) {
 			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->request->data)) {
@@ -88,7 +89,6 @@ class VideoBlockRolePermissionsController extends VideosAppController {
 				$this->throwBadRequest();
 				return false;
 			}
-			$this->set('roles', $permissions['Roles']);
 			$this->request->data['VideoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 			$this->request->data['Block'] = $videoBlockSetting['Block'];
 			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
