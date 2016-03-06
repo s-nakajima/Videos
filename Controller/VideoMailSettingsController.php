@@ -87,24 +87,25 @@ class VideoMailSettingsController extends VideosAppController {
 		$permissions = $this->Workflow->getBlockRolePermissions(
 			array('mail_content_receivable')
 		);
+		// valiadteエラー時にも使ってる
+		$this->set('roles', $permissions['Roles']);
 
-		if ($this->request->is('post')) {
-//			if ($this->MailSetting->savexxxx($this->request->data)) {
-//				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
-//				return;
-//			}
-//			$this->NetCommons->handleValidationError($this->MailSetting->validationErrors);
-//			$this->request->data['BlockRolePermission'] = Hash::merge(
-//				$permissions['BlockRolePermissions'],
-//				$this->request->data['BlockRolePermission']
-//			);
+		if ($this->request->is('post') || $this->request->is('put')) {
+			if ($this->MailSetting->saveMailSetting($this->request->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
+				return;
+			}
+			$this->NetCommons->handleValidationError($this->MailSetting->validationErrors);
+			$this->request->data['BlockRolePermission'] = Hash::merge(
+				$permissions['BlockRolePermissions'],
+				$this->request->data['BlockRolePermission']
+			);
 
 		} else {
 			if (! $mailSetting = $this->MailSetting->getMailSettingPlugin()) {
 				$this->throwBadRequest();
 				return false;
 			}
-			$this->set('roles', $permissions['Roles']);
 			$this->request->data['MailSetting'] = $mailSetting['MailSetting'];
 			//$this->request->data['Block'] = $videoBlockSetting['Block'];
 			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
