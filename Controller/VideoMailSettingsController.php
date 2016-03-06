@@ -84,15 +84,9 @@ class VideoMailSettingsController extends VideosAppController {
  * @return CakeResponse
  */
 	public function edit() {
-		if (! $mailSetting = $this->MailSetting->getMailSettingPlugin()) {
-			$this->throwBadRequest();
-			return false;
-		}
-
 		$permissions = $this->Workflow->getBlockRolePermissions(
 			array('mail_content_receivable')
 		);
-		$this->set('roles', $permissions['Roles']);
 
 		if ($this->request->is('post')) {
 //			if ($this->MailSetting->savexxxx($this->request->data)) {
@@ -106,6 +100,11 @@ class VideoMailSettingsController extends VideosAppController {
 //			);
 
 		} else {
+			if (! $mailSetting = $this->MailSetting->getMailSettingPlugin()) {
+				$this->throwBadRequest();
+				return false;
+			}
+			$this->set('roles', $permissions['Roles']);
 			$this->request->data['MailSetting'] = $mailSetting['MailSetting'];
 			//$this->request->data['Block'] = $videoBlockSetting['Block'];
 			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
