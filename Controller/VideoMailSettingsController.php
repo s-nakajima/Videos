@@ -39,6 +39,7 @@ class VideoMailSettingsController extends VideosAppController {
  * use component
  *
  * @var array
+ * @see BlockTabsComponent
  */
 	public $components = array(
 		'Blocks.BlockTabs' => array(
@@ -94,11 +95,11 @@ class VideoMailSettingsController extends VideosAppController {
 		$this->set('roles', $permissions['Roles']);
 
 		if ($this->request->is('post')) {
-//			if ($this->VideoBlockSetting->saveBlockRolePermission($this->request->data)) {
+//			if ($this->MailSetting->savexxxx($this->request->data)) {
 //				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 //				return;
 //			}
-//			$this->NetCommons->handleValidationError($this->VideoBlockSetting->validationErrors);
+//			$this->NetCommons->handleValidationError($this->MailSetting->validationErrors);
 //			$this->request->data['BlockRolePermission'] = Hash::merge(
 //				$permissions['BlockRolePermissions'],
 //				$this->request->data['BlockRolePermission']
