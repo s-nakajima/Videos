@@ -15,11 +15,10 @@
 	<?php echo $this->BlockTabs->main(BlockTabsComponent::MAIN_TAB_BLOCK_INDEX); ?>
 
 	<div class="tab-content">
-		<?php echo $this->BlockTabs->block('mail_settings'); ?>
+		<?php echo $this->BlockTabs->block(BlockTabsComponent::BLOCK_TAB_MAIL); ?>
 
 		<?php echo $this->element('Mails.edit_form', array(
-			//'model' => 'MailSetting',
-			//'callback' => 'Videos.VideoBlockRolePermissions/edit_form',
+			'mailBodyPopoverMessage' => __d('videos', '{X-SITE_NAME} : サイト名称<br />{X-PLUGIN_NAME} : プラグイン名称<br />{X-ROOM} : ルーム名称<br />{X-BLOCK_NAME} : チャンネル名<br />{X-SUBJECT} : 動画タイトル<br />{X-USER} : 投稿者<br />{X-TO_DATE} : 投稿日時<br />{X-BODY} : 登録内容<br />{X-URL} : 登録内容のURL'),
 			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 		)); ?>
 	</div>

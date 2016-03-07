@@ -44,20 +44,7 @@ class VideoMailSettingsController extends VideosAppController {
 	public $components = array(
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array('block_index', 'frame_settings'),
-			'blockTabs' => array(
-				'block_settings',
-				'role_permissions',
-				'mail_settings' => array(
-					'url' => array(
-						'plugin' => 'videos',
-						'controller' => 'video_mail_settings',
-						'action' => 'edit',
-					),
-					// 暫定対応
-					//'label' => __d('mails', 'メール設定'),
-					'label' => 'メール設定',
-				),
-			),
+			'blockTabs' => array('block_settings', 'role_permissions', 'mail_settings'),
 		),
 		'NetCommons.Permission' => array(
 			//アクセスの権限
@@ -79,7 +66,7 @@ class VideoMailSettingsController extends VideosAppController {
 	);
 
 /**
- * 権限設定 編集
+ * メール設定 登録,編集
  *
  * @return CakeResponse
  */
@@ -103,11 +90,24 @@ class VideoMailSettingsController extends VideosAppController {
 
 		} else {
 			if (! $mailSetting = $this->MailSetting->getMailSettingPlugin()) {
-				$this->throwBadRequest();
-				return false;
+				// データなし = 新規登録扱い
+				$mailSetting = $this->MailSetting->createMailSetting();
+				$mailSetting['MailSetting']['mail_fixed_phrase_subject'] = __d('mails', '[{X-SITE_NAME}]{X-PLUGIN_NAME}投稿({X-ROOM} {X-BLOCK_NAME})');
+				$mailSetting['MailSetting']['mail_fixed_phrase_body'] = __d('videos', '{X-PLUGIN_NAME}に投稿されたのでお知らせします。
+ルーム名称:{X-ROOM}
+チャンネル名:{X-BLOCK_NAME}
+動画タイトル:{X-SUBJECT}
+投稿者:{X-USER}
+投稿日時:{X-TO_DATE}
+
+
+{X-BODY}
+
+この投稿内容を確認するには下記のリンクをクリックして下さい。
+{X-URL}');
 			}
+
 			$this->request->data['MailSetting'] = $mailSetting['MailSetting'];
-			//$this->request->data['Block'] = $videoBlockSetting['Block'];
 			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
 			$this->request->data['Frame'] = Current::read('Frame');
 		}

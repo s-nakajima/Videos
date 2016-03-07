@@ -45,20 +45,7 @@ class VideoBlocksController extends VideosAppController {
 	public $components = array(
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array('block_index', 'frame_settings'),
-			'blockTabs' => array(
-				'block_settings',
-				'role_permissions',
-				'mail_settings' => array(
-					'url' => array(
-						'plugin' => 'videos',
-						'controller' => 'video_mail_settings',
-						'action' => 'edit',
-					),
-					// 暫定対応
-					//'label' => __d('mails', 'メール設定'),
-					'label' => 'メール設定',
-				),
-			),
+			'blockTabs' => array('block_settings', 'role_permissions', 'mail_settings'),
 		),
 		'NetCommons.Permission' => array(
 			//アクセスの権限
