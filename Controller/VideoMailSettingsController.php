@@ -30,6 +30,7 @@ class VideoMailSettingsController extends VideosAppController {
  * use model
  *
  * @var array
+ * @see MailSetting
  */
 	public $uses = array(
 		'Mails.MailSetting',
@@ -92,19 +93,8 @@ class VideoMailSettingsController extends VideosAppController {
 			if (! $mailSetting = $this->MailSetting->getMailSettingPlugin()) {
 				// データなし = 新規登録扱い
 				$mailSetting = $this->MailSetting->createMailSetting();
-				$mailSetting['MailSetting']['mail_fixed_phrase_subject'] = __d('mails', '[{X-SITE_NAME}]{X-PLUGIN_NAME}投稿({X-ROOM} {X-BLOCK_NAME})');
-				$mailSetting['MailSetting']['mail_fixed_phrase_body'] = __d('videos', '{X-PLUGIN_NAME}に投稿されたのでお知らせします。
-ルーム名称:{X-ROOM}
-チャンネル名:{X-BLOCK_NAME}
-動画タイトル:{X-SUBJECT}
-投稿者:{X-USER}
-投稿日時:{X-TO_DATE}
-
-
-{X-BODY}
-
-この投稿内容を確認するには下記のリンクをクリックして下さい。
-{X-URL}');
+				$mailSetting['MailSetting']['mail_fixed_phrase_subject'] = __d('mails', 'MailSetting.mail_fixed_phrase_subject');
+				$mailSetting['MailSetting']['mail_fixed_phrase_body'] = __d('videos', 'MailSetting.mail_fixed_phrase_body');
 			}
 
 			$this->request->data['MailSetting'] = $mailSetting['MailSetting'];
