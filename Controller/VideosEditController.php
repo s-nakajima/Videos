@@ -63,7 +63,6 @@ class VideosEditController extends VideosAppController {
  * @return CakeResponse
  */
 	public function add() {
-//CakeLog::debug('add - 1');
 		if ($this->request->is('post')) {
 
 			//登録処理
@@ -73,10 +72,8 @@ class VideosEditController extends VideosAppController {
 
 			// 登録
 			if ($video = $this->Video->addSaveVideo($data)) {
-//CakeLog::debug('add - __mail - 1');
 				// メール送信
 				$this->__mail($video);
-//CakeLog::debug('add - __mail - 2');
 
 				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
@@ -141,9 +138,6 @@ class VideosEditController extends VideosAppController {
 				));
 
 				// メール送信
-//				if (!$this->__mail($video, $url)) {
-//					return;
-//				}
 				$this->__mail($video);
 
 				$this->redirect($url);
@@ -197,23 +191,13 @@ class VideosEditController extends VideosAppController {
  * @return bool 成功 or 失敗
  */
 	private function __mail($data) {
-		//private function __mail($data, $url) {
 		$mail = new NetCommonsMail();
-		//$mail->setSendMailSetting(Current::read('Block.key'));
-		//$mail->setSendMailSetting();
-
-		//$blockKey = Current::read('Block.key');
-		//$mail->setSendMailSetting($blockKey);
-		$mail->setSendMailSettingPlugin();
+		$mail->initPlugin($data);
 
 		// 通知しない
 		if (! $mail->isMailSend) {
-//			CakeLog::debug('__mail - 通知しない');
 			return true;
 		}
-
-		$mail->init();
-
 
 		$url = NetCommonsUrl::actionUrl(array(
 			'controller' => 'videos',
@@ -223,22 +207,10 @@ class VideosEditController extends VideosAppController {
 			'key' => $data['Video']['key']
 		));
 
-		// ・定型文の変換タグの追加
-		//		$this->assignTag("X-PLUGIN_NAME", '動画');
-		//		$this->assignTag("X-BLOCK_NAME", '運動会');
-		//		$this->assignTag("X-SUBJECT", 'タイトル');
-		//		$this->assignTag("X-TO_DATE", '2099/01/01');
-		//		$this->assignTag("X-BODY", '本文１\n本文２\n本文３');
-		//		$this->assignTag("X-URL", 'http://localhost');
-		//		$this->assignTag("X-APPROVAL_COMMENT", '承認コメント１\n承認コメント２\n承認コメント３');
-
-		//$mail->assignTag("X-PLUGIN_NAME", '動画');
-		//$mail->assignTag("X-BLOCK_NAME", '運動会');	// blockKey+langでDB参照[blocks]
-		//$mail->assignTag("X-TO_DATE", date('Y/m/d H:i:s'));
+		// 定型文の変換タグの追加
 		$mail->assignTag("X-SUBJECT", $data['Video']['title']);
 		$mail->assignTag("X-BODY", $data['Video']['description']);
 		$mail->assignTag("X-URL", $url);
-		$mail->assignTag("X-APPROVAL_COMMENT", $data['WorkflowComment']['comment']);
 
 		// 複数人の送信先ユーザ取得　※まだ決められない実装
 		// blockeyをセットしたら、複数人を取得して、セットするまでやる。
@@ -247,12 +219,13 @@ class VideosEditController extends VideosAppController {
 		// 複数人の送信先ユーザ追加
 		//$mail->addMailToUsers($users);
 
-		// 送信先メールアドレス 直指定
+		// キューに保存しないで直送信
 		//$mail->to('mutaguchi@opensource-workshop.jp');
+		//$mail->sendMail();
+
 
 		//$languageId = Current::read('Language.id');		//仮
 		//$roomId = Current::read('Room.id');
-		$roomId = Current::read('Room.id');
 
 		// キューに保存する
 		//$mail->saveQueue($data['Video']['key'], $languageId);
@@ -261,14 +234,14 @@ class VideosEditController extends VideosAppController {
 //		if (!$this->MailQueues->saveQueueRoomId($mail, $data['Video']['key'], $roomId)) {
 //			return false;
 //		}
-		// 送信先メールアドレス 直指定パターン　（テストのため）
+
+		// キュー保存で送信先メールアドレス 指定パターン　（debug用のため）
 		/** @see MailQueuesComponent::saveQueueToAddress() */
 		if (!$this->MailQueues->saveQueueToAddress($mail, $data['Video']['key'], 'mutaguchi@opensource-workshop.jp')) {
 			return false;
 		}
 
 		// メール送信
-		//$mail->sendMail();  //直送信
 		MailSend::send();
 
 		return true;
