@@ -199,49 +199,46 @@ class VideosEditController extends VideosAppController {
 			return true;
 		}
 
+		$contentKey = $data['Video']['key'];
 		$url = NetCommonsUrl::actionUrl(array(
 			'controller' => 'videos',
 			'action' => 'view',
 			'block_id' => Current::read('Block.id'),
 			'frame_id' => Current::read('Frame.id'),
-			'key' => $data['Video']['key']
+			'key' => $contentKey
 		));
 
-		// 定型文の変換タグの追加
+		// 定型文の変換タグをセット
 		$mail->assignTag("X-SUBJECT", $data['Video']['title']);
 		$mail->assignTag("X-BODY", $data['Video']['description']);
 		$mail->assignTag("X-URL", $url);
 
-		// 複数人の送信先ユーザ取得　※まだ決められない実装
-		// blockeyをセットしたら、複数人を取得して、セットするまでやる。
-		//$users = $this->getSendMailUsers($wwww, $zzzz);
-		//$mail->setSendMailUsers($blockKey);
-		// 複数人の送信先ユーザ追加
-		//$mail->addMailToUsers($users);
-
-		// キューに保存しないで直送信
-		//$mail->to('mutaguchi@opensource-workshop.jp');
-		//$mail->sendMail();
-
-
-		//$languageId = Current::read('Language.id');		//仮
-		//$roomId = Current::read('Room.id');
-
-		// キューに保存する
-		//$mail->saveQueue($data['Video']['key'], $languageId);
-		//$mail->saveQueue($mail, $data['Video']['key'], $roomId);
+		// キューに保存（ルーム単位でメール配信）
 //		/** @see MailQueuesComponent::saveQueueRoomId() */
-//		if (!$this->MailQueues->saveQueueRoomId($mail, $data['Video']['key'], $roomId)) {
+//		if (!$this->MailQueues->saveQueueRoomId($mail, $contentKey)) {
 //			return false;
 //		}
 
-		// キュー保存で送信先メールアドレス 指定パターン　（debug用のため）
+		// キューに保存（user単位でメール配信）
+		//		$userId = Current::read('User.id');		//仮
+		//		/** @see MailQueuesComponent::saveQueueUserId() */
+		//		if (!$this->MailQueues->saveQueueUserId($mail, $contentKey, $userId)) {
+		//			return false;
+		//		}
+
+		// キューに保存（メールアドレス単位でメール配信）
+		$toAddress = 'mutaguchi@opensource-workshop.jp';	// 仮
 		/** @see MailQueuesComponent::saveQueueToAddress() */
-		if (!$this->MailQueues->saveQueueToAddress($mail, $data['Video']['key'], 'mutaguchi@opensource-workshop.jp')) {
+		if (!$this->MailQueues->saveQueueToAddress($mail, $contentKey, $toAddress)) {
 			return false;
 		}
 
-		// メール送信
+		// キューに保存しないで直送信
+		//		$toAddress = 'mutaguchi@opensource-workshop.jp';	// 仮
+		//		$mail->to($toAddress);
+		//		$mail->sendMail();
+
+		// キューからメール送信
 		MailSend::send();
 
 		return true;
