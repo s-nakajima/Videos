@@ -116,21 +116,6 @@ class VideosController extends VideosAppController {
  * @return CakeResponse
  */
 	public function index() {
-//var_dump($thisYear);
-//var_dump(Current::read('Plugin.key'));
-//var_dump(Current::read('Plugin.name'));
-//var_dump(Current::read('Block.name'));
-//var_dump(Current::read());
-//phpinfo();
-//$sendTime = new DateTime();
-//var_dump($sendTime);
-//var_dump($sendTime->getdate);
-//var_dump($sendTime->getTimestamp());
-//var_dump(date('Y/m/d H:i:s'));
-//var_dump(NetCommonsTime::getNowDatetime());
-//var_dump(Current::read('Plugin.key'));
-//var_dump(Current::read('Room.id'));
-
 		// 一覧取得
 		$results = $this->__list();
 		$this->set($results);
