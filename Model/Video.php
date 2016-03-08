@@ -70,11 +70,13 @@ class Video extends VideosAppModel {
  * use behaviors
  *
  * @var array
+ * @see MailQueueBehavior::beforeDelete()
  */
 	public $actsAs = array(
 		'ContentComments.ContentComment',
 		'Likes.Like',					// いいね
 		'NetCommons.OriginalKey',		// 自動でkeyセット
+		'Mails.MailQueue',				// 自動でキューの削除
 		'Tags.Tag',
 		'Videos.Video',					// 動画変換
 		'Videos.VideoValidation',		// Validation rules
