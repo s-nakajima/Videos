@@ -14,6 +14,7 @@ App::uses('VideosAppModel', 'Videos.Model');
 App::uses('Video', 'Videos.Model');
 App::uses('NetCommonsMail', 'Mails.Utility');
 App::uses('MailSend', 'Mails.Utility');
+App::uses('WorkflowComponent', 'Workflow.Controller.Component');
 
 /**
  * 動画編集系 Controller
@@ -191,6 +192,12 @@ class VideosEditController extends VideosAppController {
  * @return bool 成功 or 失敗
  */
 	private function __mail($data) {
+		$status = $this->Workflow->parseStatus();
+		// 一時保存はメール送らない
+		if ($status == WorkflowComponent::STATUS_IN_DRAFT) {
+			return true;
+		}
+
 		$mail = new NetCommonsMail();
 		$mail->initPlugin($data);
 
