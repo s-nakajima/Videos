@@ -217,21 +217,18 @@ class VideosEditController extends VideosAppController {
 		$mail->assignTag("X-URL", $url);
 
 		// キューに保存（ルーム単位でメール配信）
-//		/** @see MailQueuesComponent::saveQueueRoomId() */
 //		if (!$this->MailQueues->saveQueueRoomId($mail, $contentKey)) {
 //			return false;
 //		}
 
 		// キューに保存（user単位でメール配信）
 		//		$userId = Current::read('User.id');		//仮
-		//		/** @see MailQueuesComponent::saveQueueUserId() */
 		//		if (!$this->MailQueues->saveQueueUserId($mail, $contentKey, $userId)) {
 		//			return false;
 		//		}
 
 		// キューに保存（メールアドレス単位でメール配信）
 		$toAddress = 'mutaguchi@opensource-workshop.jp';	// 仮
-		/** @see MailQueuesComponent::saveQueueToAddress() */
 		if (!$this->MailQueues->saveQueueToAddress($mail, $contentKey, $toAddress)) {
 			return false;
 		}

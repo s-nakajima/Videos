@@ -21,6 +21,7 @@ App::uses('AppController', 'Controller');
  * @property ContentComment $ContentComment
  * @property ContentCommentsComponent $ContentComments
  * @property MailSetting $MailSetting
+ * @property MailQueuesComponent $MailQueues
  * @property NetCommonsComponent $NetCommons
  * @property WorkflowComponent $Workflow
  * @property PermissionComponent $Permission
