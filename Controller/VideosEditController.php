@@ -200,6 +200,8 @@ class VideosEditController extends VideosAppController {
 		}
 
 		$contentKey = $data['Video']['key'];
+
+		// fullpassのURL
 		$url = NetCommonsUrl::actionUrl(array(
 			'controller' => 'videos',
 			'action' => 'view',
@@ -207,6 +209,7 @@ class VideosEditController extends VideosAppController {
 			'frame_id' => Current::read('Frame.id'),
 			'key' => $contentKey
 		));
+		$url = NetCommonsUrl::url($url, true);
 
 		// 定型文の変換タグをセット
 		$mail->assignTag("X-SUBJECT", $data['Video']['title']);
