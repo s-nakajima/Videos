@@ -27,8 +27,9 @@ App::uses('AppController', 'Controller');
  * @property PermissionComponent $Permission
  * @property PageLayoutComponent $PageLayout
  * @property Video $Video
- * @property VideoFrameSetting $VideoFrameSetting
  * @property VideoBlockSetting $VideoBlockSetting
+ * @property VideoFrameSetting $VideoFrameSetting
+ * @property VideoMailComponent $VideoMail
  */
 class VideosAppController extends AppController {
 

@@ -12,9 +12,6 @@
 App::uses('VideosAppController', 'Videos.Controller');
 App::uses('VideosAppModel', 'Videos.Model');
 App::uses('Video', 'Videos.Model');
-App::uses('NetCommonsMail', 'Mails.Utility');
-App::uses('MailSend', 'Mails.Utility');
-App::uses('WorkflowComponent', 'Workflow.Controller.Component');
 
 /**
  * 動画編集系 Controller
@@ -40,13 +37,13 @@ class VideosEditController extends VideosAppController {
  */
 	public $components = array(
 		'Files.FileUpload',
-		'Mails.MailQueues',
 		'NetCommons.Permission' => array(
 			//アクセスの権限
 			'allow' => array(
 				'add,edit,delete' => 'content_creatable',
 			),
 		),
+		'Videos.VideoMail',
 	);
 
 /**
@@ -74,7 +71,7 @@ class VideosEditController extends VideosAppController {
 			// 登録
 			if ($video = $this->Video->addSaveVideo($data)) {
 				// メール送信
-				$this->__mail($video);
+				$this->VideoMail->mail($video);
 
 				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
@@ -130,6 +127,9 @@ class VideosEditController extends VideosAppController {
 
 			// 登録（ワークフロー対応のため、編集でも常にinsert）
 			if ($video = $this->Video->editSaveVideo($data)) {
+				// メール送信
+				$this->VideoMail->mail($video);
+
 				$url = NetCommonsUrl::actionUrl(array(
 					'controller' => 'videos',
 					'action' => 'view',
@@ -137,10 +137,6 @@ class VideosEditController extends VideosAppController {
 					'frame_id' => Current::read('Frame.id'),
 					'key' => $video['Video']['key']
 				));
-
-				// メール送信
-				$this->__mail($video);
-
 				$this->redirect($url);
 				return;
 			}
@@ -184,71 +180,4 @@ class VideosEditController extends VideosAppController {
 		}
 		$this->throwBadRequest();
 	}
-
-/**
- * メール送信
- *
- * @param array $data コンテンツ
- * @return bool 成功 or 失敗
- */
-	private function __mail($data) {
-		$status = $this->Workflow->parseStatus();
-		// 一時保存はメール送らない
-		if ($status == WorkflowComponent::STATUS_IN_DRAFT) {
-			return true;
-		}
-
-		$mail = new NetCommonsMail();
-		$mail->initPlugin($data);
-
-		// 通知しない
-		if (! $mail->isMailSend) {
-			return true;
-		}
-
-		$contentKey = $data['Video']['key'];
-
-		// fullpassのURL
-		$url = NetCommonsUrl::actionUrl(array(
-			'controller' => 'videos',
-			'action' => 'view',
-			'block_id' => Current::read('Block.id'),
-			'frame_id' => Current::read('Frame.id'),
-			'key' => $contentKey
-		));
-		$url = NetCommonsUrl::url($url, true);
-
-		// 定型文の変換タグをセット
-		$mail->assignTag("X-SUBJECT", $data['Video']['title']);
-		$mail->assignTag("X-BODY", $data['Video']['description']);
-		$mail->assignTag("X-URL", $url);
-
-		// キューに保存（ルーム単位でメール配信）
-//		if (!$this->MailQueues->saveQueueRoomId($mail, $contentKey)) {
-//			return false;
-//		}
-
-		// キューに保存（user単位でメール配信）
-		//		$userId = Current::read('User.id');		//仮
-		//		if (!$this->MailQueues->saveQueueUserId($mail, $contentKey, $userId)) {
-		//			return false;
-		//		}
-
-		// キューに保存（メールアドレス単位でメール配信）
-		$toAddress = 'mutaguchi@opensource-workshop.jp';	// 仮
-		if (!$this->MailQueues->saveQueueToAddress($mail, $contentKey, $toAddress)) {
-			return false;
-		}
-
-		// キューに保存しないで直送信
-		//		$toAddress = 'mutaguchi@opensource-workshop.jp';	// 仮
-		//		$mail->to($toAddress);
-		//		$mail->sendMail();
-
-		// キューからメール送信
-		MailSend::send();
-
-		return true;
-	}
-
 }
