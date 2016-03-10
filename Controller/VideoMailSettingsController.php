@@ -45,7 +45,7 @@ class VideoMailSettingsController extends VideosAppController {
 	public $components = array(
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array('block_index', 'frame_settings'),
-			'blockTabs' => array('block_settings', 'role_permissions', 'mail_settings'),
+			'blockTabs' => array('block_settings', 'mail_settings', 'role_permissions'),
 		),
 		'NetCommons.Permission' => array(
 			//アクセスの権限
