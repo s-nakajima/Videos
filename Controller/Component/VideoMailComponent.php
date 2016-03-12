@@ -125,9 +125,9 @@ class VideoMailComponent extends Component {
 		$url = NetCommonsUrl::url($url, true);
 
 		// 定型文の変換タグをセット
-		$mail->assignTag("X-SUBJECT", $data['Video']['title']);
-		$mail->assignTag("X-BODY", $data['Video']['description']);
-		$mail->assignTag("X-URL", $url);
+		$mail->assignTag('X-SUBJECT', $data['Video']['title']);
+		$mail->assignTag('X-BODY', $data['Video']['description']);
+		$mail->assignTag('X-URL', $url);
 
 		return $mail;
 	}
