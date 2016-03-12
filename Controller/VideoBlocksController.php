@@ -42,10 +42,6 @@ class VideoBlocksController extends VideosAppController {
  * @var array
  */
 	public $components = array(
-		'Blocks.BlockTabs' => array(
-			'mainTabs' => array('block_index', 'frame_settings'),
-			'blockTabs' => array('block_settings', 'role_permissions'),
-		),
 		'NetCommons.Permission' => array(
 			//アクセスの権限
 			'allow' => array(
@@ -62,6 +58,10 @@ class VideoBlocksController extends VideosAppController {
  */
 	public $helpers = array(
 		'Blocks.BlockForm',
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index', 'frame_settings'),
+			'blockTabs' => array('block_settings', 'role_permissions'),
+		),
 		'Likes.Like',
 	);
 
