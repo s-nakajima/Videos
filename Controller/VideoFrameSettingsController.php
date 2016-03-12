@@ -41,10 +41,6 @@ class VideoFrameSettingsController extends VideosAppController {
  * @var array
  */
 	public $components = array(
-		'Blocks.BlockTabs' => array(
-			'mainTabs' => array('block_index', 'frame_settings'),
-			'blockTabs' => array('block_settings', 'role_permissions'),
-		),
 		'NetCommons.Permission' => array(
 			//アクセスの権限
 			'allow' => array(
@@ -59,6 +55,10 @@ class VideoFrameSettingsController extends VideosAppController {
  * @var array
  */
 	public $helpers = array(
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index', 'frame_settings'),
+			'blockTabs' => array('block_settings', 'role_permissions'),
+		),
 		'NetCommons.DisplayNumber',
 	);
 
