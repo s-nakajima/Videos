@@ -12,10 +12,10 @@
 ?>
 
 <div class="block-setting-body">
-	<?php echo $this->BlockTabs->main(BlockTabsComponent::MAIN_TAB_BLOCK_INDEX); ?>
+	<?php echo $this->BlockTabs->main(BlockTabsHelper::MAIN_TAB_BLOCK_INDEX); ?>
 
 	<div class="tab-content">
-		<?php echo $this->BlockTabs->block(BlockTabsComponent::BLOCK_TAB_MAIL); ?>
+		<?php echo $this->BlockTabs->block(BlockTabsHelper::MAIN_TAB_MAIL_SETTING); ?>
 
 		<?php echo $this->element('Mails.edit_form', array(
 			'mailBodyPopoverMessage' => __d('videos', 'MailSetting.mail_fixed_phrase_body.popover'),
