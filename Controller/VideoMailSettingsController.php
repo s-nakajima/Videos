@@ -46,9 +46,7 @@ class VideoMailSettingsController extends VideosAppController {
 		'NetCommons.Permission' => array(
 			//アクセスの権限
 			'allow' => array(
-				// 暫定対応
-				//'edit' => 'mail_editable',
-				'edit' => 'block_editable',
+				'edit' => 'mail_editable',
 			),
 		),
 	);
