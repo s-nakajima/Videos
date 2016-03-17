@@ -71,7 +71,9 @@ class VideosEditController extends VideosAppController {
 			// 登録
 			if ($video = $this->Video->addSaveVideo($data)) {
 				// メール送信
-				$this->VideoMail->mail($video);
+				//$this->VideoMail->mail($video);
+				// キューからメール送信
+				MailSend::send();
 
 				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
@@ -128,7 +130,9 @@ class VideosEditController extends VideosAppController {
 			// 登録（ワークフロー対応のため、編集でも常にinsert）
 			if ($video = $this->Video->editSaveVideo($data)) {
 				// メール送信
-				$this->VideoMail->mail($video);
+				//$this->VideoMail->mail($video);
+				// キューからメール送信
+				MailSend::send();
 
 				$url = NetCommonsUrl::actionUrl(array(
 					'controller' => 'videos',

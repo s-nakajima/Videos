@@ -70,13 +70,18 @@ class Video extends VideosAppModel {
  * use behaviors
  *
  * @var array
- * @see MailQueueBehavior::beforeDelete()
+ * @see MailQueueBehavior
  */
 	public $actsAs = array(
 		'ContentComments.ContentComment',
 		'Likes.Like',					// いいね
 		'NetCommons.OriginalKey',		// 自動でkeyセット
-		'Mails.MailQueue',				// 自動でキューの削除
+		'Mails.MailQueue' => array(		// 自動でメールキューの登録, 削除
+			'embedTags' => array(
+				'X-SUBJECT' => 'Video.title',
+				'X-BODY' => 'Video.description',
+			),
+		),
 		'Tags.Tag',
 		'Videos.Video',					// 動画変換
 		'Videos.VideoValidation',		// Validation rules
@@ -243,6 +248,10 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function addSaveVideo($data) {
+		$this->loadModels(array(
+			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
+		));
+
 		//トランザクションBegin
 		$this->begin();
 

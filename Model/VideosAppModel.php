@@ -23,6 +23,7 @@ App::uses('Video', 'Videos.Model');
  * @property ContentComment $ContentComment
  * @property TagsContent $TagsContent
  * @property Like $Like
+ * @property VideoBlockSetting $VideoBlockSetting
  */
 class VideosAppModel extends AppModel {
 }
