@@ -99,7 +99,7 @@ class VideoBlocksController extends VideosAppController {
 				),
 				'conditions' => array(
 					'Block.key = VideoBlockSetting.block_key',
-					'Block.language_id' => $this->viewVars['languageId'],
+					'Block.language_id' => Current::read('Language.id'),
 					'Block.room_id' => Current::read('Room.id'),
 				),
 				'fields' => array(
