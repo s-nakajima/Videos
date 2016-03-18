@@ -141,30 +141,32 @@ $this->NetCommonsHtml->script(array(
 
 			<?php echo $this->Form->end(); ?>
 
-			<div class="panel-footer" style="/* border-top-style: none; */">
-				<div class="text-right">
-					<?php /* 削除 */ ?>
-					<?php echo $this->NetCommonsForm->create('Video', array(
-						'name' => 'form',
-						'url' => array(
-							'controller' => 'videos_edit',
-							'action' => 'delete',
-						),
-						'type' => 'delete',
-					)); ?>
-						<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
-						<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
-						<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
+			<?php if ($this->Workflow->canDelete("Videos.Video", $this->request->data('Video'))) : ?>
+				<div class="panel-footer">
+					<div class="text-right">
+						<?php /* 削除 */ ?>
+						<?php echo $this->NetCommonsForm->create('Video', array(
+							'name' => 'form',
+							'url' => array(
+								'controller' => 'videos_edit',
+								'action' => 'delete',
+							),
+							'type' => 'delete',
+						)); ?>
+							<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
+							<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
+							<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
 
-						<?php echo $this->NetCommonsForm->hidden('Video.id'); ?>
-						<?php echo $this->NetCommonsForm->hidden('Video.key'); ?>
-						<?php echo $this->Button->delete('',
-							sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'video'))
-						); ?>
+							<?php echo $this->NetCommonsForm->hidden('Video.id'); ?>
+							<?php echo $this->NetCommonsForm->hidden('Video.key'); ?>
+							<?php echo $this->Button->delete('',
+								sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'video'))
+							); ?>
 
-					<?php echo $this->NetCommonsForm->end(); ?>
+						<?php echo $this->NetCommonsForm->end(); ?>
+					</div>
 				</div>
-			</div>
+			<?php endif; ?>
 
 		</div>
 		<?php echo $this->Workflow->comments(); ?>
