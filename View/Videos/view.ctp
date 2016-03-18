@@ -24,7 +24,7 @@ echo $this->NetCommonsHtml->script(array(
 <article>
 
 <?php /* 上部ボタン */ ?>
-<?php if (Current::permission('content_editable')) : ?>
+<?php if ($this->Workflow->canEdit("Videos.Video", $video)) : ?>
 	<header>
 		<div class="row">
 			<div class="col-xs-12 text-right" style="padding-bottom: 10px;">
