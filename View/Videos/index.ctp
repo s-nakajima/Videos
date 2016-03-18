@@ -21,7 +21,7 @@
 		<?php endif; ?>
 
 		<?php /* 上部ボタン */ ?>
-		<?php if (Current::permission('content_editable')) : ?>
+		<?php if (Current::permission('content_creatable')) : ?>
 			<div class="row">
 				<div class="col-xs-12 text-right">
 					<?php
