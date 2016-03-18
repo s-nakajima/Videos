@@ -111,8 +111,7 @@ class VideosEditController extends VideosAppController {
 		));
 		$this->set('video', $video);
 
-		//掲示板の場合は、削除権限と同じ条件とする(動画まねてみた。あってるのか？)
-		if (! $this->Video->canDeleteWorkflowContent($video)) {
+		if (! $this->Video->canEditWorkflowContent($video)) {
 			$this->throwBadRequest();
 			return false;
 		}
