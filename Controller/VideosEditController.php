@@ -12,6 +12,7 @@
 App::uses('VideosAppController', 'Videos.Controller');
 App::uses('VideosAppModel', 'Videos.Model');
 App::uses('Video', 'Videos.Model');
+App::uses('MailSend', 'Mails.Utility');
 
 /**
  * 動画編集系 Controller

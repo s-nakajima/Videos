@@ -11,6 +11,7 @@
 
 App::uses('VideosAppModel', 'Videos.Model');
 App::uses('UploadBehavior', 'Upload.Model/Behavior'); //FileUpload
+//App::uses('MailQueueBehavior', 'Mails.Model.Behavior');
 
 /**
  * Video Model
@@ -81,6 +82,8 @@ class Video extends VideosAppModel {
 				'X-SUBJECT' => 'Video.title',
 				'X-BODY' => 'Video.description',
 			),
+			//'workflowType' => MailQueueBehavior::MAIL_QUEUE_WORKFLOW_TYPE_WORKFLOW,
+			'workflowType' => 'workflow',
 		),
 		'Tags.Tag',
 		'Videos.Video',					// 動画変換
@@ -269,6 +272,9 @@ class Video extends VideosAppModel {
 			}
 
 			if (self::isFfmpegEnable()) {
+				// 動画変換のため、計2回saveしているので、MailQueueビヘイビア外す
+				$this->Behaviors->unload('Mails.MailQueue');
+
 				// 動画変換とデータ保存
 				/* @see VideoBehavior::saveConvertVideo() */
 				if (!$this->saveConvertVideo($video)) {
