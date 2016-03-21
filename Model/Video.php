@@ -263,7 +263,6 @@ class Video extends VideosAppModel {
 		//バリデーション
 		$this->set($data);
 		if (! $this->validates(array('add'))) {
-			$this->rollback();
 			return false;
 		}
 
@@ -319,7 +318,6 @@ class Video extends VideosAppModel {
 		$this->set($data);
 		/* @see beforeValidate() */
 		if (! $this->validates(array('edit'))) {
-			$this->rollback();
 			return false;
 		}
 
