@@ -44,7 +44,6 @@ class VideosEditController extends VideosAppController {
 				'add,edit,delete' => 'content_creatable',
 			),
 		),
-		'Videos.VideoMail',
 	);
 
 /**
@@ -71,8 +70,6 @@ class VideosEditController extends VideosAppController {
 
 			// 登録
 			if ($video = $this->Video->addSaveVideo($data)) {
-				// メール送信
-				//$this->VideoMail->mail($video);
 				// キューからメール送信
 				MailSend::send();
 
@@ -129,8 +126,6 @@ class VideosEditController extends VideosAppController {
 
 			// 登録（ワークフロー対応のため、編集でも常にinsert）
 			if ($video = $this->Video->editSaveVideo($data)) {
-				// メール送信
-				//$this->VideoMail->mail($video);
 				// キューからメール送信
 				MailSend::send();
 
