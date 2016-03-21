@@ -58,7 +58,7 @@ class VideosController extends VideosAppController {
 				'contentKey' => 'video.Video.key',
 				'contentTitleForMail' => 'video.Video.title',
 				'useComment' => 'videoBlockSetting.use_comment',
-				'useCommentApproval' => 'videoBlockSetting.use_comment_approval',
+				'useCommentApproval' => 'videoBlockSetting.comment_agree',
 			),
 		),
 		'Likes.Like',
