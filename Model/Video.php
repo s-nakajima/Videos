@@ -84,6 +84,7 @@ class Video extends VideosAppModel {
 			),
 			//'workflowType' => MailQueueBehavior::MAIL_QUEUE_WORKFLOW_TYPE_WORKFLOW,
 			'workflowType' => 'workflow',
+			//'workflowType' => 'none',
 		),
 		'Tags.Tag',
 		'Videos.Video',					// 動画変換
