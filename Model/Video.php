@@ -267,7 +267,7 @@ class Video extends VideosAppModel {
 		}
 
 		try {
-			// 試し：リマインダー
+			// 試し：リマインダー(カレンダー、回覧板等)
 			// 条件：site_settings['Mail.use_cron'] => 1, save前
 			//			$sendTimes = array(
 			//				'2016-03-31 15:37:12',
@@ -275,6 +275,9 @@ class Video extends VideosAppModel {
 			//			);
 			//			/** @see MailQueueBehavior::setSendTimeReminder() */
 			//			$this->setSendTimeReminder($sendTimes);
+
+			// 試し：投稿メールのOFF セット(カレンダー、回覧板等)
+			//$this->setIsMailSendNotice(0);
 
 			// 動画データ登録
 			if (! $video = $this->save(null, false)) {
