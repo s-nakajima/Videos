@@ -230,18 +230,16 @@ class VideoBlockSetting extends VideosAppModel {
 		// いいねIDの配列
 		$likeIds = $this->Like->find('list', array(
 			'recursive' => -1,
-			'conditions' => array(
-				$this->Like->alias . '.block_key' => $data['Block']['key']
-			),
+			'conditions' => array($this->Like->alias . '.block_key' => $data['Block']['key']),
+			'callbacks' => false,
 		));
 		$likeIds = array_keys($likeIds);
 
 		// タグIDの配列
 		$tagIds = $this->Tag->find('list', array(
 			'recursive' => -1,
-			'conditions' => array(
-				$this->Tag->alias . '.block_id' => $blockIds
-			),
+			'conditions' => array($this->Tag->alias . '.block_id' => $blockIds),
+			'callbacks' => false,
 		));
 		$tagIds = array_keys($tagIds);
 
@@ -251,9 +249,8 @@ class VideoBlockSetting extends VideosAppModel {
 		// アップロードファイルIDの配列
 		$uploadFileIds = $this->UploadFile->find('list', array(
 			'recursive' => -1,
-			'conditions' => array(
-				$this->UploadFile->alias . '.content_key' => $contentKeys
-			),
+			'conditions' => array($this->UploadFile->alias . '.content_key' => $contentKeys),
+			'callbacks' => false,
 		));
 		$uploadFileIds = array_keys($uploadFileIds);
 
@@ -309,9 +306,8 @@ class VideoBlockSetting extends VideosAppModel {
 	private function __getBlockIds($blockKey) {
 		$blockIds = $this->Block->find('list', array(
 			'recursive' => -1,
-			'conditions' => array(
-				$this->Block->alias . '.key' => $blockKey
-			),
+			'conditions' => array($this->Block->alias . '.key' => $blockKey),
+			'callbacks' => false,
 		));
 		$blockIds = array_keys($blockIds);
 		return $blockIds;
@@ -325,13 +321,10 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	private function __getContentKeys($blockIds) {
 		$contentKeys = $this->Video->find('list', array(
-			'fields' => array(
-				$this->Video->alias . '.key'
-			),
+			'fields' => array($this->Video->alias . '.key'),
 			'recursive' => -1,
-			'conditions' => array(
-				$this->Video->alias . '.block_id' => $blockIds
-			),
+			'conditions' => array($this->Video->alias . '.block_id' => $blockIds),
+			'callbacks' => false,
 		));
 		$contentKeys = array_values($contentKeys);
 		return $contentKeys;
