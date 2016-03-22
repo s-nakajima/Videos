@@ -279,6 +279,13 @@ class Video extends VideosAppModel {
 			// 試し：投稿メールのOFF セット(カレンダー、回覧板等)
 			//$this->setIsMailSendNotice(0);
 
+			// 試し：登録フォームのメールアドレス セット
+			//			$toAddresses = array(
+			//				'test1@example.com',
+			//				'test2@example.com',
+			//			);
+			//			$this->setRegistrationToAddresses($toAddresses);
+
 			// 動画データ登録
 			if (! $video = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
