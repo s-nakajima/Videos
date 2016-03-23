@@ -10,7 +10,6 @@
  */
 
 App::uses('VideosAppController', 'Videos.Controller');
-App::uses('MailSend', 'Mails.Utility');
 
 /**
  * Videos Controller
