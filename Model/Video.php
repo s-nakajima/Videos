@@ -83,11 +83,9 @@ class Video extends VideosAppModel {
 		'Workflow.Workflow',			// 自動でis_active, is_latestセット
 		'Workflow.WorkflowComment',
 		'Mails.MailQueue' => array(		// 自動でメールキューの登録, 削除。ワークフロー利用時はWorkflow.Workflowより下に記述する
-			'requestDataKeys' => array(
-				'embedTags' => array(
-					'X-SUBJECT' => 'Video.title',
-					'X-BODY' => 'Video.description',
-				),
+			'embedTags' => array(
+				'X-SUBJECT' => 'Video.title',
+				'X-BODY' => 'Video.description',
 			),
 			//'workflowType' => MailQueueBehavior::MAIL_QUEUE_WORKFLOW_TYPE_WORKFLOW,
 			//'workflowType' => MailQueueBehavior::MAIL_QUEUE_WORKFLOW_TYPE_NONE,
