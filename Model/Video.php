@@ -11,7 +11,6 @@
 
 App::uses('VideosAppModel', 'Videos.Model');
 App::uses('UploadBehavior', 'Upload.Model/Behavior'); //FileUpload
-//App::uses('MailQueueBehavior', 'Mails.Model/Behavior');
 
 /**
  * Video Model
@@ -87,10 +86,6 @@ class Video extends VideosAppModel {
 				'X-SUBJECT' => 'Video.title',
 				'X-BODY' => 'Video.description',
 			),
-			//'workflowType' => MailQueueBehavior::MAIL_QUEUE_WORKFLOW_TYPE_WORKFLOW,
-			//'workflowType' => MailQueueBehavior::MAIL_QUEUE_WORKFLOW_TYPE_NONE,
-			// priorityを設定したけど、機能しなかった。  http://book.cakephp.org/2.0/ja/core-libraries/collections.html#id6
-			//'priority' => 15
 		),
 		'Files.Attachment' => [
 			Video::VIDEO_FILE_FIELD,
@@ -267,25 +262,6 @@ class Video extends VideosAppModel {
 		}
 
 		try {
-			// 試し：リマインダー(カレンダー、回覧板等)
-			// 条件：site_settings['Mail.use_cron'] => 1, save前
-			//			$sendTimes = array(
-			//				'2016-03-31 15:37:12',
-			//				'2016-04-20 10:00:00',
-			//			);
-			//			/** @see MailQueueBehavior::setSendTimeReminder() */
-			//			$this->setSendTimeReminder($sendTimes);
-
-			// 試し：投稿メールのOFF セット(カレンダー、回覧板等)
-			//$this->setIsMailSendNotice(0);
-
-			// 試し：登録フォームのメールアドレス セット
-			//			$toAddresses = array(
-			//				'test1@example.com',
-			//				'test2@example.com',
-			//			);
-			//			$this->setRegistrationToAddresses($toAddresses);
-
 			// 動画データ登録
 			if (! $video = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
@@ -332,15 +308,6 @@ class Video extends VideosAppModel {
 		}
 
 		try {
-			// 試し：リマインダー
-			// 条件：site_settings['Mail.use_cron'] => 1, save前
-			//			$sendTimes = array(
-			//				'2016-03-31 15:37:12',
-			//				'2016-04-20 10:00:00',
-			//			);
-			//			/** @see MailQueueBehavior::setSendTimeReminder() */
-			//			$this->setSendTimeReminder($sendTimes);
-
 			// 動画データ登録
 			if (! $video = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
