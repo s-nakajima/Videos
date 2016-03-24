@@ -87,7 +87,7 @@ class Video extends VideosAppModel {
 				'X-BODY' => 'Video.description',
 			),
 		),
-        'Mails.MailQueueDelete',
+		'Mails.MailQueueDelete',
 		'Files.Attachment' => [
 			Video::VIDEO_FILE_FIELD,
 			Video::THUMBNAIL_FIELD,
