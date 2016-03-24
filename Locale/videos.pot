@@ -137,8 +137,5 @@ msgid "Please register if you want to change."
 msgstr ""
 
 # メール関連
-msgid "MailSetting.mail_fixed_phrase_body"
-msgstr ""
-
 msgid "MailSetting.mail_fixed_phrase_body.popover"
 msgstr ""
