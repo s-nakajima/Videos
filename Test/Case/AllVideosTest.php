@@ -9,6 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
+
 /**
  * Videos All Test Case
  *
@@ -26,24 +28,8 @@ class AllVideosTest extends CakeTestSuite {
  */
 	public static function suite() {
 		$plugin = preg_replace('/^All([\w]+)Test$/', '$1', __CLASS__);
-		$suite = new CakeTestSuite(sprintf('All %s Plugin tests', $plugin));
-
+		$suite = new NetCommonsTestSuite(sprintf('All %s Plugin tests', $plugin));
 		$suite->addTestDirectoryRecursive(CakePlugin::path($plugin) . 'Test' . DS . 'Case');
-		$directory = CakePlugin::path($plugin) . 'Test' . DS . 'Case';
-		$Folder = new Folder($directory);
-		$exceptions = array(
-			'VideoTestBase.php',
-			'VideoBehaviorTestBase.php',
-			'VideosTestBase.php',
-			'VideoValidationTestBase.php',
-		);
-		$files = $Folder->tree(null, $exceptions, 'files');
-		foreach ($files as $file) {
-			if (substr($file, -4) === '.php') {
-				$suite->addTestFile($file);
-			}
-		}
-
 		return $suite;
 	}
 }

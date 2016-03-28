@@ -1,6 +1,6 @@
 <?php
 /**
- * VideoBehaviorTest Base
+ * View/Elements/VideoFrameSettings/edit_formテスト用Viewファイル
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -9,13 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('VideoTestBase', 'Videos.Test/Case/Model');
+?>
 
-/**
- * VideoBehaviorTest Base
- *
- * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
- * @package NetCommons\ContentComments\Test\Case\Model
- */
-class VideoBehaviorTestBase extends VideoTestBase {
-}
+View/Elements/VideoFrameSettings/edit_form
+
+<?php echo $this->element('Videos.VideoFrameSettings/edit_form');

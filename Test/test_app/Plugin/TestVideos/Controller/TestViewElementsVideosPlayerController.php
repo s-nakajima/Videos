@@ -1,6 +1,6 @@
 <?php
 /**
- * VideoViewLog Test Case
+ * View/Elements/Videos/playerテスト用Controller
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -9,21 +9,23 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('VideoTestBase', 'Videos.Test/Case/Model');
+App::uses('AppController', 'Controller');
 
 /**
- * VideoViewLog Test Case
+ * View/Elements/Videos/playerテスト用Controller
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
- * @package NetCommons\Videos\Test\Case\Model
+ * @package NetCommons\Videos\Test\test_app\Plugin\TestVideos\Controller
  */
-class VideoViewLogTest extends VideoTestBase {
+class TestViewElementsVideosPlayerController extends AppController {
 
 /**
- * testIndex method
+ * player
  *
  * @return void
  */
-	public function testIndex() {
+	public function player() {
+		$this->autoRender = true;
 	}
+
 }
