@@ -25,8 +25,8 @@
 
 <?php echo $this->element('Blocks.block_approval_setting', array(
 	'model' => 'VideoBlockSetting',
-	'useWorkflow' => 'agree',
-	'useCommentApproval' => 'comment_agree',
+	'useWorkflow' => 'use_workflow',
+	'useCommentApproval' => 'use_comment_approval',
 	'settingPermissions' => array(
 		'content_comment_publishable' => __d('blocks', 'Content comment publishable roles'),
 	),

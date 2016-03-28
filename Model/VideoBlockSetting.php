@@ -98,13 +98,7 @@ class VideoBlockSetting extends VideosAppModel {
 					'message' => __d('net_commons', 'Invalid request.'),
 				),
 			),
-			'agree' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-			'mail_notice' => array(
+			'use_workflow' => array(
 				'boolean' => array(
 					'rule' => array('boolean'),
 					'message' => __d('net_commons', 'Invalid request.'),
@@ -116,13 +110,7 @@ class VideoBlockSetting extends VideosAppModel {
 					'message' => __d('net_commons', 'Invalid request.'),
 				),
 			),
-			'comment_agree' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-			'comment_agree_mail_notice' => array(
+			'use_comment_approval' => array(
 				'boolean' => array(
 					'rule' => array('boolean'),
 					'message' => __d('net_commons', 'Invalid request.'),
