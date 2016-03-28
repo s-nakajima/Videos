@@ -33,6 +33,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		'plugin.tags.tag',
 		'plugin.tags.tags_content',
 		'plugin.content_comments.content_comment',
+		'plugin.workflow.workflow_comment',
 	);
 
 /**
