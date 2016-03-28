@@ -24,6 +24,7 @@
         "netcommons/mails":             "dev-master",
         "netcommons/net-commons":       "dev-master",
         "netcommons/tags":              "dev-master",
+        "netcommons/workflow":          "dev-master",
         "satooshi/php-coveralls":       "dev-master"
     },
     "license": "NetCommons License",
