@@ -88,7 +88,7 @@ class VideosController extends VideosAppController {
 		),
 		'Cookie',
 		'Paginator',									// ページャ
-		'Files.Download' => array('priority' => 99),
+		'Files.Download',
 	);
 
 /**
