@@ -67,7 +67,21 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
  * @return array
  */
 	private function __data() {
+		$blockId = '4';
+		$blockKey = 'block_2';
+		$blockName = 'Channel name';
 		$data = array(
+			'Block' => array(
+				'id' => $blockId,
+				'key' => $blockKey,
+				'language_id' => '2',
+				'room_id' => '1',
+				'plugin_key' => $this->plugin,
+				'public_type' => '1',
+				'from' => null,
+				'to' => null,
+				'name' => $blockName,
+			),
 			'VideoBlockSetting' => array(
 				'id' => 2,
 				'block_key' => 'block_2',
