@@ -26,7 +26,7 @@ class VideoValidationAddNoConvertSaveVideoTest extends VideoValidationTestBase {
  * @return void
  */
 	public function testAddNoConvertSaveVideoTitleRequired() {
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockId = 2;
 		$languageId = 2;
 		$blockKey = 'block_2';
@@ -64,7 +64,7 @@ class VideoValidationAddNoConvertSaveVideoTest extends VideoValidationTestBase {
  * @return void
  */
 	public function testAddNoConvertSaveVideoTitleNotEmpty() {
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockId = 2;
 		$languageId = 2;
 		$blockKey = 'block_2';
@@ -102,7 +102,7 @@ class VideoValidationAddNoConvertSaveVideoTest extends VideoValidationTestBase {
  * @return void
  */
 	public function testAddNoConvertSaveVideoBlockIdRequired() {
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		//$blockId = 2;
 		$languageId = 2;
 		$blockKey = 'block_2';
@@ -140,7 +140,7 @@ class VideoValidationAddNoConvertSaveVideoTest extends VideoValidationTestBase {
  * @return void
  */
 	public function testAddNoConvertSaveVideoBlockIdNumeric() {
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockId = 'hoge';
 		$languageId = 2;
 		$blockKey = 'block_2';

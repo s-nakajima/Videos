@@ -55,7 +55,7 @@ class VideoExceptionTest extends VideoTestBase {
 		$mp4Id = 1;
 		$this->_readyTestFile($mp4Id, $roomId, $fileName);
 
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockId = 1;
 		$languageId = 2;
 		$blockKey = 'block_1';
@@ -123,7 +123,7 @@ class VideoExceptionTest extends VideoTestBase {
 		$mp4Id = 1;
 		$this->_readyTestFile($mp4Id, $roomId, $fileName);
 
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockId = 1;
 		$languageId = 2;
 		$blockKey = 'block_1';
@@ -188,7 +188,7 @@ class VideoExceptionTest extends VideoTestBase {
 	public function testAddNoConvertSaveVideoException() {
 		$this->setExpectedException('InternalErrorException');
 
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockId = 2;
 		$languageId = 2;
 		$blockKey = 'block_2';
@@ -227,7 +227,7 @@ class VideoExceptionTest extends VideoTestBase {
 	public function testAddNoConvertSaveVideoCommentException() {
 		$this->setExpectedException('InternalErrorException');
 
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockId = 2;
 		$languageId = 2;
 		$blockKey = 'block_2';
@@ -267,7 +267,7 @@ class VideoExceptionTest extends VideoTestBase {
 	public function testEditSaveVideoException() {
 		$this->setExpectedException('InternalErrorException');
 
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockId = 2;
 		$languageId = 2;
 		$blockKey = 'block_2';
@@ -306,7 +306,7 @@ class VideoExceptionTest extends VideoTestBase {
 	public function testEditSaveVideoCommentException() {
 		$this->setExpectedException('InternalErrorException');
 
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockId = 2;
 		$languageId = 2;
 		$blockKey = 'block_2';

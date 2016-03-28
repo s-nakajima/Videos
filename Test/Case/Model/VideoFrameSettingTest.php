@@ -82,26 +82,4 @@ class VideoFrameSettingTest extends VideoTestBase {
 
 		$this->assertInternalType('array', $videoFrameSetting);
 	}
-
-/**
- * 表示順 オプション属性 取得 テスト
- *
- * @return void
- */
-	public function testGetDisplayOrderOptions() {
-		$rtn = VideoFrameSetting::getDisplayOrderOptions();
-
-		$this->assertInternalType('array', $rtn);
-	}
-
-/**
- * 表示件数 オプション属性 取得 テスト
- *
- * @return void
- */
-	public function testGetDisplayNumberOptions() {
-		$rtn = VideoFrameSetting::getDisplayNumberOptions();
-
-		$this->assertInternalType('array', $rtn);
-	}
 }

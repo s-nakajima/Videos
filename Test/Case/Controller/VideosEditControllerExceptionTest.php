@@ -11,6 +11,7 @@
  */
 
 App::uses('VideosTestBase', 'Videos.Test/Case/Controller');
+App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 
 /**
  * VideosEditControllerExceptionTest Case
@@ -30,7 +31,7 @@ class VideosEditControllerExceptionTest extends VideosTestBase {
 		parent::setUp();
 
 		// PageLayout対応
-		YACakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
+		NetCommonsControllerTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
 
 		$this->generate(
 			'Videos.VideosEdit',
@@ -54,7 +55,7 @@ class VideosEditControllerExceptionTest extends VideosTestBase {
 	public function testEditException() {
 		$this->setExpectedException('BadRequestException');
 
-		RolesControllerTest::login($this);
+		TestAuthGeneral::login($this);
 
 		$frameId = 2;
 		try {
@@ -66,7 +67,7 @@ class VideosEditControllerExceptionTest extends VideosTestBase {
 				)
 			);
 		} catch (Exception $e) {
-			AuthGeneralControllerTest::logout($this);
+			TestAuthGeneral::logout($this);
 			throw $e;
 		}
 	}
@@ -81,7 +82,7 @@ class VideosEditControllerExceptionTest extends VideosTestBase {
 	public function testDeleteException() {
 		$this->setExpectedException('BadRequestException');
 
-		RolesControllerTest::login($this);
+		TestAuthGeneral::login($this);
 
 		$frameId = 2;
 		try {
@@ -93,7 +94,7 @@ class VideosEditControllerExceptionTest extends VideosTestBase {
 				)
 			);
 		} catch (Exception $e) {
-			AuthGeneralControllerTest::logout($this);
+			TestAuthGeneral::logout($this);
 			throw $e;
 		}
 	}

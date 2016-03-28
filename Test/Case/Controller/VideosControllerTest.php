@@ -11,6 +11,7 @@
  */
 
 App::uses('VideosTestBase', 'Videos.Test/Case/Controller');
+App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 
 /**
  * VideosController Test Case
@@ -30,7 +31,7 @@ class VideosControllerTest extends VideosTestBase {
 		parent::setUp();
 
 		// PageLayout対応
-		YACakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
+		NetCommonsControllerTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
 
 		// モック作成
 		$this->generate(
@@ -285,7 +286,7 @@ class VideosControllerTest extends VideosTestBase {
 	// * @return void
 	// */
 	//	public function testIndexByAdmin() {
-	//		RolesControllerTest::login($this);
+	//		TestAuthGeneral::login($this);
 	//
 	//		$view = $this->testAction(
 	//			'/videos/videos/index/1',
@@ -298,7 +299,7 @@ class VideosControllerTest extends VideosTestBase {
 	//		// これで何を確認できるか
 	//		$this->assertTextContains('nc-videos-1', $view, print_r($view, true));
 	//
-	//		AuthGeneralControllerTest::logout($this);
+	//		TestAuthGeneral::logout($this);
 	//	}
 
 	///**
@@ -323,7 +324,7 @@ class VideosControllerTest extends VideosTestBase {
 	// * @return void
 	// */
 	//	public function testEditGet() {
-	//		RolesControllerTest::login($this);
+	//		TestAuthGeneral::login($this);
 	//
 	//		$this->testAction(
 	//			'/announcements/announcements/edit/1',
@@ -335,7 +336,7 @@ class VideosControllerTest extends VideosTestBase {
 	//
 	//		$this->assertTextEquals('edit', $this->controller->view);
 	//
-	//		AuthGeneralControllerTest::logout($this);
+	//		TestAuthGeneral::logout($this);
 	//	}
 	//
 	///**
@@ -362,7 +363,7 @@ class VideosControllerTest extends VideosTestBase {
 	// * @return void
 	// */
 	//	public function testEditPost() {
-	//		RolesControllerTest::login($this);
+	//		TestAuthGeneral::login($this);
 	//
 	//		$data = array(
 	//			'Announcement' => array(
@@ -389,6 +390,6 @@ class VideosControllerTest extends VideosTestBase {
 	//		);
 	//		$this->assertTextEquals('edit', $this->controller->view);
 	//
-	//		AuthGeneralControllerTest::logout($this);
+	//		TestAuthGeneral::logout($this);
 	//	}
 }

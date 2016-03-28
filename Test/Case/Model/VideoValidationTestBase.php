@@ -31,7 +31,7 @@ class VideoValidationTestBase extends VideoTestBase {
 		// テストファイル準備
 		$tmpFullPath = $this->_readyTestFile($contentsId, $roomId, $fileName);
 
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockId = 1;
 		$languageId = 2;
 		$blockKey = 'block_1';

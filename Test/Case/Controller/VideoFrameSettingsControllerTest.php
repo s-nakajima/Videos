@@ -11,6 +11,7 @@
  */
 
 App::uses('VideosTestBase', 'Videos.Test/Case/Controller');
+App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 
 /**
  * VideoFrameSettingsControllerTest Case
@@ -30,7 +31,7 @@ class VideoFrameSettingsControllerTest extends VideosTestBase {
 		parent::setUp();
 
 		// PageLayout対応
-		YACakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
+		NetCommonsControllerTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
 
 		$this->generate(
 			'Videos.VideoFrameSettings',
@@ -50,7 +51,7 @@ class VideoFrameSettingsControllerTest extends VideosTestBase {
  * @return void
  */
 	public function testEdit() {
-		RolesControllerTest::login($this);
+		TestAuthGeneral::login($this);
 
 		$frameId = 2;
 		$this->testAction(
@@ -62,7 +63,7 @@ class VideoFrameSettingsControllerTest extends VideosTestBase {
 		);
 		$this->assertTextEquals('edit', $this->controller->view);
 
-		AuthGeneralControllerTest::logout($this);
+		TestAuthGeneral::logout($this);
 	}
 
 /**
@@ -71,7 +72,7 @@ class VideoFrameSettingsControllerTest extends VideosTestBase {
  * @return void
  */
 	public function testEditPost() {
-		RolesControllerTest::login($this);
+		TestAuthGeneral::login($this);
 
 		$data = array(
 			//'VideoFrameSetting' => array(), 暫定対応(;'∀') 登録・編集値の具体的に記述する予定
@@ -88,6 +89,6 @@ class VideoFrameSettingsControllerTest extends VideosTestBase {
 		);
 		$this->assertTextEquals('edit', $this->controller->view);
 
-		AuthGeneralControllerTest::logout($this);
+		TestAuthGeneral::logout($this);
 	}
 }

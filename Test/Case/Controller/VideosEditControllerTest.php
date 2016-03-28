@@ -11,6 +11,7 @@
  */
 
 App::uses('VideosTestBase', 'Videos.Test/Case/Controller');
+App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 
 /**
  * VideosEditControllerTest Case
@@ -30,7 +31,7 @@ class VideosEditControllerTest extends VideosTestBase {
 		parent::setUp();
 
 		// PageLayout対応
-		YACakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
+		NetCommonsControllerTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
 
 		$this->generate(
 			'Videos.VideosEdit',
@@ -50,7 +51,7 @@ class VideosEditControllerTest extends VideosTestBase {
  * @return void
  */
 	public function testAdd() {
-		RolesControllerTest::login($this);
+		TestAuthGeneral::login($this);
 
 		$frameId = 2;
 		$this->testAction(
@@ -62,7 +63,7 @@ class VideosEditControllerTest extends VideosTestBase {
 		);
 		$this->assertTextEquals('add', $this->controller->view);
 
-		AuthGeneralControllerTest::logout($this);
+		TestAuthGeneral::logout($this);
 	}
 
 /**
@@ -71,7 +72,7 @@ class VideosEditControllerTest extends VideosTestBase {
  * @return void
  */
 	public function testAddPost() {
-		RolesControllerTest::login($this);
+		TestAuthGeneral::login($this);
 
 		$data = array(
 			//'Video' => array(), 暫定対応(;'∀') 登録値の具体的に記述する予定
@@ -89,7 +90,7 @@ class VideosEditControllerTest extends VideosTestBase {
 		);
 		$this->assertTextEquals('add', $this->controller->view);
 
-		AuthGeneralControllerTest::logout($this);
+		TestAuthGeneral::logout($this);
 	}
 
 /**
@@ -98,7 +99,7 @@ class VideosEditControllerTest extends VideosTestBase {
  * @return void
  */
 	public function testEdit() {
-		RolesControllerTest::login($this);
+		TestAuthGeneral::login($this);
 
 		$frameId = 2;
 		$videoKey = 'video_2';
@@ -111,7 +112,7 @@ class VideosEditControllerTest extends VideosTestBase {
 		);
 		$this->assertTextEquals('edit', $this->controller->view);
 
-		AuthGeneralControllerTest::logout($this);
+		TestAuthGeneral::logout($this);
 	}
 
 /**
@@ -120,7 +121,7 @@ class VideosEditControllerTest extends VideosTestBase {
  * @return void
  */
 	public function testEditPost() {
-		RolesControllerTest::login($this);
+		TestAuthGeneral::login($this);
 
 		$data = array(
 			//'Video' => array(), 暫定対応(;'∀') 編集値の具体的に記述する予定
@@ -142,7 +143,7 @@ class VideosEditControllerTest extends VideosTestBase {
 		);
 		$this->assertTextEquals('edit', $this->controller->view);
 
-		AuthGeneralControllerTest::logout($this);
+		TestAuthGeneral::logout($this);
 	}
 
 /**
@@ -151,7 +152,7 @@ class VideosEditControllerTest extends VideosTestBase {
  * @return void
  */
 	public function testDelete() {
-		RolesControllerTest::login($this);
+		TestAuthGeneral::login($this);
 
 		$data = array('Video' => array(
 			'id' => 1,
@@ -169,6 +170,6 @@ class VideosEditControllerTest extends VideosTestBase {
 		);
 		$this->assertTextEquals('delete', $this->controller->view);
 
-		AuthGeneralControllerTest::logout($this);
+		TestAuthGeneral::logout($this);
 	}
 }

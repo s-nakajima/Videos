@@ -71,7 +71,7 @@ class VideoTest extends VideoTestBase {
 		$mp4Id = 1;
 		$this->_readyTestFile($mp4Id, $roomId, $fileName);
 
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockId = 1;
 		$languageId = 2;
 		$blockKey = 'block_1';
@@ -105,14 +105,19 @@ class VideoTest extends VideoTestBase {
 		//   $noConvert = $Model->FileModel->findById($video['Video']['mp4_id']);
 		//   Uninitialized string offset: -1
 		// modelモック
-		$modelMock = $this->getMockForModel('Videos.Video', ['saveConvertVideo']);
-		$modelMock->expects($this->any())
-			->method('saveConvertVideo')
-			->will($this->returnValue(true));
-		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
-		$modelMock->hasOne = array();
+		//		$modelMock = $this->getMockForModel('Videos.Video', ['saveConvertVideo']);
+		//		$modelMock->expects($this->any())
+		//			->method('saveConvertVideo')
+		//			->will($this->returnValue(true));
+		//		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
+		//		$modelMock->hasOne = array();
+		//
+		//		$video = $modelMock->addSaveVideo($data, $roomId);
+		//
+		//		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
+		//		$this->Video->hasOne = array();
 
-		$video = $modelMock->addSaveVideo($data, $roomId);
+		$video = $this->Video->addSaveVideo($data);
 
 		// テストファイル削除
 		$this->_deleteTestFile();
@@ -126,7 +131,7 @@ class VideoTest extends VideoTestBase {
  * @return void
  */
 	public function testAddNoConvertSaveVideo() {
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockId = 2;
 		$languageId = 2;
 		$blockKey = 'block_2';
@@ -159,7 +164,7 @@ class VideoTest extends VideoTestBase {
  * @return void
  */
 	public function testEditSaveVideo() {
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockKey = 'block_5';
 		$videoId = 1;
 		// 登録データ作成

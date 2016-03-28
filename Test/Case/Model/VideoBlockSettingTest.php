@@ -90,7 +90,7 @@ class VideoBlockSettingTest extends VideoTestBase {
 			$roomId
 		);
 
-		$netCommonsBlock = new NetCommonsBlockComponent(new ComponentCollection());
+		$netCommonsBlock = new WorkflowComponent(new ComponentCollection());
 		$controller = new Controller();
 		$controller->viewVars['languageId'] = 2;
 		$controller->viewVars['roomId'] = $roomId;

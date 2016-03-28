@@ -30,7 +30,7 @@ class VideoBlockRolePermissionsControllerTest extends VideosTestBase {
 		parent::setUp();
 
 		// PageLayout対応
-		YACakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
+		NetCommonsCakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
 
 		$this->generate(
 			'Videos.VideoBlockRolePermissions',
@@ -50,7 +50,7 @@ class VideoBlockRolePermissionsControllerTest extends VideosTestBase {
  * @return void
  */
 	public function testEdit() {
-		RolesControllerTest::login($this);
+		TestAuthGeneral::login($this);
 
 		$frameId = 1;
 		$blockId = 1;
@@ -63,6 +63,6 @@ class VideoBlockRolePermissionsControllerTest extends VideosTestBase {
 		);
 		$this->assertTextEquals('edit', $this->controller->view);
 
-		AuthGeneralControllerTest::logout($this);
+		TestAuthGeneral::logout($this);
 	}
 }

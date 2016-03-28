@@ -26,7 +26,7 @@ class VideoValidationEditSaveVideoTest extends VideoValidationTestBase {
  * @return void
  */
 	public function testEditSaveVideoValidationErrors() {
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockKey = 'block_5';
 		$videoId = 1;
 		// 登録データ作成
@@ -59,7 +59,7 @@ class VideoValidationEditSaveVideoTest extends VideoValidationTestBase {
  * @return void
  */
 	public function testEditSaveVideoValidateVideoFile() {
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockKey = 'block_5';
 		$videoId = 1;
 		// 登録データ作成
@@ -105,7 +105,7 @@ class VideoValidationEditSaveVideoTest extends VideoValidationTestBase {
  * @return void
  */
 	public function testEditSaveVideoValidateByStatus() {
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockKey = 'block_5';
 		$videoId = 1;
 		// 登録データ作成
@@ -263,7 +263,7 @@ class VideoValidationEditSaveVideoTest extends VideoValidationTestBase {
 		$videoId = 1;
 		$video = $this->Video->findById($videoId);
 
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$data = Hash::merge(
 			$data,
 			$video,
@@ -310,7 +310,7 @@ class VideoValidationEditSaveVideoTest extends VideoValidationTestBase {
 		$videoId = 1;
 		$video = $this->Video->findById($videoId);
 
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$data = Hash::merge(
 			$data,
 			$video,

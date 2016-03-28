@@ -206,7 +206,7 @@ class VideoBlockSettingExceptionTest extends VideoTestBase {
 		// 取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting($blockKey);
 
-		$netCommonsBlock = new NetCommonsBlockComponent(new ComponentCollection());
+		$netCommonsBlock = new WorkflowComponent(new ComponentCollection());
 		$controller = new Controller();
 		$controller->viewVars['languageId'] = 2;
 		$controller->viewVars['roomId'] = 1;
@@ -249,7 +249,7 @@ class VideoBlockSettingExceptionTest extends VideoTestBase {
 		// 取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting($blockKey);
 
-		$netCommonsBlock = new NetCommonsBlockComponent(new ComponentCollection());
+		$netCommonsBlock = new WorkflowComponent(new ComponentCollection());
 		$controller = new Controller();
 		$controller->viewVars['languageId'] = 2;
 		$controller->viewVars['roomId'] = 1;

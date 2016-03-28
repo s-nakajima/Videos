@@ -11,6 +11,7 @@
  */
 
 App::uses('VideosTestBase', 'Videos.Test/Case/Controller');
+App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 
 /**
  * VideoBlockSettingsControllerTest Case
@@ -30,7 +31,7 @@ class VideoBlockSettingsControllerTest extends VideosTestBase {
 		parent::setUp();
 
 		// PageLayout対応
-		YACakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
+		NetCommonsControllerTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
 
 		$this->generate(
 			'Videos.VideoBlockSettings',
@@ -50,7 +51,7 @@ class VideoBlockSettingsControllerTest extends VideosTestBase {
  * @return void
  */
 	public function testIndex() {
-		RolesControllerTest::login($this);
+		TestAuthGeneral::login($this);
 
 		$frameId = 1;
 		$this->testAction(
@@ -62,6 +63,6 @@ class VideoBlockSettingsControllerTest extends VideosTestBase {
 		);
 		$this->assertTextEquals('index', $this->controller->view);
 
-		AuthGeneralControllerTest::logout($this);
+		TestAuthGeneral::logout($this);
 	}
 }

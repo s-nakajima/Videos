@@ -100,7 +100,7 @@ class VideoBlockSettingValidationTest extends VideoTestBase {
 			$roomId
 		);
 
-		$netCommonsBlock = new NetCommonsBlockComponent(new ComponentCollection());
+		$netCommonsBlock = new WorkflowComponent(new ComponentCollection());
 		$controller = new Controller();
 		$controller->viewVars['languageId'] = 2;
 		$controller->viewVars['roomId'] = 1;
@@ -140,7 +140,7 @@ class VideoBlockSettingValidationTest extends VideoTestBase {
 			$roomId
 		);
 
-		$netCommonsBlock = new NetCommonsBlockComponent(new ComponentCollection());
+		$netCommonsBlock = new WorkflowComponent(new ComponentCollection());
 		$controller = new Controller();
 		$controller->viewVars['languageId'] = 2;
 		$controller->viewVars['roomId'] = 1;

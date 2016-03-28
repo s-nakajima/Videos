@@ -10,8 +10,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('AuthGeneralControllerTest', 'AuthGeneral.Test/Case/Controller');
-App::uses('RolesControllerTest', 'Roles.Test/Case/Controller');
 App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 
 /**

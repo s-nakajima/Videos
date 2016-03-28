@@ -50,10 +50,11 @@ class VideoValidationTest extends VideoValidationTestBase {
 		// テスト準備
 		$roomId = 1;
 		$data = $this->_readyTestSaveVideoData($roomId);
-		$modelMock = $this->_readyVideoMock();
+		//		$modelMock = $this->_readyVideoMock();
 		unset($data[Video::VIDEO_FILE_FIELD]['File']['role_type']);
 
-		$video = $modelMock->addSaveVideo($data, $roomId);
+		//		$video = $modelMock->addSaveVideo($data, $roomId);
+		$video = $this->Video->addSaveVideo($data);
 
 		// テストファイル削除
 		$this->_deleteTestFile();
@@ -71,10 +72,11 @@ class VideoValidationTest extends VideoValidationTestBase {
 		// テスト準備
 		$roomId = 1;
 		$data = $this->_readyTestSaveVideoData($roomId);
-		$modelMock = $this->_readyVideoMock();
+		//$modelMock = $this->_readyVideoMock();
 		$data['Comment']['comment'] = null;
 
-		$video = $modelMock->addSaveVideo($data, $roomId);
+		//$video = $modelMock->addSaveVideo($data, $roomId);
+		$video = $this->Video->addSaveVideo($data);
 
 		// テストファイル削除
 		$this->_deleteTestFile();
@@ -100,7 +102,9 @@ class VideoValidationTest extends VideoValidationTestBase {
 		// 暫定対応(;'∀') SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Block.language_id' in 'on clause'
 		$modelMock->hasOne = array();
 
-		$video = $modelMock->addSaveVideo($data, $roomId);
+		//$video = $modelMock->addSaveVideo($data, $roomId);
+		$modelMock->Behaviors->unload('Mails.MailQueue');
+		$video = $modelMock->addSaveVideo($data);
 
 		// テストファイル削除
 		$this->_deleteTestFile();
@@ -115,7 +119,7 @@ class VideoValidationTest extends VideoValidationTestBase {
  * @return void
  */
 	public function testAddNoConvertSaveVideoValidationErrors() {
-		$status = NetCommonsBlockComponent::STATUS_APPROVED;
+		$status = WorkflowComponent::STATUS_APPROVED;
 		$blockId = 2;
 		$languageId = 2;
 		$blockKey = 'block_2';
