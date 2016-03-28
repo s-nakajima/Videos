@@ -10,6 +10,8 @@
  */
 
 App::uses('VideosAppController', 'Videos.Controller');
+App::uses('ZipDownloader', 'Files.Utility');
+App::uses('TemporaryFolder', 'Files.Utility');
 
 /**
  * Videos Controller
@@ -215,32 +217,37 @@ class VideosController extends VideosAppController {
  * サムネイル、動画の表示
  *
  * @return CakeResponse
+ * @throws NotFoundException 表示できない記事へのアクセス
  */
 	public function file() {
-		return $this->__download();
-	}
+		// ここから元コンテンツを取得する処理
+		$key = $this->params['pass'][1];
+		$conditions = $this->Video->getConditions();
 
-/**
- * 動画をファイルとしてダウンロード
- *
- * @return CakeResponse
- */
-	public function download() {
-		$options = array(
-			'download' => true
+		$conditions['Video.key'] = $key;
+		$query = array(
+			'conditions' => $conditions,
 		);
-		return $this->__download($options);
+		$video = $this->Video->find('first', $query);
+		// ここまで元コンテンツを取得する処理
+
+		// ダウンロード実行
+		if ($video) {
+			return $this->Download->doDownload($video['Video']['id']);
+		} else {
+			// 表示できない記事へのアクセスなら404
+			throw new NotFoundException(__('Invalid video entry'));
+		}
 	}
 
 /**
- * ダウンロード
+ * 動画のzipダウンロード
  *
- * @param array $options オプション field : ダウンロードのフィールド名, size: nullならオリジナル thumb, small, medium, big
  * @return CakeResponse
  * @throws NotFoundException 表示できない記事へのアクセス
  * @see DownloadComponent::doDownload()
  */
-	private function __download($options = array()) {
+	public function download() {
 		// ここから元コンテンツを取得する処理
 		//$this->_prepare();
 		$key = $this->params['pass'][1];
@@ -254,12 +261,61 @@ class VideosController extends VideosAppController {
 		// ここまで元コンテンツを取得する処理
 
 		// ダウンロード実行
-		if ($video) {
-			return $this->Download->doDownload($video['Video']['id'], $options);
-		} else {
+		if (!$video) {
 			// 表示できない記事へのアクセスなら404
-			throw new NotFoundException(__('Invalid blog entry'));
+			throw new NotFoundException(__('Invalid video entry'));
 		}
+
+		// 圧縮用パスワードキーを求める
+		if (! empty($this->request->data['AuthorizationKey']['authorization_key'])) {
+			$zipPassword = $this->request->data['AuthorizationKey']['authorization_key'];
+		} else {
+			$this->_setFlashMessageAndRedirect($key, __d('videos', 'ダウンロードする場合は圧縮パスワードの設定が必要です。'));
+			return;
+		}
+
+		// ダウンロードファイル名決定 アンケート名称をつける
+		$videoName = explode('.', $video['UploadFile']['video_file']['original_name'])[0];
+		$zipFileName = $videoName . '.zip';
+		$realFilePath = APP . WEBROOT_DIR . DS .
+			$video['UploadFile']['video_file']['path'] .
+			$video['UploadFile']['video_file']['id'] . DS .
+			$video['UploadFile']['video_file']['real_file_name'];
+
+		// 一時フォルダにファイルをコピー&リネームして、元のファイル名でダウンロードする
+		$tmpFolder = new TemporaryFolder();
+
+		$downloadFilePath = $tmpFolder->path . DS . $video['UploadFile']['video_file']['original_name'];
+		copy($realFilePath, $downloadFilePath);
+
+		$zip = new ZipDownloader();
+		$zip->addFile($downloadFilePath);
+		$zip->setPassword($zipPassword);
+		$zip->close();
+
+		return $zip->download($zipFileName);
+	}
+
+/**
+ * _setFlashMessageAndRedirect
+ *
+ * @param string $contentKey コンテンツキー
+ * @param string $message flash error message
+ *
+ * @return void
+ */
+	protected function _setFlashMessageAndRedirect($contentKey, $message) {
+		$this->NetCommons->setFlashNotification($message, array('interval' => NetCommonsComponent::ALERT_VALIDATE_ERROR_INTERVAL));
+		$url = NetCommonsUrl::actionUrl(array(
+			'controller' => 'videos',
+			'action' => 'view',
+			'block_id' => Current::read('Block.id'),
+			//'frame_id' => Current::read('Frame.id'),
+			'key' => $contentKey
+		), true);
+		// 暫定対応：どうゆう訳だか、ここだと?frame_idが上記でセットされないので直書き
+		$url .= '?frame_id=' . Current::read('Frame.id');
+		$this->redirect($url);
 	}
 
 /**

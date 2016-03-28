@@ -17,6 +17,7 @@ echo $this->NetCommonsHtml->css(array(
 echo $this->NetCommonsHtml->script(array(
 	'/likes/js/likes.js',
 	'/videos/js/videos.js',
+	'/authorization_keys/js/authorization_keys.js',
 ));
 ?>
 
@@ -100,16 +101,17 @@ echo $this->NetCommonsHtml->script(array(
 					</div>
 					<div class="row">
 						<div class="col-xs-12 text-right">
-							<?php if (Current::permission('content_editable')): ?>
+							<?php if (Current::permission('content_publishable')): ?>
 								<span style="padding-right: 15px;">
 									<?php /* ダウンロード */ ?>
-									<a href="<?php echo $this->NetCommonsHtml->url(
-										[
+									<a authorization-keys-popup-link frame-id="<?php echo Current::read('Frame.id'); ?>"
+										url="<?php echo NetCommonsUrl::actionUrl(array(
+											'plugin' => 'videos',
+											'controller' => 'videos',
 											'action' => 'download',
-											'key' => $video['Video']['key'],
-											Video::VIDEO_FILE_FIELD,
-										]
-									); ?>">
+											Current::read('Block.id'),
+											$video['Video']['key'],
+											'frame_id' => Current::read('Frame.id'))); ?>">
 										<?php echo __d('videos', 'Downloads'); ?>
 									</a>
 								</span>
