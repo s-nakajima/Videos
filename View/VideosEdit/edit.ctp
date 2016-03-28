@@ -77,6 +77,7 @@ $this->NetCommonsHtml->script(array(
 					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.video_time'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.play_number'); ?>
+					<?php echo $this->NetCommonsForm->hidden('Video.status'); ?>
 					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::VIDEO_FILE_FIELD . '.id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::VIDEO_FILE_FIELD . '.field_name'); ?>
 					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::THUMBNAIL_FIELD . '.id'); ?>
