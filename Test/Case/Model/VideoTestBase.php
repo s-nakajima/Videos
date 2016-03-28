@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('YACakeTestCase', 'NetCommons.TestSuite');
+App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 
 /**
  * VideoTest Base
@@ -24,7 +24,7 @@ App::uses('YACakeTestCase', 'NetCommons.TestSuite');
  * @property VideoFrameSetting $VideoFrameSetting
  * @property VideoViewLog $VideoViewLog
  */
-class VideoTestBase extends YACakeTestCase {
+class VideoTestBase extends NetCommonsControllerTestCase {
 
 /**
  * use component
@@ -41,19 +41,16 @@ class VideoTestBase extends YACakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.comments.comment',
+		//'plugin.comments.comment',
 		'plugin.content_comments.content_comment',
-		'plugin.files.files_plugin',
-		'plugin.files.files_room',
-		'plugin.files.files_user',
+		'plugin.files.upload_file',
+		'plugin.files.upload_files_content',
 		'plugin.likes.like',
 		'plugin.tags.tag',
 		'plugin.tags.tags_content',
-		'plugin.videos.file',
 		'plugin.videos.video',
 		'plugin.videos.video_block_setting',
 		'plugin.videos.video_frame_setting',
-		'plugin.videos.video_view_log',
 	);
 
 /**

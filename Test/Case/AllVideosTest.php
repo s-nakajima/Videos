@@ -28,7 +28,7 @@ class AllVideosTest extends CakeTestSuite {
 		$plugin = preg_replace('/^All([\w]+)Test$/', '$1', __CLASS__);
 		$suite = new CakeTestSuite(sprintf('All %s Plugin tests', $plugin));
 
-		//$suite->addTestDirectoryRecursive(CakePlugin::path($plugin) . 'Test' . DS . 'Case');
+		$suite->addTestDirectoryRecursive(CakePlugin::path($plugin) . 'Test' . DS . 'Case');
 		$directory = CakePlugin::path($plugin) . 'Test' . DS . 'Case';
 		$Folder = new Folder($directory);
 		$exceptions = array(
@@ -40,7 +40,7 @@ class AllVideosTest extends CakeTestSuite {
 		$files = $Folder->tree(null, $exceptions, 'files');
 		foreach ($files as $file) {
 			if (substr($file, -4) === '.php') {
-				//$suite->addTestFile($file);
+				$suite->addTestFile($file);
 			}
 		}
 
