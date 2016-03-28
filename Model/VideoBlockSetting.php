@@ -168,6 +168,19 @@ class VideoBlockSetting extends VideosAppModel {
 		//トランザクションBegin
 		$this->begin();
 
+		$this->loadModels(array(
+			'Block' => 'Blocks.Block',
+		));
+		$this->Block->validate = array(
+			'name' => array(
+				'notBlank' => array(
+					'rule' => array('notBlank'),
+					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
+					'required' => true,
+				),
+			)
+		);
+
 		// 値をセット
 		$this->set($data);
 		if (! $this->validates()) {
