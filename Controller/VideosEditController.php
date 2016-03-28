@@ -69,7 +69,7 @@ class VideosEditController extends VideosAppController {
 			unset($data['Video']['id']);
 
 			// 登録
-			if ($video = $this->Video->addSaveVideo($data)) {
+			if ($this->Video->addSaveVideo($data)) {
 				// キューからメール送信
 				MailSend::send();
 
