@@ -129,7 +129,7 @@ class VideoBlocksController extends VideosAppController {
 
 		if ($this->request->is('post')) {
 			//BlockSetting, FrameSetting登録処理
-			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data) &&
+			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data, true) &&
 				$this->VideoFrameSetting->saveVideoFrameSetting($this->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
@@ -152,7 +152,7 @@ class VideoBlocksController extends VideosAppController {
 	public function edit() {
 		if ($this->request->is('put')) {
 			//登録処理
-			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data)) {
+			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data, true)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}

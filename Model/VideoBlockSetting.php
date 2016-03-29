@@ -161,25 +161,28 @@ class VideoBlockSetting extends VideosAppModel {
  * VideoBlockSettingデータ保存
  *
  * @param array $data received post data
+ * @param bool $isBlockSetting ブロック設定画面か
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function saveVideoBlockSetting($data) {
+	public function saveVideoBlockSetting($data, $isBlockSetting) {
 		//トランザクションBegin
 		$this->begin();
 
-		$this->loadModels(array(
-			'Block' => 'Blocks.Block',
-		));
-		$this->Block->validate = array(
-			'name' => array(
-				'notBlank' => array(
-					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
-					'required' => true,
-				),
-			)
-		);
+		if ($isBlockSetting) {
+			$this->loadModels(array(
+				'Block' => 'Blocks.Block',
+			));
+			$this->Block->validate = array(
+				'name' => array(
+					'notBlank' => array(
+						'rule' => array('notBlank'),
+						'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
+						'required' => true,
+					),
+				)
+			);
+		}
 
 		// 値をセット
 		$this->set($data);
