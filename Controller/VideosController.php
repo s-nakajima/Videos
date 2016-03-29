@@ -327,7 +327,7 @@ class VideosController extends VideosAppController {
  */
 	private function __list($extraConditions = array()) {
 		// ブロック未選択
-		if (empty(Current::read('Frame.block_id'))) {
+		if (! Current::read('Frame.block_id')) {
 			return array();
 		}
 
