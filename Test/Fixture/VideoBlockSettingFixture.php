@@ -69,4 +69,37 @@ class VideoBlockSettingFixture extends CakeTestFixture {
 			'use_comment_approval' => 1,
 		),
 	);
+
+/**
+ * Initialize the fixture.
+ *
+ * @return void
+ */
+	public function init() {
+		//		for ($i = 11; $i <= 20; $i++) {
+		//			$this->records[$i] = array(
+		//				'id' => $i,
+		//				'language_id' => '2',
+		//				'room_id' => '1',
+		//				'plugin_key' => 'test_plugin',
+		//				'key' => 'block_' . $i,
+		//				'name' => 'Block name ' . $i,
+		//				'public_type' => '1',
+		//			);
+		//		}
+		for ($i = 101; $i <= 200; $i++) {
+			$this->records[$i] = array(
+				'id' => $i,
+				'block_key' => 'block_' . $i,
+				'use_like' => 1,
+				'use_unlike' => 1,
+				'use_comment' => 1,
+				'use_workflow' => 1,
+				'auto_play' => 1,
+				'use_comment_approval' => 1,
+			);
+		}
+
+		parent::init();
+	}
 }
