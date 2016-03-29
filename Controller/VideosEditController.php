@@ -56,6 +56,22 @@ class VideosEditController extends VideosAppController {
 	);
 
 /**
+ * beforeFilter
+ *
+ * @return void
+ * @see NetCommonsAppController::beforeFilter()
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+
+		// ブロック未選択は、何も表示しない
+		if (! Current::read('Block.id')) {
+			$this->setAction('emptyRender');
+			return false;
+		}
+	}
+
+/**
  * 登録
  *
  * @return CakeResponse
