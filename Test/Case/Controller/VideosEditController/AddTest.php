@@ -243,7 +243,7 @@ class VideosEditControllerAddTest extends WorkflowControllerAddTest {
 		$results = array();
 		array_push($results, Hash::merge($result, array(
 			'validationError' => array(
-				'field' => 'title',
+				'field' => 'Video.title',
 				'value' => '',
 				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'title'))
 			)
