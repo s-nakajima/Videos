@@ -83,13 +83,10 @@ echo $this->NetCommonsHtml->script(array(
 			</p>
 			<div class="media">
 				<div class="pull-left">
-					<?php /* ログイン済みならアバター表示 */ ?>
-					<?php if (AuthComponent::user()): ?>
-						<?php /* アバター */ ?>
-						<?php echo $this->DisplayUser->avatarLink($video, array(
-							'class' => '',
-						)); ?>
-					<?php endif; ?>
+					<?php /* アバター */ ?>
+					<?php echo $this->DisplayUser->avatarLink($video, array(
+						'class' => '',
+					)); ?>
 				</div>
 				<div class="media-body">
 					<div class="row">
