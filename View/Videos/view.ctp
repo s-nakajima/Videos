@@ -101,7 +101,8 @@ echo $this->NetCommonsHtml->script(array(
 					</div>
 					<div class="row">
 						<div class="col-xs-12 text-right">
-							<?php if (Current::permission('content_publishable')): ?>
+							<?php /* ブロック編集許可OK（編集長以上）ならダウンロードできる */ ?>
+							<?php if (Current::permission('block_editable')): ?>
 								<span style="padding-right: 15px;">
 									<?php /* ダウンロード */ ?>
 									<a authorization-keys-popup-link frame-id="<?php echo Current::read('Frame.id'); ?>"
