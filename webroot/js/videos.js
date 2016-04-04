@@ -52,17 +52,10 @@ NetCommonsApp.controller('RelatedVideos',
  * VideoFrameSettings Javascript
  *
  * @param {string} Controller name
- * @param {function($scope, NetCommonsTab)} Controller
+ * @param {function($scope)} Controller
  */
 NetCommonsApp.controller('VideoFrameSettings',
-    ['$scope', 'NetCommonsTab', function($scope, NetCommonsTab) {
-
-      /**
-       * tab
-       *
-       * @type {object}
-       */
-      $scope.tab = NetCommonsTab.new();
+    ['$scope', function($scope) {
 
       /**
        * Initialize
@@ -80,17 +73,10 @@ NetCommonsApp.controller('VideoFrameSettings',
  * VideoBlocksEdit コンテンツ Javascript
  *
  * @param {string} Controller name
- * @param {function($scope, NetCommonsTab)} Controller
+ * @param {function($scope)} Controller
  */
 NetCommonsApp.controller('VideoBlocksEdit',
-    ['$scope', 'NetCommonsTab', function($scope, NetCommonsTab) {
-
-      /**
-       * tab
-       *
-       * @type {object}
-       */
-      $scope.tab = NetCommonsTab.new();
+    ['$scope', function($scope) {
 
       /**
        * Initialize
