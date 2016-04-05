@@ -18,9 +18,7 @@
     "require-dev": {
         "mustangostang/spyc":           "dev-master",
         "s-nakajima/content-comments":  "dev-master",
-        "s-nakajima/files":             "dev-master",
         "netcommons/likes":             "dev-master",
-        "s-nakajima/mails":             "dev-master",
         "s-nakajima/net-commons":       "dev-master",
         "netcommons/tags":              "dev-master",
         "netcommons/workflow":          "dev-master",
