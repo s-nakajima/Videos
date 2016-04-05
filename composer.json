@@ -1,5 +1,5 @@
 {
-    "name": "netcommons/videos",
+    "name": "s-nakajima/videos",
     "description": "Videos for NetCommons Plugin",
     "homepage": "http://www.netcommons.org/",
     "extra": {
@@ -12,17 +12,16 @@
         "cakephp/debug_kit":            "~2.2",
         "cakedc/migrations":            "~2.2",
         "components/jquery":            "~2.1",
-        "josegonzalez/cakephp-upload":  "~1.1",
         "phpunit/phpunit":              "~3.7.38",
         "twbs/bootstrap":               "~3.1"
     },
     "require-dev": {
         "mustangostang/spyc":           "dev-master",
-        "netcommons/content-comments":  "dev-master",
-        "netcommons/files":             "dev-master",
+        "s-nakajima/content-comments":  "dev-master",
+        "s-nakajima/files":             "dev-master",
         "netcommons/likes":             "dev-master",
-        "netcommons/mails":             "dev-master",
-        "netcommons/net-commons":       "dev-master",
+        "s-nakajima/mails":             "dev-master",
+        "s-nakajima/net-commons":       "dev-master",
         "netcommons/tags":              "dev-master",
         "netcommons/workflow":          "dev-master",
         "satooshi/php-coveralls":       "dev-master"
