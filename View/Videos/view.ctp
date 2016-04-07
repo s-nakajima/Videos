@@ -106,13 +106,17 @@ echo $this->NetCommonsHtml->script(array(
 								<span style="padding-right: 15px;">
 									<?php /* ダウンロード */ ?>
 									<a authorization-keys-popup-link frame-id="<?php echo Current::read('Frame.id'); ?>"
-										url="<?php echo NetCommonsUrl::actionUrl(array(
+									   url="<?php echo NetCommonsUrl::actionUrl(array(
 											'plugin' => 'videos',
 											'controller' => 'videos',
 											'action' => 'download',
 											Current::read('Block.id'),
 											$video['Video']['key'],
-											'frame_id' => Current::read('Frame.id'))); ?>">
+											'frame_id' => Current::read('Frame.id')
+										)); ?>"
+										popup-title="<?php echo __d('authorization_keys', 'Compression password'); ?>"
+										popup-label="<?php echo __d('authorization_keys', 'Compression password'); ?>"
+										popup-placeholder="<?php echo __d('authorization_keys', 'please input compression password'); ?>">
 										<?php echo __d('videos', 'Downloads'); ?>
 									</a>
 								</span>
