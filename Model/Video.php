@@ -87,7 +87,7 @@ class Video extends VideosAppModel {
 				'X-BODY' => 'Video.description',
 			),
 			// 暫定対応：メールで承認するフラグ取得用（今後設定不要になる見込み）
-			'useWorkflow' => 'VideoBlockSetting.use_Workflow',
+			'useWorkflow' => 'VideoBlockSetting.use_workflow',
 		),
 		'Mails.MailQueueDelete',
 		'Files.Attachment' => [
