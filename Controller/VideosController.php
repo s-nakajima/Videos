@@ -270,7 +270,7 @@ class VideosController extends VideosAppController {
 		if (! empty($this->request->data['AuthorizationKey']['authorization_key'])) {
 			$zipPassword = $this->request->data['AuthorizationKey']['authorization_key'];
 		} else {
-			$this->_setFlashMessageAndRedirect($key, __d('videos', 'ダウンロードする場合は圧縮パスワードの設定が必要です。'));
+			$this->_setFlashMessageAndRedirect($key, __d('authorization_keys', 'please input compression password'));
 			return;
 		}
 
