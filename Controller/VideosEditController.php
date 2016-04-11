@@ -29,6 +29,7 @@ class VideosEditController extends VideosAppController {
  */
 	public $uses = array(
 		'Videos.Video',
+		'Videos.VideoBlockSetting',	// 暫定対応：メールで承認するフラグ取得用（今後設定不要になる見込み）
 	);
 
 /**
@@ -83,6 +84,10 @@ class VideosEditController extends VideosAppController {
 			$data = $this->data;
 			$data['Video']['status'] = $this->Workflow->parseStatus();
 			unset($data['Video']['id']);
+
+			// 暫定対応：メールで承認するフラグ取得用（今後設定不要になる見込み）
+			$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
+			$data['VideoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
 			// 登録
 			if ($this->Video->addSaveVideo($data)) {
@@ -139,6 +144,10 @@ class VideosEditController extends VideosAppController {
 			$data = $this->data;
 			$data['Video']['status'] = $this->Workflow->parseStatus();
 			unset($data['Video']['id']);
+
+			// 暫定対応：メールで承認するフラグ取得用（今後設定不要になる見込み）
+			$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
+			$data['VideoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
 			// 登録（ワークフロー対応のため、編集でも常にinsert）
 			if ($video = $this->Video->editSaveVideo($data)) {
