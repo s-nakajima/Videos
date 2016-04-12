@@ -66,6 +66,7 @@ class VideoMailSettingRecords extends NetCommonsMigration {
 動画タイトル:{X-SUBJECT}
 投稿者:{X-USER}
 投稿日時:{X-TO_DATE}
+タグ:{X-TAGS}
 
 {X-BODY}
 
