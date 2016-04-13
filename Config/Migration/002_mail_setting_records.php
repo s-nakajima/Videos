@@ -112,13 +112,19 @@ class VideoMailSettingRecords extends NetCommonsMigration {
 			'MailSetting' => 'Mails.MailSetting',
 			'MailSettingFixedPhrase' => 'Mails.MailSettingFixedPhrase',
 		));
+
 		foreach ($this->records as $model => $records) {
+			$conditions = array(
+				'plugin_key' => self::PLUGIN_KEY,
+				'block_key' => null,
+			);
+
 			if ($direction == 'up') {
 				if ($model == 'MailSettingFixedPhrase') {
 					// mail_setting_id セット
 					$data = $this->MailSetting->find('first', array(
 						'recursive' => -1,
-						'conditions' => array('plugin_key' => self::PLUGIN_KEY),
+						'conditions' => $conditions,
 						'callbacks' => false,
 					));
 					foreach ($records as &$record) {
@@ -128,11 +134,8 @@ class VideoMailSettingRecords extends NetCommonsMigration {
 				if (!$this->updateRecords($model, $records)) {
 					return false;
 				}
+
 			} elseif ($direction == 'down') {
-				$conditions = array(
-					'plugin_key' => self::PLUGIN_KEY,
-					'block_key' => null,
-				);
 				if (!$this->MailSettingFixedPhrase->deleteAll($conditions, false, false)) {
 					return false;
 				}
