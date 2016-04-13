@@ -83,8 +83,6 @@ class VideoMailSettingRecords extends MailsMigration {
 
 {X-BODY}
 
-{X-WORKFLOW_COMMENT}
-
 この投稿内容を確認するには下記のリンクをクリックして下さい。
 {X-URL}',
 			),
