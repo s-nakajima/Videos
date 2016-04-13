@@ -22,6 +22,13 @@ class VideoValidationBehavior extends ModelBehavior {
  */
 	public function rules(Model $Model) {
 		$rules = Hash::merge($Model->validate, array(
+			'language_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
+				),
+			),
 			'block_id' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
