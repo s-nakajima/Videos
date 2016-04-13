@@ -64,7 +64,18 @@ class VideoMailSettingRecords extends MailsMigration {
 				'block_key' => null,
 				'type_key' => 'contents',
 				'mail_fixed_phrase_subject' => '', //デフォルト(__d('mails', 'MailSetting.mail_fixed_phrase_subject'))
-				'mail_fixed_phrase_body' => '', //デフォルト(__d('mails', 'MailSetting.mail_fixed_phrase_body'))
+				'mail_fixed_phrase_body' => 'Posted on {X-PLUGIN_NAME}.
+Room name: {X-ROOM}
+Channel name: {X-BLOCK_NAME}
+Video Title: {X-SUBJECT}
+Posted by: {X-USER}
+Post time: {X-TO_DATE}
+Tags: {X-TAGS}
+
+{X-BODY}
+
+Please click on the link below to check this post content.
+{X-URL}',
 			),
 			// * 日本語
 			array(
