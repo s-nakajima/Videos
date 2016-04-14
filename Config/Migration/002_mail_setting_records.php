@@ -70,7 +70,7 @@ Channel name: {X-BLOCK_NAME}
 Video Title: {X-SUBJECT}
 Posted by: {X-USER}
 Post time: {X-TO_DATE}
-Tags: {X-TAGS}
+{X-TAGS}
 
 {X-BODY}
 
@@ -90,7 +90,7 @@ Please click on the link below to check this post content.
 動画タイトル:{X-SUBJECT}
 投稿者:{X-USER}
 投稿日時:{X-TO_DATE}
-タグ:{X-TAGS}
+{X-TAGS}
 
 {X-BODY}
 
