@@ -84,8 +84,9 @@ echo $this->NetCommonsHtml->script(array(
 			<div class="media">
 				<div class="pull-left">
 					<?php /* アバター */ ?>
+					<?php /** @see DisplayUserHelper::avatarLink() */ ?>
 					<?php echo $this->DisplayUser->avatarLink($video, array(
-						'class' => '',
+						'class' => 'img-rounded',
 					)); ?>
 				</div>
 				<div class="media-body">
