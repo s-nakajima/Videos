@@ -82,7 +82,7 @@ echo $this->NetCommonsHtml->script(array(
 			</div>
 			</p>
 			<div class="media">
-				<div class="pull-left">
+				<div class="media-left">
 					<?php /* アバター */ ?>
 					<?php /** @see DisplayUserHelper::avatarLink() */ ?>
 					<?php echo $this->DisplayUser->avatarLink($video, array(
@@ -185,7 +185,7 @@ echo $this->NetCommonsHtml->script(array(
 							<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
 								<?php /* サムネイル */ ?>
 								<div class="media">
-									<div class="pull-left">
+									<div class="media-left">
 										<div>
 											<div>
 												<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $relatedVideo['Video']['key'])); ?>">

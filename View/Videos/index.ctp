@@ -107,7 +107,7 @@
 						<div class="row videos-row-height" style="border: 1px solid #ddd; padding: 5px; margin: 0px 0px 5px 0px;">
 							<div class="media">
 
-								<div class="pull-left">
+								<div class="media-left">
 									<div>
 										<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key'])); ?>">
 												<?php echo $this->NetCommonsHtml->image(
