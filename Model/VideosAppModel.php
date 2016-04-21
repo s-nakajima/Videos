@@ -10,7 +10,6 @@
  */
 
 App::uses('AppModel', 'Model');
-App::uses('Video', 'Videos.Model');
 
 /**
  * VideosApp Model
