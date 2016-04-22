@@ -4,144 +4,144 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"PO-Revision-Date: 2016-04-22 19:13+0900\n"
+"PO-Revision-Date: 2016-04-22 19:14+0900\n"
 "Language-Team: EMAIL@ADDRESS\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "POT-Creation-Date: \n"
 "X-Generator: Poedit 1.8.7\n"
 "Last-Translator: \n"
-"Language: ja_JP\n"
+"Language: en\n"
 
 #: Plugin/Videos/Model/VideoBlockSetting.php:134
 msgid "New channel %s"
-msgstr "新しいチャンネル %s"
+msgstr "New channel %s"
 
 #: Plugin/Videos/Model/VideoBlockSetting.php:180
 #: Plugin/Videos/Test/Case/Controller/VideoBlocksController/EditTest.php:148;177
 #: Plugin/Videos/View/Elements/VideoBlocks/edit_form.ctp:24
 #: Plugin/Videos/View/VideoBlocks/index.ctp:33
 msgid "Channel name"
-msgstr "チャンネル名"
+msgstr "Channel name"
 
 #: Plugin/Videos/Model/Behavior/VideoValidationBehavior.php:35;89
 #: Plugin/Videos/Test/Case/Controller/VideosEditController/AddTest.php:248
 #: Plugin/Videos/Test/Case/Controller/VideosEditController/EditTest.php:348
 msgid "title"
-msgstr "タイトル"
+msgstr "title"
 
 #: Plugin/Videos/Test/Case/Controller/VideosController/IndexTest.php:109;144;178
 #: Plugin/Videos/View/Videos/index.ctp:31
 msgid "Add video"
-msgstr "動画の追加"
+msgstr "Add video"
 
 #: Plugin/Videos/View/Elements/VideoBlockRolePermissions/edit_form.ctp:34
 #: Plugin/Videos/View/VideosEdit/edit.ctp:164
 msgid "video"
-msgstr "動画"
+msgstr "video"
 
 #: Plugin/Videos/View/Elements/VideoBlocks/delete_form.ctp:18;22
 msgid "channel"
-msgstr "チャンネル"
+msgstr "channel"
 
 #: Plugin/Videos/View/Elements/VideoBlocks/edit_form.ctp:37
 msgid "Automatically play video"
-msgstr "動画を自動再生する"
+msgstr "Automatically play video"
 
 #: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:20
 msgid "Display order"
-msgstr "表示順"
+msgstr "Display order"
 
 #: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:26
 #: Plugin/Videos/View/Videos/index.ctp:58
 msgid "Newest"
-msgstr "新着順"
+msgstr "Newest"
 
 #: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:27
 #: Plugin/Videos/View/Videos/index.ctp:63
 msgid "By title"
-msgstr "タイトル順"
+msgstr "By title"
 
 #: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:28
 #: Plugin/Videos/View/Videos/index.ctp:68
 msgid "Viewed"
-msgstr "再生回数順"
+msgstr "Viewed"
 
 #: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:29
 #: Plugin/Videos/View/Videos/index.ctp:73
 msgid "Reviews"
-msgstr "評価順"
+msgstr "Reviews"
 
 #: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:42
 msgid "Display number"
-msgstr "表示件数"
+msgstr "Display number"
 
 #: Plugin/Videos/View/Elements/Videos/player.ctp:34
 msgid "To play the video requires a browser that supports the video tag."
-msgstr "動画を再生するにはvideoタグをサポートしたブラウザが必要です。"
+msgstr "To play the video requires a browser that supports the video tag."
 
 #: Plugin/Videos/View/VideoBlocks/index.ctp:39
 msgid "File capacity"
-msgstr "ファイル容量"
+msgstr "File capacity"
 
 #: Plugin/Videos/View/VideoMailSettings/edit.ctp:21
 msgid "MailSetting.mail_fixed_phrase_body.popover"
-msgstr "{X-SITE_NAME} : サイト名<br />{X-PLUGIN_NAME} : プラグイン名<br />{X-ROOM} : ルーム名<br />{X-BLOCK_NAME} : チャンネル名<br />{X-SUBJECT} : 動画タイトル<br />{X-USER} : 投稿者<br />{X-TO_DATE} : 投稿日時<br />{X-TAGS} : タグ<br />{X-BODY} : 投稿内容<br />{X-URL} : 投稿内容のURL"
+msgstr "{X-SITE_NAME} : Site name<br>{X-PLUGIN_NAME} : Plugin name<br>{X-ROOM} : Room name<br>{X-BLOCK_NAME} : Channel name<br>{X-SUBJECT} : Video title<br>{X-USER} : Posted<br>{X-TO_DATE} : Post time<br>{X-TAGS} : Tag<br>{X-BODY} : Post content<br>{X-URL} : Content of the posts URL"
 
 #: Plugin/Videos/View/Videos/index.ctp:41
 msgid "There are no videos that are currently published."
-msgstr "現在公開されている動画はありません。"
+msgstr "There are no videos that are currently published."
 
 #: Plugin/Videos/View/Videos/index.ctp:48
 msgid "%s items"
-msgstr "%s 件"
+msgstr "%s items"
 
 #: Plugin/Videos/View/Videos/view.ctp:99
 msgid "Views %s times"
-msgstr "再生回数 %s回"
+msgstr "Views %s times"
 
 #: Plugin/Videos/View/Videos/view.ctp:120
 msgid "Downloads"
-msgstr "ダウンロード"
+msgstr "Downloads"
 
 #: Plugin/Videos/View/Videos/view.ctp:127
 msgid "Embed"
-msgstr "埋め込みコード"
+msgstr "Embed"
 
 #: Plugin/Videos/View/Videos/view.ctp:151
 msgid "Registration Date"
-msgstr "登録日"
+msgstr "Registration Date"
 
 #: Plugin/Videos/View/Videos/view.ctp:255
 msgid "Back to list"
-msgstr "一覧へ戻る"
+msgstr "Back to list"
 
 #: Plugin/Videos/View/VideosEdit/add.ctp:33;35;51
 #: Plugin/Videos/View/VideosEdit/edit.ctp:31;33
 msgid "support of %s."
-msgstr "%sに対応しています。"
+msgstr "support of %s."
 
 #: Plugin/Videos/View/VideosEdit/add.ctp:38
 msgid "Video file"
-msgstr "動画ファイル"
+msgstr "Video file"
 
 #: Plugin/Videos/View/VideosEdit/add.ctp:47
 #: Plugin/Videos/View/VideosEdit/edit.ctp:49
 msgid "Thumbnail"
-msgstr "サムネイル"
+msgstr "Thumbnail"
 
 #: Plugin/Videos/View/VideosEdit/add.ctp:58
 #: Plugin/Videos/View/VideosEdit/edit.ctp:88
 msgid "Title"
-msgstr "タイトル"
+msgstr "Title"
 
 #: Plugin/Videos/View/VideosEdit/add.ctp:64
 #: Plugin/Videos/View/VideosEdit/edit.ctp:105
 msgid "Description"
-msgstr "説明"
+msgstr "Description"
 
 #: Plugin/Videos/View/VideosEdit/edit.ctp:31
 msgid "Please register if you want to change."
-msgstr "変更したい場合に登録してください。"
+msgstr "Please register if you want to change."
