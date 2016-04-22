@@ -106,8 +106,76 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
  */
 	public function dataProviderEditGet() {
 		return array(
-			array('approvalFields' => $this->__approvalFields())
+			'editアクションのGETテスト:表示' => array(
+				'approvalFields' => $this->__approvalFields(),
+			),
 		);
+	}
+
+/**
+ * editアクションのGET例外テスト
+ *
+ * @return void
+ */
+	public function testEditGetException() {
+		//ログイン
+		TestAuthGeneral::login($this);
+
+		$this->_mockForReturnFalse('Videos.VideoBlockSetting', 'getVideoBlockSetting');
+
+		$frameId = '6';
+		$blockId = '4';
+
+		//テスト実施
+		$url = array(
+			'plugin' => $this->plugin,
+			'controller' => $this->_controller,
+			'action' => 'edit',
+			'frame_id' => $frameId,
+			'block_id' => $blockId
+		);
+		$params = array(
+			'method' => 'get',
+			'return' => 'view',
+		);
+		$return = 'view';
+		$this->_testNcAction($url, $params, 'BadRequestException', $return);
+
+		$this->fail('テストNG');
+	}
+
+/**
+ * editアクションのGET例外テスト json
+ *
+ * @return void
+ */
+	public function testEditGetAjaxFail() {
+		//ログイン
+		TestAuthGeneral::login($this);
+
+		$this->_mockForReturnFalse('Videos.VideoBlockSetting', 'getVideoBlockSetting');
+
+		$frameId = '6';
+		$blockId = '4';
+
+		//テスト実施
+		$url = array(
+			'plugin' => $this->plugin,
+			'controller' => $this->_controller,
+			'action' => 'edit',
+			'frame_id' => $frameId,
+			'block_id' => $blockId
+		);
+		$params = array(
+			'method' => 'get',
+			'return' => 'view',
+		);
+		$return = 'json';
+		$result = $this->_testNcAction($url, $params, 'BadRequestException', $return);
+
+		// チェック
+		// 不正なリクエスト
+		$this->assertEquals(400, $result['code']);
 	}
 
 /**
@@ -122,8 +190,60 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
  */
 	public function dataProviderEditPost() {
 		return array(
-			array('data' => $this->__data())
+			'editアクションのGETテスト:表示' => array(
+				'data' => $this->__data(),
+			),
 		);
+	}
+
+/**
+ * editアクションのPOST validateエラーテスト
+ *
+ * @return void
+ */
+	public function testEditPostValidateError() {
+		//ログイン
+		TestAuthGeneral::login($this);
+
+		$data = $this->__data();
+		$data['VideoBlockSetting']['use_workflow'] = 'xxx';
+
+		$frameId = '6';
+		$blockId = '4';
+		$blockKey = 'block_2';
+		$roomId = '1';
+		$permissions = $this->_getPermissionData(true, Hash::check($data, '{s}.use_comment_approval'));
+
+		$RolesRoomFixture = new RolesRoomFixture();
+		$rolesRooms = Hash::extract($RolesRoomFixture->records, '{n}[room_id=' . $roomId . ']');
+
+		$default['Block'] = array('id' => $blockId, 'key' => $blockKey);
+		foreach ($permissions as $permission => $roles) {
+			foreach ($roles as $role) {
+				$rolesRoom = Hash::extract($rolesRooms, '{n}[role_key=' . $role . ']');
+				$default['BlockRolePermission'][$permission][$role] = array(
+					'roles_room_id' => $rolesRoom[0]['id'],
+					'block_key' => $blockKey,
+					'permission' => $permission,
+					'value' => '1',
+				);
+			}
+		}
+
+		//テスト実施
+		$url = array(
+			'action' => 'edit',
+			'frame_id' => $frameId,
+			'block_id' => $blockId
+		);
+		$this->_testPostAction('post', Hash::merge($default, $data), $url);
+		//debug($this->controller->validationErrors);
+
+		//ログアウト
+		TestAuthGeneral::logout($this);
+
+		// チェック
+		$this->assertEquals($this->controller->validationErrors['use_workflow'][0], __d('net_commons', 'Invalid request.'));
 	}
 
 }
