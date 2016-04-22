@@ -139,7 +139,8 @@ class VideoBlocksController extends VideosAppController {
 		} else {
 			//表示処理(初期データセット)
 			$this->request->data = $this->VideoBlockSetting->createVideoBlockSetting();
-			$this->request->data = Hash::merge($this->request->data, $this->VideoFrameSetting->getVideoFrameSetting(true));
+			$this->request->data = Hash::merge($this->request->data,
+											$this->VideoFrameSetting->getVideoFrameSetting(true));
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
@@ -165,7 +166,8 @@ class VideoBlocksController extends VideosAppController {
 				return false;
 			}
 			$this->request->data = Hash::merge($this->request->data, $videoBlockSetting);
-			$this->request->data = Hash::merge($this->request->data, $this->VideoFrameSetting->getVideoFrameSetting(true));
+			$this->request->data = Hash::merge($this->request->data,
+											$this->VideoFrameSetting->getVideoFrameSetting(true));
 			$this->request->data['Frame'] = Current::read('Frame');
 			// チャンネル名をBlockテーブルにセットしているため下記必須
 			$this->request->data['Block'] = Current::read('Block');

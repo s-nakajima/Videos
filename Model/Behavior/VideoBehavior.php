@@ -79,7 +79,8 @@ class VideoBehavior extends ModelBehavior {
 
 		// --- 動画変換
 		//		$noConvertMimeType = $data['Video'][Video::VIDEO_FILE_FIELD]['type'];
-		$noConvertPath = APP . WEBROOT_DIR . DS . $noConvert['UploadFile']['path'] . $noConvert['UploadFile']['id'] . DS;
+		$noConvertPath = APP . WEBROOT_DIR . DS . $noConvert['UploadFile']['path'] .
+						$noConvert['UploadFile']['id'] . DS;
 		$realFileName = $noConvert['UploadFile']["real_file_name"];
 
 		// サムネイル名は動画名で末尾jpgにしたものをセット
@@ -91,8 +92,9 @@ class VideoBehavior extends ModelBehavior {
 		// 例）/usr/bin/ffmpeg -y -i '/var/www/app/app/webroot/files/upload_file/real_file_name/1/21/bd14317ad1b299f9074b532116c89da8.MOV' -acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k '/var/www/app/app/webroot/files/upload_file/real_file_name/1/21/bd14317ad1b299f9074b532116c89da8.mp4' 2>&1
 		// 動画変換
 		// 動画変換実施(元動画 > H.264)  コマンドインジェクション対策
-		//$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath . $noConvertSlug . '.' . $noConvertExtension) . ' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . ' 2>&1';
-		$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath . $realFileName) . ' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $videoName . '.mp4') . ' 2>&1';
+		$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath . $realFileName) .
+				' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $videoName . '.mp4') .
+				' 2>&1';
 		exec($strCmd, $arr, $ret);
 
 		// 変換エラー時
@@ -123,14 +125,15 @@ class VideoBehavior extends ModelBehavior {
  */
 	private function __getVideoTime($convert) {
 		// 元動画
-		$noConvertPath = APP . WEBROOT_DIR . DS . $convert['UploadFile']['path'] . $convert['UploadFile']['id'] . DS;
+		$noConvertPath = APP . WEBROOT_DIR . DS . $convert['UploadFile']['path'] .
+						$convert['UploadFile']['id'] . DS;
 		$realFileName = $convert['UploadFile']["real_file_name"];
 		$videoName = explode('.', $realFileName)[0];
 
 		// 変換後の動画情報を取得 コマンドインジェクション対策
 		// ffmpeg -i の $retInfo はファイルがあってもなくても1(失敗)なので、エラー時処理は省く
-		//$strCmd = Video::FFMPEG_PATH . " -i " . escapeshellarg($noConvertPath . $noConvertSlug . '.mp4') . " 2>&1";
-		$strCmd = Video::FFMPEG_PATH . " -i " . escapeshellarg($noConvertPath . $videoName . '.mp4') . " 2>&1";
+		$strCmd = Video::FFMPEG_PATH . " -i " . escapeshellarg($noConvertPath . $videoName .
+				'.mp4') . " 2>&1";
 		exec($strCmd, $arrInfo);
 
 		//動画情報から時間を取得
@@ -145,7 +148,8 @@ class VideoBehavior extends ModelBehavior {
 				$resultLine = explode(':', $matches[0]);
 
 				//動画の時間を計算
-				$videoTimeSec = intval(trim($resultLine[1])) * 3600 + intval($resultLine[2]) * 60 + $resultLine[3];
+				$videoTimeSec = intval(trim($resultLine[1])) * 3600 +
+								intval($resultLine[2]) * 60 + $resultLine[3];
 				break;
 			}
 		}
@@ -164,7 +168,8 @@ class VideoBehavior extends ModelBehavior {
  */
 	private function __generateThumbnail(Model $model, $video, $convert) {
 		// 元動画
-		$convertPath = APP . WEBROOT_DIR . DS . $convert['UploadFile']['path'] . $convert['UploadFile']['id'] . DS;
+		$convertPath = APP . WEBROOT_DIR . DS . $convert['UploadFile']['path'] .
+						$convert['UploadFile']['id'] . DS;
 		$realFileName = $convert['UploadFile']["real_file_name"];
 		$videoName = explode('.', $realFileName)[0];
 
@@ -172,7 +177,9 @@ class VideoBehavior extends ModelBehavior {
 		// 例) ffmpeg -ss 1 -vframes 1 -i /var/www/html/movies/play/20130901_072755.mp4 -f image2 /var/www/html/movies/play/20130901_072755.jpg
 		// サムネイルは変換後のmp4 から生成する。mts からサムネイルを生成した場合、灰色画像になりうまく生成できなかった。ファイル形式によりサムネイル生成に制限がある可能性があるため。
 		// コマンドインジェクション対策
-		$strCmd = Video::FFMPEG_PATH . ' -ss 1 -vframes 1 -i ' . escapeshellarg($convertPath . $videoName . ".mp4") . ' -f image2 ' . escapeshellarg($convertPath . $videoName . '.jpg');
+		$strCmd = Video::FFMPEG_PATH . ' -ss 1 -vframes 1 -i ' .
+				escapeshellarg($convertPath . $videoName . ".mp4") . ' -f image2 ' .
+				escapeshellarg($convertPath . $videoName . '.jpg');
 		exec($strCmd, $arrImage, $retImage);
 
 		// 変換エラー時

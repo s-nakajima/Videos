@@ -268,22 +268,26 @@ class VideoBlockSetting extends VideosAppModel {
 			// 本来、データと物理ファイル削除。共通処理が完成したら、実装する
 
 			// タグコンテンツ 削除
-			if (! $this->TagsContent->deleteAll(array($this->TagsContent->alias . '.tag_id' => $tagIds), false)) {
+			$conditions = array($this->TagsContent->alias . '.tag_id' => $tagIds);
+			if (! $this->TagsContent->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			// いいねユーザー 削除
-			if (! $this->LikesUser->deleteAll(array($this->LikesUser->alias . '.like_id' => $likeIds), false)) {
+			$conditions = array($this->LikesUser->alias . '.like_id' => $likeIds);
+			if (! $this->LikesUser->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			// アップロードファイルコンテンツ 削除
-			if (! $this->UploadFilesContent->deleteAll(array($this->UploadFilesContent->alias . '.upload_file_id' => $uploadFileIds), false)) {
+			$conditions = array($this->UploadFilesContent->alias . '.upload_file_id' => $uploadFileIds);
+			if (! $this->UploadFilesContent->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			// アップロードファイル 削除
-			if (! $this->UploadFile->deleteAll(array($this->UploadFile->alias . '.content_key' => $contentKeys), false)) {
+			$conditions = array($this->UploadFile->alias . '.content_key' => $contentKeys);
+			if (! $this->UploadFile->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

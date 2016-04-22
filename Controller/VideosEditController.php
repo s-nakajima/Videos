@@ -29,7 +29,8 @@ class VideosEditController extends VideosAppController {
  */
 	public $uses = array(
 		'Videos.Video',
-		'Videos.VideoBlockSetting',	// 暫定対応：メールで承認するフラグ取得用（今後設定不要になる見込み）
+		// 暫定対応：メールで承認するフラグ取得用（今後設定不要になる見込み）
+		'Videos.VideoBlockSetting',
 	);
 
 /**

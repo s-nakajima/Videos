@@ -38,7 +38,10 @@ class Video extends VideosAppModel {
 /**
  * @var string 動画 MIMEタイプ
  */
+	// @codingStandardsIgnoreStart
+	// [.]よる文字連結で複数行にすると syntax error になるため、phpcs(1行100文字制限)を除外
 	const VIDEO_MIME_TYPE = 'video/mpeg,video/mpg,video/avi,video/quicktime,video/x-ms-wmv,video/x-ms-asf,video/x-flv,video/mp4';
+	// @codingStandardsIgnoreEnd
 
 /**
  * @var string サムネイル 拡張子
@@ -81,7 +84,8 @@ class Video extends VideosAppModel {
 		'Videos.VideoValidation',		// Validation rules
 		'Workflow.Workflow',			// 自動でis_active, is_latestセット
 		'Workflow.WorkflowComment',
-		'Mails.MailQueue' => array(		// 自動でメールキューの登録, 削除。ワークフロー利用時はWorkflow.Workflowより下に記述する
+		// 自動でメールキューの登録, 削除。ワークフロー利用時はWorkflow.Workflowより下に記述する
+		'Mails.MailQueue' => array(
 			'embedTags' => array(
 				'X-SUBJECT' => 'Video.title',
 				'X-BODY' => 'Video.description',
@@ -353,12 +357,14 @@ class Video extends VideosAppModel {
 			// 本来、データと物理ファイル削除。共通処理が完成したら、実装する
 
 			// タグコンテンツ 削除
-			if (! $this->TagsContent->deleteAll(array($this->TagsContent->alias . '.content_id' => $data['Video']['id']), false)) {
+			$conditions = array($this->TagsContent->alias . '.content_id' => $data['Video']['id']);
+			if (! $this->TagsContent->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			// いいね 削除
-			if (! $this->Like->deleteAll(array($this->Like->alias . '.content_key' => $data['Video']['key']), false)) {
+			$conditions = array($this->Like->alias . '.content_key' => $data['Video']['key']);
+			if (! $this->Like->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

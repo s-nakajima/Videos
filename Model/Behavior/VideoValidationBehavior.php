@@ -97,19 +97,6 @@ class VideoValidationBehavior extends ModelBehavior {
 					'required' => true,
 				),
 			),
-			/* // 再生時間
-			'video_time' => array(
-				'notBlank' => array(
-					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'play time')),
-					'required' => true,
-				),
-				//フォーマット 00:00:00
-				'format' => array(
-					'rule' => '/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/i',
-					'message' => __d('videos', 'There is an error in the time of format'),	//time format is incorrect
-				),
-			), */
 		));
 
 		// 登録時

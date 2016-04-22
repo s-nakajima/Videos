@@ -270,7 +270,8 @@ class VideosController extends VideosAppController {
 		if (! empty($this->request->data['AuthorizationKey']['authorization_key'])) {
 			$zipPassword = $this->request->data['AuthorizationKey']['authorization_key'];
 		} else {
-			$this->_setFlashMessageAndRedirect($key, __d('authorization_keys', 'please input compression password'));
+			$this->_setFlashMessageAndRedirect($key,
+				__d('authorization_keys', 'please input compression password'));
 			return;
 		}
 
@@ -305,7 +306,8 @@ class VideosController extends VideosAppController {
  * @return void
  */
 	protected function _setFlashMessageAndRedirect($contentKey, $message) {
-		$this->NetCommons->setFlashNotification($message, array('interval' => NetCommonsComponent::ALERT_VALIDATE_ERROR_INTERVAL));
+		$this->NetCommons->setFlashNotification($message,
+			array('interval' => NetCommonsComponent::ALERT_VALIDATE_ERROR_INTERVAL));
 		$url = NetCommonsUrl::actionUrl(array(
 			'controller' => 'videos',
 			'action' => 'view',

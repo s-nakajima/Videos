@@ -55,7 +55,8 @@ class VideoHelper extends AppHelper {
 
 		/* @link http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html#HtmlHelper::tag */
 		$output = $this->Html->tag('span', $videoTime, array(
-			'style' => 'background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; opacity: 0.75; padding: 0px 7px;',
+			'style' => 'background-color: #000; color: #FFF; font-weight: bold; font-size: 11px; ' .
+						'opacity: 0.75; padding: 0px 7px;',
 		));
 		$output = $this->Html->tag('div', $output, array(
 			'class' => 'text-right',
