@@ -182,6 +182,75 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 	}
 
 /**
+ * editアクションのGET例外テスト
+ *
+ * @return void
+ */
+	public function testEditGetException() {
+		//ログイン
+		TestAuthGeneral::login($this);
+
+		$this->_mockForReturnFalse('Videos.VideoBlockSetting', 'getVideoBlockSetting');
+
+		$frameId = '6';
+		$blockId = '4';
+
+		//テスト実施
+		$url = array(
+			'plugin' => $this->plugin,
+			'controller' => $this->_controller,
+			'action' => 'edit',
+			'frame_id' => $frameId,
+			'block_id' => $blockId
+		);
+		$params = array(
+			'method' => 'get',
+			'return' => 'view',
+		);
+		$return = 'view';
+		$this->_testNcAction($url, $params, 'BadRequestException', $return);
+
+		$this->fail('テストNG');
+	}
+
+/**
+ * editアクションのGET例外テスト json
+ *
+ * @return void
+ */
+	public function testEditGetAjaxFail() {
+		//ログイン
+		TestAuthGeneral::login($this);
+
+		$this->_mockForReturnFalse('Videos.VideoBlockSetting', 'getVideoBlockSetting');
+
+		$frameId = '6';
+		$blockId = '4';
+
+		//テスト実施
+		$url = array(
+			'plugin' => $this->plugin,
+			'controller' => $this->_controller,
+			'action' => 'edit',
+			'frame_id' => $frameId,
+			'block_id' => $blockId
+		);
+		$params = array(
+			'method' => 'get',
+			'return' => 'view',
+		);
+		$return = 'json';
+		$result = $this->_testNcAction($url, $params, 'BadRequestException', $return);
+
+		// チェック
+		// 不正なリクエスト
+		$this->assertEquals(400, $result['code']);
+
+		//ログアウト
+		TestAuthGeneral::logout($this);
+	}
+
+/**
  * delete()アクションDataProvider
  *
  * ### 戻り値
@@ -204,4 +273,48 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		return $results;
 	}
 
+/**
+ * deleteアクションのDELETE例外テスト json
+ *
+ * @return void
+ */
+	public function testDeleteAjaxFail() {
+		//ログイン
+		TestAuthGeneral::login($this);
+
+		$this->_mockForReturnFalse('Videos.VideoBlockSetting', 'deleteVideoBlockSetting');
+
+		$frameId = '6';
+		$blockId = '4';
+
+		//アクション実行
+		$url = NetCommonsUrl::actionUrl(array(
+			'plugin' => $this->plugin,
+			'controller' => $this->_controller,
+			'action' => 'delete',
+			'frame_id' => $frameId,
+			'block_id' => $blockId
+		));
+		$data = array(
+			'Block' => array(
+				'id' => $blockId,
+				'key' => 'block_2',
+			),
+		);
+		$params = array(
+			'method' => 'delete',
+			'return' => 'view',
+			'data' => $data,
+		);
+		//$this->testAction($url, $params);
+		$return = 'json';
+		$result = $this->_testNcAction($url, $params, 'BadRequestException', $return);
+
+		// チェック
+		// 不正なリクエスト
+		$this->assertEquals(400, $result['code']);
+
+		//ログアウト
+		TestAuthGeneral::logout($this);
+	}
 }

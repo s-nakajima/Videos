@@ -176,6 +176,9 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
 		// チェック
 		// 不正なリクエスト
 		$this->assertEquals(400, $result['code']);
+
+		//ログアウト
+		TestAuthGeneral::logout($this);
 	}
 
 /**
