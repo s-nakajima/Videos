@@ -172,7 +172,6 @@ class VideosControllerIndexTest extends WorkflowControllerIndexTest {
 			'frame_id' => '6',
 			'block_id' => '2',
 		);
-		//$assert = array('method' => 'assertNotEmpty');
 
 		//テスト実施
 		$this->_testGetAction($urlOptions, null, 'InternalErrorException', 'index');
