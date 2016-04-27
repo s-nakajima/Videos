@@ -174,13 +174,13 @@ class VideosController extends VideosAppController {
 		$relatedVideos = $this->Video->getWorkflowContents('all', array(
 			'recursive' => 1,
 			'conditions' => array(
-				$this->Video->alias . '.block_id' => Current::read('Frame.block_id'),
-				$this->Video->alias . '.created_user' => $video['Video']['created_user'],
+				'Video.block_id' => Current::read('Frame.block_id'),
+				'Video.created_user' => $video['Video']['created_user'],
 				'NOT' => array(
-					$this->Video->alias . '.id' => $video['Video']['id'],
+					'Video.id' => $video['Video']['id'],
 				),
 			),
-			'order' => $this->Video->alias . '.id DESC'
+			'order' => 'Video.id DESC'
 		));
 		$this->set('relatedVideos', $relatedVideos);
 
