@@ -50,6 +50,24 @@ class VideoFrameSettingFixture extends CakeTestFixture {
 			'display_order' => 'title',
 			'display_number' => 20,
 		),
+		array(
+			'id' => '2',
+			'frame_key' => 'frame_1',
+			'display_order' => 'new',
+			'display_number' => 10,
+		),
+		array(
+			'id' => '4',
+			'frame_key' => 'frame_2',
+			'display_order' => 'play',
+			'display_number' => 10,
+		),
+		array(
+			'id' => '8',
+			'frame_key' => 'frame_4',
+			'display_order' => 'like',
+			'display_number' => 10,
+		),
 		//メイン(別ルーム(room_id=4))
 		array(
 			'id' => '1',

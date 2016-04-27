@@ -33,6 +33,7 @@ class VideosControllerIndexTest extends WorkflowControllerIndexTest {
 		'plugin.tags.tag',
 		'plugin.tags.tags_content',
 		'plugin.content_comments.content_comment',
+		'plugin.frames.frame4frames',
 	);
 
 /**
@@ -50,24 +51,6 @@ class VideosControllerIndexTest extends WorkflowControllerIndexTest {
 	protected $_controller = 'videos';
 
 /**
- * テストDataの取得
- *
- * @return array
- */
-	private function __data() {
-		$frameId = '6';
-		$blockId = '2';
-
-		$data = array(
-			'action' => 'index',
-			'frame_id' => $frameId,
-			'block_id' => $blockId,
-		);
-
-		return $data;
-	}
-
-/**
  * indexアクションのテスト(ログインなし)用DataProvider
  *
  * ### 戻り値
@@ -79,16 +62,67 @@ class VideosControllerIndexTest extends WorkflowControllerIndexTest {
  * @return array
  */
 	public function dataProviderIndex() {
-		$data = $this->__data();
-
-		//テストデータ
-		$results = array();
-		$results[0] = array(
-			'urlOptions' => $data,
-			'assert' => array('method' => 'assertNotEmpty'),
+		return array(
+			'正常' => array(
+				'urlOptions' => array(
+					'action' => 'index',
+					'frame_id' => '6',
+					'block_id' => '2',
+				),
+				'assert' => array('method' => 'assertNotEmpty'),
+			),
+			'ブロック未選択' => array(
+				'urlOptions' => array(
+					'action' => 'index',
+					'frame_id' => '13',
+					'block_id' => '2',
+				),
+				'assert' => array('method' => 'assertNotEmpty'),
+			),
+			'一覧表示件数指定' => array(
+				'urlOptions' => array(
+					'action' => 'index',
+					'frame_id' => '6',
+					'block_id' => '2',
+					'limit' => '1',
+				),
+				'assert' => array('method' => 'assertNotEmpty'),
+			),
+			'ソート指定' => array(
+				'urlOptions' => array(
+					'action' => 'index',
+					'frame_id' => '6',
+					'block_id' => '2',
+					'sort' => 'Video.created',
+					'direction' => 'desc',
+				),
+				'assert' => array('method' => 'assertNotEmpty'),
+			),
+			'ソート条件-新着順' => array(
+				'urlOptions' => array(
+					'action' => 'index',
+					'frame_id' => '2',
+					'block_id' => '2',
+				),
+				'assert' => array('method' => 'assertNotEmpty'),
+			),
+			'ソート条件-再生回数順' => array(
+				'urlOptions' => array(
+					'action' => 'index',
+					'frame_id' => '4',
+					'block_id' => '2',
+				),
+				'assert' => array('method' => 'assertNotEmpty'),
+			),
+			'ソート条件-評価順' => array(
+				'urlOptions' => array(
+					'action' => 'index',
+					'frame_id' => '8',
+					'block_id' => '2',
+				),
+				'assert' => array('method' => 'assertNotEmpty'),
+			),
 		);
-
-		return $results;
 	}
 
 /**
@@ -111,6 +145,40 @@ class VideosControllerIndexTest extends WorkflowControllerIndexTest {
 	}
 
 /**
+ * indexアクションのPaginator例外テスト
+ *
+ * @return void
+ * @throws InternalErrorException
+ */
+	public function testIndexException() {
+		$this->generate(
+			'Videos.Videos', [
+				'components' => [
+					'Paginator'
+				]
+			]
+		);
+
+		// Exception
+		$this->controller->Components->Paginator
+			->expects($this->once())
+			->method('paginate')
+			->will($this->returnCallback(function () {
+				throw new InternalErrorException();
+			}));
+
+		$urlOptions = array(
+			'action' => 'index',
+			'frame_id' => '6',
+			'block_id' => '2',
+		);
+		//$assert = array('method' => 'assertNotEmpty');
+
+		//テスト実施
+		$this->_testGetAction($urlOptions, null, 'InternalErrorException', 'index');
+	}
+
+/**
  * indexアクションのテスト(作成権限あり)用DataProvider
  *
  * ### 戻り値
@@ -122,7 +190,7 @@ class VideosControllerIndexTest extends WorkflowControllerIndexTest {
  * @return array
  */
 	public function dataProviderIndexByCreatable() {
-		return array($this->dataProviderIndex()[0]);
+		return array($this->dataProviderIndex()['正常']);
 	}
 
 /**
@@ -157,7 +225,7 @@ class VideosControllerIndexTest extends WorkflowControllerIndexTest {
  * @return array
  */
 	public function dataProviderIndexByEditable() {
-		return array($this->dataProviderIndex()[0]);
+		return array($this->dataProviderIndex()['正常']);
 	}
 
 /**
