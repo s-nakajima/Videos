@@ -122,6 +122,7 @@ class VideosEditController extends VideosAppController {
 	public function edit() {
 		//動画の取得
 		$videoKey = $this->params['pass'][1];
+		/** @see WorkflowBehavior::getWorkflowContents() */
 		$video = $this->Video->getWorkflowContents('first', array(
 			'recursive' => 1,
 			'conditions' => array(
@@ -166,9 +167,6 @@ class VideosEditController extends VideosAppController {
 
 		} else {
 			$this->request->data = $video;
-			if (! $this->request->data) {
-				return $this->throwBadRequest();
-			}
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
 		}
