@@ -126,7 +126,7 @@ class VideosEditController extends VideosAppController {
 		$video = $this->Video->getWorkflowContents('first', array(
 			'recursive' => 1,
 			'conditions' => array(
-				$this->Video->alias . '.key' => $videoKey
+				'Video.key' => $videoKey
 			)
 		));
 		$this->set('video', $video);

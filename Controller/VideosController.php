@@ -155,20 +155,17 @@ class VideosController extends VideosAppController {
 	public function view() {
 		//動画の取得
 		$videoKey = $this->params['pass'][1];
+		/** @see WorkflowBehavior::getWorkflowContents() */
 		$video = $this->Video->getWorkflowContents('first', array(
 			'recursive' => 1,
 			'conditions' => array(
-				$this->Video->alias . '.key' => $videoKey
+				'Video.key' => $videoKey
 			)
 		));
-		if (! $video) {
-			$this->throwBadRequest();
-			return false;
+		if (empty($video)) {
+			return $this->throwBadRequest();
 		}
 		$this->set('video', $video);
-
-		// モデルからビヘイビアをはずす
-		//$this->Video->Behaviors->unload('Tags.Tag');
 
 		//関連動画の取得
 		$relatedVideos = $this->Video->getWorkflowContents('all', array(
@@ -335,7 +332,7 @@ class VideosController extends VideosAppController {
 
 		/* @see WorkflowBehavior::getWorkflowConditions() */
 		$query['conditions'] = $this->Video->getWorkflowConditions([
-			$this->Video->alias . '.block_id' => Current::read('Frame.block_id'),
+			'Video.block_id' => Current::read('Frame.block_id'),
 		]);
 
 		$query['conditions'] = Hash::merge($query['conditions'], $extraConditions);
