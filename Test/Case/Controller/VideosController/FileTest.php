@@ -95,7 +95,6 @@ class VideosControllerFileTest extends NetCommonsControllerTestCase {
 
 /**
  * file()アクションのGetリクエストテスト
- * - ダウンロード処理のため、プログラム実行のみテスト
  *
  * @return void
  */
@@ -111,12 +110,21 @@ class VideosControllerFileTest extends NetCommonsControllerTestCase {
 		$this->controller->Components->Download
 			->expects($this->once())
 			->method('doDownload')
-			->will($this->returnValue('test'));
+			->will($this->returnCallback(function () {
+				$fileName = 'thumbnail1.jpg';
+				$filePath = APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS . $fileName;
+				$options = array('name' => $fileName);
+				$this->controller->response->file(
+					$filePath,
+					$options
+				);
+				return $this->controller->response;
+			}));
 
 		$urlOptions = $this->__data();
 
 		//テスト実施
-		$this->_testGetAction($urlOptions, null, 'MissingViewException', 'view');
+		$this->_testGetAction($urlOptions, array('method' => 'assertEmpty'), null, 'view');
 	}
 
 /**
