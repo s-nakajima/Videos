@@ -95,8 +95,7 @@ class VideosEditController extends VideosAppController {
 				// キューからメール送信
 				MailSend::send();
 
-				$this->redirect(NetCommonsUrl::backToPageUrl());
-				return;
+				return $this->redirect(NetCommonsUrl::backToPageUrl());
 			}
 
 			$this->NetCommons->handleValidationError($this->Video->validationErrors);
@@ -132,8 +131,7 @@ class VideosEditController extends VideosAppController {
 		$this->set('video', $video);
 
 		if (! $this->Video->canEditWorkflowContent($video)) {
-			$this->throwBadRequest();
-			return false;
+			return $this->throwBadRequest();
 		}
 
 		/* @see WorkflowCommentBehavior::getCommentsByContentKey() */
@@ -162,16 +160,14 @@ class VideosEditController extends VideosAppController {
 					'frame_id' => Current::read('Frame.id'),
 					'key' => $video['Video']['key']
 				));
-				$this->redirect($url);
-				return;
+				return $this->redirect($url);
 			}
 			$this->NetCommons->handleValidationError($this->Video->validationErrors);
 
 		} else {
 			$this->request->data = $video;
 			if (! $this->request->data) {
-				$this->throwBadRequest();
-				return false;
+				return $this->throwBadRequest();
 			}
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
@@ -184,25 +180,34 @@ class VideosEditController extends VideosAppController {
  * @return CakeResponse
  */
 	public function delete() {
-		if ($this->request->is('delete')) {
-			// 削除
-			if (!$this->Video->deleteVideo($this->data)) {
-				$this->throwBadRequest();
-				return;
-			}
-
-			if (! $this->request->is('ajax')) {
-				// 一覧へ
-				$url = NetCommonsUrl::actionUrl(array(
-					'controller' => 'videos',
-					'action' => 'index',
-					'block_id' => $this->data['Block']['id'],
-					'frame_id' => $this->data['Frame']['id'],
-				));
-				$this->redirect($url);
-			}
-			return;
+		if (! $this->request->is('delete')) {
+			return $this->throwBadRequest();
 		}
-		$this->throwBadRequest();
+
+		$video = $this->Video->getWorkflowContents('first', array(
+			'recursive' => 1,
+			'conditions' => array(
+				$this->Video->alias . '.key' => $this->data['Video']['key']
+			)
+		));
+
+		//削除権限チェック
+		if (! $this->Video->canDeleteWorkflowContent($video)) {
+			return $this->throwBadRequest();
+		}
+
+		// 削除
+		if (!$this->Video->deleteVideo($this->data)) {
+			return $this->throwBadRequest();
+		}
+
+		// 一覧へ
+		$url = NetCommonsUrl::actionUrl(array(
+			'controller' => 'videos',
+			'action' => 'index',
+			'block_id' => $this->data['Block']['id'],
+			'frame_id' => $this->data['Frame']['id'],
+		));
+		$this->redirect($url);
 	}
 }
