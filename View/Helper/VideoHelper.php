@@ -43,11 +43,12 @@ class VideoHelper extends AppHelper {
  * ```
  *
  * @param int $totalSec 秒
+ * @param bool $isFfmpegEnable ffmpeg有効フラグ
  * @return string HTML tags
  */
-	public function playTime($totalSec) {
+	public function playTime($totalSec, $isFfmpegEnable) {
 		// ffmpeg=OFF
-		if (! Video::isFfmpegEnable()) {
+		if (! $isFfmpegEnable) {
 			return;
 		}
 
