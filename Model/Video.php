@@ -205,7 +205,7 @@ class Video extends VideosAppModel {
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function updateCountUp($data) {
+	public function countUp($data) {
 		$video['Video'] = $data['Video'];
 		//再生回数 + 1
 		$video['Video']['play_number']++;

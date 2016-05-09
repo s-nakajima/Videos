@@ -191,7 +191,7 @@ class VideosController extends VideosAppController {
 
 		if (! in_array($video['Video']['id'], $cookieArray, true)) {
 			//再生回数 + 1 で更新
-			$playNumber = $this->Video->updateCountUp($video);
+			$playNumber = $this->Video->countUp($video);
 			$this->viewVars['video']['Video']['play_number'] = $playNumber;
 
 			// cookie value = コンテンツid & 区切り文字
