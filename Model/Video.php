@@ -241,33 +241,37 @@ class Video extends VideosAppModel {
 	}
 
 /**
- * 登録Videoデータ保存
+ * Videoデータ保存
  *
  * @param array $data received post data
+ * @param int $isEdit 編集か
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function addSaveVideo($data) {
-		$this->loadModels(array(
-			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
-		));
-
+	public function saveVideo($data, $isEdit = 0) {
 		//トランザクションBegin
 		$this->begin();
 
+		if ($isEdit) {
+			$options = array('edit');
+		} else {
+			$options = array('add');
+		}
+
 		//バリデーション
 		$this->set($data);
-		if (! $this->validates(array('add'))) {
+		/* @see beforeValidate() */
+		if (! $this->validates($options)) {
 			return false;
 		}
 
 		try {
-			// 動画データ登録
 			if (! $video = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (self::isFfmpegEnable()) {
+			// 編集でない=登録 and Ffmpeg=ON
+			if (!$isEdit && self::isFfmpegEnable()) {
 				// 動画変換のため、計2回saveしているので、MailQueueビヘイビア外す
 				$this->Behaviors->unload('Mails.MailQueue');
 
@@ -276,41 +280,6 @@ class Video extends VideosAppModel {
 				if (!$this->saveConvertVideo($video)) {
 					return false;
 				}
-			}
-
-			//トランザクションCommit
-			$this->commit();
-
-		} catch (Exception $ex) {
-			//トランザクションRollback
-			$this->rollback($ex);
-		}
-
-		return $video;
-	}
-
-/**
- * 編集Videoデータ保存
- *
- * @param array $data received post data
- * @return mixed On success Model::$data if its not empty or true, false on failure
- * @throws InternalErrorException
- */
-	public function editSaveVideo($data) {
-		//トランザクションBegin
-		$this->begin();
-
-		//バリデーション
-		$this->set($data);
-		/* @see beforeValidate() */
-		if (! $this->validates(array('edit'))) {
-			return false;
-		}
-
-		try {
-			// 動画データ登録
-			if (! $video = $this->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			//トランザクションCommit

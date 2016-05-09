@@ -91,7 +91,7 @@ class VideosEditController extends VideosAppController {
 			$data['VideoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
 			// 登録
-			if ($this->Video->addSaveVideo($data)) {
+			if ($this->Video->saveVideo($data)) {
 				// キューからメール送信
 				MailSend::send();
 
@@ -150,7 +150,7 @@ class VideosEditController extends VideosAppController {
 			$data['VideoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
 			// 登録（ワークフロー対応のため、編集でも常にinsert）
-			if ($video = $this->Video->editSaveVideo($data)) {
+			if ($video = $this->Video->saveVideo($data, 1)) {
 				// キューからメール送信
 				MailSend::send();
 
