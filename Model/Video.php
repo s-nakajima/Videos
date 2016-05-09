@@ -11,6 +11,7 @@
 
 App::uses('VideosAppModel', 'Videos.Model');
 App::uses('UploadBehavior', 'Upload.Model/Behavior'); //FileUpload
+App::uses('VideoValidationBehavior', 'Videos.Model/Behavior');
 
 /**
  * Video Model
@@ -139,19 +140,11 @@ class Video extends VideosAppModel {
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
-		// サムネイル 任意 対応
-		if (isset($this->data['Video'][self::THUMBNAIL_FIELD]) &&
-			isset($this->data['Video'][self::THUMBNAIL_FIELD]['size']) &&
-			$this->data['Video'][self::THUMBNAIL_FIELD]['size'] === 0) {
+		/** @see VideoValidationBehavior::setSettingVideo() */
+		$this->setSettingVideo(VideoValidationBehavior::IS_FFMPEG_ENABLE, self::isFfmpegEnable());
 
-			unset($this->data['Video'][self::THUMBNAIL_FIELD]);
-		}
-
-		if (self::isFfmpegEnable()) {
-			$this->validate = $this->rules();
-		} else {
-			$this->validate = $this->rulesFfmpegOff($options);
-		}
+		/** @see VideoValidationBehavior::rules() */
+		$this->validate = $this->rules($options);
 
 		return parent::beforeValidate($options);
 	}

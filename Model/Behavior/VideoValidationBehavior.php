@@ -9,19 +9,79 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('Video', 'Videos.Model');
+
 /**
  * Summary for Video Validation Behavior
  */
 class VideoValidationBehavior extends ModelBehavior {
 
 /**
- * ルール定義 ffmpeg=ON
+ * セッティングの種類(setSettingで利用)
  *
- * @param Model $Model モデル
+ * @var string 任意で送信するユーザID（グループ送信（回覧板、カレンダー等）、アンケートを想定）
+ */
+	const IS_FFMPEG_ENABLE = 'isFfmpegEnable';
+
+/**
+ * setup
+ *
+ * @param Model $model モデル
+ * @param array $settings 設定値
+ * @return void
+ * @link http://book.cakephp.org/2.0/ja/models/behaviors.html#ModelBehavior::setup
+ */
+	public function setup(Model $model, $settings = array()) {
+		$this->settings[$model->alias] = $settings;
+	}
+
+/**
+ * セッティング セット
+ *
+ * @param Model $model モデル
+ * @param string $settingKey セッティングのキー
+ * @param string|array $settingValue セッティングの値
+ * @return void
+ * @see VideoValidationBehavior::IS_FFMPEG_ENABLE
+ */
+	public function setSettingVideo(Model $model, $settingKey, $settingValue) {
+		$this->settings[$model->alias][$settingKey] = $settingValue;
+	}
+
+/**
+ * beforeValidate is called before a model is validated, you can use this callback to
+ * add behavior validation rules into a models validate array. Returning false
+ * will allow you to make the validation fail.
+ *
+ * @param Model $model モデル
+ * @param array $options Options passed from Model::save().
+ * @return mixed False or null will abort the operation. Any other result will continue.
+ * @link http://book.cakephp.org/2.0/ja/models/callback-methods.html#beforevalidate
+ * @see Model::save()
+ */
+	public function beforeValidate(Model $model, $options = array()) {
+		parent::beforeValidate($model, $options);
+
+		// サムネイル 任意 対応
+		if (isset($model->data[$model->alias][Video::THUMBNAIL_FIELD]) &&
+			isset($model->data[$model->alias][Video::THUMBNAIL_FIELD]['size']) &&
+			$model->data[$model->alias][Video::THUMBNAIL_FIELD]['size'] === 0) {
+
+			unset($model->data[$model->alias][Video::THUMBNAIL_FIELD]);
+		}
+
+		return true;
+	}
+
+/**
+ * ルール定義
+ *
+ * @param Model $model モデル
+ * @param array $options Options passed from Model::save().
  * @return array
  */
-	public function rules(Model $Model) {
-		$rules = Hash::merge($Model->validate, array(
+	public function rules(Model $model, $options = array()) {
+		$rules = Hash::merge($model->validate, array(
 			'language_id' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
@@ -43,109 +103,69 @@ class VideoValidationBehavior extends ModelBehavior {
 					'required' => true,
 				),
 			),
-			// 登録時のみ使っている
-			Video::VIDEO_FILE_FIELD => array(
-				'upload-file' => array(
-					'rule' => array('uploadError'),
-					'message' => array(__d('files', 'ファイルを指定してください'))
-				),
-				'extension' => array(
-					'rule' => array('extension', explode(',', Video::VIDEO_EXTENSION)),
-					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-				),
-				'mimetype' => array(
-					'rule' => array('mimeType', explode(',', Video::VIDEO_MIME_TYPE)),
-					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-				),
-			),
-			// 編集時のみ使っている
-			Video::THUMBNAIL_FIELD => array(
-				'extension' => array(
-					'rule' => array('extension', explode(',', Video::THUMBNAIL_EXTENSION)),
-					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-				),
-				'mimetype' => array(
-					'rule' => array('mimeType', explode(',', Video::THUMBNAIL_MIME_TYPE)),
-					'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-				),
-			),
 		));
 
-		return $rules;
-	}
-
-/**
- * ルール定義 ffmpeg=OFF
- *
- * @param Model $Model モデル
- * @param array $options Options passed from Model::save().
- * @return array
- */
-	public function rulesFfmpegOff(Model $Model, $options = array()) {
-		$rules = Hash::merge($Model->validate, array(
-			'block_id' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => true,
-				),
-			),
-			'title' => array(
-				'notBlank' => array(
-					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'title')),
-					'required' => true,
-				),
-			),
-		));
-
-		// 登録時
 		if (in_array('add', $options)) {
+			// --- 登録時
+			$isFfmpegEnable = Hash::get($this->settings, $model->alias . '.' . self::IS_FFMPEG_ENABLE);
+			if ($isFfmpegEnable) {
+				// ffmpeg=ON
+				$extension = Video::VIDEO_EXTENSION;
+				$mimeType = Video::VIDEO_MIME_TYPE;
+
+			} else {
+				// ffmpeg=OFF
+				$extension = 'mp4';
+				$mimeType = 'video/mp4';
+
+				$rules = Hash::merge($rules, array(
+					// 必須
+					Video::THUMBNAIL_FIELD => array(
+						'upload-file' => array(
+							'rule' => array('uploadError'),
+							'message' => array(__d('files', 'Please specify the file'))
+						),
+						'extension' => array(
+							'rule' => array('extension', explode(',', Video::THUMBNAIL_EXTENSION)),
+							'message' => array(__d('files', 'It is upload disabled file format'))
+						),
+						'mimetype' => array(
+							'rule' => array('mimeType', explode(',', Video::THUMBNAIL_MIME_TYPE)),
+							'message' => array(__d('files', 'It is upload disabled file format'))
+						),
+					),
+				));
+			}
+
 			$rules = Hash::merge($rules, array(
-				// 必須 mp4のみ
 				Video::VIDEO_FILE_FIELD => array(
 					'upload-file' => array(
 						'rule' => array('uploadError'),
-						'message' => array(__d('files', 'ファイルを指定してください'))
+						'message' => array(__d('files', 'Please specify the file'))
 					),
 					'extension' => array(
-						'rule' => array('extension', array('mp4')),
-						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+						'rule' => array('extension', explode(',', $extension)),
+						'message' => array(__d('files', 'It is upload disabled file format'))
 					),
 					'mimetype' => array(
-						'rule' => array('mimeType', array('video/mp4')),
-						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-					),
-				),
-				// 必須
-				Video::THUMBNAIL_FIELD => array(
-					'upload-file' => array(
-						'rule' => array('uploadError'),
-						'message' => array(__d('files', 'ファイルを指定してください'))
-					),
-					'extension' => array(
-						'rule' => array('extension', explode(',', Video::THUMBNAIL_EXTENSION)),
-						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
-					),
-					'mimetype' => array(
-						'rule' => array('mimeType', explode(',', Video::THUMBNAIL_MIME_TYPE)),
-						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+						'rule' => array('mimeType', explode(',', $mimeType)),
+						'message' => array(__d('files', 'It is upload disabled file format'))
 					),
 				),
 			));
 
-			// 編集時
 		} elseif (in_array('edit', $options)) {
+			// --- 編集時
 			$rules = Hash::merge($rules, array(
 				// 任意
 				Video::THUMBNAIL_FIELD => array(
 					'extension' => array(
 						'rule' => array('extension', explode(',', Video::THUMBNAIL_EXTENSION)),
-						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+						'message' => array(__d('files', 'It is upload disabled file format'))
 					),
 					'mimetype' => array(
 						'rule' => array('mimeType', explode(',', Video::THUMBNAIL_MIME_TYPE)),
-						'message' => array(__d('files', 'アップロード不可のファイル形式です'))
+						'message' => array(__d('files', 'It is upload disabled file format'))
 					),
 				),
 			));
