@@ -25,52 +25,18 @@ $this->NetCommonsHtml->script(array(
 				'type' => 'file',
 			)); ?>
 				<div class="panel-body has-feedback">
-
-					<?php // ffmpeg=ON
-					if (Video::isFfmpegEnable()) {
-						$thumbnailHelpBlockMessage = __d('videos', 'Please register if you want to change.') . sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
-					} else {
-						$thumbnailHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
-					} ?>
-<!--					--><?php //echo $this->element('VideosEdit/file', array(
-//						'pluginName' => 'Videos',
-//						'label' => __d('videos', 'Thumbnail'),
-//						'field' => Video::THUMBNAIL_FIELD,
-//						'fileAccept' => 'image/*',
-//						'model' => 'Video',
-//						'pluginKey' => $this->request->params['plugin'],
-//						'index' => 1,
-//						'helpBlockMessage' => $thumbnailHelpBlockMessage,
-//						'file' => $thumbnail,
-//						'deleteEnable' => false,
-//						'overwriteEnable' => false,
-//					)); ?>
+					<?php
+						if (Video::isFfmpegEnable()) {
+							$thumbnailHelpBlockMessage = __d('videos', 'Please register if you want to change.') . sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
+						} else {
+							$thumbnailHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
+						}
+					?>
 					<?php echo $this->NetCommonsForm->uploadFile(Video::THUMBNAIL_FIELD, array(
 						'label' => __d('videos', 'Thumbnail'),
 					)); ?>
-					<?php /* 暫定対応 */ ?>
-					<div><p class="help-block"><?php echo h($thumbnailHelpBlockMessage); ?></p></div>
+					<div class="help-block"><?php echo h($thumbnailHelpBlockMessage); ?></div>
 
-					<?php /* ffmpeg=OFF */ ?>
-					<?php /* if (!Video::FFMPEG_ENABLE) : ?>
-						<div class="form-group">
-							<?php echo $this->Form->input('video_time', array(
-								'type' => 'text',
-								'label' => __d('videos', 'Play time') . $this->element('NetCommons.required'),
-								'error' => false,
-								'class' => 'form-control',
-								//'ng-model' => 'video.videoTime',
-								'default' => $video['videoTimeEdit'],
-							)); ?>
-
-							<?php echo $this->element(
-								'NetCommons.errors', [
-								'errors' => $this->validationErrors,
-								'model' => 'Video',
-								'field' => 'video_time',
-							]); ?>
-						</div>
-					<?php endif; */ ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.key'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
@@ -89,36 +55,11 @@ $this->NetCommonsHtml->script(array(
 						'required' => true
 					)); ?>
 
-<!--					<div class="form-group">-->
-<!--<!--						--><?php ////echo $this->Form->input('title', array(
-////							'type' => 'text',
-////							'label' => __d('videos', 'Title') . $this->element('NetCommons.required'),
-////							'error' => false,
-////							'class' => 'form-control',
-////							//'ng-model' => 'video.title',
-////							'default' => $video['Video']['title'],
-////						)); ?>
-<!--					</div>-->
-
 					<?php echo $this->NetCommonsForm->input('Video.description', array(
 						'type' => 'textarea',
 						'label' => __d('videos', 'Description'),
 						'rows' => 5,
 					)); ?>
-
-
-<!--					<label for="description">-->
-<!--						--><?php //echo __d('videos', 'Description'); ?>
-<!--					</label>-->
-<!--					<div class="nc-wysiwyg-alert">-->
-<!--						--><?php //echo $this->Form->textarea('description', array(
-//							'class' => 'form-control',
-//							'id' => 'description',
-//							'rows' => 5,
-//							//'ng-model' => 'video.description',
-//							'default' => $video['description'],
-//						)); ?>
-<!--					</div>-->
 
 					<div class="form-group"></div>
 					<?php $this->NetCommonsForm->unlockField('Tag');

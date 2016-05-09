@@ -27,19 +27,18 @@ $this->NetCommonsHtml->script(array(
 
 			<div class="panel panel-default">
 				<div class="panel-body has-feedback">
-
-					<?php // ffmpeg=ON
-					if (Video::isFfmpegEnable()) {
-						$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::VIDEO_EXTENSION);
-					} else {
-						$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), 'mp4');
-					} ?>
+					<?php
+						if (Video::isFfmpegEnable()) {
+							$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::VIDEO_EXTENSION);
+						} else {
+							$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), 'mp4');
+						}
+					?>
 					<?php echo $this->NetCommonsForm->uploadFile(Video::VIDEO_FILE_FIELD, array(
 						'label' => __d('videos', 'Video file'),
 						'required' => true,
 					)); ?>
-					<?php /* 暫定対応 */ ?>
-					<div><p class="help-block"><?php echo h($videoHelpBlockMessage); ?></p></div>
+					<div class="help-block"><?php echo h($videoHelpBlockMessage); ?></div>
 
 					<?php /* ffmpeg=OFF */ ?>
 					<?php if (!Video::isFfmpegEnable()) : ?>
@@ -47,8 +46,7 @@ $this->NetCommonsHtml->script(array(
 							'label' => __d('videos', 'Thumbnail'),
 							'required' => true,
 						)); ?>
-						<?php /* 暫定対応 */ ?>
-						<div><p class="help-block"><?php echo sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION); ?></p></div>
+						<div class="help-block"><?php echo sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION); ?></div>
 					<?php endif; ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
