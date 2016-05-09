@@ -272,7 +272,7 @@ class VideosController extends VideosAppController {
 			return;
 		}
 
-		// ダウンロードファイル名決定 アンケート名称をつける
+		// ダウンロードファイル名決定
 		$videoName = explode('.', $video['UploadFile']['video_file']['original_name'])[0];
 		$zipFileName = $videoName . '.zip';
 		$realFilePath = APP . WEBROOT_DIR . DS .
