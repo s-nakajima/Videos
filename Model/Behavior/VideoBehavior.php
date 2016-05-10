@@ -15,6 +15,20 @@
 class VideoBehavior extends ModelBehavior {
 
 /**
+ * setup
+ *
+ * @param Model $model モデル
+ * @param array $settings 設定値
+ * @return void
+ * @link http://book.cakephp.org/2.0/ja/models/behaviors.html#ModelBehavior::setup
+ */
+	public function setup(Model $model, $settings = array()) {
+		$this->settings[$model->alias] = $settings;
+
+		$model->UploadFile = ClassRegistry::init('Files.UploadFile', true);
+	}
+
+/**
  * 動画変換とデータ保存
  *
  * @param Model $model モデル
@@ -24,20 +38,13 @@ class VideoBehavior extends ModelBehavior {
  */
 	public function saveConvertVideo(Model $model, $video) {
 		// 元動画 取得
-		//$noConvert = $model->FileModel->findById($video['Video']['mp4_id']);
-		$UploadFile = ClassRegistry::init('Files.UploadFile');
-		$noConvert = $UploadFile->getFile('videos', $video['Video']['id'], Video::VIDEO_FILE_FIELD);
+		$noConvert = $model->UploadFile->getFile('videos', $model->id, Video::VIDEO_FILE_FIELD);
 
 		// --- 動画変換
-		if (! $this->__convertVideo($model, $video, $noConvert)) {
-			//$model->deleteFile($data, $model->alias, 'mp4_id', 0);	//元動画 削除
-			$UploadFile->removeFile($video['Video']['id'], Video::VIDEO_FILE_FIELD);	//元動画 削除
-			$this->log('VideoBehavior::saveConvertVideo() -> __convertVideo() false', 'debug');
-			return false;
-		}
+		$this->__convertVideo($model, $video, $noConvert);
 
 		// 変換後動画 取得
-		$convert = $UploadFile->getFile('videos', $video['Video']['id'], Video::VIDEO_FILE_FIELD);
+		$convert = $model->UploadFile->getFile('videos', $model->id, Video::VIDEO_FILE_FIELD);
 
 		// --- サムネイル自動作成
 		$this->__generateThumbnail($model, $video, $convert);
@@ -47,8 +54,7 @@ class VideoBehavior extends ModelBehavior {
 
 		// --- 動画時間のみ更新
 		// 値をセット
-		// $model->set($video);
-		$model->read(null, $video['Video']['id']);
+		$model->read();
 		$model->set('video_time', $videoTimeSec);
 
 		// 動画データ登録
@@ -65,20 +71,18 @@ class VideoBehavior extends ModelBehavior {
  * @param Model $model モデル
  * @param array $video Video
  * @param array $noConvert File
- * @return mixed Array on success, false on error
+ * @return void
  * @throws InternalErrorException
  */
 	private function __convertVideo(Model $model, $video, $noConvert) {
 		$noConvertExtension = $noConvert['UploadFile']["extension"];
 
 		// mp4は変換しない
-		//if ($noConvertMimeType == "video/mp4") {
 		if ($noConvertExtension == "mp4") {
-			return true;
+			return;
 		}
 
 		// --- 動画変換
-		//		$noConvertMimeType = $data['Video'][Video::VIDEO_FILE_FIELD]['type'];
 		$noConvertPath = APP . WEBROOT_DIR . DS . $noConvert['UploadFile']['path'] .
 						$noConvert['UploadFile']['id'] . DS;
 		$realFileName = $noConvert['UploadFile']["real_file_name"];
@@ -86,12 +90,12 @@ class VideoBehavior extends ModelBehavior {
 		// サムネイル名は動画名で末尾jpgにしたものをセット
 		$videoName = explode('.', $realFileName)[0];
 
-		/* @link http://tech.ckme.co.jp/ffmpeg.shtml
-		 * @link http://www.xucker.jpn.org/product/ffmpeg_commands.html */
-		// 例）ffmpeg -y -i /var/www/html/movies/original/MOV_test_movie.MOV -acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k MOV_test_movie.mp4
-		// 例）/usr/bin/ffmpeg -y -i '/var/www/app/app/webroot/files/upload_file/real_file_name/1/21/bd14317ad1b299f9074b532116c89da8.MOV' -acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k '/var/www/app/app/webroot/files/upload_file/real_file_name/1/21/bd14317ad1b299f9074b532116c89da8.mp4' 2>&1
 		// 動画変換
 		// 動画変換実施(元動画 > H.264)  コマンドインジェクション対策
+		// 例）ffmpeg -y -i /var/www/html/movies/original/MOV_test_movie.MOV -acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k MOV_test_movie.mp4
+		// 例）/usr/bin/ffmpeg -y -i '/var/www/app/app/webroot/files/upload_file/real_file_name/1/21/bd14317ad1b299f9074b532116c89da8.MOV' -acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k '/var/www/app/app/webroot/files/upload_file/real_file_name/1/21/bd14317ad1b299f9074b532116c89da8.mp4' 2>&1
+		// http://tech.ckme.co.jp/ffmpeg.shtml
+		// http://www.xucker.jpn.org/product/ffmpeg_commands.html
 		$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath . $realFileName) .
 				' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $videoName . '.mp4') .
 				' 2>&1';
@@ -103,7 +107,9 @@ class VideoBehavior extends ModelBehavior {
 			$this->log($strCmd, 'debug');
 			$this->log($arr, 'debug');
 			$this->log($ret, 'debug');
-			return false;
+			$model->UploadFile->removeFile($model->id, Video::VIDEO_FILE_FIELD);	//元動画 削除
+
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
 
 		//変換動画のファイル保存
@@ -113,8 +119,6 @@ class VideoBehavior extends ModelBehavior {
 		//			// 元動画 ファイルのみ削除
 		//			$file = new File($noConvertPath . $noConvertSlug . '.' . $noConvertExtension);
 		//			$file->delete();
-
-		return true;
 	}
 
 /**
@@ -163,8 +167,7 @@ class VideoBehavior extends ModelBehavior {
  * @param Model $model モデル
  * @param array $video Video
  * @param array $convert 動画変換後ファイルデータ
- * @return mixed Array on success, false on error
- * @throws InternalErrorException
+ * @return void
  */
 	private function __generateThumbnail(Model $model, $video, $convert) {
 		// 元動画
@@ -188,12 +191,11 @@ class VideoBehavior extends ModelBehavior {
 			$this->log($strCmd, 'debug');
 			$this->log($arrImage, 'debug');
 			$this->log($retImage, 'debug');
-			// return はしない。
+			// return はしない
 		} else {
 			// サムネイルのファイル保存
+			/** @see AttachmentBehavior::attachFile() */
 			$model->attachFile($video, Video::THUMBNAIL_FIELD, $convertPath . $videoName . '.jpg');
 		}
-
-		return true;
 	}
 }

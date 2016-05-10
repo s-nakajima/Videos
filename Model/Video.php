@@ -284,9 +284,7 @@ class Video extends VideosAppModel {
 
 				// 動画変換とデータ保存
 				/* @see VideoBehavior::saveConvertVideo() */
-				if (!$this->saveConvertVideo($video)) {
-					return false;
-				}
+				$this->saveConvertVideo($video);
 			}
 
 			//トランザクションCommit
