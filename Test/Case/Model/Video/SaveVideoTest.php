@@ -99,6 +99,16 @@ class VideoSaveVideoTest extends WorkflowSaveTest {
 		$results[1] = Hash::insert($results[1], '0.Video.key', null);
 		$results[1] = Hash::remove($results[1], '0.Video.created_user');
 
+		// 下記でエラー
+		// rename(/var/www/app/app/webroot/files/upload_file/real_file_name/1/12/5f9b2e82a47c436e0a368341281a20ca.jpg,files/upload_file/real_file_name/1/13/97dd8152265c1543f0ca1dc0435d18e3.jpg): No such file or directory
+		//   /var/www/app/app/Plugin/Upload/Model/Behavior/UploadBehavior.php : 360
+		//   /var/www/app/app/Plugin/Videos/Model/Behavior/VideoBehavior.php : 200
+		//		$data['Video'][Video::VIDEO_FILE_FIELD] = $testUtil->getFileData('Videos', 'video2.MOV', 'video/quicktime');
+		//		$results[2] = array($data);
+		//		$results[2] = Hash::insert($results[2], '0.Video.id', null);
+		//		$results[2] = Hash::insert($results[2], '0.Video.key', null);
+		//		$results[2] = Hash::remove($results[2], '0.Video.created_user');
+
 		return $results;
 	}
 
