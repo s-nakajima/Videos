@@ -114,13 +114,6 @@ class Video extends VideosAppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Block' => array(
-			'className' => 'Blocks.Block',
-			'foreignKey' => 'block_id',
-			'conditions' => '',
-			'fields' => 'language_id',
-			'order' => ''
-		),
 		'User' => array(
 			'className' => 'Users.User',
 			'foreignKey' => 'created_user',
