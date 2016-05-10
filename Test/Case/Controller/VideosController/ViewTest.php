@@ -354,4 +354,35 @@ class VideosControllerViewTest extends WorkflowControllerViewTest {
 		}
 	}
 
+/**
+ * viewアクションのテスト(ルーム管理者)
+ *
+ * @return void
+ */
+	public function testViewByRoomAdministrator() {
+		$data = $this->__data();
+		$urlOptions = Hash::insert($data, 'key', 'content_key_1');
+		$assert = array('method' => 'assertNotEmpty');
+		$exception = null;
+		$return = 'view';
+
+		//ログイン
+		TestAuthGeneral::login($this, Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR);
+
+		//テスト実施
+		$url = Hash::merge(array(
+			'plugin' => $this->plugin,
+			'controller' => $this->_controller,
+			'action' => 'view',
+		), $urlOptions);
+
+		$this->_testGetAction($url, $assert, $exception, $return);
+
+		//ログアウト
+		TestAuthGeneral::logout($this);
+
+		//チェック
+		$this->assertTextContains('/videos/videos/download/', $this->view);
+	}
+
 }
