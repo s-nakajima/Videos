@@ -99,6 +99,13 @@ class Video extends VideosAppModel {
 			Video::VIDEO_FILE_FIELD,
 			Video::THUMBNAIL_FIELD,
 		],
+		'Topics.Topics' => array(
+			'fields' => array(
+				'title' => 'Video.title',
+				'summary' => 'Video.description',
+				'path' => '/:plugin_key/:plugin_key/view/:block_id/:content_key',
+			),
+		),
 	);
 
 /**

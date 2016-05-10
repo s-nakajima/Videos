@@ -167,6 +167,9 @@ class VideosController extends VideosAppController {
 		}
 		$this->set('video', $video);
 
+		//新着データを既読にする
+		$this->Video->saveTopicUserStatus($video);
+
 		//関連動画の取得
 		$relatedVideos = $this->Video->getWorkflowContents('all', array(
 			'recursive' => 1,
