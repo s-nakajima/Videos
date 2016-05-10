@@ -209,10 +209,11 @@ class VideoBlockSetting extends VideosAppModel {
 /**
  * VideoBlockSettingデータ削除
  *
+ * @param array $data received post data
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function deleteVideoBlockSetting() {
+	public function deleteVideoBlockSetting($data) {
 		$this->loadModels(array(
 			'Like' => 'Likes.Like',
 			'LikesUser' => 'Likes.LikesUser',
@@ -226,7 +227,8 @@ class VideoBlockSetting extends VideosAppModel {
 		//トランザクションBegin
 		$this->begin();
 
-		$blockKey = Current::read('Block.key');
+		//$blockKey = Current::read('Block.key');
+		$blockKey = $data[$this->alias]['block_key'];
 
 		// 多言語コンテンツ削除対応
 		// 対象のブロックIDの配列
