@@ -9,6 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('Video', 'Videos.Model');
+
 /**
  * Summary for Video Behavior
  */
@@ -59,7 +61,7 @@ class VideoBehavior extends ModelBehavior {
 
 		// 動画データ登録
 		if (! $model->save(null, false)) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			throw new InternalErrorException('Failed ' . __METHOD__);
 		}
 
 		return true;
@@ -109,7 +111,7 @@ class VideoBehavior extends ModelBehavior {
 			$this->log($ret, 'debug');
 			$model->UploadFile->removeFile($model->id, Video::VIDEO_FILE_FIELD);	//元動画 削除
 
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			throw new InternalErrorException('Failed ' . __METHOD__);
 		}
 
 		//変換動画のファイル保存
