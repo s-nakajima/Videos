@@ -11,7 +11,7 @@
 
 App::uses('WorkflowControllerAddTest', 'Workflow.TestSuite');
 App::uses('Video', 'Videos.Model');
-App::uses('TemporaryFolder', 'Files.Utility');
+App::uses('VideoTestUtil', 'Videos.Test/Case');
 
 /**
  * VideosEditController::add()のテスト
@@ -66,7 +66,8 @@ class VideosEditControllerAddTest extends WorkflowControllerAddTest {
 
 		// アップロードした一時ファイル作成
 		$fileName = 'video1.mp4';
-		$tmpFilePath = $this->__readyTestFile('Videos', $fileName);
+		$testUtil = new VideoTestUtil();
+		$videoFileData = $testUtil->getFileData('Videos', $fileName, 'video/mp4');
 
 		$data = array(
 			'save_' . WorkflowComponent::STATUS_IN_DRAFT => null,
@@ -87,13 +88,7 @@ class VideosEditControllerAddTest extends WorkflowControllerAddTest {
 				'language_id' => '2',
 				'status' => null,
 				'title' => 'タイトル',
-				Video::VIDEO_FILE_FIELD => array(
-					'name' => $fileName,
-					'type' => 'video/mp4',
-					'tmp_name' => $tmpFilePath,
-					'error' => 0,
-					'size' => 4544587,
-				)
+				Video::VIDEO_FILE_FIELD => $videoFileData
 			),
 			'WorkflowComment' => array(
 				'comment' => 'WorkflowComment save test',
@@ -202,7 +197,8 @@ class VideosEditControllerAddTest extends WorkflowControllerAddTest {
 
 		// CakeException: Can not determine the mimetype. mimetype判定できなかった=>ファイルなし濃厚のエラー対応
 		$fileName = 'video1.mp4';
-		$tmpFilePath = $this->__readyTestFile('Videos', $fileName);
+		$testUtil = new VideoTestUtil();
+		$tmpFilePath = $testUtil->readyTestFile('Videos', $fileName);
 		$data['Video'][Video::VIDEO_FILE_FIELD]['name'] = $fileName;
 		$data['Video'][Video::VIDEO_FILE_FIELD]['tmp_name'] = $tmpFilePath;
 
@@ -325,22 +321,5 @@ class VideosEditControllerAddTest extends WorkflowControllerAddTest {
 
 		//ログアウト
 		TestAuthGeneral::logout($this);
-	}
-
-/**
- * テストファイル準備
- *
- * @param string $plugin プラグイン名 例:Videos
- * @param string $fileName ファイル名 例:video1.mp4
- * @return string tmpFullPath
- */
-	private function __readyTestFile($plugin, $fileName) {
-		$tmpFolder = new TemporaryFolder();
-
-		$testFilePath = APP . 'Plugin' . DS . $plugin . DS . 'Test' . DS . 'Fixture' . DS . $fileName;
-		$tmpFilePath = $tmpFolder->path . DS . $fileName;
-		copy($testFilePath, $tmpFilePath);
-
-		return $tmpFilePath;
 	}
 }
