@@ -209,11 +209,10 @@ class VideoBlockSetting extends VideosAppModel {
 /**
  * VideoBlockSettingデータ削除
  *
- * @param array $data received post data
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function deleteVideoBlockSetting($data) {
+	public function deleteVideoBlockSetting() {
 		$this->loadModels(array(
 			'Like' => 'Likes.Like',
 			'LikesUser' => 'Likes.LikesUser',
@@ -227,14 +226,16 @@ class VideoBlockSetting extends VideosAppModel {
 		//トランザクションBegin
 		$this->begin();
 
+		$blockKey = Current::read('Block.key');
+
 		// 多言語コンテンツ削除対応
 		// 対象のブロックIDの配列
-		$blockIds = $this->__getBlockIds($data['Block']['key']);
+		$blockIds = $this->__getBlockIds($blockKey);
 
 		// いいねIDの配列
 		$likeIds = $this->Like->find('list', array(
 			'recursive' => -1,
-			'conditions' => array($this->Like->alias . '.block_key' => $data['Block']['key']),
+			'conditions' => array($this->Like->alias . '.block_key' => $blockKey),
 			'callbacks' => false,
 		));
 		$likeIds = array_keys($likeIds);
@@ -260,7 +261,7 @@ class VideoBlockSetting extends VideosAppModel {
 
 		try {
 			// VideoBlockSetting削除
-			if (! $this->deleteAll(array($this->alias . '.block_key' => $data['Block']['key']), false)) {
+			if (! $this->deleteAll(array($this->alias . '.block_key' => $blockKey), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
@@ -292,7 +293,8 @@ class VideoBlockSetting extends VideosAppModel {
 			}
 
 			//Blockデータ削除
-			$this->deleteBlock($data['Block']['key']);
+			/** @see BlockBehavior::deleteBlock() */
+			$this->deleteBlock($blockKey);
 
 			//トランザクションCommit
 			$this->commit();

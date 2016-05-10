@@ -181,7 +181,7 @@ class VideoBlocksController extends VideosAppController {
  */
 	public function delete() {
 		if ($this->request->is('delete')) {
-			if ($this->VideoBlockSetting->deleteVideoBlockSetting($this->data)) {
+			if ($this->VideoBlockSetting->deleteVideoBlockSetting()) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
