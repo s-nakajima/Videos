@@ -106,7 +106,8 @@ class VideoBehavior extends ModelBehavior {
 
 		// 変換エラー時
 		if ($ret != 0) {
-			CakeLog::debug('[' . __METHOD__ . '] ' . __FILE__ . ' (line ' . __LINE__ . ') ffmpeg H.264 convert error');
+			CakeLog::debug('[' . __METHOD__ . '] ' . __FILE__ . ' (line ' . __LINE__ .
+				') ffmpeg H.264 convert error');
 			CakeLog::debug($strCmd);
 			CakeLog::debug($arr);
 			CakeLog::debug($ret);
@@ -187,7 +188,8 @@ class VideoBehavior extends ModelBehavior {
 
 		// 変換エラー時
 		if ($retImage != 0) {
-			CakeLog::debug('[' . __METHOD__ . '] ' . __FILE__ . ' (line ' . __LINE__ . ') ffmpeg thumbnail generat error');
+			CakeLog::debug('[' . __METHOD__ . '] ' . __FILE__ . ' (line ' . __LINE__ .
+				') ffmpeg thumbnail generat error');
 			CakeLog::debug($strCmd);
 			CakeLog::debug($arrImage);
 			CakeLog::debug($retImage);
