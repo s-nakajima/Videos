@@ -186,7 +186,7 @@ class VideosController extends VideosAppController {
 
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(); //データあり
-		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
+		$this->set('videoBlockSetting', $videoBlockSetting['VideoBlockSetting']);
 
 		// クッキー対応
 		$cookie = $this->Cookie->read('video_history');
@@ -209,8 +209,6 @@ class VideosController extends VideosAppController {
 			// アクセス情報を記録
 			$this->Cookie->write('video_history', $cookie, false, '1 hour');
 		}
-
-		$this->set($results);
 	}
 
 /**
