@@ -262,9 +262,12 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		$data = array(
 			'Block' => array(
 				'id' => '4',
-				'key' => 'block_2',
+			),
+			'VideoBlockSetting' => array(
+				'block_key' => 'block_2',
 			),
 		);
+		//Current::$current['Block']['key'] = 'block_2';
 
 		//テストデータ
 		$results = array();

@@ -71,7 +71,7 @@ class VideoBlockSettingDeleteVideoBlockSettingTest extends NetCommonsDeleteTest 
 	public function dataProviderDelete() {
 		$data['VideoBlockSetting'] = (new VideoBlockSettingFixture())->records[0];
 		$association = array();
-		Current::$current['Block']['key'] = 'block_1';
+		//Current::$current['Block']['key'] = 'block_1';
 
 		$results = array();
 		$results[0] = array($data, $association);
