@@ -28,7 +28,7 @@ $this->NetCommonsHtml->script(array(
 			<div class="panel panel-default">
 				<div class="panel-body has-feedback">
 					<?php
-						if (Video::isFfmpegEnable()) {
+						if ($isFfmpegEnable) {
 							$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::VIDEO_EXTENSION);
 						} else {
 							$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), 'mp4');
@@ -41,7 +41,7 @@ $this->NetCommonsHtml->script(array(
 					<div class="help-block"><?php echo h($videoHelpBlockMessage); ?></div>
 
 					<?php /* ffmpeg=OFF */ ?>
-					<?php if (!Video::isFfmpegEnable()) : ?>
+					<?php if (!$isFfmpegEnable) : ?>
 						<?php echo $this->NetCommonsForm->uploadFile(Video::THUMBNAIL_FIELD, array(
 							'label' => __d('videos', 'Thumbnail'),
 							'required' => true,

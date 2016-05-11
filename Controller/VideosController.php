@@ -12,6 +12,7 @@
 App::uses('VideosAppController', 'Videos.Controller');
 App::uses('ZipDownloader', 'Files.Utility');
 App::uses('TemporaryFolder', 'Files.Utility');
+App::uses('Video', 'Videos.Model');
 
 /**
  * Videos Controller
@@ -110,6 +111,9 @@ class VideosController extends VideosAppController {
 
 		// ゲストアクセスOKのアクションを設定
 		$this->Auth->allow('tag', 'file');
+
+		// FFMPEG有効フラグ
+		$this->set('isFfmpegEnable', $this->Video->isFfmpegEnable());
 	}
 
 /**

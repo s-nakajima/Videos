@@ -205,7 +205,7 @@ echo $this->NetCommonsHtml->script(array(
 												</a>
 											</div>
 											<?php /* 再生時間 */ ?>
-											<?php echo $this->Video->playTime($relatedVideo['Video']['video_time'], Video::isFfmpegEnable()); ?>
+											<?php echo $this->Video->playTime($relatedVideo['Video']['video_time'], $isFfmpegEnable); ?>
 										</div>
 									</div>
 									<?php /* タイトル、投稿者、各種回数 */ ?>

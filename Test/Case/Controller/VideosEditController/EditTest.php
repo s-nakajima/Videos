@@ -396,6 +396,26 @@ class VideosEditControllerEditTest extends WorkflowControllerEditTest {
 	}
 
 /**
+ * view(ctp)ファイルのテスト(公開権限なし) - FFMPEG=ON
+ *
+ * @return void
+ */
+	public function testViewFileByEditableFfmpegOn() {
+		$this->controller->Video->isFfmpegEnable = true;
+		$this->testViewFileByEditable();
+	}
+
+/**
+ * view(ctp)ファイルのテスト(公開権限なし) - FFMPEG=OFF
+ *
+ * @return void
+ */
+	public function testViewFileByEditableFfmpegOff() {
+		$this->controller->Video->isFfmpegEnable = false;
+		$this->testViewFileByEditable();
+	}
+
+/**
  * view(ctp)ファイルのテスト(公開権限あり)
  *
  * @return void

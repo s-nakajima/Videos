@@ -126,7 +126,7 @@
 										</a>
 									</div>
 									<?php /* 再生時間 */ ?>
-									<?php echo $this->Video->playTime($video['Video']['video_time'], Video::isFfmpegEnable()); ?>
+									<?php echo $this->Video->playTime($video['Video']['video_time'], $isFfmpegEnable); ?>
 								</div>
 
 								<div class="media-body">
