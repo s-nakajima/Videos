@@ -54,13 +54,14 @@ class VideoBehavior extends ModelBehavior {
 		// --- 再生時間を取得
 		$videoTimeSec = $this->__getVideoTime($convert);
 
-		// --- 動画時間のみ更新
-		// 値をセット
-		$model->read();
-		$model->set('video_time', $videoTimeSec);
+		// コールバックoff
+		$validate = array(
+			'validate' => false,
+			'callbacks' => false,
+		);
 
-		// 動画データ登録
-		if (! $model->save(null, false)) {
+		// 動画時間のみ更新
+		if (! $model->saveField('video_time', $videoTimeSec, $validate)) {
 			throw new InternalErrorException('Failed ' . __METHOD__);
 		}
 
@@ -115,6 +116,7 @@ class VideoBehavior extends ModelBehavior {
 		}
 
 		//変換動画のファイル保存
+		/** @see AttachmentBehavior::attachFile() */
 		// https://github.com/NetCommons3/Blogs/blob/feature/withFilesTest/Controller/BlogEntriesEditController.php#L234 あたり Blogsのfeature/withFilesTestブランチ参考
 		$model->attachFile($video, Video::VIDEO_FILE_FIELD, $noConvertPath . $videoName . '.mp4');
 
