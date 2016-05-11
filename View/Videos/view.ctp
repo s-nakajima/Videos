@@ -181,7 +181,7 @@ echo $this->NetCommonsHtml->script(array(
 			<?php foreach ($relatedVideos as $relatedVideo) : ?>
 				<article>
 					<div class="row related-video <?php echo $i >= VideosController::START_LIMIT_RELATED_VIDEO ? 'hidden' : '' ?>">
-						<div class="col-xs-12">
+						<div class="col-xs-12 col-lg-6">
 							<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
 								<?php /* サムネイル */ ?>
 								<div class="media">

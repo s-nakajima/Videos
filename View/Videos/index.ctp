@@ -102,7 +102,7 @@
 		<div class="row">
 			<?php foreach ($videos as $video) : ?>
 				<article>
-					<div class="col-xs-12">
+					<div class="col-xs-12 col-lg-6">
 						<?php /* サムネイル */ ?>
 						<div class="row videos-row-height" style="border: 1px solid #ddd; padding: 5px; margin: 0px 0px 5px 0px;">
 							<div class="media">
