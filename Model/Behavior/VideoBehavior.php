@@ -106,10 +106,10 @@ class VideoBehavior extends ModelBehavior {
 
 		// 変換エラー時
 		if ($ret != 0) {
-			$this->log("--- ffmpeg H.264 変換エラー", 'debug');
-			$this->log($strCmd, 'debug');
-			$this->log($arr, 'debug');
-			$this->log($ret, 'debug');
+			CakeLog::debug('[' . __METHOD__ . '] ' . __FILE__ . ' (line ' . __LINE__ . ') ffmpeg H.264 convert error');
+			CakeLog::debug($strCmd);
+			CakeLog::debug($arr);
+			CakeLog::debug($ret);
 			$model->UploadFile->removeFile($model->id, Video::VIDEO_FILE_FIELD);	//元動画 削除
 
 			throw new InternalErrorException('Failed ' . __METHOD__);
@@ -119,10 +119,6 @@ class VideoBehavior extends ModelBehavior {
 		/** @see AttachmentBehavior::attachFile() */
 		// https://github.com/NetCommons3/Blogs/blob/feature/withFilesTest/Controller/BlogEntriesEditController.php#L234 あたり Blogsのfeature/withFilesTestブランチ参考
 		$model->attachFile($video, Video::VIDEO_FILE_FIELD, $noConvertPath . $videoName . '.mp4');
-
-		//			// 元動画 ファイルのみ削除
-		//			$file = new File($noConvertPath . $noConvertSlug . '.' . $noConvertExtension);
-		//			$file->delete();
 	}
 
 /**
@@ -191,10 +187,10 @@ class VideoBehavior extends ModelBehavior {
 
 		// 変換エラー時
 		if ($retImage != 0) {
-			$this->log("--- ffmpeg サムネイル 生成エラー", 'debug');
-			$this->log($strCmd, 'debug');
-			$this->log($arrImage, 'debug');
-			$this->log($retImage, 'debug');
+			CakeLog::debug('[' . __METHOD__ . '] ' . __FILE__ . ' (line ' . __LINE__ . ') ffmpeg thumbnail generat error');
+			CakeLog::debug($strCmd);
+			CakeLog::debug($arrImage);
+			CakeLog::debug($retImage);
 			// return はしない
 		} else {
 			// サムネイルのファイル保存
