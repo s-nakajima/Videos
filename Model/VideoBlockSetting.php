@@ -233,24 +233,10 @@ class VideoBlockSetting extends VideosAppModel {
 		$blockKey = $data[$this->alias]['block_key'];
 
 		// 多言語コンテンツ削除対応
-		// 対象のブロックIDの配列
-		$blockIds = $this->__getBlockIds($blockKey);
-
-		// いいねIDの配列
-		$likeIds = $this->Like->find('list', array(
-			'recursive' => -1,
-			'conditions' => array($this->Like->alias . '.block_key' => $blockKey),
-			'callbacks' => false,
-		));
-		$likeIds = array_keys($likeIds);
-
-		// タグIDの配列
-		$tagIds = $this->Tag->find('list', array(
-			'recursive' => -1,
-			'conditions' => array($this->Tag->alias . '.block_id' => $blockIds),
-			'callbacks' => false,
-		));
-		$tagIds = array_keys($tagIds);
+		// 各IDの配列
+		$blockIds = $this->__getIds($this->Block, 'key', $blockKey);
+		$likeIds = $this->__getIds($this->Like, 'block_key', $blockKey);
+		$tagIds = $this->__getIds($this->Tag, 'block_id', $blockIds);
 
 		// コンテンツキーの配列
 		$contentKeys = $this->__getContentKeys($blockIds);
@@ -270,13 +256,13 @@ class VideoBlockSetting extends VideosAppModel {
 			}
 
 			// 動画とサムネイルのデータと物理ファイル削除
-			foreach ($uploadFiles as $uploadFile) {
-				foreach ($uploadFile['UploadFilesContent'] as $uploadFilesContent) {
-					// 下記不具合修正後、物理ファイル削除対応する https://github.com/NetCommons3/NetCommons3/issues/203
-					// Warning (2): finfo::file(/var/www/app/app/webroot/files/upload_file/real_file_name/28/ef4ac246226cf2f9896c0d978c71541f.mp4): failed to open stream: No such file or directory [APP/Plugin/Upload/Model/Behavior/UploadBehavior.php, line 1985]
-					//$this->UploadFile->removeFile($uploadFilesContent['content_id'], $uploadFilesContent['upload_file_id']);
-				}
-			}
+			//			foreach ($uploadFiles as $uploadFile) {
+			//				foreach ($uploadFile['UploadFilesContent'] as $uploadFilesContent) {
+			//					// 下記不具合修正後、物理ファイル削除対応する https://github.com/NetCommons3/NetCommons3/issues/203
+			//					// Warning (2): finfo::file(/var/www/app/app/webroot/files/upload_file/real_file_name/28/ef4ac246226cf2f9896c0d978c71541f.mp4): failed to open stream: No such file or directory [APP/Plugin/Upload/Model/Behavior/UploadBehavior.php, line 1985]
+			//					//$this->UploadFile->removeFile($uploadFilesContent['content_id'], $uploadFilesContent['upload_file_id']);
+			//				}
+			//			}
 
 			// $this->UploadFile->removeFile()を使えたら、ここは不要
 			// アップロードファイルコンテンツ 削除
@@ -319,19 +305,21 @@ class VideoBlockSetting extends VideosAppModel {
 	}
 
 /**
- * ブロックIDの配列
+ * コンテンツIDの配列
  *
- * @param string $blockKey ブロックキー
+ * @param Model $model モデル
+ * @param string $filed フィールド名
+ * @param string $value 値
  * @return array
  */
-	private function __getBlockIds($blockKey) {
-		$blockIds = $this->Block->find('list', array(
+	private function __getIds(Model $model, $filed, $value) {
+		$ids = $model->find('list', array(
 			'recursive' => -1,
-			'conditions' => array($this->Block->alias . '.key' => $blockKey),
+			'conditions' => array($model->alias . '.' . $filed => $value),
 			'callbacks' => false,
 		));
-		$blockIds = array_keys($blockIds);
-		return $blockIds;
+		$ids = array_keys($ids);
+		return $ids;
 	}
 
 /**

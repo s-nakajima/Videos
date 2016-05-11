@@ -321,13 +321,13 @@ class Video extends VideosAppModel {
 			}
 
 			// 動画とサムネイルのデータと物理ファイル削除
-			foreach ($uploadFiles as $uploadFile) {
-				foreach ($uploadFile['UploadFilesContent'] as $uploadFilesContent) {
-					// 下記不具合修正後、物理ファイル削除対応する https://github.com/NetCommons3/NetCommons3/issues/203
-					// Warning (2): finfo::file(/var/www/app/app/webroot/files/upload_file/real_file_name/28/ef4ac246226cf2f9896c0d978c71541f.mp4): failed to open stream: No such file or directory [APP/Plugin/Upload/Model/Behavior/UploadBehavior.php, line 1985]
-					//$this->UploadFile->removeFile($uploadFilesContent['content_id'], $uploadFilesContent['upload_file_id']);
-				}
-			}
+			//			foreach ($uploadFiles as $uploadFile) {
+			//				foreach ($uploadFile['UploadFilesContent'] as $uploadFilesContent) {
+			//					// 下記不具合修正後、物理ファイル削除対応する https://github.com/NetCommons3/NetCommons3/issues/203
+			//					// Warning (2): finfo::file(/var/www/app/app/webroot/files/upload_file/real_file_name/28/ef4ac246226cf2f9896c0d978c71541f.mp4): failed to open stream: No such file or directory [APP/Plugin/Upload/Model/Behavior/UploadBehavior.php, line 1985]
+			//					//$this->UploadFile->removeFile($uploadFilesContent['content_id'], $uploadFilesContent['upload_file_id']);
+			//				}
+			//			}
 
 			// $this->UploadFile->removeFile()を使えたら、ここは不要
 			// アップロードファイルコンテンツ 削除
