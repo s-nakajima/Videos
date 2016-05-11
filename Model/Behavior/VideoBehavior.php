@@ -111,7 +111,8 @@ class VideoBehavior extends ModelBehavior {
 			CakeLog::debug($strCmd);
 			CakeLog::debug($arr);
 			CakeLog::debug($ret);
-			$model->UploadFile->removeFile($model->id, Video::VIDEO_FILE_FIELD);	//元動画 削除
+			// 下記不具合修正後、物理ファイル削除対応する https://github.com/NetCommons3/NetCommons3/issues/203
+			//$model->UploadFile->removeFile($model->id, $noConvert['UploadFile']['id']);	//元動画 削除
 
 			throw new InternalErrorException('Failed ' . __METHOD__);
 		}

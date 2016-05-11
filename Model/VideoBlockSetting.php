@@ -10,6 +10,7 @@
  */
 
 App::uses('VideosAppModel', 'Videos.Model');
+App::uses('Video', 'Videos.Model');
 
 /**
  * VideoBlockSetting Model
@@ -222,6 +223,7 @@ class VideoBlockSetting extends VideosAppModel {
 			'UploadFile' => 'Files.UploadFile',
 			'UploadFilesContent' => 'Files.UploadFilesContent',
 			'Video' => 'Videos.Video',
+			'UploadFile' => 'Files.UploadFile',
 		));
 
 		//トランザクションBegin
@@ -253,13 +255,13 @@ class VideoBlockSetting extends VideosAppModel {
 		// コンテンツキーの配列
 		$contentKeys = $this->__getContentKeys($blockIds);
 
-		// アップロードファイルIDの配列
-		$uploadFileIds = $this->UploadFile->find('list', array(
-			'recursive' => -1,
+		// アップロードファイル
+		$uploadFiles = $this->UploadFile->find('all', array(
+			'recursive' => 1,
 			'conditions' => array($this->UploadFile->alias . '.content_key' => $contentKeys),
 			'callbacks' => false,
 		));
-		$uploadFileIds = array_keys($uploadFileIds);
+		$uploadFileIds = Hash::extract($uploadFiles, '{n}.UploadFile.id');
 
 		try {
 			// VideoBlockSetting削除
@@ -267,8 +269,27 @@ class VideoBlockSetting extends VideosAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			// ファイル 削除 暫定として対応しない(;'∀')
-			// 本来、データと物理ファイル削除。共通処理が完成したら、実装する
+			// 動画とサムネイルのデータと物理ファイル削除
+			foreach ($uploadFiles as $uploadFile) {
+				foreach ($uploadFile['UploadFilesContent'] as $uploadFilesContent) {
+					// 下記不具合修正後、物理ファイル削除対応する https://github.com/NetCommons3/NetCommons3/issues/203
+					// Warning (2): finfo::file(/var/www/app/app/webroot/files/upload_file/real_file_name/28/ef4ac246226cf2f9896c0d978c71541f.mp4): failed to open stream: No such file or directory [APP/Plugin/Upload/Model/Behavior/UploadBehavior.php, line 1985]
+					//$this->UploadFile->removeFile($uploadFilesContent['content_id'], $uploadFilesContent['upload_file_id']);
+				}
+			}
+
+			// $this->UploadFile->removeFile()を使えたら、ここは不要
+			// アップロードファイルコンテンツ 削除
+			$conditions = array($this->UploadFilesContent->alias . '.upload_file_id' => $uploadFileIds);
+			if (! $this->UploadFilesContent->deleteAll($conditions, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			// アップロードファイル 削除
+			$conditions = array($this->UploadFile->alias . '.content_key' => $contentKeys);
+			if (! $this->UploadFile->deleteAll($conditions, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
 
 			// タグコンテンツ 削除
 			$conditions = array($this->TagsContent->alias . '.tag_id' => $tagIds);
@@ -279,18 +300,6 @@ class VideoBlockSetting extends VideosAppModel {
 			// いいねユーザー 削除
 			$conditions = array($this->LikesUser->alias . '.like_id' => $likeIds);
 			if (! $this->LikesUser->deleteAll($conditions, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			// アップロードファイルコンテンツ 削除
-			$conditions = array($this->UploadFilesContent->alias . '.upload_file_id' => $uploadFileIds);
-			if (! $this->UploadFilesContent->deleteAll($conditions, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			// アップロードファイル 削除
-			$conditions = array($this->UploadFile->alias . '.content_key' => $contentKeys);
-			if (! $this->UploadFile->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
