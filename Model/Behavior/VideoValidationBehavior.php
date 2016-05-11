@@ -121,14 +121,17 @@ class VideoValidationBehavior extends ModelBehavior {
 				$rules = Hash::merge($rules, array(
 					// 必須
 					Video::THUMBNAIL_FIELD => array(
+						// http://book.cakephp.org/2.0/ja/models/data-validation.html#Validation::uploadError
 						'upload-file' => array(
 							'rule' => array('uploadError'),
 							'message' => array(__d('files', 'Please specify the file'))
 						),
+						// http://book.cakephp.org/2.0/ja/models/data-validation.html#Validation::extension
 						'extension' => array(
 							'rule' => array('extension', explode(',', Video::THUMBNAIL_EXTENSION)),
 							'message' => array(__d('files', 'It is upload disabled file format'))
 						),
+						// http://book.cakephp.org/2.0/ja/models/data-validation.html#Validation::mimeType
 						'mimetype' => array(
 							'rule' => array('mimeType', explode(',', Video::THUMBNAIL_MIME_TYPE)),
 							'message' => array(__d('files', 'It is upload disabled file format'))
