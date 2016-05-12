@@ -278,17 +278,18 @@ class VideosController extends VideosAppController {
 		}
 
 		// ダウンロードファイル名決定
-		$videoName = explode('.', $video['UploadFile']['video_file']['original_name'])[0];
+		$videoName = explode('.', $video['UploadFile'][Video::VIDEO_FILE_FIELD]['original_name'])[0];
 		$zipFileName = $videoName . '.zip';
 		$realFilePath = APP . WEBROOT_DIR . DS .
-			$video['UploadFile']['video_file']['path'] .
-			$video['UploadFile']['video_file']['id'] . DS .
-			$video['UploadFile']['video_file']['real_file_name'];
+			$video['UploadFile'][Video::VIDEO_FILE_FIELD]['path'] .
+			$video['UploadFile'][Video::VIDEO_FILE_FIELD]['id'] . DS .
+			$video['UploadFile'][Video::VIDEO_FILE_FIELD]['real_file_name'];
 
 		// 一時フォルダにファイルをコピー&リネームして、元のファイル名でダウンロードする
 		$tmpFolder = new TemporaryFolder();
 
-		$downloadFilePath = $tmpFolder->path . DS . $video['UploadFile']['video_file']['original_name'];
+		$downloadFilePath =
+			$tmpFolder->path . DS . $video['UploadFile'][Video::VIDEO_FILE_FIELD]['original_name'];
 		copy($realFilePath, $downloadFilePath);
 
 		$zip = new ZipDownloader();
