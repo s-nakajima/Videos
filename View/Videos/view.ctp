@@ -9,11 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-echo $this->NetCommonsHtml->css(array(
-	'/likes/css/style.css',
-	'/videos/css/style.css',
-));
-
+echo $this->NetCommonsHtml->css(array('/likes/css/style.css'));
 echo $this->NetCommonsHtml->script(array(
 	'/likes/js/likes.js',
 	'/videos/js/videos.js',
@@ -28,7 +24,11 @@ echo $this->NetCommonsHtml->script(array(
 <?php if ($this->Workflow->canEdit("Videos.Video", $video)) : ?>
 	<header>
 		<div class="row">
-			<div class="col-xs-12 text-right" style="padding-bottom: 10px;">
+			<div class="col-xs-6 text-left">
+			<?php echo $this->BackTo->pageLinkButton(__d('videos', 'Move list'), array('icon' => 'list')) ?>
+			</div>
+
+			<div class="col-xs-6 text-right">
 				<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
 					<a href="<?php echo $this->NetCommonsHtml->url(array(
 						'controller' => 'videos_edit',
@@ -46,11 +46,10 @@ echo $this->NetCommonsHtml->script(array(
 <?php /* 動画 */ ?>
 <div class="row" ng-controller="VideoView">
 	<div class="col-xs-12">
-		<div style="padding-bottom: 20px;">
+		<p>
+		<div>
 			<?php /* 動画プレイヤー */ ?>
 			<?php echo $this->element('Videos/player', array(
-				//'fileMp4Url' => $video['FileMp4']['url'],
-				//'fileThumbnailUrl' => $video['FileThumbnail']['url_big'],
 				'fileMp4Url' => $this->NetCommonsHtml->url(
 					[
 						'action' => 'file',
@@ -69,8 +68,9 @@ echo $this->NetCommonsHtml->script(array(
 				'isAutoPlay' => $videoBlockSetting['auto_play'],
 			)); ?>
 		</div>
+		</p>
 
-		<div class="panel panel-default video-description">
+		<div class="panel panel-default" style="padding: 0.5em 1em; margin-bottom: 5px;">
 			<div>
 				<?php /* タイトル */ ?>
 				<h1><?php echo $video['Video']['title']; ?></h1>
@@ -252,15 +252,6 @@ echo $this->NetCommonsHtml->script(array(
 
 <?php /* コンテンツコメント */ ?>
 <?php echo $this->ContentComment->index($video); ?>
-
-<?php /* 下部ボタン */ ?>
-<footer>
-	<div class="row">
-		<div class="col-xs-12 text-center">
-			<?php echo $this->BackTo->pageLinkButton(__d("videos", "Back to list"), array('icon' => '')); ?>
-		</div>
-	</div>
-</footer>
 
 </article>
 </div>
