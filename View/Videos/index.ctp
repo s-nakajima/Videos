@@ -121,7 +121,7 @@
 													[
 														'alt' => $video['Video']['title'],
 														//'style' => 'width: 140px; height: auto;'
-														'style' => 'width: 140px; height: 95px;'
+														'style' => 'width: 150px; height: 110px;'
 													]
 												); ?>
 										</a>
