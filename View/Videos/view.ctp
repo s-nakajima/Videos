@@ -183,7 +183,7 @@ echo $this->NetCommonsHtml->script(array(
 					<article>
 						<div class="related-video <?php echo $i >= VideosController::START_LIMIT_RELATED_VIDEO ? 'hidden' : '' ?>">
 							<div class="col-xs-12  col-lg-6">
-								<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
+								<div class="panel panel-default" style="padding: 5px; margin: 0px 0px 5px 0px;">
 									<?php /* サムネイル */ ?>
 									<div class="media">
 										<div class="media-left">
@@ -200,7 +200,8 @@ echo $this->NetCommonsHtml->script(array(
 															),
 															[
 																'alt' => $relatedVideo['Video']['title'],
-																'style' => 'width: 140px; height: auto;'
+																//'style' => 'width: 140px; height: auto;'
+																'style' => 'width: 140px; height: 95px;'
 															]
 														); ?>
 													</a>

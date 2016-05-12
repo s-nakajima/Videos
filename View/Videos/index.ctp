@@ -104,7 +104,7 @@
 				<article>
 					<div class="col-xs-12 col-lg-6">
 						<?php /* サムネイル */ ?>
-						<div class="row videos-row-height" style="border: 1px solid #ddd; padding: 5px; margin: 0px 0px 5px 0px;">
+						<div class="row panel panel-default" style="padding: 5px; margin: 0px 0px 5px 0px;">
 							<div class="media">
 
 								<div class="media-left">
@@ -120,7 +120,8 @@
 													),
 													[
 														'alt' => $video['Video']['title'],
-														'style' => 'width: 140px; height: auto;'
+														//'style' => 'width: 140px; height: auto;'
+														'style' => 'width: 140px; height: 95px;'
 													]
 												); ?>
 										</a>
