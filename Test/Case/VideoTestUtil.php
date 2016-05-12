@@ -43,15 +43,35 @@ class VideoTestUtil {
  *
  * @param string $plugin プラグイン名 例:Videos
  * @param string $fileName ファイル名 例:video1.mp4
+ * @param string $tmpFilePath コピー先パス
  * @return string tmpFullPath
  */
-	public function readyTestFile($plugin, $fileName) {
-		$tmpFolder = new TemporaryFolder();
-
+	public function readyTestFile($plugin, $fileName, $tmpFilePath = null) {
 		$testFilePath = APP . 'Plugin' . DS . $plugin . DS . 'Test' . DS . 'Fixture' . DS . $fileName;
-		$tmpFilePath = $tmpFolder->path . DS . $fileName;
-		copy($testFilePath, $tmpFilePath);
+		if (is_null($tmpFilePath)) {
+			$tmpFolder = new TemporaryFolder();
+			$tmpFilePath = $tmpFolder->path . DS . $fileName;
+			copy($testFilePath, $tmpFilePath);
+		} else {
+			// こちらはテスト後、ファイル削除必要
+			$folder = new Folder();
+			$folder->create($tmpFilePath);
+			$tmpFilePath = $tmpFilePath . DS . $fileName;
+			copy($testFilePath, $tmpFilePath);
+		}
 
 		return $tmpFilePath;
+	}
+
+/**
+ * テストファイル削除
+ *
+ * @param string $tmpFilePath コピー先パス
+ * @return void
+ */
+	public function deleteTestFile($tmpFilePath) {
+		// アップロードテストのためのディレクトリ削除
+		$folder = new Folder();
+		$folder->delete($tmpFilePath);
 	}
 }

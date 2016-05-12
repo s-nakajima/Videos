@@ -10,6 +10,7 @@
  */
 
 App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
+App::uses('VideoTestUtil', 'Videos.Test/Case');
 
 /**
  * VideosController::download()のテスト
@@ -105,23 +106,37 @@ class VideosControllerDownloadTest extends NetCommonsControllerTestCase {
 		$this->_testGetAction($data, array('method' => 'assertEmpty'), null, 'view');
 	}
 
-	///**
-	// * download()アクションのPostリクエストテスト
-	// *
-	// * @return void
-	// */
-	//	public function testDownloadPost() {
-	//		$urlOptions = $this->__data();
-	//		$data = array(
-	//			'AuthorizationKey' => array(
-	//				'authorization_key' => 'pass',
-	//			)
-	//		);
-	//
-	//		// ファイルの圧縮処理なので、テストでもファイル必要。そのテスト方法不明のため、テスト先送り
-	//		//テスト実行
-	//		$this->_testPostAction('post', $data, $urlOptions, null, 'view');
-	//	}
+/**
+ * download()アクションのPostリクエストテスト
+ *
+ * @return void
+ */
+	public function testDownloadPost() {
+		// テストZipDownloaderに差し替え
+		App::uses('ZipDownloader', 'Videos.Test/test_app/Plugin/TestFiles/Utility');
+
+		$urlOptions = $this->__data();
+		$data = array(
+			'AuthorizationKey' => array(
+				'authorization_key' => 'pass',
+			)
+		);
+		// テスト実ファイル配置
+		$videoTestUtil = new VideoTestUtil();
+		$testFilePath = APP . WEBROOT_DIR . DS . 'files/upload_file/test/11/';
+		$videoTestUtil->readyTestFile('Videos', 'video1.mp4', $testFilePath);
+
+		//テスト実行
+		// http://www.shigemk2.com/entry/20120105/1325694807
+		// returnに定義できるのは、'vars','view','contents','result'
+		$result = $this->_testPostAction('post', $data, $urlOptions, null, 'result');
+
+		//debug($result);
+		$this->assertEquals('video1.zip', $result);
+
+		// テスト実ファイル削除
+		$videoTestUtil->deleteTestFile($testFilePath);
+	}
 
 /**
  * download()アクションのGetリクエスト 圧縮用パスワードなしテスト
