@@ -177,68 +177,72 @@ echo $this->NetCommonsHtml->script(array(
 	<div class="col-xs-12">
 		<p>
 		<div id="nc-related-videos-<?php echo Current::read('Frame.id'); ?>" ng-controller="RelatedVideos">
-			<?php $i = 0; ?>
-			<?php foreach ($relatedVideos as $relatedVideo) : ?>
-				<article>
-					<div class="row related-video <?php echo $i >= VideosController::START_LIMIT_RELATED_VIDEO ? 'hidden' : '' ?>">
-						<div class="col-xs-12 col-lg-6">
-							<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
-								<?php /* サムネイル */ ?>
-								<div class="media">
-									<div class="media-left">
-										<div>
+			<div class="row">
+				<?php $i = 0; ?>
+				<?php foreach ($relatedVideos as $relatedVideo) : ?>
+					<article>
+						<div class="related-video <?php echo $i >= VideosController::START_LIMIT_RELATED_VIDEO ? 'hidden' : '' ?>">
+							<div class="col-xs-12  col-lg-6">
+								<div style="border: 1px solid #ddd; padding: 5px; margin-bottom: 5px;">
+									<?php /* サムネイル */ ?>
+									<div class="media">
+										<div class="media-left">
 											<div>
-												<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $relatedVideo['Video']['key'])); ?>">
-													<?php echo $this->NetCommonsHtml->image(
-														$this->NetCommonsHtml->url(
+												<div>
+													<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $relatedVideo['Video']['key'])); ?>">
+														<?php echo $this->NetCommonsHtml->image(
+															$this->NetCommonsHtml->url(
+																[
+																	'action' => 'file',
+																	'key' => $relatedVideo['Video']['key'],
+																	Video::THUMBNAIL_FIELD,
+																]
+															),
 															[
-																'action' => 'file',
-																'key' => $relatedVideo['Video']['key'],
-																Video::THUMBNAIL_FIELD,
+																'alt' => $relatedVideo['Video']['title'],
+																'style' => 'width: 140px; height: auto;'
 															]
-														),
-														[
-															'alt' => $relatedVideo['Video']['title'],
-															'style' => 'width: 140px; height: auto;'
-														]
-													); ?>
-												</a>
+														); ?>
+													</a>
+												</div>
+												<?php /* 再生時間 */ ?>
+												<?php echo $this->Video->playTime($relatedVideo['Video']['video_time'], $isFfmpegEnable); ?>
 											</div>
-											<?php /* 再生時間 */ ?>
-											<?php echo $this->Video->playTime($relatedVideo['Video']['video_time'], $isFfmpegEnable); ?>
 										</div>
-									</div>
-									<?php /* タイトル、投稿者、各種回数 */ ?>
-									<div class="media-body">
-										<small>
-											<div>
-												<a href="<?php echo $this->NetCommonsHtml->url('/videos/videos/view/' . Current::read('Block.id') . '/' . $relatedVideo['Video']['key']); ?>">
-													<h2><?php echo $relatedVideo['Video']['title']; ?></h2>
-												</a>
-											</div>
-											<a href="#"><?php echo $relatedVideo['User']['handlename'] ?></a><br />
-											<span style="padding-right: 15px;">
-												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $relatedVideo['Video']['play_number'] ?>
-											</span>
+										<?php /* タイトル、投稿者、各種回数 */ ?>
+										<div class="media-body">
+											<small>
+												<div>
+													<a href="<?php echo $this->NetCommonsHtml->url('/videos/videos/view/' . Current::read('Block.id') . '/' . $relatedVideo['Video']['key']); ?>">
+														<h2><?php echo $relatedVideo['Video']['title']; ?></h2>
+													</a>
+												</div>
+												<a href="#"><?php echo $relatedVideo['User']['handlename'] ?></a><br />
+												<span style="padding-right: 15px;">
+													<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $relatedVideo['Video']['play_number'] ?>
+												</span>
 
-											<?php echo $this->ContentComment->count($relatedVideo); ?>
-											<?php echo $this->Like->display($videoBlockSetting, $relatedVideo); ?>
-										</small>
+												<?php echo $this->ContentComment->count($relatedVideo); ?>
+												<?php echo $this->Like->display($videoBlockSetting, $relatedVideo); ?>
+											</small>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</article>
-				<?php $i++; ?>
-			<?php endforeach; ?>
+					</article>
+					<?php $i++; ?>
+				<?php endforeach; ?>
+			</div>
 
 			<?php /* もっと見る */ ?>
-			<div>
-				<button type="button" class="btn btn-info btn-block more related-video-more <?php echo $i <= VideosController::START_LIMIT_RELATED_VIDEO ? 'hidden' : '' ?>"
-						ng-click="more();">
-					<?php echo h(__d('net_commons', 'More')); ?>
-				</button>
+			<div class="row">
+				<div class="col-xs-12">
+					<button type="button" class="btn btn-info btn-block more related-video-more <?php echo $i <= VideosController::START_LIMIT_RELATED_VIDEO ? 'hidden' : '' ?>"
+							ng-click="more();">
+						<?php echo h(__d('net_commons', 'More')); ?>
+					</button>
+				</div>
 			</div>
 
 		</div>

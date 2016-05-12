@@ -27,7 +27,7 @@ class VideosController extends VideosAppController {
  *
  * @var int
  */
-	const START_LIMIT_RELATED_VIDEO = 5;
+	const START_LIMIT_RELATED_VIDEO = 4;
 
 /**
  * 関連動画 もっと見る max limit
