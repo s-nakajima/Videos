@@ -10,6 +10,7 @@
  */
 
 App::uses('WorkflowControllerDeleteTest', 'Workflow.TestSuite');
+App::uses('VideoTestUtil', 'Videos.Test/Case');
 
 /**
  * VideosEditController::delete()のテスト
@@ -51,6 +52,38 @@ class VideosEditControllerDeleteTest extends WorkflowControllerDeleteTest {
  * @var string
  */
 	protected $_controller = 'videos_edit';
+
+/**
+ * testFilePath
+ *
+ * @var string
+ */
+	protected $_testFilePath = null;
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		// テスト実ファイル配置
+		$this->_testFilePath = APP . WEBROOT_DIR . DS . 'files/upload_file/test/11/';
+		(new VideoTestUtil())->readyTestFile('Videos', 'video1.mp4', $this->_testFilePath);
+	}
+
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
+		// テスト実ファイル削除
+		(new VideoTestUtil())->deleteTestFile($this->_testFilePath);
+
+		parent::tearDown();
+	}
 
 /**
  * テストDataの取得
