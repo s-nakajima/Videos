@@ -112,8 +112,8 @@ msgstr ""
 msgid "Registration Date"
 msgstr ""
 
-#: Plugin/Videos/View/Videos/view.ctp:255
-msgid "Back to list"
+#: Plugin/Videos/View/Videos/view.ctp
+msgid "Move list"
 msgstr ""
 
 #: Plugin/Videos/View/VideosEdit/add.ctp:33;35;51
