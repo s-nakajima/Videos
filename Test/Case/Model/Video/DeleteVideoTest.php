@@ -11,6 +11,7 @@
 
 App::uses('WorkflowDeleteTest', 'Workflow.TestSuite');
 App::uses('VideoFixture', 'Videos.Test/Fixture');
+App::uses('VideoTestUtil', 'Videos.Test/Case');
 
 /**
  * Video::deleteVideo()のテスト
@@ -59,6 +60,38 @@ class VideoDeleteVideoTest extends WorkflowDeleteTest {
  * @var string
  */
 	protected $_methodName = 'deleteVideo';
+
+/**
+ * testFilePath
+ *
+ * @var string
+ */
+	protected $_testFilePath = null;
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		// テスト実ファイル配置
+		$this->_testFilePath = APP . WEBROOT_DIR . DS . 'files/upload_file/test/11/';
+		(new VideoTestUtil())->readyTestFile('Videos', 'video1.mp4', $this->_testFilePath);
+	}
+
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
+		// テスト実ファイル削除
+		(new VideoTestUtil())->deleteTestFile($this->_testFilePath);
+
+		parent::tearDown();
+	}
 
 /**
  * Delete用DataProvider
