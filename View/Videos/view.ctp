@@ -152,8 +152,8 @@ echo $this->NetCommonsHtml->script(array(
 				<strong><?php echo __d('videos', 'Registration Date') . '：' . $this->Date->dateFormat($video['Video']['created']); ?></strong>
 			</div>
 			<div>
-				<?php /* 本文 */ ?>
-				<?php echo $video['Video']['description']; ?>
+				<?php /* 説明 */ ?>
+				<?php echo nl2br($video['Video']['description']); ?>
 			</div>
 			<div>
 				<?php /* Tags */ ?>
