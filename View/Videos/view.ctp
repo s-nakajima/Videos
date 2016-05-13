@@ -183,6 +183,7 @@ echo $this->NetCommonsHtml->script(array(
 				<?php $i = 0; ?>
 				<?php foreach ($relatedVideos as $relatedVideo) : ?>
 					<article>
+						<?php /* related-videoはJSで必要 */ ?>
 						<div class="related-video <?php echo $i >= VideosController::START_LIMIT_RELATED_VIDEO ? 'hidden' : '' ?>">
 							<?php /* PC表示で1件の時のみ、横長表示にする */ ?>
 							<div class="col-xs-12 <?php echo count($relatedVideos) >= 2 ? 'col-lg-6' : '' ?>">
@@ -249,6 +250,7 @@ echo $this->NetCommonsHtml->script(array(
 					}
 					echo $this->Button->button(__d('net_commons', 'More'),
 						[
+							// related-video-moreはJSで必要
 							'class' => 'btn btn-info btn-block related-video-more ' . $hidden,
 							'ng-click' => 'more();',
 						]
