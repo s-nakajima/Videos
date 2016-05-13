@@ -354,8 +354,8 @@ class VideosController extends VideosAppController {
 		$results['displayOrderPaginator'] = key($order) . '.' . $order[key($order)];
 
 		//表示件数
-		if (isset($this->params['named']['limit'])) {
-			$query['limit'] = (int)$this->params['named']['limit'];
+		if ($limit = $this->_getNamed('limit')) {
+			$query['limit'] = (int)$limit;
 		} else {
 			$query['limit'] = $videoFrameSetting['VideoFrameSetting']['display_number'];
 		}
