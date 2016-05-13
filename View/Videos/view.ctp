@@ -248,7 +248,7 @@ echo $this->NetCommonsHtml->script(array(
 					if ($i <= VideosController::START_LIMIT_RELATED_VIDEO) {
 						$hidden = 'hidden';
 					}
-					echo $this->Button->button(__d('net_commons', 'More'),
+					echo $this->NetCommonsForm->button(__d('net_commons', 'More'),
 						[
 							// related-video-moreはJSで必要
 							'class' => 'btn btn-info btn-block related-video-more ' . $hidden,
