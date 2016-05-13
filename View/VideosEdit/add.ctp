@@ -39,16 +39,16 @@ $this->NetCommonsHtml->script(array(
 					<?php echo $this->NetCommonsForm->uploadFile(Video::VIDEO_FILE_FIELD, array(
 						'label' => __d('videos', 'Video file'),
 						'required' => true,
+						'help' => h($videoHelpBlockMessage),
 					)); ?>
-					<div class="help-block"><?php echo h($videoHelpBlockMessage); ?></div>
 
 					<?php /* ffmpeg=OFF */ ?>
 					<?php if (!$isFfmpegEnable) : ?>
 						<?php echo $this->NetCommonsForm->uploadFile(Video::THUMBNAIL_FIELD, array(
 							'label' => __d('videos', 'Thumbnail'),
 							'required' => true,
+							'help' => sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION),
 						)); ?>
-						<div class="help-block"><?php echo sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION); ?></div>
 					<?php endif; ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>

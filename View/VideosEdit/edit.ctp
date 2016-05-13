@@ -36,8 +36,8 @@ $this->NetCommonsHtml->script(array(
 					?>
 					<?php echo $this->NetCommonsForm->uploadFile(Video::THUMBNAIL_FIELD, array(
 						'label' => __d('videos', 'Thumbnail'),
+						'help' => h($thumbnailHelpBlockMessage),
 					)); ?>
-					<div class="help-block"><?php echo h($thumbnailHelpBlockMessage); ?></div>
 
 					<?php echo $this->NetCommonsForm->hidden('Video.id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.key'); ?>
