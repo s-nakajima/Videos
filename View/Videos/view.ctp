@@ -182,7 +182,8 @@ echo $this->NetCommonsHtml->script(array(
 				<?php foreach ($relatedVideos as $relatedVideo) : ?>
 					<article>
 						<div class="related-video <?php echo $i >= VideosController::START_LIMIT_RELATED_VIDEO ? 'hidden' : '' ?>">
-							<div class="col-xs-12  col-lg-6">
+							<?php /* PC表示で1件の時のみ、横長表示にする */ ?>
+							<div class="col-xs-12 <?php echo count($relatedVideos) >= 2 ? 'col-lg-6' : '' ?>">
 								<div class="panel panel-default" style="padding: 5px; margin: 0px 0px 5px 0px;">
 									<?php /* サムネイル */ ?>
 									<div class="media">

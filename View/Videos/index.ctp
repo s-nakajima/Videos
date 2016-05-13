@@ -15,10 +15,8 @@
 <div class="nc-content-list">
 <article>
 	<header>
-		<?php /* タグ検索時、タイトル表示 */ ?>
-		<?php if (!empty($listTitle)) : ?>
-			<h1><?php echo $listTitle ?></h1>
-		<?php endif; ?>
+		<?php /* ブロック名, タグ検索表示 */ ?>
+		<h1><?php echo $listTitle ?></h1>
 
 		<?php /* 上部ボタン */ ?>
 		<?php if (Current::permission('content_creatable')) : ?>
@@ -102,7 +100,8 @@
 		<div class="row">
 			<?php foreach ($videos as $video) : ?>
 				<article>
-					<div class="col-xs-12 col-lg-6">
+					<?php /* PC表示で1件の時のみ、横長表示にする */ ?>
+					<div class="col-xs-12 <?php echo $this->Paginator->param('count') >= 2 ? 'col-lg-6' : '' ?>">
 						<?php /* サムネイル */ ?>
 						<div class="row panel panel-default" style="padding: 5px; margin: 0px 0px 5px 0px;">
 							<div class="media">
