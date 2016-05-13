@@ -106,11 +106,10 @@ class VideoBehavior extends ModelBehavior {
 
 		// 変換エラー時
 		if ($ret != 0) {
-			CakeLog::debug('[' . __METHOD__ . '] ' . __FILE__ . ' (line ' . __LINE__ .
+			$this->log('[' . __METHOD__ . '] ' . __FILE__ . ' (line ' . __LINE__ .
 				') ffmpeg H.264 convert error');
-			CakeLog::debug($strCmd);
-			CakeLog::debug($arr);
-			CakeLog::debug($ret);
+			$this->log([$strCmd, $arr, $ret], LOG_DEBUG);
+
 			// 下記不具合修正後、物理ファイル削除対応する https://github.com/NetCommons3/NetCommons3/issues/203
 			//$model->UploadFile->removeFile($model->id, $noConvert['UploadFile']['id']);	//元動画 削除
 
@@ -189,11 +188,9 @@ class VideoBehavior extends ModelBehavior {
 
 		// 変換エラー時
 		if ($retImage != 0) {
-			CakeLog::debug('[' . __METHOD__ . '] ' . __FILE__ . ' (line ' . __LINE__ .
-				') ffmpeg thumbnail generat error');
-			CakeLog::debug($strCmd);
-			CakeLog::debug($arrImage);
-			CakeLog::debug($retImage);
+			$this->log('[' . __METHOD__ . '] ' . __FILE__ . ' (line ' . __LINE__ .
+				') ffmpeg thumbnail generat error', LOG_DEBUG);
+			$this->log([$strCmd, $arrImage, $retImage], LOG_DEBUG);
 			// return はしない
 		} else {
 			// サムネイルのファイル保存
