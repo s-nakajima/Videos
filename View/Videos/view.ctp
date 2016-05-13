@@ -29,15 +29,17 @@ echo $this->NetCommonsHtml->script(array(
 			</div>
 
 			<div class="col-xs-6 text-right">
-				<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
-					<a href="<?php echo $this->NetCommonsHtml->url(array(
-						'controller' => 'videos_edit',
-						'action' => 'edit',
-						'key' => $video['Video']['key']
-					)); ?>" class="btn btn-primary">
-						<span class="glyphicon glyphicon-edit"> </span>
-					</a>
-				</span>
+				<?php
+				$editUrl = $this->NetCommonsHtml->url(array(
+					'controller' => 'videos_edit',
+					'action' => 'edit',
+					'key' => $video['Video']['key']
+				));
+				echo $this->Button->editLink('',
+					$editUrl,
+					array('tooltip' => __d('net_commons', 'Edit'))
+				);
+				?>
 			</div>
 		</div>
 	</header>
@@ -240,10 +242,17 @@ echo $this->NetCommonsHtml->script(array(
 			<?php /* もっと見る */ ?>
 			<div class="row">
 				<div class="col-xs-12">
-					<button type="button" class="btn btn-info btn-block more related-video-more <?php echo $i <= VideosController::START_LIMIT_RELATED_VIDEO ? 'hidden' : '' ?>"
-							ng-click="more();">
-						<?php echo h(__d('net_commons', 'More')); ?>
-					</button>
+					<?php
+					$hidden = '';
+					if ($i <= VideosController::START_LIMIT_RELATED_VIDEO) {
+						$hidden = 'hidden';
+					}
+					echo $this->Button->button(__d('net_commons', 'More'),
+						[
+							'class' => 'btn btn-info btn-block related-video-more ' . $hidden,
+							'ng-click' => 'more();',
+						]
+					); ?>
 				</div>
 			</div>
 
