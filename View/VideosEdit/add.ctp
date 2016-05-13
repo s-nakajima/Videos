@@ -16,7 +16,9 @@ $this->NetCommonsHtml->script(array(
 ?>
 
 <div>
-	<article class="modal-body">
+	<article>
+		<?php /* ブロック名表示 */ ?>
+		<h1><?php echo Current::read('Block.name'); ?></h1>
 
 		<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>
 		<?php echo $this->NetCommonsForm->create('Video', array(

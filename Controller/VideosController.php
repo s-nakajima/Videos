@@ -125,6 +125,8 @@ class VideosController extends VideosAppController {
 		// 一覧取得
 		$results = $this->__list();
 		$this->set($results);
+
+		$this->set('listTitle', Current::read('Block.name'));
 	}
 
 /**
