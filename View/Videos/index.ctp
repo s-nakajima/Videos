@@ -16,7 +16,7 @@
 <article>
 	<header>
 		<?php /* ブロック名, タグ検索表示 */ ?>
-		<h1><?php echo $listTitle ?></h1>
+		<?php echo $this->NetCommonsHtml->blockTitle($listTitle); ?>
 
 		<?php /* 上部ボタン */ ?>
 		<?php if (Current::permission('content_creatable')) : ?>
