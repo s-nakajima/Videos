@@ -54,6 +54,7 @@ class VideosEditController extends VideosAppController {
  * @var array
  */
 	public $helpers = array(
+		'NetCommons.TitleIcon',
 		'Workflow.Workflow',
 	);
 

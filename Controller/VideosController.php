@@ -65,6 +65,7 @@ class VideosController extends VideosAppController {
 		),
 		'Likes.Like',
 		'NetCommons.DisplayNumber',
+		'NetCommons.TitleIcon',
 		'NetCommons.Token',
 		'Videos.Video',
 		'Workflow.Workflow',

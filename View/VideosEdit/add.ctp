@@ -53,11 +53,17 @@ $this->NetCommonsHtml->script(array(
 					<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
 
-					<?php echo $this->NetCommonsForm->input('Video.title', array(
-						'type' => 'text',
-						'label' => __d('videos', 'Title'),
-						'required' => true,
-					)); ?>
+					<?php
+					echo $this->TitleIcon->inputWithTitleIcon(
+						'Video.title',
+						'Video.title_icon',
+						array(
+							'type' => 'text',
+							'label' => __d('videos', 'Title'),
+							'required' => 'required',
+						)
+					);
+					?>
 
 					<?php echo $this->NetCommonsForm->input('Video.description', array(
 						'type' => 'textarea',

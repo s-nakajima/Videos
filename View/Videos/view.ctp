@@ -75,7 +75,10 @@ echo $this->NetCommonsHtml->script(array(
 		<div class="panel panel-default" style="padding: 0.5em 1em; margin-bottom: 5px;">
 			<div>
 				<?php /* タイトル */ ?>
-				<h1><?php echo $video['Video']['title']; ?></h1>
+				<h1>
+					<?php echo $this->TitleIcon->titleIcon($video['Video']['title_icon']); ?>
+					<?php echo $video['Video']['title']; ?>
+				</h1>
 			</div>
 			<p>
 			<div>
@@ -216,7 +219,10 @@ echo $this->NetCommonsHtml->script(array(
 										<small>
 											<div>
 												<a href="<?php echo $this->NetCommonsHtml->url('/videos/videos/view/' . Current::read('Block.id') . '/' . $relatedVideo['Video']['key']); ?>">
-													<h2><?php echo $relatedVideo['Video']['title']; ?></h2>
+													<h2>
+														<?php echo $this->TitleIcon->titleIcon($relatedVideo['Video']['title_icon']); ?>
+														<?php echo $relatedVideo['Video']['title']; ?>
+													</h2>
 												</a>
 											</div>
 											<a href="#"><?php echo $relatedVideo['User']['handlename'] ?></a><br />

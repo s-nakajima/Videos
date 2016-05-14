@@ -133,7 +133,10 @@
 										<small>
 											<div>
 												<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key']));?>">
-													<h2><?php echo $video['Video']['title']; ?></h2>
+													<h2>
+														<?php echo $this->TitleIcon->titleIcon($video['Video']['title_icon']); ?>
+														<?php echo $video['Video']['title']; ?>
+													</h2>
 												</a>
 											</div>
 											<a href="#"><?php echo $video['User']['handlename'] ?></a><br />
