@@ -46,7 +46,6 @@ class VideoBlockSetting extends VideosAppModel {
 				'Like' => 'Likes.Like',
 				'Tag' => 'Tags.Tag',
 				'Video' => 'Videos.Video',
-				'WorkflowComment' => 'Workflow.WorkflowComment',
 			)
 		),
 		'Mails.MailSetting',			// 自動でメール設定の削除
