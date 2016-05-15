@@ -18,7 +18,7 @@ $this->NetCommonsHtml->script(array(
 <div>
 	<article>
 		<?php /* ブロック名表示 */ ?>
-		<h1><?php echo Current::read('Block.name'); ?></h1>
+		<?php echo $this->NetCommonsHtml->blockTitle(Current::read('Block.name')); ?>
 
 		<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>
 		<?php echo $this->NetCommonsForm->create('Video', array(
@@ -53,11 +53,17 @@ $this->NetCommonsHtml->script(array(
 					<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
 
-					<?php echo $this->NetCommonsForm->input('Video.title', array(
-						'type' => 'text',
-						'label' => __d('videos', 'Title'),
-						'required' => true,
-					)); ?>
+					<?php
+					echo $this->TitleIcon->inputWithTitleIcon(
+						'Video.title',
+						'Video.title_icon',
+						array(
+							'type' => 'text',
+							'label' => __d('videos', 'Title'),
+							'required' => 'required',
+						)
+					);
+					?>
 
 					<?php echo $this->NetCommonsForm->input('Video.description', array(
 						'type' => 'textarea',

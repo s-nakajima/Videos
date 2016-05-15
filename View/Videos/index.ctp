@@ -16,7 +16,7 @@
 <article>
 	<header>
 		<?php /* ブロック名, タグ検索表示 */ ?>
-		<h1><?php echo $listTitle ?></h1>
+		<?php echo $this->NetCommonsHtml->blockTitle($listTitle); ?>
 
 		<?php /* 上部ボタン */ ?>
 		<?php if (Current::permission('content_creatable')) : ?>
@@ -99,65 +99,64 @@
 		<?php /* 動画一覧 */ ?>
 		<div class="row">
 			<?php foreach ($videos as $video) : ?>
-				<article>
-					<?php /* PC表示で1件の時のみ、横長表示にする */ ?>
-					<div class="col-xs-12 <?php echo $this->Paginator->param('count') >= 2 ? 'col-lg-6' : '' ?>">
-						<?php /* サムネイル */ ?>
-						<div class="row panel panel-default" style="padding: 5px; margin: 0px 0px 5px 0px;">
-							<div class="media">
+				<article class="col-xs-12">
+					<?php /* サムネイル */ ?>
+					<div class="row panel panel-default" style="padding: 5px; margin: 0px 0px 5px 0px;">
+						<div class="media">
 
-								<div class="media-left">
-									<div>
-										<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key'])); ?>">
-												<?php echo $this->NetCommonsHtml->image(
-													$this->NetCommonsHtml->url(
-														[
-															'action' => 'file',
-															'key' => $video['Video']['key'],
-															Video::THUMBNAIL_FIELD,
-														]
-													),
+							<div class="media-left">
+								<div>
+									<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key'])); ?>">
+											<?php echo $this->NetCommonsHtml->image(
+												$this->NetCommonsHtml->url(
 													[
-														'alt' => $video['Video']['title'],
-														//'style' => 'width: 140px; height: auto;'
-														'style' => 'width: 150px; height: 110px;'
+														'action' => 'file',
+														'key' => $video['Video']['key'],
+														Video::THUMBNAIL_FIELD,
 													]
-												); ?>
-										</a>
-									</div>
-									<?php /* 再生時間 */ ?>
-									<?php echo $this->Video->playTime($video['Video']['video_time'], $isFfmpegEnable); ?>
+												),
+												[
+													'alt' => $video['Video']['title'],
+													'style' => 'width: 140px; height: auto;'
+												]
+											); ?>
+									</a>
 								</div>
+								<?php /* 再生時間 */ ?>
+								<?php echo $this->Video->playTime($video['Video']['video_time'], $isFfmpegEnable); ?>
+							</div>
 
-								<div class="media-body">
-									<div class="row">
-										<?php /* タイトル、投稿者、各種回数 */ ?>
-										<div class="col-xs-12">
-											<small>
-												<div>
-													<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key']));?>">
-														<h2><?php echo $video['Video']['title']; ?></h2>
-													</a>
-												</div>
-												<a href="#"><?php echo $video['User']['handlename'] ?></a><br />
-												<span style="padding-right: 15px;">
-													<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['Video']['play_number'] ?>
-												</span>
-												<?php /* コメント数 */ ?>
-												<?php echo $this->ContentComment->count($video); ?>
-
-												<?php /* いいね */ ?>
-												<?php echo $this->Like->display($videoBlockSetting, $video); ?>
-											</small>
+							<div class="media-body">
+								<div class="row">
+									<?php /* タイトル、投稿者、各種回数 */ ?>
+									<div class="col-xs-12">
+										<small>
 											<div>
-												<?php /* ステータス */ ?>
-												<?php echo $this->Workflow->label($video['Video']['status']); ?>
+												<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key']));?>">
+													<h2>
+														<?php echo $this->TitleIcon->titleIcon($video['Video']['title_icon']); ?>
+														<?php echo $video['Video']['title']; ?>
+													</h2>
+												</a>
 											</div>
+											<a href="#"><?php echo $video['User']['handlename'] ?></a><br />
+											<span style="padding-right: 15px;">
+												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['Video']['play_number'] ?>
+											</span>
+											<?php /* コメント数 */ ?>
+											<?php echo $this->ContentComment->count($video); ?>
+
+											<?php /* いいね */ ?>
+											<?php echo $this->Like->display($videoBlockSetting, $video); ?>
+										</small>
+										<div>
+											<?php /* ステータス */ ?>
+											<?php echo $this->Workflow->label($video['Video']['status']); ?>
 										</div>
 									</div>
 								</div>
-
 							</div>
+
 						</div>
 					</div>
 				</article>

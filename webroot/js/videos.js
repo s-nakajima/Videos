@@ -42,7 +42,7 @@ NetCommonsApp.controller('RelatedVideos',
        * @return {void}
        */
       $scope.more = function() {
-        $('div.related-video:hidden').removeClass('hidden');
+        $('article.related-video:hidden').removeClass('hidden');
         $('button.related-video-more').hide(0);
       };
     }]);

@@ -17,7 +17,7 @@ $this->NetCommonsHtml->script(array(
 <div>
 	<article>
 		<?php /* ブロック名表示 */ ?>
-		<h1><?php echo Current::read('Block.name'); ?></h1>
+		<?php echo $this->NetCommonsHtml->blockTitle(Current::read('Block.name')); ?>
 
 		<div class="panel panel-default">
 			<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>
@@ -28,11 +28,11 @@ $this->NetCommonsHtml->script(array(
 			)); ?>
 				<div class="panel-body has-feedback">
 					<?php
-						if ($isFfmpegEnable) {
-							$thumbnailHelpBlockMessage = __d('videos', 'Please register if you want to change.') . sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
-						} else {
-							$thumbnailHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
-						}
+					if ($isFfmpegEnable) {
+						$thumbnailHelpBlockMessage = __d('videos', 'Please register if you want to change.') . sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
+					} else {
+						$thumbnailHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
+					}
 					?>
 					<?php echo $this->NetCommonsForm->uploadFile(Video::THUMBNAIL_FIELD, array(
 						'label' => __d('videos', 'Thumbnail'),
@@ -51,11 +51,17 @@ $this->NetCommonsHtml->script(array(
 					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::THUMBNAIL_FIELD . '.id'); ?>
 					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::THUMBNAIL_FIELD . '.field_name'); ?>
 
-					<?php echo $this->NetCommonsForm->input('Video.title', array(
-						'type' => 'text',
-						'label' => __d('videos', 'Title'),
-						'required' => true
-					)); ?>
+					<?php
+					echo $this->TitleIcon->inputWithTitleIcon(
+						'Video.title',
+						'Video.title_icon',
+						array(
+							'type' => 'text',
+							'label' => __d('videos', 'Title'),
+							'required' => 'required',
+						)
+					);
+					?>
 
 					<?php echo $this->NetCommonsForm->input('Video.description', array(
 						'type' => 'textarea',
