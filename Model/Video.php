@@ -314,6 +314,7 @@ class Video extends VideosAppModel {
 
 		try {
 			// 動画削除($callbacks = true)
+			$this->contentKey = $data['Video']['key'];
 			if (! $this->deleteAll(array($this->alias . '.key' => $data['Video']['key']), false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
