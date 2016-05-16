@@ -60,7 +60,6 @@ class VideoBlockSettingDeleteVideoBlockSettingTest extends NetCommonsDeleteTest 
  */
 	protected $_methodName = 'deleteVideoBlockSetting';
 
-
 /**
  * setUp method
  *

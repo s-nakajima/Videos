@@ -322,7 +322,8 @@ class Video extends VideosAppModel {
 			// 動画とサムネイルのデータと物理ファイル削除
 			foreach ($uploadFiles as $uploadFile) {
 				foreach ($uploadFile['UploadFilesContent'] as $uploadFilesContent) {
-					$this->UploadFile->removeFile($uploadFilesContent['content_id'], $uploadFilesContent['upload_file_id']);
+					$this->UploadFile->removeFile($uploadFilesContent['content_id'],
+						$uploadFilesContent['upload_file_id']);
 				}
 			}
 
