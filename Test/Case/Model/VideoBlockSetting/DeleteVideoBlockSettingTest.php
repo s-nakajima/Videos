@@ -11,6 +11,7 @@
 
 App::uses('NetCommonsDeleteTest', 'NetCommons.TestSuite');
 App::uses('VideoBlockSettingFixture', 'Videos.Test/Fixture');
+App::uses('VideoTestUtil', 'Videos.Test/Case');
 
 /**
  * VideoBlockSetting::deleteVideoBlockSetting()のテスト
@@ -59,6 +60,32 @@ class VideoBlockSettingDeleteVideoBlockSettingTest extends NetCommonsDeleteTest 
  */
 	protected $_methodName = 'deleteVideoBlockSetting';
 
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		// テスト実ファイル配置
+		$this->_testFilePath = APP . WEBROOT_DIR . DS . 'files/upload_file/test/11/';
+		(new VideoTestUtil())->readyTestFile('Videos', 'video1.mp4', $this->_testFilePath);
+	}
+
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
+		// テスト実ファイル削除
+		(new VideoTestUtil())->deleteTestFile($this->_testFilePath);
+
+		parent::tearDown();
+	}
+
 /**
  * Delete用DataProvider
  *
@@ -97,7 +124,6 @@ class VideoBlockSettingDeleteVideoBlockSettingTest extends NetCommonsDeleteTest 
 			array($data, 'Tags.TagsContent', 'deleteAll'),
 			array($data, 'Likes.LikesUser', 'deleteAll'),
 			array($data, 'Files.UploadFile', 'deleteAll'),
-			array($data, 'Files.UploadFilesContent', 'deleteAll'),
 		);
 	}
 

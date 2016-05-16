@@ -130,7 +130,6 @@ class VideoDeleteVideoTest extends WorkflowDeleteTest {
 			array($data, 'Likes.Like', 'deleteAll'),
 			array($data, 'Tags.TagsContent', 'deleteAll'),
 			array($data, 'Files.UploadFile', 'deleteAll'),
-			array($data, 'Files.UploadFilesContent', 'deleteAll'),
 		);
 	}
 

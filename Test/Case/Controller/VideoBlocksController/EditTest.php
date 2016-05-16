@@ -10,6 +10,7 @@
  */
 
 App::uses('BlocksControllerEditTest', 'Blocks.TestSuite');
+App::uses('VideoTestUtil', 'Videos.Test/Case');
 
 /**
  * VideoBlocksController::add(),edit(),delete()
@@ -261,10 +262,12 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 	public function dataProviderDelete() {
 		$data = array(
 			'Block' => array(
-				'id' => '4',
+				//'id' => '4',
+				'id' => '2',
 			),
 			'VideoBlockSetting' => array(
-				'block_key' => 'block_2',
+				//'block_key' => 'block_2',
+				'block_key' => 'block_1',
 			),
 		);
 		//Current::$current['Block']['key'] = 'block_2';
@@ -274,6 +277,24 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		$results[0] = array('data' => $data);
 
 		return $results;
+	}
+
+/**
+ * delete()のテスト
+ *
+ * @param array $data 削除データ
+ * @dataProvider dataProviderDelete
+ * @return void
+ */
+	public function testDelete($data) {
+		// テスト実ファイル配置
+		$this->_testFilePath = APP . WEBROOT_DIR . DS . 'files/upload_file/test/11/';
+		(new VideoTestUtil())->readyTestFile('Videos', 'video1.mp4', $this->_testFilePath);
+
+		parent::testDelete($data);
+
+		// テスト実ファイル削除
+		(new VideoTestUtil())->deleteTestFile($this->_testFilePath);
 	}
 
 /**
