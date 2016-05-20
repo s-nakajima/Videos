@@ -45,7 +45,7 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
 	protected $_controller = 'video_block_role_permissions';
 
 /**
- * 権限設定で使用するFieldsの取得
+ * 権限設定で使うFieldsの取得
  *
  * @return array
  */
