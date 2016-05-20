@@ -8,9 +8,10 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-?>
 
-<?php echo $this->NetCommonsHtml->script('/videos/js/videos.js'); ?>
+echo $this->NetCommonsHtml->css('/videos/css/style.css');
+echo $this->NetCommonsHtml->script('/videos/js/videos.js');
+?>
 
 <div class="nc-content-list">
 <article>
@@ -144,7 +145,7 @@
 												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['Video']['play_number'] ?>
 											</span>
 											<?php /* コメント数 */ ?>
-											<?php echo $this->ContentComment->count($video); ?>
+											<?php echo $this->ContentComment->count($video, array('class' => 'comment-count')); ?>
 
 											<?php /* いいね */ ?>
 											<?php echo $this->Like->display($videoBlockSetting, $video); ?>

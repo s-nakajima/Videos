@@ -9,7 +9,10 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-echo $this->NetCommonsHtml->css(array('/likes/css/style.css'));
+echo $this->NetCommonsHtml->css(array(
+	'/likes/css/style.css',
+	'/videos/css/style.css',
+));
 echo $this->NetCommonsHtml->script(array(
 	'/likes/js/likes.js',
 	'/videos/js/videos.js',
@@ -230,7 +233,7 @@ echo $this->NetCommonsHtml->script(array(
 												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $relatedVideo['Video']['play_number'] ?>
 											</span>
 
-											<?php echo $this->ContentComment->count($relatedVideo); ?>
+											<?php echo $this->ContentComment->count($relatedVideo, array('class' => 'comment-count')); ?>
 											<?php echo $this->Like->display($videoBlockSetting, $relatedVideo); ?>
 										</small>
 									</div>
