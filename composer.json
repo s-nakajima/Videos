@@ -8,23 +8,18 @@
         }
     },
     "require": {
-        "cakephp/cakephp":              "~2.6",
-        "cakephp/debug_kit":            "~2.2",
         "cakedc/migrations":            "~2.2",
-        "components/jquery":            "~2.1",
-        "phpunit/phpunit":              "~3.7.38",
-        "twbs/bootstrap":               "~3.1"
-    },
-    "require-dev": {
-        "mustangostang/spyc":           "dev-master",
+        "netcommons/blocks":            "dev-master",
         "netcommons/content-comments":  "dev-master",
         "netcommons/files":             "dev-master",
         "netcommons/likes":             "dev-master",
         "netcommons/mails":             "dev-master",
         "netcommons/net-commons":       "dev-master",
+        "netcommons/pages":             "dev-master",
+        "netcommons/plugin-manager":    "dev-master",
         "netcommons/tags":              "dev-master",
-        "netcommons/workflow":          "dev-master",
-        "satooshi/php-coveralls":       "dev-master"
+        "netcommons/users":             "dev-master",
+        "netcommons/workflow":          "dev-master"
     },
     "license": "NetCommons License",
     "authors": [
@@ -36,7 +31,7 @@
         },
         {
             "name": "NetCommons Community",
-            "homepage": "https://github.com/NetCommons3/OnlineStatuses/graphs/contributors"
+            "homepage": "https://github.com/NetCommons3/Videos/graphs/contributors"
         }
     ],
     "type":        "cakephp-plugin",
