@@ -114,10 +114,6 @@ msgstr "Embed"
 msgid "Registration Date"
 msgstr "Registration Date"
 
-#: Plugin/Videos/View/Videos/view.ctp
-msgid "Move list"
-msgstr "Move list"
-
 #: Plugin/Videos/View/VideosEdit/add.ctp:33;35;51
 #: Plugin/Videos/View/VideosEdit/edit.ctp:31;33
 msgid "support of %s."

@@ -114,10 +114,6 @@ msgstr "埋め込みコード"
 msgid "Registration Date"
 msgstr "登録日"
 
-#: Plugin/Videos/View/Videos/view.ctp
-msgid "Move list"
-msgstr "一覧へ"
-
 #: Plugin/Videos/View/VideosEdit/add.ctp:33;35;51
 #: Plugin/Videos/View/VideosEdit/edit.ctp:31;33
 msgid "support of %s."
