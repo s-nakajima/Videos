@@ -21,29 +21,29 @@ echo $this->NetCommonsHtml->script(array(
 <article>
 
 <?php /* 上部ボタン */ ?>
-<?php if ($this->Workflow->canEdit("Videos.Video", $video)) : ?>
-	<header>
-		<div class="row">
-			<div class="col-xs-6 text-left">
-			<?php echo $this->BackTo->pageLinkButton(__d('net_commons', 'To list'), array('icon' => 'list')) ?>
-			</div>
+<header>
+	<div class="row">
+		<div class="col-xs-6 text-left">
+		<?php echo $this->BackTo->pageLinkButton(__d('net_commons', 'To list'), array('icon' => 'list')) ?>
+		</div>
 
-			<div class="col-xs-6 text-right">
-				<?php
+		<div class="col-xs-6 text-right">
+			<?php
+			if ($this->Workflow->canEdit("Videos.Video", $video)) {
 				$editUrl = $this->NetCommonsHtml->url(array(
-					'controller' => 'videos_edit',
-					'action' => 'edit',
-					'key' => $video['Video']['key']
+				'controller' => 'videos_edit',
+				'action' => 'edit',
+				'key' => $video['Video']['key']
 				));
 				echo $this->Button->editLink('',
-					$editUrl,
-					array('tooltip' => __d('net_commons', 'Edit'))
+				$editUrl,
+				array('tooltip' => __d('net_commons', 'Edit'))
 				);
-				?>
-			</div>
+			}
+			?>
 		</div>
-	</header>
-<?php endif; ?>
+	</div>
+</header>
 
 <?php /* 動画 */ ?>
 <div class="row" ng-controller="VideoView">
