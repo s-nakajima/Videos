@@ -24,7 +24,7 @@ echo $this->NetCommonsHtml->script(array(
 <header>
 	<div class="row">
 		<div class="col-xs-6 text-left">
-		<?php echo $this->BackTo->pageLinkButton(__d('net_commons', 'To list'), array('icon' => 'list')) ?>
+		<?php echo $this->BackTo->listLinkButton(); ?>
 		</div>
 
 		<div class="col-xs-6 text-right">
