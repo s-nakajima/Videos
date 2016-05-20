@@ -28,7 +28,7 @@ $this->NetCommonsHtml->script(array(
 		)); ?>
 
 			<div class="panel panel-default">
-				<div class="panel-body has-feedback">
+				<div class="panel-body">
 					<?php
 						if ($isFfmpegEnable) {
 							$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::VIDEO_EXTENSION);

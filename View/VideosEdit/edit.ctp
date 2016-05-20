@@ -26,7 +26,7 @@ $this->NetCommonsHtml->script(array(
 				'novalidate' => true,
 				'type' => 'file',
 			)); ?>
-				<div class="panel-body has-feedback">
+				<div class="panel-body">
 					<?php
 					if ($isFfmpegEnable) {
 						$thumbnailHelpBlockMessage = __d('videos', 'Please register if you want to change.') . sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
