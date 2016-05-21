@@ -233,7 +233,7 @@ echo $this->NetCommonsHtml->script(array(
 												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $relatedVideo['Video']['play_number'] ?>
 											</span>
 
-											<?php echo $this->ContentComment->count($relatedVideo, array('class' => 'comment-count')); ?>
+											<?php echo $this->ContentComment->count($relatedVideo, array('class' => 'video-comment-count')); ?>
 											<?php echo $this->Like->display($videoBlockSetting, $relatedVideo); ?>
 										</small>
 									</div>

@@ -145,7 +145,7 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 												<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['Video']['play_number'] ?>
 											</span>
 											<?php /* コメント数 */ ?>
-											<?php echo $this->ContentComment->count($video, array('class' => 'comment-count')); ?>
+											<?php echo $this->ContentComment->count($video, array('class' => 'video-comment-count')); ?>
 
 											<?php /* いいね */ ?>
 											<?php echo $this->Like->display($videoBlockSetting, $video); ?>
