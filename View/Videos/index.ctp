@@ -21,7 +21,7 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 
 		<?php /* 上部ボタン */ ?>
 		<?php if (Current::permission('content_creatable')) : ?>
-			<div class="row">
+			<div class="row video-margin-row">
 				<div class="col-xs-12 text-right">
 					<?php
 					$addUrl = $this->NetCommonsHtml->url(array('controller' => 'videos_edit', 'action' => 'add'));
@@ -40,8 +40,7 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 		<div><?php echo __d('videos', 'There are no videos that are currently published.'); ?></div>
 	<?php else : ?>
 		<?php /* 件数、ソート順、表示件数 */ ?>
-		<p>
-		<div class="row">
+		<div class="row video-margin-row">
 			<div class="col-sm-3 col-xs-4">
 				<div class="form-inline text-left text-nowrap">
 					<strong><?php echo sprintf(__d('videos', '%s items'), $this->Paginator->param('count')); ?></strong>
@@ -95,7 +94,6 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 				</div>
 			</div>
 		</div>
-		</p>
 
 		<?php /* 動画一覧 */ ?>
 		<div class="row">

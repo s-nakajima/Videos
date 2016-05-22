@@ -49,33 +49,33 @@ echo $this->NetCommonsHtml->script(array(
 </header>
 
 <?php /* 動画 */ ?>
-<div class="row" ng-controller="VideoView">
+<div class="row video-margin-row">
 	<div class="col-xs-12">
-		<p>
-		<div>
-			<?php /* 動画プレイヤー */ ?>
-			<?php echo $this->element('Videos/player', array(
-				'fileMp4Url' => $this->NetCommonsHtml->url(
-					[
-						'action' => 'file',
-						'key' => $video['Video']['key'],
-						Video::VIDEO_FILE_FIELD,
-					]
-				),
-				'fileThumbnailUrl' => $this->NetCommonsHtml->url(
-					[
-						'action' => 'file',
-						'key' => $video['Video']['key'],
-						Video::THUMBNAIL_FIELD,
-						'big',
-					]
-				),
-				'isAutoPlay' => $videoBlockSetting['auto_play'],
-			)); ?>
-		</div>
-		</p>
+		<?php /* 動画プレイヤー */ ?>
+		<?php echo $this->element('Videos/player', array(
+			'fileMp4Url' => $this->NetCommonsHtml->url(
+				[
+					'action' => 'file',
+					'key' => $video['Video']['key'],
+					Video::VIDEO_FILE_FIELD,
+				]
+			),
+			'fileThumbnailUrl' => $this->NetCommonsHtml->url(
+				[
+					'action' => 'file',
+					'key' => $video['Video']['key'],
+					Video::THUMBNAIL_FIELD,
+					'big',
+				]
+			),
+			'isAutoPlay' => $videoBlockSetting['auto_play'],
+		)); ?>
+	</div>
+</div>
 
-		<div class="panel panel-default" style="padding: 0.5em 1em; margin-bottom: 5px;">
+<div class="row video-margin-row" ng-controller="VideoView">
+	<div class="col-xs-12">
+		<div class="panel panel-default video-detail">
 			<div>
 				<?php /* タイトル */ ?>
 				<h1>
@@ -83,12 +83,10 @@ echo $this->NetCommonsHtml->script(array(
 					<?php echo $video['Video']['title']; ?>
 				</h1>
 			</div>
-			<p>
-			<div>
+			<div class="video-margin-status">
 				<?php /* ステータス */ ?>
 				<?php echo $this->Workflow->label($video['Video']['status']); ?>
 			</div>
-			</p>
 			<div class="media">
 				<div class="media-left">
 					<?php /* アバター */ ?>
@@ -181,9 +179,8 @@ echo $this->NetCommonsHtml->script(array(
 </div>
 
 <?php /* 関連動画 */ ?>
-<div class="row">
+<div class="row video-margin-row">
 	<div class="col-xs-12">
-		<p>
 		<div id="nc-related-videos-<?php echo Current::read('Frame.id'); ?>" ng-controller="RelatedVideos">
 			<div class="row">
 				<?php $i = 0; ?>
@@ -264,7 +261,6 @@ echo $this->NetCommonsHtml->script(array(
 			</div>
 
 		</div>
-		</p>
 	</div>
 </div>
 

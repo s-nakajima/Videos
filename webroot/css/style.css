@@ -7,6 +7,24 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+/* グリッド行間 */
+.video-margin-row {
+	margin-bottom: 10px;
+}
+
+/* 詳細のステータス */
+.video-margin-status {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+/* 詳細説明 */
+.video-detail {
+	padding: 0.5em 1em;
+	margin-bottom: 0px;
+}
+
+/* 一覧のコメント数 */
 .video-comment-count {
 	padding-right: 15px;
 }
