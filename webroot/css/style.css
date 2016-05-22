@@ -12,19 +12,59 @@
 	margin-bottom: 10px;
 }
 
-/* 詳細のステータス */
-.video-margin-status {
-	margin-top: 10px;
-	margin-bottom: 10px;
+/* 一覧の再生数やコメント数等の表示 */
+.video-count-icons {
+	padding-right: 15px;
 }
 
+/* 一覧のサムネイル表示 */
+.video-thumbnail-row {
+	padding: 5px;
+	margin: 0px 0px 5px 0px;
+}
+.video-thumbnail-image {
+	width: 140px;
+	height: auto;
+}
+
+/* 一覧の動画再生時間 */
+.video-time-width {
+	width: 140px;
+}
+.video-time-position {
+	margin-top: -20px;
+	margin-right: 2px;
+}
+.video-time-color {
+	background-color: #000;
+	color: #FFF;
+	font-weight: bold;
+	font-size: 11px;
+	opacity: 0.75;
+	padding: 0px 7px;
+}
+
+/*
+ * --- 詳細画面
+ */
 /* 詳細説明 */
 .video-detail {
 	padding: 0.5em 1em;
 	margin-bottom: 0px;
 }
 
-/* 一覧のコメント数 */
-.video-comment-count {
+/* 再生回数 */
+.video-detail-play-count {
+	font-size: 18px;
+}
+
+/* 埋め込みコード */
+.video-embed {
+	display: none;
+}
+
+/* ダウンロードや埋め込みコードのリンク表示 */
+.video-detail-links {
 	padding-right: 15px;
 }
+

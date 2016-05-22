@@ -100,7 +100,7 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 				<?php foreach ($videos as $video) : ?>
 					<article class="col-xs-12">
 						<?php /* サムネイル */ ?>
-						<div class="row panel panel-default" style="padding: 5px; margin: 0px 0px 5px 0px;">
+						<div class="row panel panel-default video-thumbnail-row">
 							<div class="media">
 
 								<div class="media-left">
@@ -116,7 +116,7 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 													),
 													[
 														'alt' => $video['Video']['title'],
-														'style' => 'width: 140px; height: auto;'
+														'class' => 'img-rounded video-thumbnail-image',
 													]
 												); ?>
 										</a>
@@ -139,11 +139,11 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 													</a>
 												</div>
 												<a href="#"><?php echo $video['User']['handlename'] ?></a><br />
-												<span style="padding-right: 15px;">
+												<span class="video-count-icons">
 													<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['Video']['play_number'] ?>
 												</span>
 												<?php /* コメント数 */ ?>
-												<?php echo $this->ContentComment->count($video, array('class' => 'video-comment-count')); ?>
+												<?php echo $this->ContentComment->count($video, array('class' => 'video-count-icons')); ?>
 
 												<?php /* いいね */ ?>
 												<?php echo $this->Like->display($videoBlockSetting, $video); ?>

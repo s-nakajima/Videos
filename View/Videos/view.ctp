@@ -83,7 +83,7 @@ echo $this->NetCommonsHtml->script(array(
 							<?php echo $video['Video']['title']; ?>
 						</h1>
 					</div>
-					<div class="video-margin-status">
+					<div>
 						<?php /* ステータス */ ?>
 						<?php echo $this->Workflow->label($video['Video']['status']); ?>
 					</div>
@@ -101,7 +101,7 @@ echo $this->NetCommonsHtml->script(array(
 									<?php /* 投稿者 */ ?>
 									<?php echo $this->DisplayUser->handleLink($video); ?>
 								</div>
-								<div class="col-xs-6 text-right" style="font-size: 18px;">
+								<div class="col-xs-6 text-right video-detail-play-count">
 									<?php /* 再生回数 */ ?>
 									<?php echo sprintf(__d('videos', 'Views %s times'), $video['Video']['play_number']); ?>
 								</div>
@@ -110,7 +110,7 @@ echo $this->NetCommonsHtml->script(array(
 								<div class="col-xs-12 text-right">
 									<?php /* ブロック編集許可OK（編集長以上）ならダウンロードできる */ ?>
 									<?php if (Current::permission('block_editable')): ?>
-										<span style="padding-right: 15px;">
+										<span class="video-detail-links">
 											<?php /* ダウンロード */ ?>
 											<a authorization-keys-popup-link frame-id="<?php echo Current::read('Frame.id'); ?>"
 											   url="<?php echo NetCommonsUrl::actionUrl(array(
@@ -129,7 +129,7 @@ echo $this->NetCommonsHtml->script(array(
 										</span>
 									<?php endif; ?>
 
-									<span style="padding-right: 15px;">
+									<span class="video-detail-links">
 										<?php /* 埋め込みコード */ ?>
 										<a href="" ng-click="embed();"><?php echo __d('videos', 'Embed'); ?></a>
 									</span>
@@ -142,7 +142,7 @@ echo $this->NetCommonsHtml->script(array(
 						</div>
 						<div class="clearfix"></div>
 					</div>
-					<div class="form-group video-embed" style="display: none;">
+					<div class="form-group video-embed">
 						<?php /* 埋め込みコード(非表示) */ ?>
 						<input type="text" class="form-control video-embed-text" value='<iframe width="400" height="300" src="<?php echo $this->NetCommonsHtml->url(
 							[
@@ -188,7 +188,7 @@ echo $this->NetCommonsHtml->script(array(
 							<?php /* related-videoはJSで必要 */ ?>
 							<article class="related-video <?php echo $i >= VideosController::START_LIMIT_RELATED_VIDEO ? 'hidden' : '' ?>">
 								<div class="col-xs-12">
-									<div class="panel panel-default" style="padding: 5px; margin: 0px 0px 5px 0px;">
+									<div class="panel panel-default video-thumbnail-row">
 										<?php /* サムネイル */ ?>
 										<div class="media">
 											<div class="media-left">
@@ -205,7 +205,7 @@ echo $this->NetCommonsHtml->script(array(
 																),
 																[
 																	'alt' => $relatedVideo['Video']['title'],
-																	'style' => 'width: 140px; height: auto;'
+																	'class' => 'img-rounded video-thumbnail-image',
 																]
 															); ?>
 														</a>
@@ -226,11 +226,11 @@ echo $this->NetCommonsHtml->script(array(
 														</a>
 													</div>
 													<a href="#"><?php echo $relatedVideo['User']['handlename'] ?></a><br />
-													<span style="padding-right: 15px;">
+													<span class="video-count-icons">
 														<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $relatedVideo['Video']['play_number'] ?>
 													</span>
 
-													<?php echo $this->ContentComment->count($relatedVideo, array('class' => 'video-comment-count')); ?>
+													<?php echo $this->ContentComment->count($relatedVideo, array('class' => 'video-count-icons')); ?>
 													<?php echo $this->Like->display($videoBlockSetting, $relatedVideo); ?>
 												</small>
 											</div>
