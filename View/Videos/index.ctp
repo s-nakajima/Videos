@@ -98,66 +98,12 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 			<?php /* 動画一覧 */ ?>
 			<div class="row">
 				<?php foreach ($videos as $video) : ?>
-					<article class="col-xs-12">
-						<?php /* サムネイル */ ?>
-						<div class="row panel panel-default video-thumbnail-row">
-							<div class="media">
-
-								<div class="media-left">
-									<div>
-										<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key'])); ?>">
-												<?php echo $this->NetCommonsHtml->image(
-													$this->NetCommonsHtml->url(
-														[
-															'action' => 'file',
-															'key' => $video['Video']['key'],
-															Video::THUMBNAIL_FIELD,
-														]
-													),
-													[
-														'alt' => $video['Video']['title'],
-														'class' => 'img-rounded video-thumbnail-image',
-													]
-												); ?>
-										</a>
-									</div>
-									<?php /* 再生時間 */ ?>
-									<?php echo $this->Video->playTime($video['Video']['video_time'], $isFfmpegEnable); ?>
-								</div>
-
-								<div class="media-body">
-									<div class="row">
-										<?php /* タイトル、投稿者、各種回数 */ ?>
-										<div class="col-xs-12">
-											<small>
-												<div>
-													<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key']));?>">
-														<h2>
-															<?php echo $this->TitleIcon->titleIcon($video['Video']['title_icon']); ?>
-															<?php echo $video['Video']['title']; ?>
-														</h2>
-													</a>
-												</div>
-												<a href="#"><?php echo $video['User']['handlename'] ?></a><br />
-												<span class="video-count-icons">
-													<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['Video']['play_number'] ?>
-												</span>
-												<?php /* コメント数 */ ?>
-												<?php echo $this->ContentComment->count($video, array('class' => 'video-count-icons')); ?>
-
-												<?php /* いいね */ ?>
-												<?php echo $this->Like->display($videoBlockSetting, $video); ?>
-											</small>
-											<div>
-												<?php /* ステータス */ ?>
-												<?php echo $this->Workflow->label($video['Video']['status']); ?>
-											</div>
-										</div>
-									</div>
-								</div>
-
-							</div>
-						</div>
+					<article>
+						<?php echo $this->element('Videos.Videos/list', array(
+							"video" => $video,
+							"videoBlockSetting" => $videoBlockSetting,
+							"isFfmpegEnable" => $isFfmpegEnable,
+						)); ?>
 					</article>
 				<?php endforeach; ?>
 			</div>

@@ -187,56 +187,11 @@ echo $this->NetCommonsHtml->script(array(
 						<?php foreach ($relatedVideos as $relatedVideo) : ?>
 							<?php /* related-videoはJSで必要 */ ?>
 							<article class="related-video <?php echo $i >= VideosController::START_LIMIT_RELATED_VIDEO ? 'hidden' : '' ?>">
-								<div class="col-xs-12">
-									<div class="panel panel-default video-thumbnail-row">
-										<?php /* サムネイル */ ?>
-										<div class="media">
-											<div class="media-left">
-												<div>
-													<div>
-														<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $relatedVideo['Video']['key'])); ?>">
-															<?php echo $this->NetCommonsHtml->image(
-																$this->NetCommonsHtml->url(
-																	[
-																		'action' => 'file',
-																		'key' => $relatedVideo['Video']['key'],
-																		Video::THUMBNAIL_FIELD,
-																	]
-																),
-																[
-																	'alt' => $relatedVideo['Video']['title'],
-																	'class' => 'img-rounded video-thumbnail-image',
-																]
-															); ?>
-														</a>
-													</div>
-													<?php /* 再生時間 */ ?>
-													<?php echo $this->Video->playTime($relatedVideo['Video']['video_time'], $isFfmpegEnable); ?>
-												</div>
-											</div>
-											<?php /* タイトル、投稿者、各種回数 */ ?>
-											<div class="media-body">
-												<small>
-													<div>
-														<a href="<?php echo $this->NetCommonsHtml->url('/videos/videos/view/' . Current::read('Block.id') . '/' . $relatedVideo['Video']['key']); ?>">
-															<h2>
-																<?php echo $this->TitleIcon->titleIcon($relatedVideo['Video']['title_icon']); ?>
-																<?php echo $relatedVideo['Video']['title']; ?>
-															</h2>
-														</a>
-													</div>
-													<a href="#"><?php echo $relatedVideo['User']['handlename'] ?></a><br />
-													<span class="video-count-icons">
-														<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $relatedVideo['Video']['play_number'] ?>
-													</span>
-
-													<?php echo $this->ContentComment->count($relatedVideo, array('class' => 'video-count-icons')); ?>
-													<?php echo $this->Like->display($videoBlockSetting, $relatedVideo); ?>
-												</small>
-											</div>
-										</div>
-									</div>
-								</div>
+								<?php echo $this->element('Videos.Videos/list', array(
+									"video" => $relatedVideo,
+									"videoBlockSetting" => $videoBlockSetting,
+									"isFfmpegEnable" => $isFfmpegEnable,
+								)); ?>
 							</article>
 							<?php $i++; ?>
 						<?php endforeach; ?>
