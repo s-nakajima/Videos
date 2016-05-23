@@ -17,23 +17,16 @@
 	<div class="tab-content">
 		<?php echo $this->BlockTabs->block(BlockTabsHelper::BLOCK_TAB_SETTING); ?>
 
-		<?php echo $this->element('Blocks.edit_form', array(
+		<?php echo $this->BlockForm->displayEditForm(array(
 			'model' => 'VideoBlockSetting',
 			'callback' => 'Videos.VideoBlocks/edit_form',
 			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
+			'displayModified' => true,
 		)); ?>
 
-		<?php if ($this->request->params['action'] === 'edit') : ?>
-			<?php echo $this->element('Blocks.delete_form', array(
-				'model' => 'VideoBlock',
-				'action' => NetCommonsUrl::actionUrl(array(
-					'controller' => $this->params['controller'],
-					'action' => 'delete',
-					'block_id' => Current::read('Block.id'),
-					'frame_id' => Current::read('Frame.id')
-				)),
-				'callback' => 'Videos.VideoBlocks/delete_form'
-			)); ?>
-		<?php endif; ?>
+		<?php echo $this->BlockForm->displayDeleteForm(array(
+			'model' => 'VideoBlock',
+			'callback' => 'Videos.VideoBlocks/delete_form'
+		)); ?>
 	</div>
 </article>

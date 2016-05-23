@@ -14,41 +14,50 @@
 <article class="block-setting-body">
 	<?php echo $this->BlockTabs->main(BlockTabsHelper::MAIN_TAB_BLOCK_INDEX); ?>
 
+	<?php echo $this->BlockIndex->description(); ?>
+
 	<div class="tab-content">
-		<div class="text-right">
-			<?php echo $this->Button->addLink(); ?>
-		</div>
+		<?php echo $this->BlockIndex->create(); ?>
+			<?php echo $this->BlockIndex->addLink(); ?>
 
-		<?php echo $this->NetCommonsForm->create('', array(
-			'url' => NetCommonsUrl::actionUrl(array('plugin' => 'frames', 'controller' => 'frames', 'action' => 'edit'))
-		)); ?>
-
-			<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
-
-			<table class="table table-hover">
+			<?php echo $this->BlockIndex->startTable(); ?>
 				<thead>
 					<tr>
-						<th></th>
-						<th>
-							<?php echo $this->Paginator->sort('Block.name', __d('videos', 'Channel name')); ?>
-						</th>
-						<th>
-							<?php echo $this->Paginator->sort('Block.public_type', __d('blocks', 'Publishing setting')); ?>
-						</th>
-						<th class="text-right">
-							<?php echo $this->Paginator->sort('VideoBlockSetting.file_size', __d('videos', 'File capacity')); ?>
-						</th>
+						<?php echo $this->BlockIndex->tableHeader(
+							'Frame.block_id'
+						); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+							'Block.name', __d('videos', 'Channel name'),
+							array('sort' => true)
+						); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+							'TrackableCreator.handlename', __d('net_commons', 'Created user'),
+							array('sort' => true, 'type' => 'handle')
+						); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+							'Block.public_type', __d('blocks', 'Publishing setting'),
+							array('sort' => true)
+						); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+							'VideoBlockSetting.file_size', __d('videos', 'File capacity'),
+							array('sort' => false, 'type' => 'right')
+						); ?>
 					</tr>
 				</thead>
 				<tbody>
 					<?php foreach ($videoBlockSettings as $videoBlockSetting) : ?>
-						<tr<?php echo ( $this->data['Frame']['block_id'] === $videoBlockSetting['Block']['id'] ? ' class="active"' : ''); ?>>
-							<td>
-								<?php echo $this->BlockForm->displayFrame('Frame.block_id', $videoBlockSetting['Block']['id']); ?>
-							</td>
-							<td>
-								<?php echo $this->NetCommonsHtml->editLink($videoBlockSetting['Block']['name'], array('block_id' => $videoBlockSetting['Block']['id'])); ?>
-							</td>
+						<?php echo $this->BlockIndex->startTableRow($videoBlockSetting['Block']['id']); ?>
+							<?php echo $this->BlockIndex->tableData(
+								'Frame.block_id', $videoBlockSetting['Block']['id']
+							); ?>
+							<?php echo $this->BlockIndex->tableData(
+								'Block.name', $videoBlockSetting['Block']['name'],
+								array('editUrl' => array('block_id' => $videoBlockSetting['Block']['id']))
+							); ?>
+							<?php echo $this->BlockIndex->tableData(
+								'TrackableCreator', $videoBlockSetting,
+								array('type' => 'handle')
+							); ?>
 							<td>
 								<?php if ($videoBlockSetting['Block']['public_type'] === '0') : ?>
 									<?php echo __d('blocks', 'Private'); ?>
@@ -60,15 +69,15 @@
 							</td>
 							<td class="text-right">
 								<?php echo $this->Number->toReadableSize((int)$videoBlockSetting['Size']['size_byte']); ?>
-								<?php //echo $this->Number->toReadableSize(0); ?>
 							</td>
-						</tr>
+						<?php echo $this->BlockIndex->endTableRow(); ?>
 					<?php endforeach; ?>
 				</tbody>
-			</table>
-		<?php echo $this->NetCommonsForm->end(); ?>
+			<?php echo $this->BlockIndex->endTable(); ?>
+
+		<?php echo $this->BlockIndex->end(); ?>
 
 		<?php echo $this->element('NetCommons.paginator'); ?>
-
 	</div>
+
 </article>
