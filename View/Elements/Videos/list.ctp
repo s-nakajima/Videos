@@ -50,7 +50,7 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 				<small>
 					<?php /* タイトル */ ?>
 					<div>
-						<a href="<?php echo $this->NetCommonsHtml->url('/videos/videos/view/' . Current::read('Block.id') . '/' . $video['Video']['key']); ?>">
+						<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key'])); ?>">
 							<h2>
 								<?php echo $this->TitleIcon->titleIcon($video['Video']['title_icon']); ?>
 								<?php echo $video['Video']['title']; ?>
