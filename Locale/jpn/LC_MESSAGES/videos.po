@@ -92,7 +92,7 @@ msgstr "{X-SITE_NAME} : サイト名<br />{X-PLUGIN_NAME} : プラグイン名<b
 
 #: Plugin/Videos/View/Videos/index.ctp:41
 msgid "There are no videos that are currently published."
-msgstr "現在公開されている動画はありません。"
+msgstr "動画がありません。"
 
 #: Plugin/Videos/View/Videos/index.ctp:48
 msgid "%s items"
