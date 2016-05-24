@@ -333,14 +333,9 @@ class VideosController extends VideosAppController {
  * @throws Exception Paginatorによる例外
  */
 	private function __list($extraConditions = array()) {
-		// ブロック未選択
-		if (! Current::read('Frame.block_id')) {
-			return array();
-		}
-
 		/* @see WorkflowBehavior::getWorkflowConditions() */
 		$query['conditions'] = $this->Video->getWorkflowConditions([
-			'Video.block_id' => Current::read('Frame.block_id'),
+			'Video.block_id' => Current::read('Block.id'),
 		]);
 
 		$query['conditions'] = Hash::merge($query['conditions'], $extraConditions);
