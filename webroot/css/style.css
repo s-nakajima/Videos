@@ -47,15 +47,16 @@
 /*
  * --- 詳細画面
  */
-/* 詳細説明 */
+/* 詳細 */
 .video-detail {
 	padding: 0.5em 1em;
 	margin-bottom: 0px;
 }
 
-/* 再生回数 */
-.video-detail-play-count {
-	font-size: 18px;
+/* 動画説明 */
+.video-description {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 /* 埋め込みコード */

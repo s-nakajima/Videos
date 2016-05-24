@@ -101,9 +101,9 @@ echo $this->NetCommonsHtml->script(array(
 									<?php /* 投稿者 */ ?>
 									<?php echo $this->DisplayUser->handleLink($video); ?>
 								</div>
-								<div class="col-xs-6 text-right video-detail-play-count">
+								<div class="col-xs-6 text-right">
 									<?php /* 再生回数 */ ?>
-									<?php echo sprintf(__d('videos', 'Views %s times'), $video['Video']['play_number']); ?>
+									<p class="lead"><?php echo sprintf(__d('videos', 'Views %s times'), $video['Video']['play_number']); ?></p>
 								</div>
 							</div>
 							<div class="row">
@@ -157,20 +157,20 @@ echo $this->NetCommonsHtml->script(array(
 						<?php /* 登録日 */ ?>
 						<strong><?php echo __d('videos', 'Registration Date') . '：' . $this->Date->dateFormat($video['Video']['created']); ?></strong>
 					</div>
-					<div>
+					<div class="video-description">
 						<?php /* 説明 */ ?>
 						<?php echo nl2br($video['Video']['description']); ?>
 					</div>
 					<div>
 						<?php /* Tags */ ?>
 						<?php if (isset($video['Tag'])) : ?>
+							<?php echo __d('blogs', 'tag'); ?>:
 							<?php foreach ($video['Tag'] as $tag): ?>
 								<?php echo $this->NetCommonsHtml->link($tag['name'], array(
 									'controller' => 'videos',
 									'action' => 'tag',
 									'id' => $tag['id'],
-								),
-								array('class' => 'label label-default')); ?>
+								)); ?>
 							<?php endforeach; ?>
 						<?php endif; ?>
 					</div>
