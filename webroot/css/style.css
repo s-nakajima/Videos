@@ -47,6 +47,11 @@
 /*
  * --- 詳細画面
  */
+/* 動画プレーヤー */
+.video-player {
+	max-height: 600px;
+}
+
 /* 詳細 */
 .video-detail {
 	padding: 0.5em 1em;
