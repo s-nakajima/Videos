@@ -10,7 +10,6 @@
  */
 
 App::uses('VideosAppModel', 'Videos.Model');
-App::uses('UploadBehavior', 'Upload.Model/Behavior'); //FileUpload
 App::uses('VideoValidationBehavior', 'Videos.Model/Behavior');
 
 /**
