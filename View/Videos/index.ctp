@@ -88,17 +88,15 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 			<div><?php echo __d('videos', 'There are no videos that are currently published.'); ?></div>
 		<?php else : ?>
 			<?php /* 動画一覧 */ ?>
-			<div class="row">
-				<?php foreach ($videos as $video) : ?>
-					<article>
-						<?php echo $this->element('Videos.Videos/list', array(
-							"video" => $video,
-							"videoBlockSetting" => $videoBlockSetting,
-							"isFfmpegEnable" => $isFfmpegEnable,
-						)); ?>
-					</article>
-				<?php endforeach; ?>
-			</div>
+			<?php foreach ($videos as $video) : ?>
+				<article>
+					<?php echo $this->element('Videos.Videos/list', array(
+						"video" => $video,
+						"videoBlockSetting" => $videoBlockSetting,
+						"isFfmpegEnable" => $isFfmpegEnable,
+					)); ?>
+				</article>
+			<?php endforeach; ?>
 
 			<?php /* ページャ */ ?>
 			<?php echo $this->element('NetCommons.paginator'); ?>
