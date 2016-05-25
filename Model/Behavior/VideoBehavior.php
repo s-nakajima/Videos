@@ -100,7 +100,7 @@ class VideoBehavior extends ModelBehavior {
 		// http://tech.ckme.co.jp/ffmpeg.shtml
 		// http://www.xucker.jpn.org/product/ffmpeg_commands.html
 		$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath . $realFileName) .
-				' ' . Video::FFMPEG_OPTION . " " . escapeshellarg($noConvertPath . $videoName . '.mp4') .
+				' ' . Video::FFMPEG_OPTION . ' ' . escapeshellarg($noConvertPath . $videoName . '.mp4') .
 				' 2>&1';
 		exec($strCmd, $arr, $ret);
 
