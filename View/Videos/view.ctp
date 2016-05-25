@@ -160,7 +160,7 @@ echo $this->NetCommonsHtml->script(array(
 					<div>
 						<?php /* Tags */ ?>
 						<?php if (isset($video['Tag'])) : ?>
-							<?php echo __d('blogs', 'tag'); ?>:
+							<?php echo __d('tags', 'tag'); ?>:
 							<?php foreach ($video['Tag'] as $tag): ?>
 								<?php echo $this->NetCommonsHtml->link($tag['name'], array(
 									'controller' => 'videos',

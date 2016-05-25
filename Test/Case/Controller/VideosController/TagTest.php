@@ -107,7 +107,7 @@ class VideosControllerTagTest extends WorkflowControllerIndexTest {
 		parent::testIndex($urlOptions, $assert, $exception, $return);
 
 		//チェック
-		$message = __d('blogs', 'tag');
+		$message = __d('tags', 'tag');
 		$this->assertTextContains($message, $this->view);
 		//debug($this->view);
 	}
@@ -142,7 +142,7 @@ class VideosControllerTagTest extends WorkflowControllerIndexTest {
 		parent::testIndexByCreatable($urlOptions, $assert, $exception, $return);
 
 		//チェック
-		$message = __d('blogs', 'tag');
+		$message = __d('tags', 'tag');
 		$this->assertTextContains($message, $this->view);
 		//debug($this->view);
 	}
@@ -177,7 +177,7 @@ class VideosControllerTagTest extends WorkflowControllerIndexTest {
 		parent::testIndexByEditable($urlOptions, $assert, $exception, $return);
 
 		//チェック
-		$message = __d('blogs', 'tag');
+		$message = __d('tags', 'tag');
 		$this->assertTextContains($message, $this->view);
 		//debug($this->view);
 	}
