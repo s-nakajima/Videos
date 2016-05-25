@@ -52,7 +52,7 @@ class VideoBehavior extends ModelBehavior {
 		$this->__generateThumbnail($model, $video, $convert);
 
 		// --- 再生時間を取得
-		$videoTimeSec = $this->__getVideoTime($convert);
+		$videoTimeSec = $this->__getVideoTime($model, $convert);
 
 		// コールバックoff
 		$validate = array(
@@ -86,7 +86,7 @@ class VideoBehavior extends ModelBehavior {
 		}
 
 		// --- 動画変換
-		$noConvertPath = APP . WEBROOT_DIR . DS . $noConvert['UploadFile']['path'] .
+		$noConvertPath = $model->UploadFile->uploadBasePath . $noConvert['UploadFile']['path'] .
 						$noConvert['UploadFile']['id'] . DS;
 		$realFileName = $noConvert['UploadFile']["real_file_name"];
 
@@ -124,12 +124,13 @@ class VideoBehavior extends ModelBehavior {
 /**
  * 再生時間を取得
  *
+ * @param Model $model モデル
  * @param array $convert 動画変換後ファイルデータ
  * @return mixed int on success, false on error
  */
-	private function __getVideoTime($convert) {
+	private function __getVideoTime(Model $model, $convert) {
 		// 元動画
-		$noConvertPath = APP . WEBROOT_DIR . DS . $convert['UploadFile']['path'] .
+		$noConvertPath = $model->UploadFile->uploadBasePath . $convert['UploadFile']['path'] .
 						$convert['UploadFile']['id'] . DS;
 		$realFileName = $convert['UploadFile']["real_file_name"];
 		$videoName = explode('.', $realFileName)[0];
@@ -171,7 +172,7 @@ class VideoBehavior extends ModelBehavior {
  */
 	private function __generateThumbnail(Model $model, $video, $convert) {
 		// 元動画
-		$convertPath = APP . WEBROOT_DIR . DS . $convert['UploadFile']['path'] .
+		$convertPath = $model->UploadFile->uploadBasePath . $convert['UploadFile']['path'] .
 						$convert['UploadFile']['id'] . DS;
 		$realFileName = $convert['UploadFile']["real_file_name"];
 		$videoName = explode('.', $realFileName)[0];
