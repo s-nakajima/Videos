@@ -42,20 +42,12 @@ class UploadFilesContentForVideoFixture extends UploadFilesContentFixture {
 			'plugin_key' => 'videos',
 			'content_id' => 2,
 			'upload_file_id' => 11,
-			'created_user' => 1,
-			'created' => '2015-10-29 08:50:56',
-			'modified_user' => 1,
-			'modified' => '2015-10-29 08:50:56'
 		),
 		array( // video
 			'id' => 8,
 			'plugin_key' => 'videos',
 			'content_id' => 1,
 			'upload_file_id' => 12,
-			'created_user' => 1,
-			'created' => '2015-10-29 08:50:56',
-			'modified_user' => 1,
-			'modified' => '2015-10-29 08:50:56'
 		),
 	);
 

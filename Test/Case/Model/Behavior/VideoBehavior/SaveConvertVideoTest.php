@@ -51,7 +51,7 @@ class VideoBehaviorSaveConvertVideoTest extends NetCommonsModelTestCase {
 
 		//テストプラグインのロード
 		NetCommonsCakeTestCase::loadTestPlugin($this, 'Videos', 'TestVideos');
-		$this->TestModel = ClassRegistry::init('TestVideos.TestVideoBehaviorModel');
+		$this->TestVideos = ClassRegistry::init('TestVideos.TestVideoBehaviorModel');
 	}
 
 /**
@@ -84,11 +84,12 @@ class VideoBehaviorSaveConvertVideoTest extends NetCommonsModelTestCase {
  * @return void
  */
 	public function testSaveConvertVideo($video, $uploadFileId, $fileName) {
-		$this->TestModel->id = $video['Video']['id'];
+		$this->TestVideos->id = $video['Video']['id'];
 
 		$UploadFile = ClassRegistry::init('Files.UploadFile', true);
-		// Uploadビヘイビアが実ファイルを削除しにくるので事前に削除されるファイルを用意しておく
+		// テスト用にUploadFileのペースパスをTemporaryFolderに変更する
 		$tmpFolder = new TemporaryFolder();
+		// フォルダ作成
 		$tmpFolder->create($tmpFolder->path . '/files/upload_file/real_file_name/1/' .
 			$uploadFileId . '/');
 		$UploadFile->uploadBasePath = $tmpFolder->path . '/';
@@ -101,11 +102,32 @@ class VideoBehaviorSaveConvertVideoTest extends NetCommonsModelTestCase {
 		copy($testFilePath, $tmpFilePath);
 
 		//テスト実施
-		$result = $this->TestModel->saveConvertVideo($video);
+		$result = $this->TestVideos->saveConvertVideo($video);
 
 		//チェック
 		//debug($result);
 		$this->assertTrue($result);
 	}
+
+	// モックをセットしても、例外発生しなかった。
+	///**
+	// * saveFieldのExceptionErrorテスト
+	// *
+	// * @return void
+	// */
+	//	public function testSaveFieldOnExceptionError() {
+	//		$model = 'TestVideos';
+	//		$mockModel = 'TestVideos.TestVideoBehaviorModel';
+	//		$mockMethod = 'saveField';
+	//
+	//		$video['Video'] = (new VideoFixture())->records[1];
+	//		$this->TestVideos->id = $video['Video']['id'];
+	//
+	//		$this->_mockForReturnFalse($model, $mockModel, $mockMethod);
+	//		$this->setExpectedException('InternalErrorException');
+	//
+	//		//テスト実施
+	//		$this->TestVideos->saveConvertVideo($video);
+	//	}
 
 }
