@@ -155,7 +155,7 @@ echo $this->NetCommonsHtml->script(array(
 					</div>
 					<div class="video-description">
 						<?php /* 説明 */ ?>
-						<?php echo h(nl2br($video['Video']['description'])); ?>
+						<?php echo nl2br(h($video['Video']['description'])); ?>
 					</div>
 					<div>
 						<?php /* Tags */ ?>
