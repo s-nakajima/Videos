@@ -29,6 +29,7 @@ class VideoBehaviorSaveConvertVideoTest extends NetCommonsModelTestCase {
  * @var array
  */
 	public $fixtures = array(
+		'plugin.site_manager.site_setting',
 		'plugin.videos.video',
 		'plugin.videos.upload_file_for_video',
 		'plugin.videos.upload_files_content_for_video',
