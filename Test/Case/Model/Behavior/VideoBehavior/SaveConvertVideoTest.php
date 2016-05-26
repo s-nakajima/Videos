@@ -52,7 +52,7 @@ class VideoBehaviorSaveConvertVideoTest extends NetCommonsModelTestCase {
 
 		//テストプラグインのロード
 		NetCommonsCakeTestCase::loadTestPlugin($this, 'Videos', 'TestVideos');
-		$this->TestVideos = ClassRegistry::init('TestVideos.TestVideoBehaviorModel');
+		$this->TestVideoBehaviorModel = ClassRegistry::init('TestVideos.TestVideoBehaviorModel');
 	}
 
 /**
@@ -85,8 +85,26 @@ class VideoBehaviorSaveConvertVideoTest extends NetCommonsModelTestCase {
  * @return void
  */
 	public function testSaveConvertVideo($video, $uploadFileId, $fileName) {
-		$this->TestVideos->id = $video['Video']['id'];
+		$this->TestVideoBehaviorModel->id = $video['Video']['id'];
 
+		$this->__tmpFile($uploadFileId, $fileName);
+
+		//テスト実施
+		$result = $this->TestVideoBehaviorModel->saveConvertVideo($video);
+
+		//チェック
+		//debug($result);
+		$this->assertTrue($result);
+	}
+
+/**
+ * __tmpFile
+ *
+ * @param string $uploadFileId アップロードファイルID
+ * @param string $fileName ファイル名
+ * @return object
+ */
+	private function __tmpFile($uploadFileId, $fileName) {
 		$UploadFile = ClassRegistry::init('Files.UploadFile', true);
 		// テスト用にUploadFileのペースパスをTemporaryFolderに変更する
 		$tmpFolder = new TemporaryFolder();
@@ -102,33 +120,26 @@ class VideoBehaviorSaveConvertVideoTest extends NetCommonsModelTestCase {
 			$uploadFileId . '/' . $fileName;
 		copy($testFilePath, $tmpFilePath);
 
-		//テスト実施
-		$result = $this->TestVideos->saveConvertVideo($video);
-
-		//チェック
-		//debug($result);
-		$this->assertTrue($result);
+		return $UploadFile;
 	}
 
-	// モックをセットしても、例外発生しなかった。
-	///**
-	// * saveFieldのExceptionErrorテスト
-	// *
-	// * @return void
-	// */
-	//	public function testSaveFieldOnExceptionError() {
-	//		$model = 'TestVideos';
-	//		$mockModel = 'TestVideos.TestVideoBehaviorModel';
-	//		$mockMethod = 'saveField';
-	//
-	//		$video['Video'] = (new VideoFixture())->records[1];
-	//		$this->TestVideos->id = $video['Video']['id'];
-	//
-	//		$this->_mockForReturnFalse($model, $mockModel, $mockMethod);
-	//		$this->setExpectedException('InternalErrorException');
-	//
-	//		//テスト実施
-	//		$this->TestVideos->saveConvertVideo($video);
-	//	}
+/**
+ * saveFieldのExceptionErrorテスト
+ *
+ * @return void
+ */
+	public function testSaveFieldOnExceptionError() {
+		$video['Video'] = (new VideoFixture())->records[1];
+
+		$this->_mockForReturnFalse('TestVideoBehaviorModel', 'TestVideos.TestVideoBehaviorModel', 'saveField');
+		$this->setExpectedException('InternalErrorException');
+
+		$UploadFile = $this->__tmpFile(11, 'video1.mp4');
+		$this->TestVideoBehaviorModel->UploadFile = $UploadFile;
+		$this->TestVideoBehaviorModel->id = $video['Video']['id'];
+
+		//テスト実施
+		$this->TestVideoBehaviorModel->saveConvertVideo($video);
+	}
 
 }
