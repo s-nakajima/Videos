@@ -20,7 +20,10 @@
 <?php echo $this->element('Blocks.block_creatable_setting', array(
 	'settingPermissions' => array(
 		'content_creatable' => __d('blocks', 'Content creatable roles'),
-		'content_comment_creatable' => __d('blocks', 'Content comment creatable roles'),
+		'content_comment_creatable' => array(
+			'label' => __d('blocks', 'Content comment creatable roles'),
+			'help' => __d('content_comments', 'Content comment creatable roles help'),
+		),
 	),
 )); ?>
 
