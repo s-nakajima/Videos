@@ -12,7 +12,6 @@
 App::uses('VideosAppController', 'Videos.Controller');
 App::uses('VideosAppModel', 'Videos.Model');
 App::uses('Video', 'Videos.Model');
-App::uses('MailSend', 'Mails.Utility');
 
 /**
  * 動画編集系 Controller
@@ -96,9 +95,6 @@ class VideosEditController extends VideosAppController {
 
 			// 登録
 			if ($this->Video->saveVideo($data)) {
-				// キューからメール送信
-				MailSend::send();
-
 				return $this->redirect(NetCommonsUrl::backToPageUrl());
 			}
 
@@ -155,9 +151,6 @@ class VideosEditController extends VideosAppController {
 
 			// 登録（ワークフロー対応のため、編集でも常にinsert）
 			if ($video = $this->Video->saveVideo($data, 1)) {
-				// キューからメール送信
-				MailSend::send();
-
 				$url = NetCommonsUrl::actionUrl(array(
 					'controller' => 'videos',
 					'action' => 'view',
