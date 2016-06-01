@@ -109,7 +109,7 @@ $this->NetCommonsHtml->script(array(
 
 							<?php echo $this->NetCommonsForm->hidden('Video.id'); ?>
 							<?php echo $this->NetCommonsForm->hidden('Video.key'); ?>
-							<?php echo $this->Button->delete('',
+							<?php echo $this->Button->delete(__d('net_commons', 'Delete'),
 								sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('videos', 'video'))
 							); ?>
 

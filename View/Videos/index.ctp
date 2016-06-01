@@ -74,7 +74,7 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 					<?php
 					if (Current::permission('content_creatable')) {
 						$addUrl = $this->NetCommonsHtml->url(array('controller' => 'videos_edit', 'action' => 'add'));
-						echo $this->Button->addLink('',
+						echo $this->Button->addLink(__d('videos', 'video'),
 							$addUrl,
 							array('tooltip' => __d('videos', 'Add video'))
 						);

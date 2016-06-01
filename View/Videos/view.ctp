@@ -25,26 +25,20 @@ echo $this->NetCommonsHtml->script(array(
 
 		<?php /* 上部ボタン */ ?>
 		<header>
-			<div class="row">
-				<div class="col-xs-6 text-left">
-				<?php echo $this->BackTo->listLinkButton(); ?>
-				</div>
-
-				<div class="col-xs-6 text-right">
-					<?php
-					if ($this->Workflow->canEdit("Videos.Video", $video)) {
-						$editUrl = $this->NetCommonsHtml->url(array(
+			<div class="text-right">
+				<?php
+				if ($this->Workflow->canEdit("Videos.Video", $video)) {
+					$editUrl = $this->NetCommonsHtml->url(array(
 						'controller' => 'videos_edit',
 						'action' => 'edit',
 						'key' => $video['Video']['key']
-						));
-						echo $this->Button->editLink('',
+					));
+					echo $this->Button->editLink(__d('net_commons', 'Edit'),
 						$editUrl,
 						array('tooltip' => __d('net_commons', 'Edit'))
-						);
-					}
-					?>
-				</div>
+					);
+				}
+				?>
 			</div>
 		</header>
 
