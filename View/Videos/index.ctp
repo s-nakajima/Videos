@@ -63,12 +63,6 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 
 					<?php /* 表示件数 */ ?>
 					<?php echo $this->DisplayNumber->dropDownToggle(); ?>
-
-					<?php /* 件数 */ ?>
-					<span>
-						<?php echo sprintf(__d('videos', '%s items'), $this->Paginator->param('count')); ?>
-					</span>
-
 				</div>
 				<div class="pull-right">
 					<?php
