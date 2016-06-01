@@ -58,7 +58,7 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 				</div>
 
 				<?php /* 投稿者 */ ?>
-				<?php echo $this->DisplayUser->handleLink($video); ?><br />
+				<?php echo $this->DisplayUser->handleLink($video, ['avatar' => true]); ?><br />
 
 				<?php /* 再生回数 */ ?>
 				<span class="video-count-icons">

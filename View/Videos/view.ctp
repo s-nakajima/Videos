@@ -81,56 +81,45 @@ echo $this->NetCommonsHtml->script(array(
 						<?php /* ステータス */ ?>
 						<?php echo $this->Workflow->label($video['Video']['status']); ?>
 					</div>
-					<div class="media">
-						<div class="media-left">
-							<?php /* アバター */ ?>
-							<?php /** @see DisplayUserHelper::avatarLink() */ ?>
-							<?php echo $this->DisplayUser->avatarLink($video, array(
-								'class' => 'img-rounded',
-							)); ?>
+					<div class="row">
+						<div class="col-xs-6">
+							<?php /* 投稿者 */ ?>
+							<?php echo $this->DisplayUser->handleLink($video, ['avatar' => true]); ?>
 						</div>
-						<div class="media-body">
-							<div class="row">
-								<div class="col-xs-6">
-									<?php /* 投稿者 */ ?>
-									<?php echo $this->DisplayUser->handleLink($video); ?>
-								</div>
-								<div class="col-xs-6 text-right">
-									<?php /* 再生回数 */ ?>
-									<p class="lead"><?php echo sprintf(__d('videos', 'Views %s times'), $video['Video']['play_number']); ?></p>
-								</div>
-							</div>
-							<div class="text-right">
-								<?php /* ブロック編集許可OK（編集長以上）ならダウンロードできる */ ?>
-								<?php if (Current::permission('block_editable')): ?>
-									<span class="video-detail-links">
-										<?php /* ダウンロード */ ?>
-										<a authorization-keys-popup-link frame-id="<?php echo Current::read('Frame.id'); ?>"
-										   url="<?php echo NetCommonsUrl::actionUrl(array(
-												'plugin' => 'videos',
-												'controller' => 'videos',
-												'action' => 'download',
-												Current::read('Block.id'),
-												$video['Video']['key'],
-												'frame_id' => Current::read('Frame.id')
-											)); ?>"
-											popup-title="<?php echo __d('authorization_keys', 'Compression password'); ?>"
-											popup-label="<?php echo __d('authorization_keys', 'Compression password'); ?>"
-											popup-placeholder="<?php echo __d('authorization_keys', 'please input compression password'); ?>">
-											<?php echo __d('videos', 'Downloads'); ?>
-										</a>
-									</span>
-								<?php endif; ?>
-
-								<span class="video-detail-links">
-									<?php /* 埋め込みコード */ ?>
-									<a href="" ng-click="embed();"><?php echo __d('videos', 'Embed'); ?></a>
-								</span>
-
-								<?php /* いいね */ ?>
-								<?php echo $this->Like->buttons('Video', $videoBlockSetting, $video); ?>
-							</div>
+						<div class="col-xs-6 text-right">
+							<?php /* 再生回数 */ ?>
+							<p class="lead"><?php echo sprintf(__d('videos', 'Views %s times'), $video['Video']['play_number']); ?></p>
 						</div>
+					</div>
+					<div class="text-right">
+						<?php /* ブロック編集許可OK（編集長以上）ならダウンロードできる */ ?>
+						<?php if (Current::permission('block_editable')): ?>
+							<span class="video-detail-links">
+								<?php /* ダウンロード */ ?>
+								<a authorization-keys-popup-link frame-id="<?php echo Current::read('Frame.id'); ?>"
+								   url="<?php echo NetCommonsUrl::actionUrl(array(
+										'plugin' => 'videos',
+										'controller' => 'videos',
+										'action' => 'download',
+										Current::read('Block.id'),
+										$video['Video']['key'],
+										'frame_id' => Current::read('Frame.id')
+									)); ?>"
+									popup-title="<?php echo __d('authorization_keys', 'Compression password'); ?>"
+									popup-label="<?php echo __d('authorization_keys', 'Compression password'); ?>"
+									popup-placeholder="<?php echo __d('authorization_keys', 'please input compression password'); ?>">
+									<?php echo __d('videos', 'Downloads'); ?>
+								</a>
+							</span>
+						<?php endif; ?>
+
+						<span class="video-detail-links">
+							<?php /* 埋め込みコード */ ?>
+							<a href="" ng-click="embed();"><?php echo __d('videos', 'Embed'); ?></a>
+						</span>
+
+						<?php /* いいね */ ?>
+						<?php echo $this->Like->buttons('Video', $videoBlockSetting, $video); ?>
 					</div>
 					<div class="form-group video-embed">
 						<?php /* 埋め込みコード(非表示) */ ?>
