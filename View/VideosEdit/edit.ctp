@@ -26,31 +26,19 @@ $this->NetCommonsHtml->script(array(
 				'novalidate' => true,
 				'type' => 'file',
 			)); ?>
+				<?php echo $this->NetCommonsForm->hidden('Video.id'); ?>
+				<?php echo $this->NetCommonsForm->hidden('Video.key'); ?>
+				<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
+				<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
+				<?php echo $this->NetCommonsForm->hidden('Video.video_time'); ?>
+				<?php echo $this->NetCommonsForm->hidden('Video.play_number'); ?>
+				<?php echo $this->NetCommonsForm->hidden('Video.status'); ?>
+				<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::VIDEO_FILE_FIELD . '.id'); ?>
+				<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::VIDEO_FILE_FIELD . '.field_name'); ?>
+				<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::THUMBNAIL_FIELD . '.id'); ?>
+				<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::THUMBNAIL_FIELD . '.field_name'); ?>
+
 				<div class="panel-body">
-					<?php
-					if ($isFfmpegEnable) {
-						$thumbnailHelpBlockMessage = __d('videos', 'Please register if you want to change.') . sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
-					} else {
-						$thumbnailHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
-					}
-					?>
-					<?php echo $this->NetCommonsForm->uploadFile(Video::THUMBNAIL_FIELD, array(
-						'label' => __d('videos', 'Thumbnail'),
-						'help' => h($thumbnailHelpBlockMessage),
-					)); ?>
-
-					<?php echo $this->NetCommonsForm->hidden('Video.id'); ?>
-					<?php echo $this->NetCommonsForm->hidden('Video.key'); ?>
-					<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
-					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
-					<?php echo $this->NetCommonsForm->hidden('Video.video_time'); ?>
-					<?php echo $this->NetCommonsForm->hidden('Video.play_number'); ?>
-					<?php echo $this->NetCommonsForm->hidden('Video.status'); ?>
-					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::VIDEO_FILE_FIELD . '.id'); ?>
-					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::VIDEO_FILE_FIELD . '.field_name'); ?>
-					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::THUMBNAIL_FIELD . '.id'); ?>
-					<?php echo $this->NetCommonsForm->hidden('UploadFile.' . Video::THUMBNAIL_FIELD . '.field_name'); ?>
-
 					<?php
 					echo $this->TitleIcon->inputWithTitleIcon(
 						'Video.title',
@@ -61,7 +49,17 @@ $this->NetCommonsHtml->script(array(
 							'required' => 'required',
 						)
 					);
+
+					if ($isFfmpegEnable) {
+						$thumbnailHelpBlockMessage = __d('videos', 'Please register if you want to change.') . sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
+					} else {
+						$thumbnailHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
+					}
 					?>
+					<?php echo $this->NetCommonsForm->uploadFile(Video::THUMBNAIL_FIELD, array(
+						'label' => __d('videos', 'Thumbnail'),
+						'help' => h($thumbnailHelpBlockMessage),
+					)); ?>
 
 					<?php echo $this->NetCommonsForm->input('Video.description', array(
 						'type' => 'textarea',

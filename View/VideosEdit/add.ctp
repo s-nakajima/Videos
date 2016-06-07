@@ -26,15 +26,27 @@ $this->NetCommonsHtml->script(array(
 			'novalidate' => true,
 			'type' => 'file',
 		)); ?>
+			<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
+			<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
 
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<?php
-						if ($isFfmpegEnable) {
-							$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::VIDEO_EXTENSION);
-						} else {
-							$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), 'mp4');
-						}
+					echo $this->TitleIcon->inputWithTitleIcon(
+						'Video.title',
+						'Video.title_icon',
+						array(
+							'type' => 'text',
+							'label' => __d('videos', 'Title'),
+							'required' => 'required',
+						)
+					);
+
+					if ($isFfmpegEnable) {
+						$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::VIDEO_EXTENSION);
+					} else {
+						$videoHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), 'mp4');
+					}
 					?>
 					<?php echo $this->NetCommonsForm->uploadFile(Video::VIDEO_FILE_FIELD, array(
 						'label' => __d('videos', 'Video file'),
@@ -50,20 +62,6 @@ $this->NetCommonsHtml->script(array(
 							'help' => sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION),
 						)); ?>
 					<?php endif; ?>
-					<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
-					<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
-
-					<?php
-					echo $this->TitleIcon->inputWithTitleIcon(
-						'Video.title',
-						'Video.title_icon',
-						array(
-							'type' => 'text',
-							'label' => __d('videos', 'Title'),
-							'required' => 'required',
-						)
-					);
-					?>
 
 					<?php echo $this->NetCommonsForm->input('Video.description', array(
 						'type' => 'textarea',
