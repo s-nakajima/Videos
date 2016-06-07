@@ -46,35 +46,34 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 			</div>
 		</div>
 		<div class="media-body">
-			<small>
-				<?php /* タイトル */ ?>
-				<div>
-					<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key'])); ?>">
-						<h2>
-							<?php echo $this->TitleIcon->titleIcon($video['Video']['title_icon']); ?>
-							<?php echo h($video['Video']['title']); ?>
-						</h2>
-					</a>
-				</div>
-
-				<?php /* 投稿者 */ ?>
-				<?php echo $this->DisplayUser->handleLink($video, ['avatar' => true]); ?><br />
-
-				<?php /* 再生回数 */ ?>
-				<span class="video-count-icons">
-					<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['Video']['play_number'] ?>
-				</span>
-
-				<?php /* コメント数 */ ?>
-				<?php echo $this->ContentComment->count($video, array('class' => 'video-count-icons')); ?>
-
-				<?php /* いいね数 */ ?>
-				<?php echo $this->Like->display($videoBlockSetting, $video); ?>
-			</small>
+			<?php /* ステータス */ ?>
 			<div>
-				<?php /* ステータス */ ?>
 				<?php echo $this->Workflow->label($video['Video']['status']); ?>
 			</div>
+
+			<?php /* タイトル */ ?>
+			<div>
+				<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key'])); ?>">
+					<h2>
+						<?php echo $this->TitleIcon->titleIcon($video['Video']['title_icon']); ?>
+						<?php echo h($video['Video']['title']); ?>
+					</h2>
+				</a>
+			</div>
+
+			<?php /* 投稿者 */ ?>
+			<?php echo $this->DisplayUser->handleLink($video, ['avatar' => true]); ?><br />
+
+			<?php /* 再生回数 */ ?>
+			<span class="video-count-icons">
+				<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['Video']['play_number'] ?>
+			</span>
+
+			<?php /* コメント数 */ ?>
+			<?php echo $this->ContentComment->count($video, array('class' => 'video-count-icons')); ?>
+
+			<?php /* いいね数 */ ?>
+			<?php echo $this->Like->display($videoBlockSetting, $video); ?>
 		</div>
 	</div>
 </div>

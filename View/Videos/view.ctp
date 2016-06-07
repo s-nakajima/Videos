@@ -71,15 +71,15 @@ echo $this->NetCommonsHtml->script(array(
 			<div class="col-xs-12">
 				<div class="panel panel-default video-detail">
 					<div>
+						<?php /* ステータス */ ?>
+						<?php echo $this->Workflow->label($video['Video']['status']); ?>
+					</div>
+					<div>
 						<?php /* タイトル */ ?>
 						<h1>
 							<?php echo $this->TitleIcon->titleIcon($video['Video']['title_icon']); ?>
 							<?php echo h($video['Video']['title']); ?>
 						</h1>
-					</div>
-					<div>
-						<?php /* ステータス */ ?>
-						<?php echo $this->Workflow->label($video['Video']['status']); ?>
 					</div>
 					<div class="row">
 						<div class="col-xs-6">
