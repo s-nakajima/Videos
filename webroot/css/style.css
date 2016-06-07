@@ -60,8 +60,8 @@
 
 /* 動画説明 */
 .video-description {
-	margin-top: 10px;
-	margin-bottom: 10px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 /* 埋め込みコード */
@@ -70,7 +70,10 @@
 }
 
 /* ダウンロードや埋め込みコードのリンク表示 */
-.video-detail-links {
+div.video-detail-links {
+	margin-bottom: 20px;
+}
+span.video-detail-links {
 	padding-right: 15px;
 }
 

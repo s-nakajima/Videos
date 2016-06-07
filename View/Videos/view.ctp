@@ -94,13 +94,17 @@ echo $this->NetCommonsHtml->script(array(
 							<?php echo sprintf(__d('videos', 'Views %s times'), $video['Video']['play_number']); ?>
 						</div>
 					</div>
-					<div class="text-right">
+					<div class="video-description">
+						<?php /* 説明 */ ?>
+						<?php echo nl2br(h($video['Video']['description'])); ?>
+					</div>
+					<div class="video-detail-links">
 						<?php /* ブロック編集許可OK（編集長以上）ならダウンロードできる */ ?>
 						<?php if (Current::permission('block_editable')): ?>
 							<span class="video-detail-links">
 								<?php /* ダウンロード */ ?>
 								<a authorization-keys-popup-link frame-id="<?php echo Current::read('Frame.id'); ?>"
-								   url="<?php echo NetCommonsUrl::actionUrl(array(
+									url="<?php echo NetCommonsUrl::actionUrl(array(
 										'plugin' => 'videos',
 										'controller' => 'videos',
 										'action' => 'download',
@@ -134,10 +138,6 @@ echo $this->NetCommonsHtml->script(array(
 							],
 							true
 						); ?>" frameborder="0" allowfullscreen></iframe>'>
-					</div>
-					<div class="video-description">
-						<?php /* 説明 */ ?>
-						<?php echo nl2br(h($video['Video']['description'])); ?>
 					</div>
 					<div>
 						<?php /* Tags */ ?>
