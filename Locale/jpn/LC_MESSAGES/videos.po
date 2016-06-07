@@ -141,3 +141,6 @@ msgstr "説明"
 #: Plugin/Videos/View/VideosEdit/edit.ctp:31
 msgid "Please register if you want to change."
 msgstr "変更したい場合に登録してください。"
+
+msgid "Content creatable roles"
+msgstr "動画を投稿できる権限"

@@ -141,3 +141,6 @@ msgstr "Description"
 #: Plugin/Videos/View/VideosEdit/edit.ctp:31
 msgid "Please register if you want to change."
 msgstr "Please register if you want to change."
+
+msgid "Content creatable roles"
+msgstr "Authority can post videos"
