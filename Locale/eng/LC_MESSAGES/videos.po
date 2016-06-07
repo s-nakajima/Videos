@@ -112,7 +112,7 @@ msgstr "Embed"
 
 #: Plugin/Videos/View/Videos/view.ctp:151
 msgid "Registration Date"
-msgstr "Registration Date"
+msgstr "Post time"
 
 #: Plugin/Videos/View/VideosEdit/add.ctp:33;35;51
 #: Plugin/Videos/View/VideosEdit/edit.ctp:31;33

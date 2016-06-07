@@ -112,7 +112,7 @@ msgstr "埋め込みコード"
 
 #: Plugin/Videos/View/Videos/view.ctp:151
 msgid "Registration Date"
-msgstr "登録日"
+msgstr "投稿日時"
 
 #: Plugin/Videos/View/VideosEdit/add.ctp:33;35;51
 #: Plugin/Videos/View/VideosEdit/edit.ctp:31;33
