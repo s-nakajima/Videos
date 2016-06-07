@@ -144,3 +144,6 @@ msgstr "Please register if you want to change."
 
 msgid "Content creatable roles"
 msgstr "Authority can post videos"
+
+msgid "Number"
+msgstr "Number"

@@ -142,3 +142,6 @@ msgstr ""
 
 msgid "Content creatable roles"
 msgstr ""
+
+msgid "Number"
+msgstr ""
