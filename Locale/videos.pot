@@ -87,10 +87,6 @@ msgstr ""
 msgid "MailSetting.mail_fixed_phrase_body.popover"
 msgstr ""
 
-#: Plugin/Videos/View/Videos/index.ctp:48
-msgid "%s items"
-msgstr ""
-
 #: Plugin/Videos/View/Videos/view.ctp:99
 msgid "Views %s times"
 msgstr ""

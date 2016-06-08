@@ -89,10 +89,6 @@ msgstr "ファイル容量"
 msgid "MailSetting.mail_fixed_phrase_body.popover"
 msgstr "{X-SITE_NAME} : サイト名<br />{X-PLUGIN_NAME} : プラグイン名<br />{X-ROOM} : ルーム名<br />{X-BLOCK_NAME} : チャンネル名<br />{X-SUBJECT} : 動画タイトル<br />{X-USER} : 投稿者<br />{X-TO_DATE} : 投稿日時<br />{X-TAGS} : タグ<br />{X-BODY} : 投稿内容<br />{X-URL} : 投稿内容のURL"
 
-#: Plugin/Videos/View/Videos/index.ctp:48
-msgid "%s items"
-msgstr "%s 件"
-
 #: Plugin/Videos/View/Videos/view.ctp:99
 msgid "Views %s times"
 msgstr "再生回数 %s回"
