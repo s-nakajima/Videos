@@ -84,9 +84,6 @@ echo $this->NetCommonsHtml->script(array(
 					&nbsp;
 					<?php /* 投稿者 */ ?>
 					<?php echo $this->DisplayUser->handleLink($video, ['avatar' => true]); ?>
-					&nbsp;
-					<?php /* 再生回数 */ ?>
-					<?php echo sprintf(__d('videos', 'Views %s times'), $video['Video']['play_number']); ?>
 				</div>
 				<div class="video-description">
 					<?php /* 説明 */ ?>
@@ -117,6 +114,11 @@ echo $this->NetCommonsHtml->script(array(
 					<span class="video-detail-links">
 						<?php /* 埋め込みコード */ ?>
 						<a href="" ng-click="embed();"><?php echo __d('videos', 'Embed'); ?></a>
+					</span>
+
+					<?php /* 再生回数 */ ?>
+					<span class="video-count-icons">
+						<span class="glyphicon glyphicon-play" aria-hidden="true"></span> <?php echo $video['Video']['play_number'] ?>
 					</span>
 
 					<?php /* いいね */ ?>

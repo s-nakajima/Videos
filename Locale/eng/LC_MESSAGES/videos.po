@@ -89,10 +89,6 @@ msgstr "File capacity"
 msgid "MailSetting.mail_fixed_phrase_body.popover"
 msgstr "{X-SITE_NAME} : Site name<br>{X-PLUGIN_NAME} : Plugin name<br>{X-ROOM} : Room name<br>{X-BLOCK_NAME} : Channel name<br>{X-SUBJECT} : Video title<br>{X-USER} : Posted<br>{X-TO_DATE} : Post time<br>{X-TAGS} : Tag<br>{X-BODY} : Post content<br>{X-URL} : Content of the posts URL"
 
-#: Plugin/Videos/View/Videos/view.ctp:99
-msgid "Views %s times"
-msgstr "Views %s times"
-
 #: Plugin/Videos/View/Videos/view.ctp:120
 msgid "Downloads"
 msgstr "Downloads"
