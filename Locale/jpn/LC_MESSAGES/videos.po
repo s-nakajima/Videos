@@ -42,6 +42,9 @@ msgstr "動画の追加"
 msgid "video"
 msgstr "動画"
 
+msgid "Video"
+msgstr "動画"
+
 #: Plugin/Videos/View/Elements/VideoBlocks/delete_form.ctp:18;22
 msgid "channel"
 msgstr "チャンネル"
@@ -74,10 +77,6 @@ msgstr "再生回数順"
 msgid "Reviews"
 msgstr "評価順"
 
-#: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:42
-msgid "Display number"
-msgstr "１ページ毎の表示件数"
-
 #: Plugin/Videos/View/Elements/Videos/player.ctp:34
 msgid "To play the video requires a browser that supports the video tag."
 msgstr "動画を再生するにはvideoタグをサポートしたブラウザが必要です。"
@@ -89,10 +88,6 @@ msgstr "ファイル容量"
 #: Plugin/Videos/View/VideoMailSettings/edit.ctp:21
 msgid "MailSetting.mail_fixed_phrase_body.popover"
 msgstr "{X-SITE_NAME} : サイト名<br />{X-PLUGIN_NAME} : プラグイン名<br />{X-ROOM} : ルーム名<br />{X-BLOCK_NAME} : チャンネル名<br />{X-SUBJECT} : 動画タイトル<br />{X-USER} : 投稿者<br />{X-TO_DATE} : 投稿日時<br />{X-TAGS} : タグ<br />{X-BODY} : 投稿内容<br />{X-URL} : 投稿内容のURL"
-
-#: Plugin/Videos/View/Videos/index.ctp:41
-msgid "There are no videos that are currently published."
-msgstr "動画がありません。"
 
 #: Plugin/Videos/View/Videos/index.ctp:48
 msgid "%s items"

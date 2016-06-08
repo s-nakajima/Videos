@@ -40,6 +40,9 @@ msgstr ""
 msgid "video"
 msgstr ""
 
+msgid "Video"
+msgstr ""
+
 #: Plugin/Videos/View/Elements/VideoBlocks/delete_form.ctp:18;22
 msgid "channel"
 msgstr ""
@@ -72,10 +75,6 @@ msgstr ""
 msgid "Reviews"
 msgstr ""
 
-#: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:42
-msgid "Display number"
-msgstr ""
-
 #: Plugin/Videos/View/Elements/Videos/player.ctp:34
 msgid "To play the video requires a browser that supports the video tag."
 msgstr ""
@@ -86,10 +85,6 @@ msgstr ""
 
 #: Plugin/Videos/View/VideoMailSettings/edit.ctp:21
 msgid "MailSetting.mail_fixed_phrase_body.popover"
-msgstr ""
-
-#: Plugin/Videos/View/Videos/index.ctp:41
-msgid "There are no videos that are currently published."
 msgstr ""
 
 #: Plugin/Videos/View/Videos/index.ctp:48

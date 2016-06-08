@@ -79,7 +79,7 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 		</header>
 
 		<?php if ($this->Paginator->param('count') == 0) : ?>
-			<div><?php echo __d('videos', 'There are no videos that are currently published.'); ?></div>
+			<div><?php echo sprintf(__d('net_commons', '%s is not.'), __d('videos', 'Video')); ?></div>
 		<?php else : ?>
 			<?php /* 動画一覧 */ ?>
 			<?php foreach ($videos as $video) : ?>

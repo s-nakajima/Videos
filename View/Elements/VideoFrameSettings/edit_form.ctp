@@ -39,5 +39,5 @@
 </div>
 
 <?php echo $this->DisplayNumber->select('VideoFrameSetting.display_number', array(
-	'label' => __d('videos', 'Display number'),
+	'label' => __d('net_commons', 'Display the number of each page'),
 ));
