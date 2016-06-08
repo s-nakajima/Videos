@@ -2,6 +2,7 @@
 /**
  * 動画リスト Element
  *   - $video: 動画1件
+ *   - $style: css
  *   - $videoBlockSetting: 動画セッティング
  *   - $isFfmpegEnable: Ffmpegを使うか
  *
@@ -16,9 +17,13 @@ echo $this->NetCommonsHtml->css(array(
 	'/videos/css/style.css',
 ));
 echo $this->NetCommonsHtml->script('/videos/js/videos.js');
+
+if (!isset($style)) {
+	$style = '';
+}
 ?>
 
-<div class="panel panel-default video-thumbnail-row">
+<div class="video-thumbnail-row <?php echo $style; ?>">
 	<div class="media">
 		<div class="media-left">
 			<div>

@@ -7,7 +7,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-/* グリッド行間 */
+/* 行間 */
 .video-margin-row {
 	margin-bottom: 10px;
 }
@@ -19,6 +19,10 @@
 
 /* 一覧のサムネイル表示 */
 .video-thumbnail-row {
+	padding: 10px 0px;
+}
+/* 関連動画の一覧 */
+.related-video > .video-thumbnail-row {
 	padding: 5px;
 	margin: 0px 0px 5px 0px;
 }
@@ -49,7 +53,7 @@
  */
 /* 動画プレーヤー */
 .video-player {
-	max-height: 600px;
+	max-height: 610px;
 }
 
 /* 詳細 */
@@ -70,10 +74,10 @@
 }
 
 /* ダウンロードや埋め込みコードのリンク表示 */
-div.video-detail-links {
+.video-detail-links-row {
 	margin-bottom: 20px;
 }
-span.video-detail-links {
+.video-detail-links {
 	padding-right: 15px;
 }
 
