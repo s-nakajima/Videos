@@ -78,18 +78,15 @@ echo $this->NetCommonsHtml->script(array(
 						<?php echo h($video['Video']['title']); ?>
 					</h1>
 				</div>
-				<div class="row">
-					<div class="col-xs-6">
-						<?php /* 登録日 */ ?>
-						<?php echo __d('videos', 'Registration Date') . '：' . $this->Date->dateFormat($video['Video']['created']); ?>
-						&nbsp;
-						<?php /* 投稿者 */ ?>
-						<?php echo $this->DisplayUser->handleLink($video, ['avatar' => true]); ?>
-					</div>
-					<div class="col-xs-6 text-right">
-						<?php /* 再生回数 */ ?>
-						<?php echo sprintf(__d('videos', 'Views %s times'), $video['Video']['play_number']); ?>
-					</div>
+				<div>
+					<?php /* 登録日 */ ?>
+					<?php echo __d('videos', 'Registration Date') . '：' . $this->Date->dateFormat($video['Video']['created']); ?>
+					&nbsp;
+					<?php /* 投稿者 */ ?>
+					<?php echo $this->DisplayUser->handleLink($video, ['avatar' => true]); ?>
+					&nbsp;
+					<?php /* 再生回数 */ ?>
+					<?php echo sprintf(__d('videos', 'Views %s times'), $video['Video']['play_number']); ?>
 				</div>
 				<div class="video-description">
 					<?php /* 説明 */ ?>
