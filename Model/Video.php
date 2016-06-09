@@ -268,6 +268,7 @@ class Video extends VideosAppModel {
 
 			// Ffmpeg=ON and 動画あり
 			if (self::isFfmpegEnable() &&
+				isset($data[$this->alias][Video::VIDEO_FILE_FIELD]['size']) &&
 				$data[$this->alias][Video::VIDEO_FILE_FIELD]['size'] !== 0) {
 
 				// 動画変換のため、計2回saveしているので、MailQueueビヘイビア外す
