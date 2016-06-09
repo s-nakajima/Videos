@@ -78,9 +78,8 @@ class VideoBehavior extends ModelBehavior {
  * @throws InternalErrorException
  */
 	private function __convertVideo(Model $model, $video, $noConvert) {
-		$noConvertExtension = $noConvert['UploadFile']["extension"];
-
 		// mp4は変換しない
+		$noConvertExtension = $noConvert['UploadFile']["extension"];
 		if ($noConvertExtension == "mp4") {
 			return;
 		}
