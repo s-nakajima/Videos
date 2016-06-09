@@ -81,36 +81,7 @@ class VideoValidationBehavior extends ModelBehavior {
  * @return array
  */
 	public function rules(Model $model, $options = array()) {
-		$rules = Hash::merge($model->validate, array(
-			'language_id' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => true,
-				),
-			),
-			'block_id' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => true,
-				),
-			),
-			'title' => array(
-				'notBlank' => array(
-					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'title')),
-					'required' => true,
-				),
-			),
-			'category_id' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'allowEmpty' => true,
-				),
-			),
-		));
+		$rules = $this->__initValidate($model);
 
 		if (in_array('add', $options)) {
 			// --- 登録時
@@ -182,6 +153,45 @@ class VideoValidationBehavior extends ModelBehavior {
 		}
 
 		return $rules;
+	}
+
+/**
+ * 初期ルール
+ *
+ * @param Model $model モデル
+ * @return array 初期ルール
+ */
+	private function __initValidate(Model $model) {
+		return Hash::merge($model->validate, array(
+			'language_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
+				),
+			),
+			'block_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
+				),
+			),
+			'title' => array(
+				'notBlank' => array(
+					'rule' => array('notBlank'),
+					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'title')),
+					'required' => true,
+				),
+			),
+			'category_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'allowEmpty' => true,
+				),
+			),
+		));
 	}
 
 }
