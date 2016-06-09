@@ -19,16 +19,16 @@ $this->NetCommonsHtml->script(array(
 	<?php /* ブロック名表示 */ ?>
 	<?php echo $this->NetCommonsHtml->blockTitle(Current::read('Block.name')); ?>
 
-	<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>
-	<?php echo $this->NetCommonsForm->create('Video', array(
-		'name' => 'form',
-		'novalidate' => true,
-		'type' => 'file',
-	)); ?>
-		<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
-		<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
+	<div class="panel panel-default">
+		<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>
+		<?php echo $this->NetCommonsForm->create('Video', array(
+			'name' => 'form',
+			'novalidate' => true,
+			'type' => 'file',
+		)); ?>
+			<?php echo $this->NetCommonsForm->hidden('Video.block_id'); ?>
+			<?php echo $this->NetCommonsForm->hidden('Video.language_id'); ?>
 
-		<div class="panel panel-default">
 			<div class="panel-body">
 				<?php
 				echo $this->TitleIcon->inputWithTitleIcon(
@@ -82,13 +82,10 @@ $this->NetCommonsHtml->script(array(
 				<hr />
 
 				<?php echo $this->Workflow->inputComment('Video.status'); ?>
-
 			</div>
 			<?php echo $this->Workflow->buttons('Video.status'); ?>
-		</div>
 
-	<?php echo $this->NetCommonsForm->end(); ?>
-
+		<?php echo $this->NetCommonsForm->end(); ?>
+	</div>
 	<?php echo $this->Workflow->comments(); ?>
-
 </article>

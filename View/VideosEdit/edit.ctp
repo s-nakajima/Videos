@@ -8,6 +8,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
 $this->NetCommonsHtml->script(array(
 	'/tags/js/tags.js',
 	'/videos/js/videos.js',
@@ -20,7 +21,7 @@ $this->NetCommonsHtml->script(array(
 
 	<div class="panel panel-default">
 		<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>
-		<?php echo $this->Form->create('Video', array(
+		<?php echo $this->NetCommonsForm->create('Video', array(
 			'name' => 'form',
 			'novalidate' => true,
 			'type' => 'file',
@@ -55,9 +56,11 @@ $this->NetCommonsHtml->script(array(
 					$thumbnailHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
 				}
 				?>
+				<?php /** @see FilesFormHelper::uploadFile() */?>
 				<?php echo $this->NetCommonsForm->uploadFile(Video::THUMBNAIL_FIELD, array(
 					'label' => __d('videos', 'Thumbnail'),
 					'help' => h($thumbnailHelpBlockMessage),
+					'remove' => false,
 				)); ?>
 
 				<?php echo $this->NetCommonsForm->input('Video.description', array(
@@ -80,7 +83,6 @@ $this->NetCommonsHtml->script(array(
 				<hr />
 
 				<?php echo $this->Workflow->inputComment('Video.status'); ?>
-
 			</div>
 			<?php echo $this->Workflow->buttons('Video.status', NetCommonsUrl::actionUrl(array(
 				'controller' => 'videos',
@@ -118,7 +120,6 @@ $this->NetCommonsHtml->script(array(
 				</div>
 			</div>
 		<?php endif; ?>
-
 	</div>
 	<?php echo $this->Workflow->comments(); ?>
 </article>
