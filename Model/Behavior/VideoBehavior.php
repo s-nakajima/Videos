@@ -171,6 +171,12 @@ class VideoBehavior extends ModelBehavior {
  * @return void
  */
 	private function __generateThumbnail(Model $model, $video, $convert) {
+		// 編集時サムネイルありの場合、自動作成しない
+		$thumbnailSize = Hash::get($video, $model->alias . '.' . Video::THUMBNAIL_FIELD . '.size');
+		if (!empty($thumbnailSize)) {
+			return;
+		}
+
 		// 元動画
 		$convertPath = $model->UploadFile->uploadBasePath . $convert['UploadFile']['path'] .
 						$convert['UploadFile']['id'] . DS;

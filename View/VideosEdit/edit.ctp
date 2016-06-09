@@ -50,13 +50,22 @@ $this->NetCommonsHtml->script(array(
 					)
 				);
 
+				$videoHelpBlockMessage = __d('videos', 'Please register if you want to change.');
 				if ($isFfmpegEnable) {
-					$thumbnailHelpBlockMessage = __d('videos', 'Please register if you want to change.') . sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
+					$videoHelpBlockMessage .= sprintf(__d('videos', 'support of %s.'), Video::VIDEO_EXTENSION);
 				} else {
-					$thumbnailHelpBlockMessage = sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
+					$videoHelpBlockMessage .= sprintf(__d('videos', 'support of %s.'), 'mp4');
 				}
+				$thumbnailHelpBlockMessage = __d('videos', 'Please register if you want to change.');
+				$thumbnailHelpBlockMessage .= sprintf(__d('videos', 'support of %s.'), Video::THUMBNAIL_EXTENSION);
 				?>
 				<?php /** @see FilesFormHelper::uploadFile() */?>
+				<?php echo $this->NetCommonsForm->uploadFile(Video::VIDEO_FILE_FIELD, array(
+					'label' => __d('videos', 'Video file'),
+					'help' => h($videoHelpBlockMessage),
+					'remove' => false,
+				)); ?>
+
 				<?php echo $this->NetCommonsForm->uploadFile(Video::THUMBNAIL_FIELD, array(
 					'label' => __d('videos', 'Thumbnail'),
 					'help' => h($thumbnailHelpBlockMessage),

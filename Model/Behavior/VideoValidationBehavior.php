@@ -62,12 +62,20 @@ class VideoValidationBehavior extends ModelBehavior {
 	public function beforeValidate(Model $model, $options = array()) {
 		parent::beforeValidate($model, $options);
 
-		// サムネイル 任意 対応
-		if (isset($model->data[$model->alias][Video::THUMBNAIL_FIELD]) &&
-			isset($model->data[$model->alias][Video::THUMBNAIL_FIELD]['size']) &&
-			$model->data[$model->alias][Video::THUMBNAIL_FIELD]['size'] === 0) {
+		if (in_array('edit', $options, true)) {
+			// 編集時の動画 任意 対応
+			if (isset($model->data[$model->alias][Video::VIDEO_FILE_FIELD]['size']) &&
+				$model->data[$model->alias][Video::VIDEO_FILE_FIELD]['size'] === 0) {
 
-			unset($model->data[$model->alias][Video::THUMBNAIL_FIELD]);
+				unset($model->data[$model->alias][Video::VIDEO_FILE_FIELD]);
+			}
+
+			// 編集時のサムネイル 任意 対応
+			if (isset($model->data[$model->alias][Video::THUMBNAIL_FIELD]['size']) &&
+				$model->data[$model->alias][Video::THUMBNAIL_FIELD]['size'] === 0) {
+
+				unset($model->data[$model->alias][Video::THUMBNAIL_FIELD]);
+			}
 		}
 
 		return true;
@@ -83,19 +91,21 @@ class VideoValidationBehavior extends ModelBehavior {
 	public function rules(Model $model, $options = array()) {
 		$rules = $this->__initValidate($model);
 
-		if (in_array('add', $options)) {
+		$isFfmpegEnable = Hash::get($this->settings, $model->alias . '.' . self::IS_FFMPEG_ENABLE);
+		if ($isFfmpegEnable) {
+			// ffmpeg=ON
+			$extension = Video::VIDEO_EXTENSION;
+			$mimeType = Video::VIDEO_MIME_TYPE;
+
+		} else {
+			// ffmpeg=OFF
+			$extension = 'mp4';
+			$mimeType = 'video/mp4';
+		}
+
+		if (in_array('add', $options, true)) {
 			// --- 登録時
-			$isFfmpegEnable = Hash::get($this->settings, $model->alias . '.' . self::IS_FFMPEG_ENABLE);
-			if ($isFfmpegEnable) {
-				// ffmpeg=ON
-				$extension = Video::VIDEO_EXTENSION;
-				$mimeType = Video::VIDEO_MIME_TYPE;
-
-			} else {
-				// ffmpeg=OFF
-				$extension = 'mp4';
-				$mimeType = 'video/mp4';
-
+			if (!$isFfmpegEnable) {
 				$rules = Hash::merge($rules, array(
 					// 必須
 					Video::THUMBNAIL_FIELD => array(
@@ -118,6 +128,7 @@ class VideoValidationBehavior extends ModelBehavior {
 				));
 			}
 
+			// 必須
 			$rules = Hash::merge($rules, array(
 				Video::VIDEO_FILE_FIELD => array(
 					'upload-file' => array(
@@ -135,9 +146,20 @@ class VideoValidationBehavior extends ModelBehavior {
 				),
 			));
 
-		} elseif (in_array('edit', $options)) {
+		} elseif (in_array('edit', $options, true)) {
 			// --- 編集時
 			$rules = Hash::merge($rules, array(
+				// 任意
+				Video::VIDEO_FILE_FIELD => array(
+					'extension' => array(
+						'rule' => array('extension', explode(',', $extension)),
+						'message' => array(__d('files', 'It is upload disabled file format'))
+					),
+					'mimetype' => array(
+						'rule' => array('mimeType', explode(',', $mimeType)),
+						'message' => array(__d('files', 'It is upload disabled file format'))
+					),
+				),
 				// 任意
 				Video::THUMBNAIL_FIELD => array(
 					'extension' => array(

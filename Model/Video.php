@@ -266,8 +266,10 @@ class Video extends VideosAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			// 編集でない=登録 and Ffmpeg=ON
-			if (!$isEdit && self::isFfmpegEnable()) {
+			// Ffmpeg=ON and 動画あり
+			if (self::isFfmpegEnable() &&
+				$data[$this->alias][Video::VIDEO_FILE_FIELD]['size'] !== 0) {
+
 				// 動画変換のため、計2回saveしているので、MailQueueビヘイビア外す
 				$this->Behaviors->unload('Mails.MailQueue');
 
