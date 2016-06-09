@@ -132,7 +132,7 @@ class VideosControllerDownloadTest extends NetCommonsControllerTestCase {
 		$result = $this->_testPostAction('post', $data, $urlOptions, null, 'result');
 
 		//debug($result);
-		$this->assertEquals('video1.zip', $result);
+		$this->assertEquals('Title 2.zip', $result);
 
 		// テスト実ファイル削除
 		$videoTestUtil->deleteTestFile($testFilePath);
