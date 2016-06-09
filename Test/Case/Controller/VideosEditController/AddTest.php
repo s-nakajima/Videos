@@ -38,6 +38,8 @@ class VideosEditControllerAddTest extends WorkflowControllerAddTest {
 		'plugin.files.upload_file',
 		'plugin.files.upload_files_content',
 		'plugin.content_comments.content_comment',
+		'plugin.categories.category',
+		'plugin.categories.category_order',
 	);
 
 /**

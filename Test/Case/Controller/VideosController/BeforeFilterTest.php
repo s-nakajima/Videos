@@ -33,6 +33,8 @@ class VideosControllerBeforeFilterTest extends NetCommonsControllerTestCase {
 		'plugin.tags.tag',
 		'plugin.tags.tags_content',
 		'plugin.content_comments.content_comment',
+		'plugin.categories.category',
+		'plugin.categories.category_order',
 	);
 
 /**
