@@ -27,6 +27,7 @@ class VideoFixture extends CakeTestFixture {
 		'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'KEY |  |  | ', 'charset' => 'utf8'),
 		'language_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 6, 'unsigned' => false),
 		'block_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index', 'comment' => 'block id |  ブロックID | blocks.id | '),
+		'category_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'comment' => 'カテゴリーID'),
 		'title_icon' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'title' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'title | タイトル |  | ', 'charset' => 'utf8'),
 		'video_time' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false, 'comment' => 'video time | 動画時間 |  | '),
@@ -57,6 +58,7 @@ class VideoFixture extends CakeTestFixture {
 		array(
 			'id' => '1',
 			'block_id' => '2',
+			'category_id' => '0',
 			'key' => 'content_key_1',
 			'language_id' => '2',
 			'status' => '1',
@@ -72,6 +74,7 @@ class VideoFixture extends CakeTestFixture {
 		array(
 			'id' => '2',
 			'block_id' => '2',
+			'category_id' => '0',
 			'key' => 'content_key_1',
 			'language_id' => '2',
 			'status' => '3',
@@ -88,6 +91,7 @@ class VideoFixture extends CakeTestFixture {
 		array(
 			'id' => '3',
 			'block_id' => '2',
+			'category_id' => '0',
 			'key' => 'content_key_2',
 			'language_id' => '2',
 			'status' => '2',
@@ -105,6 +109,7 @@ class VideoFixture extends CakeTestFixture {
 		array(
 			'id' => '4',
 			'block_id' => '2',
+			'category_id' => '0',
 			'key' => 'content_key_3',
 			'language_id' => '2',
 			'status' => '1',
@@ -120,6 +125,7 @@ class VideoFixture extends CakeTestFixture {
 		array(
 			'id' => '5',
 			'block_id' => '2',
+			'category_id' => '0',
 			'key' => 'content_key_3',
 			'language_id' => '2',
 			'status' => '3',
@@ -137,6 +143,7 @@ class VideoFixture extends CakeTestFixture {
 		array(
 			'id' => '6',
 			'block_id' => '2',
+			'category_id' => '0',
 			'key' => 'content_key_4',
 			'language_id' => '2',
 			'status' => '1',
@@ -152,6 +159,7 @@ class VideoFixture extends CakeTestFixture {
 		array(
 			'id' => '7',
 			'block_id' => '2',
+			'category_id' => '0',
 			'key' => 'content_key_4',
 			'language_id' => '2',
 			'status' => '4',
@@ -168,6 +176,7 @@ class VideoFixture extends CakeTestFixture {
 		array(
 			'id' => '8',
 			'block_id' => '2',
+			'category_id' => '0',
 			'key' => 'content_key_5',
 			'language_id' => '2',
 			'status' => '3',
