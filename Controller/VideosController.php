@@ -42,6 +42,7 @@ class VideosController extends VideosAppController {
  * @var array
  */
 	public $uses = array(
+		'Categories.Category',
 		'ContentComments.ContentComment',	// コンテンツコメント
 		'Videos.Video',
 		'Videos.VideoBlockSetting',
@@ -55,6 +56,7 @@ class VideosController extends VideosAppController {
  * @see NetCommonsAppController::$helpers
  */
 	public $helpers = array(
+		'Categories.Category',
 		'ContentComments.ContentComment' => array(
 			'viewVarsKey' => array(
 				'contentKey' => 'video.Video.key',
@@ -122,11 +124,21 @@ class VideosController extends VideosAppController {
  * @return CakeResponse
  */
 	public function index() {
-		// 一覧取得
-		$results = $this->__list();
-		$this->set($results);
-
+		$conditions = array();
 		$this->set('listTitle', Current::read('Block.name'));
+		$this->set('filterDropDownLabel', __d('videos', 'All videos'));
+
+		$categoryId = Hash::get($this->request->params['named'], 'category_id', 0);
+		if ($categoryId) {
+			$conditions['Video.category_id'] = $categoryId;
+			$category = $this->Category->findById($categoryId);
+			$this->set('listTitle', __d('categories', 'Category') . ':' . $category['Category']['name']);
+			$this->set('filterDropDownLabel', $category['Category']['name']);
+		}
+
+		// 一覧取得
+		$results = $this->__list($conditions);
+		$this->set($results);
 	}
 
 /**
@@ -140,9 +152,11 @@ class VideosController extends VideosAppController {
 		// indexとのちがいはtagIdでの絞り込みだけ
 		$tagId = $this->_getNamed('id', 0);
 
-		// カテゴリ名をタイトルに
+		// タグ名をタイトルに
 		$tag = $this->Video->getTagByTagId($tagId);
 		$this->set('listTitle', __d('tags', 'tag') . ':' . $tag['Tag']['name']);
+
+		$this->set('filterDropDownLabel', __d('videos', 'All videos'));
 
 		$conditions = array(
 			'Tag.id' => $tagId // これを有効にするにはentry_tag_linkもJOINして検索か。
@@ -367,6 +381,11 @@ class VideosController extends VideosAppController {
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
 		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
 		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
+
+		// カテゴリ
+		$categories = $this->Category->getCategories(Current::read('Block.id'),
+			Current::read('Room.id'));
+		$results['categories'] = $categories;
 
 		return $results;
 	}

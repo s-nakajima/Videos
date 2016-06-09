@@ -81,6 +81,21 @@ echo $this->NetCommonsHtml->script(array(
 			&nbsp;
 			<?php /* 投稿者 */ ?>
 			<?php echo $this->DisplayUser->handleLink($video, ['avatar' => true]); ?>
+			&nbsp;
+			<?php /* カテゴリ */ ?>
+			<?php if ($video['Video']['category_id']) : ?>
+				<?php echo __d('categories', 'Category') ?>:<?php echo $this->Html->link(
+					$video['Category']['name'],
+					$this->NetCommonsHtml->url(
+						array(
+							'controller' => 'videos',
+							'action' => 'index',
+							'frame_id' => Current::read('Frame.id'),
+							'category_id' => $video['Video']['category_id']
+						)
+					)
+				); ?>
+			<?php endif; ?>
 		</div>
 		<div class="video-description">
 			<?php /* 説明 */ ?>

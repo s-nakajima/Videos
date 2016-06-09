@@ -69,12 +69,16 @@ $this->NetCommonsHtml->script(array(
 						'rows' => 5,
 					)); ?>
 
-					<div class="form-group"></div>
-					<?php $this->NetCommonsForm->unlockField('Tag');
-					echo $this->element('Tags.tag_form', array(
-						'tagData' => isset($this->request->data['Tag']) ? $this->request->data['Tag'] : array(),
-						'modelName' => 'Video',
-					)); ?>
+					<?php /** @see CategoryHelper::select() */ ?>
+					<?php echo $this->Category->select('Video.category_id', array('empty' => true)); ?>
+
+					<div class="form-group">
+						<?php $this->NetCommonsForm->unlockField('Tag');
+						echo $this->element('Tags.tag_form', array(
+							'tagData' => isset($this->request->data['Tag']) ? $this->request->data['Tag'] : array(),
+							'modelName' => 'Video',
+						)); ?>
+					</div>
 
 					<hr />
 

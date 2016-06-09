@@ -35,4 +35,8 @@
 
 <?php echo $this->NetCommonsForm->inlineCheckbox('VideoBlockSetting.auto_play', array(
 	'label' => __d('videos', 'Automatically play video')
+)); ?>
+
+<?php echo $this->element('Categories.edit_form', array(
+	'categories' => isset($categories) ? $categories : null
 ));

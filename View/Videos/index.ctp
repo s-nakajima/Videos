@@ -23,6 +23,30 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 		<?php /* 上部ボタン */ ?>
 		<div class="clearfix">
 			<div class="pull-left">
+				<?php /* 絞り込み(カテゴリ) */ ?>
+				<span class="dropdown">
+					<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+						<?php echo $filterDropDownLabel ?>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->NetCommonsHtml->url(
+								array(
+									'action' => 'index',
+									'frame_id' => Current::read('Frame.id'),
+								)
+							);?>"><?php echo __d('videos', 'All videos') ?></a></li>
+						<li role="presentation" class="dropdown-header"><?php echo __d('categories', 'Category') ?></li>
+
+						<?php /** @see CategoryHelper::dropDownToggle() */?>
+						<?php echo $this->Category->dropDownToggle(array(
+							'empty' => false,
+							'displayMenu' => false,
+							$this->NetCommonsHtml->url(array('action' => 'index')),
+						)); ?>
+					</ul>
+				</span>
+
 				<?php /* ソート順 */ ?>
 				<span class="btn-group text-left">
 					<?php $displayOrderOptions = array(

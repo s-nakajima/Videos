@@ -16,10 +16,11 @@ App::uses('AppController', 'Controller');
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Controller
- * @property FileUploadComponent $FileUpload
- * @property DownloadComponent $Download
+ * @property Category $Category
  * @property ContentComment $ContentComment
  * @property ContentCommentsComponent $ContentComments
+ * @property DownloadComponent $Download
+ * @property FileUploadComponent $FileUpload
  * @property MailSetting $MailSetting
  * @property MailQueuesComponent $MailQueues
  * @property NetCommonsComponent $NetCommons

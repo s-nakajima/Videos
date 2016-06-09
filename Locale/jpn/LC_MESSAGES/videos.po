@@ -134,3 +134,6 @@ msgstr "動画を投稿できる権限"
 
 msgid "Number"
 msgstr "件数"
+
+msgid "All videos"
+msgstr "全ての動画"

@@ -40,8 +40,10 @@ class VideoBlocksController extends VideosAppController {
  * use component
  *
  * @var array
+ * @see CategoryEditComponent
  */
 	public $components = array(
+		'Categories.CategoryEdit',
 		'NetCommons.Permission' => array(
 			//アクセスの権限
 			'allow' => array(

@@ -27,6 +27,7 @@ class VideosEditController extends VideosAppController {
  * @var array
  */
 	public $uses = array(
+		'Categories.Category',
 		'Videos.Video',
 		// 暫定対応：メールで承認するフラグ取得用（今後設定不要になる見込み）
 		'Videos.VideoBlockSetting',
@@ -53,6 +54,7 @@ class VideosEditController extends VideosAppController {
  * @var array
  */
 	public $helpers = array(
+		'Categories.Category',
 		'NetCommons.TitleIcon',
 		'Workflow.Workflow',
 	);
@@ -82,8 +84,13 @@ class VideosEditController extends VideosAppController {
  * @return CakeResponse
  */
 	public function add() {
-		if ($this->request->is('post')) {
+		$this->set('video', null);
 
+		$categories = $this->Category->getCategories(Current::read('Block.id'),
+			Current::read('Room.id'));
+		$this->set('categories', $categories);
+
+		if ($this->request->is('post')) {
 			//登録処理
 			$data = $this->data;
 			$data['Video']['status'] = $this->Workflow->parseStatus();
@@ -108,10 +115,6 @@ class VideosEditController extends VideosAppController {
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
 		}
-
-		$results['video'] = null;
-
-		$this->set($results);
 	}
 
 /**
@@ -134,6 +137,10 @@ class VideosEditController extends VideosAppController {
 		if (! $this->Video->canEditWorkflowContent($video)) {
 			return $this->throwBadRequest();
 		}
+
+		$categories = $this->Category->getCategories(Current::read('Block.id'),
+			Current::read('Room.id'));
+		$this->set('categories', $categories);
 
 		/* @see WorkflowCommentBehavior::getCommentsByContentKey() */
 		$comments = $this->Video->getCommentsByContentKey($videoKey);

@@ -134,3 +134,6 @@ msgstr "Authority can post videos"
 
 msgid "Number"
 msgstr "Number"
+
+msgid "All videos"
+msgstr "All videos"

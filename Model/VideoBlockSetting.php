@@ -35,6 +35,7 @@ class VideoBlockSetting extends VideosAppModel {
  * @see BlockBehavior
  * @see OriginalKeyBehavior
  * @see MailSettingBehavior::beforeDelete()
+ * @see CategoryBehavior
  */
 	public $actsAs = array(
 		'Blocks.Block' => array(
@@ -48,6 +49,7 @@ class VideoBlockSetting extends VideosAppModel {
 				'Video' => 'Videos.Video',
 			)
 		),
+		'Categories.Category',
 		'Mails.MailSetting',			// 自動でメール設定の削除
 		'NetCommons.OriginalKey',
 		'Blocks.BlockRolePermission',

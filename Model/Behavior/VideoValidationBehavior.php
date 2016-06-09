@@ -103,6 +103,13 @@ class VideoValidationBehavior extends ModelBehavior {
 					'required' => true,
 				),
 			),
+			'category_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'allowEmpty' => true,
+				),
+			),
 		));
 
 		if (in_array('add', $options)) {

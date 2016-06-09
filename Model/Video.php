@@ -113,11 +113,11 @@ class Video extends VideosAppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'User' => array(
-			'className' => 'Users.User',
-			'foreignKey' => 'created_user',
+		'Category' => array(
+			'className' => 'Categories.Category',
+			'foreignKey' => 'category_id',
 			'conditions' => '',
-			'fields' => 'handlename',
+			'fields' => '',
 			'order' => ''
 		),
 	);
