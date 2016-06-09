@@ -69,6 +69,20 @@ class VideoBlocksController extends VideosAppController {
 	);
 
 /**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+
+		//CategoryEditComponent外す
+		if (in_array($this->params['action'], ['index', 'delete'], true)) {
+			$this->Components->unload('Categories.CategoryEdit');
+		}
+	}
+
+/**
  * ブロック一覧表示
  *
  * @return CakeResponse
@@ -153,8 +167,7 @@ class VideoBlocksController extends VideosAppController {
 			//BlockSetting, FrameSetting登録処理
 			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data, true) &&
 				$this->VideoFrameSetting->saveVideoFrameSetting($this->data)) {
-				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
-				return;
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 			$this->NetCommons->handleValidationError($this->VideoBlockSetting->validationErrors);
 
@@ -176,8 +189,7 @@ class VideoBlocksController extends VideosAppController {
 		if ($this->request->is('put')) {
 			//登録処理
 			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data, true)) {
-				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
-				return;
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 			$this->NetCommons->handleValidationError($this->VideoBlockSetting->validationErrors);
 
@@ -204,8 +216,7 @@ class VideoBlocksController extends VideosAppController {
 	public function delete() {
 		if ($this->request->is('delete')) {
 			if ($this->VideoBlockSetting->deleteVideoBlockSetting($this->data)) {
-				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
-				return;
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 		}
 
