@@ -43,6 +43,8 @@ class VideoBlockSetting extends VideosAppModel {
 			// save, delete時にloadModels()
 			// delete時にblock_id, block_keyで紐づいてるデータ削除
 			'loadModels' => array(
+				'Category' => 'Categories.Category',
+				'CategoryOrder' => 'Categories.CategoryOrder',
 				'ContentComment' => 'ContentComments.ContentComment',
 				'Like' => 'Likes.Like',
 				'Tag' => 'Tags.Tag',
