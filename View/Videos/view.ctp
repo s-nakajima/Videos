@@ -22,21 +22,26 @@ echo $this->NetCommonsHtml->script(array(
 
 <?php /* 上部ボタン */ ?>
 <header>
-	<div class="text-right">
-		<?php
-		if ($this->Workflow->canEdit("Videos.Video", $video)) {
-			$editUrl = $this->NetCommonsHtml->url(array(
-				'controller' => 'videos_edit',
-				'action' => 'edit',
-				'key' => $video['Video']['key']
-			));
-			echo $this->Button->editLink(__d('net_commons', 'Edit'),
-				$editUrl,
-				array('tooltip' => __d('net_commons', 'Edit'))
-			);
-		}
-		?>
-	</div>
+	<div class="clearfix">
+		<div class="pull-left">
+			<?php /* ステータス */ ?>
+			<?php echo $this->Workflow->label($video['Video']['status']); ?>
+		</div>
+		<div class="pull-right text-right">
+			<?php
+			if ($this->Workflow->canEdit("Videos.Video", $video)) {
+				$editUrl = $this->NetCommonsHtml->url(array(
+					'controller' => 'videos_edit',
+					'action' => 'edit',
+					'key' => $video['Video']['key']
+				));
+				echo $this->Button->editLink(__d('net_commons', 'Edit'),
+					$editUrl,
+					array('tooltip' => __d('net_commons', 'Edit'))
+				);
+			}
+			?>
+		</div>
 </header>
 
 <?php /* 動画 */ ?>
@@ -64,10 +69,6 @@ echo $this->NetCommonsHtml->script(array(
 
 <div class="video-margin-row" ng-controller="VideoView">
 	<div class="panel panel-default video-detail">
-		<div>
-			<?php /* ステータス */ ?>
-			<?php echo $this->Workflow->label($video['Video']['status']); ?>
-		</div>
 		<div class="nc-content-list">
 			<?php /* タイトル */ ?>
 			<h1>
