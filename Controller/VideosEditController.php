@@ -29,8 +29,6 @@ class VideosEditController extends VideosAppController {
 	public $uses = array(
 		'Categories.Category',
 		'Videos.Video',
-		// 暫定対応：メールで承認するフラグ取得用（今後設定不要になる見込み）
-		'Videos.VideoBlockSetting',
 	);
 
 /**
@@ -96,10 +94,6 @@ class VideosEditController extends VideosAppController {
 			$data['Video']['status'] = $this->Workflow->parseStatus();
 			unset($data['Video']['id']);
 
-			// 暫定対応：メールで承認するフラグ取得用（今後設定不要になる見込み）
-			$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
-			$data['VideoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
-
 			// 登録
 			if ($this->Video->saveVideo($data)) {
 				return $this->redirect(NetCommonsUrl::backToPageUrl());
@@ -151,10 +145,6 @@ class VideosEditController extends VideosAppController {
 			$data = $this->data;
 			$data['Video']['status'] = $this->Workflow->parseStatus();
 			unset($data['Video']['id']);
-
-			// 暫定対応：メールで承認するフラグ取得用（今後設定不要になる見込み）
-			$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
-			$data['VideoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
 
 			// 登録（ワークフロー対応のため、編集でも常にinsert）
 			if ($video = $this->Video->saveVideo($data, 1)) {
