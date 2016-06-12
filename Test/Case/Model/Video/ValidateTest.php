@@ -85,6 +85,10 @@ class VideoValidateTest extends NetCommonsValidateTest {
 			'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'title')),
 			'overwrite' => array(), 'options' => array('add'));
 
+		$result['登録:category_id'] = array('data' => $data, 'field' => 'category_id', 'value' => 'x',
+			'message' => __d('net_commons', 'Invalid request.'),
+			'overwrite' => array(), 'options' => array('add'));
+
 		$result['編集:language_id'] = array('data' => $data, 'field' => 'language_id', 'value' => null,
 			'message' => __d('net_commons', 'Invalid request.'),
 			'overwrite' => $overwrite, 'options' => array('edit'));
