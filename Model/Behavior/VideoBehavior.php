@@ -10,6 +10,7 @@
  */
 
 App::uses('Video', 'Videos.Model');
+App::uses('TemporaryFolder', 'Files.Utility');
 
 /**
  * Summary for Video Behavior
@@ -78,12 +79,6 @@ class VideoBehavior extends ModelBehavior {
  * @throws InternalErrorException
  */
 	private function __convertVideo(Model $model, $video, $noConvert) {
-		// mp4は変換しない
-		$noConvertExtension = $noConvert['UploadFile']["extension"];
-		if ($noConvertExtension == "mp4") {
-			return;
-		}
-
 		// --- 動画変換
 		$noConvertPath = $model->UploadFile->uploadBasePath . $noConvert['UploadFile']['path'] .
 						$noConvert['UploadFile']['id'] . DS;
@@ -91,6 +86,8 @@ class VideoBehavior extends ModelBehavior {
 
 		// サムネイル名は動画名で末尾jpgにしたものをセット
 		$videoName = explode('.', $realFileName)[0];
+		$tmpFolder = new TemporaryFolder();
+		$convertedFilePath = $tmpFolder->path . DS . $videoName . '.mp4';
 
 		// 動画変換
 		// 動画変換実施(元動画 > H.264)  コマンドインジェクション対策
@@ -99,8 +96,7 @@ class VideoBehavior extends ModelBehavior {
 		// http://tech.ckme.co.jp/ffmpeg.shtml
 		// http://www.xucker.jpn.org/product/ffmpeg_commands.html
 		$strCmd = Video::FFMPEG_PATH . ' -y -i ' . escapeshellarg($noConvertPath . $realFileName) .
-				' ' . Video::FFMPEG_OPTION . ' ' . escapeshellarg($noConvertPath . $videoName . '.mp4') .
-				' 2>&1';
+			' ' . Video::FFMPEG_OPTION . ' ' . escapeshellarg($convertedFilePath) . ' 2>&1';
 		exec($strCmd, $arr, $ret);
 
 		// 変換エラー時
@@ -116,8 +112,7 @@ class VideoBehavior extends ModelBehavior {
 
 		//変換動画のファイル保存
 		/** @see AttachmentBehavior::attachFile() */
-		// https://github.com/NetCommons3/Blogs/blob/feature/withFilesTest/Controller/BlogEntriesEditController.php#L234 あたり Blogsのfeature/withFilesTestブランチ参考
-		$model->attachFile($video, Video::VIDEO_FILE_FIELD, $noConvertPath . $videoName . '.mp4');
+		$model->attachFile($video, Video::VIDEO_FILE_FIELD, $convertedFilePath);
 	}
 
 /**
@@ -181,14 +176,16 @@ class VideoBehavior extends ModelBehavior {
 						$convert['UploadFile']['id'] . DS;
 		$realFileName = $convert['UploadFile']["real_file_name"];
 		$videoName = explode('.', $realFileName)[0];
+		$tmpFolder = new TemporaryFolder();
+		$convertedFilePath = $tmpFolder->path . DS . $videoName . '.jpg';
 
 		// --- サムネイル自動作成
 		// 例) ffmpeg -ss 1 -vframes 1 -i /var/www/html/movies/play/20130901_072755.mp4 -f image2 /var/www/html/movies/play/20130901_072755.jpg
 		// サムネイルは変換後のmp4 から生成する。mts からサムネイルを生成した場合、灰色画像になりうまく生成できなかった。ファイル形式によりサムネイル生成に制限がある可能性があるため。
 		// コマンドインジェクション対策
 		$strCmd = Video::FFMPEG_PATH . ' -ss 1 -vframes 1 -i ' .
-				escapeshellarg($convertPath . $videoName . ".mp4") . ' -f image2 ' .
-				escapeshellarg($convertPath . $videoName . '.jpg');
+			escapeshellarg($convertPath . $videoName . '.mp4') . ' -f image2 ' .
+			escapeshellarg($convertedFilePath);
 		exec($strCmd, $arrImage, $retImage);
 
 		// 変換エラー時
@@ -200,7 +197,7 @@ class VideoBehavior extends ModelBehavior {
 		} else {
 			// サムネイルのファイル保存
 			/** @see AttachmentBehavior::attachFile() */
-			$model->attachFile($video, Video::THUMBNAIL_FIELD, $convertPath . $videoName . '.jpg');
+			$model->attachFile($video, Video::THUMBNAIL_FIELD, $convertedFilePath);
 		}
 	}
 }
