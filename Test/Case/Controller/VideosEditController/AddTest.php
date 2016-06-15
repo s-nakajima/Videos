@@ -57,6 +57,28 @@ class VideosEditControllerAddTest extends WorkflowControllerAddTest {
 	protected $_controller = 'videos_edit';
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		// ファイルアップロードの実ファイルが配置されなかったので、強制的に実ファイルを配置
+		// アップロードパスの変更
+		$tmpFolder = new TemporaryFolder();
+		$this->controller->UploadFile = ClassRegistry::init('Files.UploadFile', true);
+		$this->controller->UploadFile->uploadBasePath = $tmpFolder->path . '/';
+		// テスト実ファイル配置
+		$testFilePath = $tmpFolder->path . '/files/upload_file/real_file_name/1/14';
+		$tmpFolder->create($testFilePath);
+		$videoFilePath = APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS .
+			'video1.mp4';
+		$tmpFilePath = $testFilePath . DS . 'ef4ac246226cf2f9896c0d978c71541f.mp4';
+		copy($videoFilePath, $tmpFilePath);
+	}
+
+/**
  * テストDataの取得
  *
  * @return array

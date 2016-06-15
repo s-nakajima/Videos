@@ -28,6 +28,8 @@ class VideoSaveVideoTest extends WorkflowSaveTest {
  * @var array
  */
 	public $fixtures = array(
+		'plugin.categories.category',
+		'plugin.categories.category_order',
 		'plugin.site_manager.site_setting',
 		'plugin.videos.video',
 		'plugin.videos.video_block_setting',
@@ -38,6 +40,7 @@ class VideoSaveVideoTest extends WorkflowSaveTest {
 		'plugin.tags.tags_content',
 		'plugin.content_comments.content_comment',
 		'plugin.frames.frame4frames',
+		'plugin.workflow.workflow_comment',
 	);
 
 /**
@@ -70,6 +73,24 @@ class VideoSaveVideoTest extends WorkflowSaveTest {
 		parent::setUp();
 
 		Current::$current['Plugin']['key'] = $this->plugin;
+
+		// ファイルアップロードの実ファイルが配置されなかったので、強制的に実ファイルを配置
+		// アップロードパスの変更
+		$tmpFolder = new TemporaryFolder();
+		$this->UploadFile = ClassRegistry::init('Files.UploadFile', true);
+		$this->UploadFile->uploadBasePath = $tmpFolder->path . '/';
+		// テスト実ファイル配置
+		$testFilePath = $tmpFolder->path . '/files/upload_file/test/11';
+		$tmpFolder->create($testFilePath);
+		$videoFilePath = APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS .
+			'video1.mp4';
+		$tmpFilePath = $testFilePath . DS . 'video1.mp4';
+		copy($videoFilePath, $tmpFilePath);
+		// テスト実ファイル配置 2個目
+		$testFilePath = $tmpFolder->path . '/files/upload_file/real_file_name/1/14';
+		$tmpFilePath = $testFilePath . DS . 'ef4ac246226cf2f9896c0d978c71541f.mp4';
+		$tmpFolder->create($testFilePath);
+		copy($videoFilePath, $tmpFilePath);
 	}
 
 /**
