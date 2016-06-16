@@ -49,10 +49,14 @@ class VideoBlockSetting extends VideosAppModel {
 				'Like' => 'Likes.Like',
 				'Tag' => 'Tags.Tag',
 				'Video' => 'Videos.Video',
+				// メール関連
+				'MailSetting' => 'Mails.MailSetting',
+				'MailSettingFixedPhrase' => 'Mails.MailSettingFixedPhrase',
+				'MailQueue' => 'Mails.MailQueue',
+				'MailQueueUser' => 'Mails.MailQueueUser',
 			)
 		),
 		'Categories.Category',
-		'Mails.MailSetting',			// 自動でメール設定の削除
 		'NetCommons.OriginalKey',
 		'Blocks.BlockRolePermission',
 	);
