@@ -69,15 +69,9 @@
 								'VideoBlockSetting.count', (int)$videoBlockSetting['Count']['count'],
 								array('type' => 'numeric')
 							); ?>
-							<td>
-								<?php if ($videoBlockSetting['Block']['public_type'] === '0') : ?>
-									<?php echo __d('blocks', 'Private'); ?>
-								<?php elseif ($videoBlockSetting['Block']['public_type'] === '1') : ?>
-									<?php echo __d('blocks', 'Public'); ?>
-								<?php elseif ($videoBlockSetting['Block']['public_type'] === '2') : ?>
-									<?php echo __d('blocks', 'Limited Public'); ?>
-								<?php endif; ?>
-							</td>
+							<?php echo $this->BlockIndex->tableData(
+								'Block.public_type', $videoBlockSetting
+							); ?>
 							<?php echo $this->BlockIndex->tableData(
 								'TrackableUpdater', $videoBlockSetting,
 								array('type' => 'handle')
