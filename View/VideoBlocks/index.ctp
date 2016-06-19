@@ -28,7 +28,7 @@
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 							'Block.name', __d('videos', 'Channel name'),
-							array('sort' => true)
+							array('sort' => true, 'editUrl' => true)
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 							'Size.size_byte', __d('videos', 'File capacity'),
