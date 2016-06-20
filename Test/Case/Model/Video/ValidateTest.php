@@ -166,7 +166,7 @@ class VideoValidateTest extends NetCommonsValidateTest {
 			'overwrite' => $overwrite, 'options' => array('add'), 'isFfmpegEnable' => true);
 
 		$overwrite = array();
-		$overwrite['Video'][Video::VIDEO_FILE_FIELD]['name'] = 'thumbnail1.jpg';
+		$overwrite['Video'][Video::VIDEO_FILE_FIELD]['name'] = 'thumbnail1.xxx';
 		$result['登録, Ffmpeg=ON:video_file - 拡張子違い'] = array('data' => $data, 'field' => Video::VIDEO_FILE_FIELD,
 			'message' => __d('files', 'It is upload disabled file format'),
 			'overwrite' => $overwrite, 'options' => array('add'), 'isFfmpegEnable' => true);
@@ -187,7 +187,7 @@ class VideoValidateTest extends NetCommonsValidateTest {
 			'overwrite' => $overwrite, 'options' => array('add'), 'isFfmpegEnable' => false);
 
 		$overwrite = array();
-		$overwrite['Video'][Video::THUMBNAIL_FIELD]['name'] = 'video1.mp4';
+		$overwrite['Video'][Video::THUMBNAIL_FIELD]['name'] = 'video1.xxx';
 		$result['登録, Ffmpeg=OFF:thumbnail - 拡張子違い'] = array('data' => $data, 'field' => Video::THUMBNAIL_FIELD,
 			'message' => __d('files', 'It is upload disabled file format'),
 			'overwrite' => $overwrite, 'options' => array('add'), 'isFfmpegEnable' => false);
@@ -202,7 +202,7 @@ class VideoValidateTest extends NetCommonsValidateTest {
 
 		// --- 編集
 		$overwrite = array();
-		$overwrite['Video'][Video::THUMBNAIL_FIELD]['name'] = 'video1.mp4';
+		$overwrite['Video'][Video::THUMBNAIL_FIELD]['name'] = 'video1.xxx';
 		$result['編集:thumbnail - 拡張子違い'] = array('data' => $data, 'field' => Video::THUMBNAIL_FIELD,
 			'message' => __d('files', 'It is upload disabled file format'),
 			'overwrite' => $overwrite, 'options' => array('edit'), 'isFfmpegEnable' => true);
@@ -230,6 +230,7 @@ class VideoValidateTest extends NetCommonsValidateTest {
 	public function testValidationUploadError($data, $field, $message, $overwrite = array(), $options = array(), $isFfmpegEnable = 1) {
 		//public function testValidationUploadError($data, $field, $value, $message, $overwrite = array(), $options = array()) {
 		$model = $this->_modelName;
+		$this->$model->Behaviors->unload('Workflow.Workflow');
 
 		//		if (is_null($value)) {
 		//			unset($data[$model][$field]);
