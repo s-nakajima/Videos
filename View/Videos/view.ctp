@@ -30,13 +30,12 @@ echo $this->NetCommonsHtml->script(array(
 		<div class="pull-right text-right">
 			<?php
 			if ($this->Workflow->canEdit("Videos.Video", $video)) {
-				$editUrl = $this->NetCommonsHtml->url(array(
-					'controller' => 'videos_edit',
-					'action' => 'edit',
-					'key' => $video['Video']['key']
-				));
 				echo $this->Button->editLink(__d('net_commons', 'Edit'),
-					$editUrl,
+					array(
+						'controller' => 'videos_edit',
+						'action' => 'edit',
+						'key' => $video['Video']['key']
+					),
 					array('tooltip' => __d('net_commons', 'Edit'))
 				);
 			}
@@ -48,21 +47,17 @@ echo $this->NetCommonsHtml->script(array(
 <div class="video-margin-row">
 	<?php /* 動画プレイヤー */ ?>
 	<?php echo $this->element('Videos/player', array(
-		'fileMp4Url' => $this->NetCommonsHtml->url(
-			[
-				'action' => 'file',
-				'key' => $video['Video']['key'],
-				Video::VIDEO_FILE_FIELD,
-			]
-		),
-		'fileThumbnailUrl' => $this->NetCommonsHtml->url(
-			[
-				'action' => 'file',
-				'key' => $video['Video']['key'],
-				Video::THUMBNAIL_FIELD,
-				'big',
-			]
-		),
+		'fileMp4Url' => [
+			'action' => 'file',
+			'key' => $video['Video']['key'],
+			Video::VIDEO_FILE_FIELD,
+		],
+		'fileThumbnailUrl' => [
+			'action' => 'file',
+			'key' => $video['Video']['key'],
+			Video::THUMBNAIL_FIELD,
+			'big',
+		],
 		'isAutoPlay' => $videoBlockSetting['auto_play'],
 	)); ?>
 </div>
@@ -107,14 +102,12 @@ echo $this->NetCommonsHtml->script(array(
 			<?php if (Current::permission('block_editable')): ?>
 				<span class="video-detail-links">
 					<?php /* ダウンロード */ ?>
-					<a authorization-keys-popup-link frame-id="<?php echo Current::read('Frame.id'); ?>"
-						url="<?php echo NetCommonsUrl::actionUrl(array(
+					<a href="" authorization-keys-popup-link frame-id="<?php echo Current::read('Frame.id'); ?>"
+						url="<?php echo $this->NetCommonsHtml->url(array(
 							'plugin' => 'videos',
 							'controller' => 'videos',
 							'action' => 'download',
-							Current::read('Block.id'),
-							$video['Video']['key'],
-							'frame_id' => Current::read('Frame.id')
+							'key' => $video['Video']['key']
 						)); ?>"
 						popup-title="<?php echo __d('authorization_keys', 'Compression password'); ?>"
 						popup-label="<?php echo __d('authorization_keys', 'Compression password'); ?>"
