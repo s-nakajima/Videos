@@ -39,6 +39,7 @@ class VideoDeleteVideoTest extends WorkflowDeleteTest {
 		'plugin.files.upload_files_content',
 		'plugin.content_comments.content_comment',
 		'plugin.site_manager.site_setting',
+		'plugin.categories.category',
 	);
 
 /**
