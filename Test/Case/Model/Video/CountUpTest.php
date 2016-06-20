@@ -30,6 +30,7 @@ class VideoCountUpTest extends NetCommonsModelTestCase {
 		'plugin.videos.video_block_setting',
 		'plugin.videos.video_frame_setting',
 		'plugin.workflow.workflow_comment',
+		'plugin.site_manager.site_setting',
 	);
 
 /**

@@ -31,13 +31,11 @@ if (!isset($style)) {
 				<div>
 					<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $video['Video']['key'])); ?>">
 						<?php echo $this->NetCommonsHtml->image(
-							$this->NetCommonsHtml->url(
-								[
-									'action' => 'file',
-									'key' => $video['Video']['key'],
-									Video::THUMBNAIL_FIELD,
-								]
-							),
+							[
+								'action' => 'file',
+								'key' => $video['Video']['key'],
+								Video::THUMBNAIL_FIELD,
+							],
 							[
 								'alt' => $video['Video']['title'],
 								'class' => 'img-rounded video-thumbnail-image',

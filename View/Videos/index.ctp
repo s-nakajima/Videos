@@ -92,9 +92,8 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 			<div class="pull-right">
 				<?php
 				if (Current::permission('content_creatable')) {
-					$addUrl = $this->NetCommonsHtml->url(array('controller' => 'videos_edit', 'action' => 'add'));
 					echo $this->Button->addLink(__d('videos', 'video'),
-						$addUrl,
+						array('controller' => 'videos_edit', 'action' => 'add'),
 						array('tooltip' => __d('videos', 'Add video'))
 					);
 				}
@@ -110,9 +109,9 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 		<?php foreach ($videos as $video) : ?>
 			<article>
 				<?php echo $this->element('Videos.Videos/list', array(
-					"video" => $video,
-					"videoBlockSetting" => $videoBlockSetting,
-					"isFfmpegEnable" => $isFfmpegEnable,
+					'video' => $video,
+					'videoBlockSetting' => $videoBlockSetting,
+					'isFfmpegEnable' => $isFfmpegEnable,
 				)); ?>
 			</article>
 		<?php endforeach; ?>
