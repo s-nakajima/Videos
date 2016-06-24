@@ -93,7 +93,7 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 				<?php
 				if (Current::permission('content_creatable')) {
 					echo $this->Button->addLink(__d('videos', 'video'),
-						array('controller' => 'videos_edit', 'action' => 'add'),
+						array('controller' => 'videos_edit', 'action' => 'add', 'frame_id' => Current::read('Frame.id')),
 						array('tooltip' => __d('videos', 'Add video'))
 					);
 				}
