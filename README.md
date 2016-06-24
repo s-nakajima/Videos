@@ -7,3 +7,5 @@ Videos for NetCommons3
 | dependencies | status |
 | ------------ | ------ |
 | composer.json | [![Dependency Status](https://www.versioneye.com/user/projects/54f93a5cfcd47aaf49000082/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54f93a5cfcd47aaf49000082) |
+
+### [phpdoc](https://netcommons3.github.io/NetCommons3Docs/phpdoc/Videos/)
