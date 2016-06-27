@@ -17,7 +17,7 @@
 	<div class="tab-content">
 		<?php echo $this->BlockTabs->block(BlockTabsHelper::BLOCK_TAB_PERMISSION); ?>
 
-		<?php echo $this->element('Blocks.edit_form', array(
+		<?php echo $this->BlockForm->displayEditForm(array(
 			'model' => 'VideoBlockRolePermission',
 			'callback' => 'Videos.VideoBlockRolePermissions/edit_form',
 			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),

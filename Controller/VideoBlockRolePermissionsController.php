@@ -55,6 +55,7 @@ class VideoBlockRolePermissionsController extends VideosAppController {
  * @var array
  */
 	public $helpers = array(
+		'Blocks.BlockForm',
 		'Blocks.BlockRolePermissionForm',
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array('block_index', 'frame_settings'),
