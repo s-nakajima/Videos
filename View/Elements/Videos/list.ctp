@@ -12,10 +12,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-echo $this->NetCommonsHtml->css(array(
-	'/likes/css/style.css',
-	'/videos/css/style.css',
-));
+echo $this->NetCommonsHtml->css('/videos/css/style.css');
 echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 
 if (!isset($style)) {
