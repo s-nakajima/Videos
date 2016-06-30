@@ -79,7 +79,7 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 
 					<ul class="dropdown-menu" role="menu">
 						<?php foreach ($displayOrderOptions as $key => $sort) : ?>
-							<li<?php echo $key == $displayOrderPaginator ? ' class="active"' : ''; ?>>
+							<li>
 								<?php echo $this->Paginator->link($sort['label'], array('sort' => $sort['sort'], 'direction' => $sort['direction'])); ?>
 							</li>
 						<?php endforeach; ?>
