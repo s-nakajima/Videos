@@ -21,6 +21,13 @@ App::uses('Video', 'Videos.Model');
 class VideoBlockSetting extends VideosAppModel {
 
 /**
+ * Custom database table name
+ *
+ * @var string
+ */
+	public $useTable = 'blocks';
+
+/**
  * Validation rules
  *
  * @var array
@@ -61,22 +68,22 @@ class VideoBlockSetting extends VideosAppModel {
 		'Blocks.BlockRolePermission',
 	);
 
-/**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'Block' => array(
-			'className' => 'Blocks.Block',
-			'foreignKey' => false,
-			'conditions' => array(
-				'Block.key = VideoBlockSetting.block_key',
-			),
-			'fields' => '',
-			'order' => ''
-		),
-	);
+	///**
+	// * belongsTo associations
+	// *
+	// * @var array
+	// */
+	//	public $belongsTo = array(
+	//		'Block' => array(
+	//			'className' => 'Blocks.Block',
+	//			'foreignKey' => false,
+	//			'conditions' => array(
+	//				'Block.key = VideoBlockSetting.block_key',
+	//			),
+	//			'fields' => '',
+	//			'order' => ''
+	//		),
+	//	);
 
 /**
  * beforeValidate
@@ -88,42 +95,65 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
-			'use_like' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
+			//			'use_like' => array(
+			//				'boolean' => array(
+			//					'rule' => array('boolean'),
+			//					'message' => __d('net_commons', 'Invalid request.'),
+			//				),
+			//			),
+			//			'use_unlike' => array(
+			//				'boolean' => array(
+			//					'rule' => array('boolean'),
+			//					'message' => __d('net_commons', 'Invalid request.'),
+			//				),
+			//			),
+			//			'use_comment' => array(
+			//				'boolean' => array(
+			//					'rule' => array('boolean'),
+			//					'message' => __d('net_commons', 'Invalid request.'),
+			//				),
+			//			),
+			//			'use_workflow' => array(
+			//				'boolean' => array(
+			//					'rule' => array('boolean'),
+			//					'message' => __d('net_commons', 'Invalid request.'),
+			//				),
+			//			),
+			//			'auto_play' => array(
+			//				'boolean' => array(
+			//					'rule' => array('boolean'),
+			//					'message' => __d('net_commons', 'Invalid request.'),
+			//				),
+			//			),
+			//			'use_comment_approval' => array(
+			//				'boolean' => array(
+			//					'rule' => array('boolean'),
+			//					'message' => __d('net_commons', 'Invalid request.'),
+			//				),
+			//			),
+			'language_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
 					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
 				),
 			),
-			'use_unlike' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
+			'room_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
 					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
 				),
 			),
-			'use_comment' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
+			'name' => array(
+				'notBlank' => array(
+					'rule' => array('notBlank'),
+					'message' => sprintf(
+						__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')
+					),
+					'required' => true,
 				),
-			),
-			'use_workflow' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-			'auto_play' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-			'use_comment_approval' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
+			)
 		));
 
 		return parent::beforeValidate($options);
@@ -135,7 +165,7 @@ class VideoBlockSetting extends VideosAppModel {
  * @return array
  */
 	public function createVideoBlockSetting() {
-		$this->VideoBlockSetting = ClassRegistry::init('Videos.VideoBlockSetting');
+		//$this->VideoBlockSetting = ClassRegistry::init('Videos.VideoBlockSetting');
 
 		$videoBlockSetting = $this->createAll(array(
 			'Block' => array(
@@ -177,20 +207,20 @@ class VideoBlockSetting extends VideosAppModel {
 		//トランザクションBegin
 		$this->begin();
 
-		if ($isBlockSetting) {
-			$this->loadModels(array(
-				'Block' => 'Blocks.Block',
-			));
-			$this->Block->validate = array(
-				'name' => array(
-					'notBlank' => array(
-						'rule' => array('notBlank'),
-						'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
-						'required' => true,
-					),
-				)
-			);
-		}
+		//		if ($isBlockSetting) {
+		//			$this->loadModels(array(
+		//				'Block' => 'Blocks.Block',
+		//			));
+		//			$this->Block->validate = array(
+		//				'name' => array(
+		//					'notBlank' => array(
+		//						'rule' => array('notBlank'),
+		//						'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
+		//						'required' => true,
+		//					),
+		//				)
+		//			);
+		//		}
 
 		// 値をセット
 		$this->set($data);

@@ -51,14 +51,23 @@ class VideoBlockSettingRecords extends BlockSettingMigration {
  */
 	public $records = array(
 		'BlockSetting' => array(
-			array(
-				'plugin_key' => self::PLUGIN_KEY,
-				'room_id' => null,
-				'block_key' => null,
-				'field_name' => BlockSettingBehavior::FIELD_USE_WORKFLOW,
-				'value' => '1',
-				'type' => BlockSettingBehavior::TYPE_BOOLEAN,
-			),
+			// rooms.need_approvalによって値決まる。BlockSettingでデフォルト値設定しても無視される。
+			//			array(
+			//				'plugin_key' => self::PLUGIN_KEY,
+			//				'room_id' => null,
+			//				'block_key' => null,
+			//				'field_name' => BlockSettingBehavior::FIELD_USE_WORKFLOW,
+			//				'value' => '1',
+			//				'type' => BlockSettingBehavior::TYPE_BOOLEAN,
+			//			),
+			//			array(
+			//				'plugin_key' => self::PLUGIN_KEY,
+			//				'room_id' => null,
+			//				'block_key' => null,
+			//				'field_name' => BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL,
+			//				'value' => '1',
+			//				'type' => BlockSettingBehavior::TYPE_BOOLEAN,
+			//			),
 			array(
 				'plugin_key' => self::PLUGIN_KEY,
 				'room_id' => null,
@@ -80,14 +89,6 @@ class VideoBlockSettingRecords extends BlockSettingMigration {
 				'room_id' => null,
 				'block_key' => null,
 				'field_name' => BlockSettingBehavior::FIELD_USE_COMMENT,
-				'value' => '1',
-				'type' => BlockSettingBehavior::TYPE_BOOLEAN,
-			),
-			array(
-				'plugin_key' => self::PLUGIN_KEY,
-				'room_id' => null,
-				'block_key' => null,
-				'field_name' => BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL,
 				'value' => '1',
 				'type' => BlockSettingBehavior::TYPE_BOOLEAN,
 			),
