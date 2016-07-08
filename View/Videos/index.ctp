@@ -30,12 +30,16 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-						<li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo $this->NetCommonsHtml->url(
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="<?php echo $this->NetCommonsHtml->url(
 								array(
 									'action' => 'index',
 									'frame_id' => Current::read('Frame.id'),
 								)
-							);?>"><?php echo __d('videos', 'All videos') ?></a></li>
+							);?>">
+								<?php echo __d('videos', 'All videos') ?>
+							</a>
+						</li>
 						<li role="presentation" class="dropdown-header"><?php echo __d('categories', 'Category') ?></li>
 
 						<?php /** @see CategoryHelper::dropDownToggle() */?>
