@@ -11,11 +11,14 @@
  */
 ?>
 
-<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
-<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
-<?php echo $this->NetCommonsForm->hidden('Block.name'); ?>
+<?php //echo $this->NetCommonsForm->hidden('Block.id'); ?>
+<?php //echo $this->NetCommonsForm->hidden('Block.key'); ?>
+<?php //echo $this->NetCommonsForm->hidden('Block.name'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.id'); ?>
-<?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.block_key'); ?>
+<?php //echo $this->NetCommonsForm->hidden('VideoBlockSetting.block_key'); ?>
+<?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.name'); ?>
+<?php echo $this->BlockForm->blockSettingHidden('BlockSetting.use_workflow'); ?>
+<?php echo $this->BlockForm->blockSettingHidden('BlockSetting.use_comment_approval'); ?>
 
 <?php echo $this->element('Blocks.block_creatable_setting', array(
 	'settingPermissions' => array(
@@ -28,9 +31,12 @@
 )); ?>
 
 <?php echo $this->element('Blocks.block_approval_setting', array(
-	'model' => 'VideoBlockSetting',
-	'useWorkflow' => 'use_workflow',
-	'useCommentApproval' => 'use_comment_approval',
+	//'model' => 'VideoBlockSetting',
+	//'useWorkflow' => 'use_workflow',
+	//'useCommentApproval' => 'use_comment_approval',
+	'model' => 'BlockSetting',
+	'useWorkflow' => 'use_workflow.value',
+	'useCommentApproval' => 'use_comment_approval.value',
 	'settingPermissions' => array(
 		'content_comment_publishable' => __d('blocks', 'Content comment publishable roles'),
 	),

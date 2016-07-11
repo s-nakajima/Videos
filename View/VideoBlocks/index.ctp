@@ -31,12 +31,12 @@
 							array('sort' => true, 'editUrl' => true)
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-							'Size.size_byte', __d('videos', 'File capacity'),
+							'BlockSetting.total_size', __d('videos', 'File capacity'),
 							array('sort' => false, 'type' => 'right')
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-							'Count.count', __d('videos', 'Number'),
-							array('sort' => false, 'type' => 'numeric')
+							'Block.content_count', __d('videos', 'Number'),
+							array('sort' => true, 'type' => 'numeric')
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 							'Block.public_type', __d('blocks', 'Publishing setting'),
@@ -47,7 +47,8 @@
 							array('sort' => true, 'type' => 'handle')
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-							'VideoBlockSetting.modified', __d('net_commons', 'Modified datetime'),
+							//'VideoBlockSetting.modified', __d('net_commons', 'Modified datetime'),
+							'Block.modified', __d('net_commons', 'Modified datetime'),
 							array('sort' => true, 'type' => 'datetime')
 						); ?>
 					</tr>
@@ -63,10 +64,12 @@
 								array('editUrl' => array('block_id' => $videoBlockSetting['Block']['id']))
 							); ?>
 							<td class="text-right">
-								<?php echo $this->Number->toReadableSize((int)$videoBlockSetting['Size']['size_byte']); ?>
+								<?php //echo $this->Number->toReadableSize((int)$videoBlockSetting['Size']['size_byte']); ?>
+								<?php echo $this->Number->toReadableSize((int)$videoBlockSetting['BlockSetting']['total_size']['value']); ?>
 							</td>
 							<?php echo $this->BlockIndex->tableData(
-								'VideoBlockSetting.count', (int)$videoBlockSetting['Count']['count'],
+								//'VideoBlockSetting.count', (int)$videoBlockSetting['Count']['count'],
+								'VideoBlockSetting.count', (int)$videoBlockSetting['Block']['content_count'],
 								array('type' => 'numeric')
 							); ?>
 							<?php echo $this->BlockIndex->tableData(
@@ -77,7 +80,8 @@
 								array('type' => 'handle')
 							); ?>
 							<?php echo $this->BlockIndex->tableData(
-								'VideoBlockSetting.modified', $videoBlockSetting['VideoBlockSetting']['modified'],
+								//'VideoBlockSetting.modified',$videoBlockSetting['VideoBlockSetting']['modified'],
+								'VideoBlockSetting.modified', $videoBlockSetting['Block']['modified'],
 								array('type' => 'datetime')
 							); ?>
 						<?php echo $this->BlockIndex->endTableRow(); ?>
