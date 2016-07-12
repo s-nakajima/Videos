@@ -74,15 +74,13 @@ class VideoBlockSetting extends VideosAppModel {
 			)
 		),
 		'Blocks.BlockSetting' => array(
-			'fields' => array(
-				BlockSettingBehavior::FIELD_USE_WORKFLOW,
-				BlockSettingBehavior::FIELD_USE_LIKE,
-				BlockSettingBehavior::FIELD_USE_UNLIKE,
-				BlockSettingBehavior::FIELD_USE_COMMENT,
-				BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL,
-				'auto_play',
-				'total_size',
-			),
+			BlockSettingBehavior::FIELD_USE_WORKFLOW,
+			BlockSettingBehavior::FIELD_USE_LIKE,
+			BlockSettingBehavior::FIELD_USE_UNLIKE,
+			BlockSettingBehavior::FIELD_USE_COMMENT,
+			BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL,
+			'auto_play',
+			'total_size',
 		),
 		'Categories.Category',
 		'NetCommons.OriginalKey',
@@ -107,7 +105,7 @@ class VideoBlockSetting extends VideosAppModel {
 	//	);
 
 /**
- * belongsTo associations
+ * hasOne associations
  *
  * @var array
  */
@@ -232,7 +230,6 @@ class VideoBlockSetting extends VideosAppModel {
 			'conditions' => $conditions,
 			'order' => $this->alias . '.id DESC'
 		));
-
 		return $videoBlockSetting;
 	}
 
@@ -270,13 +267,26 @@ class VideoBlockSetting extends VideosAppModel {
 		}
 
 		try {
-			/** @see BlockBehavior::saveBlock() */
-			$this->saveBlock();
+			///** @see BlockBehavior::saveBlock() */
+			//$this->saveBlock();
 
-			/** @see BlockSettingBehavior::saveBlockSetting() */
-			$this->saveBlockSetting();
-			// $useTable = 'blocks';を指定したので blockを保存すると、BlockBehaviorのbeforeSaveで重複登録されるのでコメントアウト
-			//			if (! $this->save(null, false)) {
+			///** @see BlockSettingBehavior::saveBlockSetting() */
+			//$this->saveBlockSetting();
+			// $useTable = 'blocks';を指定したので blockを保存すると、BlockBehaviorのbeforeSaveで重複登録される
+			if (! $this->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			// 重複しているBlockデータを削除
+			if (! $this->delete($this->id)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+			//			$conditions = array(
+			//				$this->alias . '.plugin_key' => $data[$this->alias]['plugin_key'],
+			//				$this->alias . '.language_id' => 0,
+			//				$this->alias . '.room_id' => 0,
+			//			);
+			//			if (! $this->deleteAll($conditions, false)) {
 			//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			//			}
 
