@@ -26,7 +26,7 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
  */
 	public $fixtures = array(
 		'plugin.videos.video',
-		'plugin.videos.video_block_setting',
+		'plugin.videos.block_setting_for_video',
 		'plugin.videos.video_frame_setting',
 	);
 
@@ -51,9 +51,7 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
  */
 	private function __approvalFields() {
 		$data = array(
-			'VideoBlockSetting' => array(
-				'use_workflow',
-				'use_comment_approval',
+			'BlockSetting' => array(
 				'approval_type',
 			)
 		);
@@ -82,14 +80,8 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
 				'to' => null,
 				'name' => $blockName,
 			),
-			'VideoBlockSetting' => array(
-				'id' => 2,
-				'block_key' => 'block_2',
-				'use_workflow' => true,
-				'use_comment_approval' => true,
-				'approval_type' => true,
-			)
 		);
+		$data['VideoBlockSetting'] = $data['Block'];
 
 		return $data;
 	}
@@ -209,7 +201,7 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
 		TestAuthGeneral::login($this);
 
 		$data = $this->__data();
-		$data['VideoBlockSetting']['use_workflow'] = 'xxx';
+		$data['VideoBlockSetting']['language_id'] = 'xxx';
 
 		$frameId = '6';
 		$blockId = '4';
@@ -240,13 +232,13 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
 			'block_id' => $blockId
 		);
 		$this->_testPostAction('post', Hash::merge($default, $data), $url);
-		//debug($this->controller->validationErrors);
+		//var_dump($this->controller->validationErrors);
 
 		//ログアウト
 		TestAuthGeneral::logout($this);
 
 		// チェック
-		$this->assertEquals($this->controller->validationErrors['use_workflow'][0], __d('net_commons', 'Invalid request.'));
+		$this->assertEquals($this->controller->validationErrors['language_id'][0], __d('net_commons', 'Invalid request.'));
 	}
 
 }
