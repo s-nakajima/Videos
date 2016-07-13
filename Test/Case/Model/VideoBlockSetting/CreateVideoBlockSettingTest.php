@@ -25,7 +25,7 @@ class VideoBlockSettingCreateVideoBlockSettingTest extends NetCommonsModelTestCa
  * @var array
  */
 	public $fixtures = array(
-		'plugin.blocks.block_setting',
+		'plugin.videos.block_setting_for_video',
 	);
 
 /**

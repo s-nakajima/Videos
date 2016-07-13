@@ -27,9 +27,9 @@ class VideoBlockSettingDeleteVideoBlockSettingTest extends NetCommonsDeleteTest 
  * @var array
  */
 	public $fixtures = array(
-		'plugin.blocks.block_setting',
 		'plugin.videos.video',
 		'plugin.videos.video_frame_setting',
+		'plugin.videos.block_setting_for_video',
 		'plugin.likes.like',
 		'plugin.likes.likes_user',
 		'plugin.tags.tag',
