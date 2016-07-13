@@ -27,9 +27,6 @@
 )); ?>
 
 <?php echo $this->element('Blocks.block_approval_setting', array(
-	//'model' => 'VideoBlockSetting',
-	//'useWorkflow' => 'use_workflow',
-	//'useCommentApproval' => 'use_comment_approval',
 	'model' => 'BlockSetting',
 	'useWorkflow' => 'use_workflow.value',
 	'useCommentApproval' => 'use_comment_approval.value',

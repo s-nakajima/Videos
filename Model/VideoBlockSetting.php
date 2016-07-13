@@ -47,7 +47,6 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	public $actsAs = array(
 		'Blocks.Block' => array(
-			//'name' => 'Block.name',
 			'name' => 'VideoBlockSetting.name',
 			// save, delete時にloadModels()
 			// delete時にblock_id, block_keyで紐づいてるデータ削除
@@ -140,14 +139,12 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	public function createVideoBlockSetting() {
 		$videoBlockSetting = $this->createAll(array(
-			//'Block' => array(
 			$this->alias => array(
 				'name' => __d('videos', 'New channel %s', date('YmdHis')),
 			),
 		));
 		/** @see BlockSettingBehavior::createBlockSetting() */
 		return Hash::merge($videoBlockSetting, $this->createBlockSetting());
-		//return $videoBlockSetting;
 	}
 
 /**
@@ -157,13 +154,11 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	public function getVideoBlockSetting() {
 		$conditions = array(
-			//$this->alias . '.block_key' => Current::read('Block.key'),
 			$this->alias . '.key' => Current::read('Block.key'),
 			$this->alias . '.language_id' => Current::read('Language.id'),
 		);
 
 		$videoBlockSetting = $this->find('first', array(
-			//'recursive' => -1,
 			'recursive' => 0,
 			'conditions' => $conditions,
 			'order' => $this->alias . '.id DESC'
@@ -229,8 +224,6 @@ class VideoBlockSetting extends VideosAppModel {
 		//トランザクションBegin
 		$this->begin();
 
-		//$blockKey = Current::read('Block.key');
-		//$blockKey = $data[$this->alias]['block_key'];
 		$blockKey = $data[$this->alias]['key'];
 
 		// 多言語コンテンツ削除対応
