@@ -28,13 +28,6 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	public $useTable = 'blocks';
 
-	///**
-	// * Alias name for model.
-	// *
-	// * @var string
-	// */
-	//	public $alias = 'Block';
-
 /**
  * Validation rules
  *
@@ -87,23 +80,6 @@ class VideoBlockSetting extends VideosAppModel {
 		'Blocks.BlockRolePermission',
 	);
 
-	///**
-	// * belongsTo associations
-	// *
-	// * @var array
-	// */
-	//	public $belongsTo = array(
-	//		'Block' => array(
-	//			'className' => 'Blocks.Block',
-	//			'foreignKey' => false,
-	//			'conditions' => array(
-	//				'Block.key = VideoBlockSetting.block_key',
-	//			),
-	//			'fields' => '',
-	//			'order' => ''
-	//		),
-	//	);
-
 /**
  * hasOne associations
  *
@@ -129,42 +105,6 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
-			//			'use_like' => array(
-			//				'boolean' => array(
-			//					'rule' => array('boolean'),
-			//					'message' => __d('net_commons', 'Invalid request.'),
-			//				),
-			//			),
-			//			'use_unlike' => array(
-			//				'boolean' => array(
-			//					'rule' => array('boolean'),
-			//					'message' => __d('net_commons', 'Invalid request.'),
-			//				),
-			//			),
-			//			'use_comment' => array(
-			//				'boolean' => array(
-			//					'rule' => array('boolean'),
-			//					'message' => __d('net_commons', 'Invalid request.'),
-			//				),
-			//			),
-			//			'use_workflow' => array(
-			//				'boolean' => array(
-			//					'rule' => array('boolean'),
-			//					'message' => __d('net_commons', 'Invalid request.'),
-			//				),
-			//			),
-			//			'auto_play' => array(
-			//				'boolean' => array(
-			//					'rule' => array('boolean'),
-			//					'message' => __d('net_commons', 'Invalid request.'),
-			//				),
-			//			),
-			//			'use_comment_approval' => array(
-			//				'boolean' => array(
-			//					'rule' => array('boolean'),
-			//					'message' => __d('net_commons', 'Invalid request.'),
-			//				),
-			//			),
 			'language_id' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
@@ -199,11 +139,9 @@ class VideoBlockSetting extends VideosAppModel {
  * @return array
  */
 	public function createVideoBlockSetting() {
-		//$this->VideoBlockSetting = ClassRegistry::init('Videos.VideoBlockSetting');
-
 		$videoBlockSetting = $this->createAll(array(
 			//'Block' => array(
-			'VideoBlockSetting' => array(
+			$this->alias => array(
 				'name' => __d('videos', 'New channel %s', date('YmdHis')),
 			),
 		));
@@ -237,28 +175,12 @@ class VideoBlockSetting extends VideosAppModel {
  * VideoBlockSettingデータ保存
  *
  * @param array $data received post data
- * @param bool $isBlockSetting ブロック設定画面か
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function saveVideoBlockSetting($data, $isBlockSetting) {
+	public function saveVideoBlockSetting($data) {
 		//トランザクションBegin
 		$this->begin();
-
-		//		if ($isBlockSetting) {
-		//			$this->loadModels(array(
-		//				'Block' => 'Blocks.Block',
-		//			));
-		//			$this->Block->validate = array(
-		//				'name' => array(
-		//					'notBlank' => array(
-		//						'rule' => array('notBlank'),
-		//						'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
-		//						'required' => true,
-		//					),
-		//				)
-		//			);
-		//		}
 
 		// 値をセット
 		$this->set($data);
@@ -267,28 +189,15 @@ class VideoBlockSetting extends VideosAppModel {
 		}
 
 		try {
-			///** @see BlockBehavior::saveBlock() */
-			//$this->saveBlock();
-
-			///** @see BlockSettingBehavior::saveBlockSetting() */
-			//$this->saveBlockSetting();
-			// $useTable = 'blocks';を指定したので blockを保存すると、BlockBehaviorのbeforeSaveで重複登録される
+			// $useTable = 'blocks';を指定したので blockを保存すると、BlockBehavior::BlockのbeforeSaveで重複登録される
 			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			// 重複しているBlockデータを削除
+			// 重複したBlockデータを削除
 			if (! $this->delete($this->id)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-			//			$conditions = array(
-			//				$this->alias . '.plugin_key' => $data[$this->alias]['plugin_key'],
-			//				$this->alias . '.language_id' => 0,
-			//				$this->alias . '.room_id' => 0,
-			//			);
-			//			if (! $this->deleteAll($conditions, false)) {
-			//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			//			}
 
 			//トランザクションCommit
 			$this->commit();
@@ -341,6 +250,7 @@ class VideoBlockSetting extends VideosAppModel {
 		));
 
 		try {
+			// Blockの削除は、BlockBehavior::deleteBlock()で行うため、この時点では削除しない
 			//			// VideoBlockSetting削除
 			//			if (! $this->deleteAll(array($this->alias . '.block_key' => $blockKey), false)) {
 			//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));

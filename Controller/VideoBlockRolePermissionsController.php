@@ -76,7 +76,7 @@ class VideoBlockRolePermissionsController extends VideosAppController {
 		$this->set('roles', $permissions['Roles']);
 
 		if ($this->request->is('post')) {
-			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->request->data, false)) {
+			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->request->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}

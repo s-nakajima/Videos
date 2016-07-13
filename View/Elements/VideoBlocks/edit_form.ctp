@@ -11,8 +11,6 @@
  */
 ?>
 
-<?php //echo $this->element('Blocks.form_hidden'); ?>
-
 <?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.frame_key'); ?>
