@@ -25,7 +25,7 @@ class VideoBlockSettingGetVideoBlockSettingTest extends NetCommonsGetTest {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.videos.video_block_setting',
+		'plugin.blocks.block_setting',
 	);
 
 /**
