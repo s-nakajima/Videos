@@ -135,7 +135,6 @@ class VideoBlocksController extends VideosAppController {
 				'*',
 			),
 		);
-		//$options = Hash::merge($options, $pluginOptions);
 		$options['joins'] = array_merge($options['joins'], $pluginOptions['joins']);
 		$options['fields'] = $pluginOptions['fields'];
 		$this->Paginator->settings = array(
