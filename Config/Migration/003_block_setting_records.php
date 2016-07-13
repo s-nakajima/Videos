@@ -9,7 +9,6 @@
  */
 
 App::uses('BlockSettingMigration', 'Blocks.Config/Migration');
-//App::uses('NetCommonsMigration', 'NetCommons.Config/Migration');
 App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
 
 /**
@@ -48,26 +47,10 @@ class VideoBlockSettingRecords extends BlockSettingMigration {
  * plugin data
  *
  * @var array $migration
+ * @see BlockSettingMigration::updateAndDelete() recordsの注意点あり
  */
 	public $records = array(
 		'BlockSetting' => array(
-			// rooms.need_approvalによって値決まる。BlockSettingでデフォルト値設定しても無視される。
-			//			array(
-			//				'plugin_key' => self::PLUGIN_KEY,
-			//				'room_id' => null,
-			//				'block_key' => null,
-			//				'field_name' => BlockSettingBehavior::FIELD_USE_WORKFLOW,
-			//				'value' => '1',
-			//				'type' => BlockSettingBehavior::TYPE_BOOLEAN,
-			//			),
-			//			array(
-			//				'plugin_key' => self::PLUGIN_KEY,
-			//				'room_id' => null,
-			//				'block_key' => null,
-			//				'field_name' => BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL,
-			//				'value' => '1',
-			//				'type' => BlockSettingBehavior::TYPE_BOOLEAN,
-			//			),
 			array(
 				'plugin_key' => self::PLUGIN_KEY,
 				'room_id' => null,
