@@ -36,7 +36,8 @@
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 							'Block.content_count', __d('videos', 'Number'),
-							array('sort' => true, 'type' => 'numeric')
+							//array('sort' => true, 'type' => 'numeric')
+							array('sort' => false, 'type' => 'numeric')
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 							'Block.public_type', __d('blocks', 'Publishing setting'),
@@ -64,12 +65,12 @@
 								array('editUrl' => array('block_id' => $videoBlockSetting['Block']['id']))
 							); ?>
 							<td class="text-right">
-								<?php //echo $this->Number->toReadableSize((int)$videoBlockSetting['Size']['size_byte']); ?>
-								<?php echo $this->Number->toReadableSize((int)$videoBlockSetting['BlockSetting']['total_size']['value']); ?>
+								<?php echo $this->Number->toReadableSize((int)$videoBlockSetting['Size']['size_byte']); ?>
+								<?php //echo $this->Number->toReadableSize((int)$videoBlockSetting['BlockSetting']['total_size']['value']); ?>
 							</td>
 							<?php echo $this->BlockIndex->tableData(
-								//'VideoBlockSetting.count', (int)$videoBlockSetting['Count']['count'],
-								'VideoBlockSetting.count', (int)$videoBlockSetting['Block']['content_count'],
+								'VideoBlockSetting.count', (int)$videoBlockSetting['Count']['count'],
+								//'VideoBlockSetting.count', (int)$videoBlockSetting['Block']['content_count'],
 								array('type' => 'numeric')
 							); ?>
 							<?php echo $this->BlockIndex->tableData(
