@@ -189,9 +189,12 @@ class VideoBlockSetting extends VideosAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			// 重複したBlockデータを削除
-			if (! $this->delete($this->id)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			// idなし = 新規登録
+			if (!Hash::get($data, $this->alias . '.id')) {
+				// 重複したBlockデータを削除
+				if (! $this->delete($this->id)) {
+					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				}
 			}
 
 			//トランザクションCommit
