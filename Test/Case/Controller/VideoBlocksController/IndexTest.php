@@ -26,8 +26,7 @@ class VideoBlocksControllerIndexTest extends BlocksControllerTest {
  */
 	public $fixtures = array(
 		'plugin.videos.video',
-		'plugin.videos.video_block_setting',
-		'plugin.videos.video_frame_setting',
+		'plugin.videos.block_setting_for_video',
 	);
 
 /**

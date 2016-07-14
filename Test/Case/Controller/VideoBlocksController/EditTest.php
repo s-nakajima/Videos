@@ -27,7 +27,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
  */
 	public $fixtures = array(
 		'plugin.videos.video',
-		'plugin.videos.video_block_setting',
+		'plugin.videos.block_setting_for_video',
 		'plugin.videos.video_frame_setting',
 		'plugin.likes.like',
 		'plugin.likes.likes_user',
@@ -37,6 +37,8 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
+		'plugin.mails.mail_setting',
+		'plugin.mails.mail_setting_fixed_phrase',
 	);
 
 /**
@@ -72,16 +74,12 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		if ($isEdit) {
 			$blockId = '4';
 			$blockKey = 'block_2';
-			$videoId = '3';
-			$flg = 1;
 			$displayOrder = 'new';
 			$displayNumber = 5;
 			$blockName = 'Channel name';
 		} else {
 			$blockId = 1;
 			$blockKey = 'block_1';
-			$videoId = null;
-			$flg = 1;
 			$displayOrder = 'new';
 			$displayNumber = 5;
 			$blockName = null;
@@ -103,16 +101,6 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 				'to' => null,
 				'name' => $blockName,
 			),
-			'VideoBlockSetting' => array(
-				'id' => $videoId,
-				'block_key' => $blockKey,
-				'use_like' => $flg,
-				'use_unlike' => $flg,
-				'use_comment' => $flg,
-				'use_workflow' => $flg,
-				'auto_play' => $flg,
-				'use_comment_approval' => $flg,
-			),
 			'VideoFrameSetting' => array(
 				'id' => $frameId,
 				'frame_key' => $frameKey,
@@ -120,6 +108,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 				'display_number' => $displayNumber,
 			),
 		);
+		$data['VideoBlockSetting'] = $data['Block'];
 
 		return $data;
 	}
@@ -133,6 +122,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
  *  - validationError: バリデーションエラー
  *
  * @return array
+ * @see BlocksControllerEditTest::testAdd()
  */
 	public function dataProviderAdd() {
 		$data = $this->__data(false);
@@ -141,12 +131,12 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		$results = array();
 		$results[0] = array('method' => 'get');
 		$results[1] = array('method' => 'put');
-		$data['Block']['name'] = 'Channel name';
+		$data['VideoBlockSetting']['name'] = 'Channel name';
 		$results[2] = array('method' => 'post', 'data' => $data, 'validationError' => false);
-		unset($data['Block']['name']);
+		unset($data['VideoBlockSetting']['name']);
 		$results[3] = array('method' => 'post', 'data' => $data,
 			'validationError' => array(
-				'field' => 'Block.name',
+				'field' => 'VideoBlockSetting.name',
 				'value' => '',
 				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
 			)
@@ -164,6 +154,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
  *  - validationError: バリデーションエラー
  *
  * @return array
+ * @see BlocksControllerEditTest::testEdit()
  */
 	public function dataProviderEdit() {
 		$data = $this->__data(true);
@@ -175,7 +166,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		$results[2] = array('method' => 'put', 'data' => $data, 'validationError' => false);
 		$results[3] = array('method' => 'put', 'data' => $data,
 			'validationError' => array(
-				'field' => 'Block.name',
+				'field' => 'VideoBlockSetting.name',
 				'value' => '',
 				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
 			)
@@ -269,7 +260,8 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 			),
 			'VideoBlockSetting' => array(
 				//'block_key' => 'block_2',
-				'block_key' => 'block_1',
+				//'block_key' => 'block_1',
+				'key' => 'block_1',
 			),
 		);
 		//Current::$current['Block']['key'] = 'block_2';
