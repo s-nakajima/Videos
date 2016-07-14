@@ -15,7 +15,7 @@ App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
  * ブロックセッティングデータ migration
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
- * @package NetCommons\Mails\Config\Migration
+ * @package NetCommons\Videos\Config\Migration
  */
 class VideoBlockSettingRecords extends BlockSettingMigration {
 
