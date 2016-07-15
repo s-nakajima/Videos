@@ -51,7 +51,7 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
  */
 	private function __approvalFields() {
 		$data = array(
-			'BlockSetting' => array(
+			'VideoBlockSetting' => array(
 				'approval_type',
 			)
 		);
@@ -95,6 +95,7 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
  *  - return testActionの実行後の結果
  *
  * @return array
+ * @see BlockRolePermissionsControllerEditTest::testEditGet()
  */
 	public function dataProviderEditGet() {
 		return array(
