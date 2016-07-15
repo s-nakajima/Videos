@@ -31,7 +31,7 @@
 							array('sort' => true, 'editUrl' => true)
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-							'BlockSetting.total_size', __d('videos', 'File capacity'),
+							'VideoBlockSetting.total_size', __d('videos', 'File capacity'),
 							array('sort' => false, 'type' => 'right')
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
@@ -48,7 +48,6 @@
 							array('sort' => true, 'type' => 'handle')
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-							//'VideoBlockSetting.modified', __d('net_commons', 'Modified datetime'),
 							'Block.modified', __d('net_commons', 'Modified datetime'),
 							array('sort' => true, 'type' => 'datetime')
 						); ?>
@@ -66,11 +65,11 @@
 							); ?>
 							<td class="text-right">
 								<?php echo $this->Number->toReadableSize((int)$videoBlockSetting['Size']['size_byte']); ?>
-								<?php //echo $this->Number->toReadableSize((int)$videoBlockSetting['BlockSetting']['total_size']['value']); ?>
+								<?php //echo $this->Number->toReadableSize((int)$videoBlockSetting['VideoBlockSetting']['total_size']); ?>
 							</td>
 							<?php echo $this->BlockIndex->tableData(
-								'VideoBlockSetting.count', (int)$videoBlockSetting['Count']['count'],
-								//'VideoBlockSetting.count', (int)$videoBlockSetting['Block']['content_count'],
+								'Block.content_count', (int)$videoBlockSetting['Count']['count'],
+								//'Block.content_count', (int)$videoBlockSetting['Block']['content_count'],
 								array('type' => 'numeric')
 							); ?>
 							<?php echo $this->BlockIndex->tableData(
@@ -81,8 +80,7 @@
 								array('type' => 'handle')
 							); ?>
 							<?php echo $this->BlockIndex->tableData(
-								//'VideoBlockSetting.modified',$videoBlockSetting['VideoBlockSetting']['modified'],
-								'VideoBlockSetting.modified', $videoBlockSetting['Block']['modified'],
+								'Block.modified', $videoBlockSetting['Block']['modified'],
 								array('type' => 'datetime')
 							); ?>
 						<?php echo $this->BlockIndex->endTableRow(); ?>
