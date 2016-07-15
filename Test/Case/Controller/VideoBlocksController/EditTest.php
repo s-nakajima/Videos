@@ -109,6 +109,15 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 			),
 		);
 		$data['VideoBlockSetting'] = $data['Block'];
+		$data['VideoBlockSetting'] = Hash::merge($data['VideoBlockSetting'], array(
+			'use_like' => '1',
+			'use_unlike' => '1',
+			'use_comment' => '1',
+			'use_workflow' => '1',
+			'auto_play' => '1',
+			'use_comment_approval' => '1',
+		));
+		//debug($data);
 
 		return $data;
 	}
