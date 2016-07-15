@@ -190,6 +190,7 @@ class VideoBlockSetting extends VideosAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
+			// 暫定対応：プラグイン側で重複登録の削除はやらない。VideoBlock　モデル追加したら見直す予定
 			// idなし = 新規登録
 			if (!Hash::get($data, $this->alias . '.id')) {
 				// 重複したBlockデータを削除
