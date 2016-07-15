@@ -25,7 +25,9 @@ class VideoBlockSettingValidateTest extends NetCommonsValidateTest {
  *
  * @var array
  */
-	public $fixtures = array();
+	public $fixtures = array(
+		'plugin.videos.block_setting_for_video',
+	);
 
 /**
  * Plugin name
@@ -49,6 +51,17 @@ class VideoBlockSettingValidateTest extends NetCommonsValidateTest {
 	protected $_methodName = 'validates';
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		Current::write('Plugin.key', $this->plugin);
+	}
+
+/**
  * ValidationErrorのDataProvider
  *
  * ### 戻り値
@@ -60,6 +73,7 @@ class VideoBlockSettingValidateTest extends NetCommonsValidateTest {
  *
  * @return array テストデータ
  * @see VideoBlockSetting::beforeValidate()
+ * @see NetCommonsValidateTest::testValidationError()
  */
 	public function dataProviderValidationError() {
 		$data['VideoBlockSetting'] = (new BlockFixture())->records[0];
@@ -75,6 +89,19 @@ class VideoBlockSettingValidateTest extends NetCommonsValidateTest {
 					__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')
 				)
 			),
+			// BlockSettingのvalidateテスト
+			array('data' => $data, 'field' => 'use_like', 'value' => 'dummy',
+				'message' => __d('net_commons', 'Invalid request.')),
+			array('data' => $data, 'field' => 'use_unlike', 'value' => 'dummy',
+				'message' => __d('net_commons', 'Invalid request.')),
+			array('data' => $data, 'field' => 'use_comment', 'value' => 'dummy',
+				'message' => __d('net_commons', 'Invalid request.')),
+			array('data' => $data, 'field' => 'use_workflow', 'value' => 'dummy',
+				'message' => __d('net_commons', 'Invalid request.')),
+			array('data' => $data, 'field' => 'auto_play', 'value' => 'dummy',
+				'message' => __d('net_commons', 'Invalid request.')),
+			array('data' => $data, 'field' => 'use_comment_approval', 'value' => 'dummy',
+				'message' => __d('net_commons', 'Invalid request.')),
 		);
 	}
 
