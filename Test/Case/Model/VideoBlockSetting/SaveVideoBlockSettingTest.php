@@ -82,7 +82,7 @@ class VideoBlockSettingSaveVideoBlockSettingTest extends NetCommonsSaveTest {
 		$method = $this->_methodName;
 
 		//テスト実行
-		$result = $this->$model->$method($data, true);
+		$result = $this->$model->$method($data);
 		$this->assertNotEmpty($result);
 	}
 
@@ -120,7 +120,7 @@ class VideoBlockSettingSaveVideoBlockSettingTest extends NetCommonsSaveTest {
 		$this->_mockForReturnFalse($model, $mockModel, $mockMethod);
 
 		$this->setExpectedException('InternalErrorException');
-		$this->$model->$method($data, false);
+		$this->$model->$method($data);
 	}
 
 /**
@@ -155,7 +155,7 @@ class VideoBlockSettingSaveVideoBlockSettingTest extends NetCommonsSaveTest {
 		$method = $this->_methodName;
 
 		$this->_mockForReturnFalse($model, $mockModel, $mockMethod);
-		$result = $this->$model->$method($data, true);
+		$result = $this->$model->$method($data);
 		$this->assertFalse($result);
 	}
 
