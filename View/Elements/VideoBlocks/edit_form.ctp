@@ -11,15 +11,17 @@
  */
 ?>
 
-<?php echo $this->element('Blocks.form_hidden'); ?>
-
 <?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.id'); ?>
+<?php /* 初期値登録のため、定義 */ ?>
+<?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.use_workflow'); ?>
+<?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.use_comment_approval'); ?>
+<?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.total_size'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.frame_key'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.display_order'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.display_number'); ?>
 
-<?php echo $this->NetCommonsForm->input('Block.name', array(
+<?php echo $this->NetCommonsForm->input('VideoBlockSetting.name', array(
 	'type' => 'text',
 	'label' => __d('videos', 'Channel name'),
 	'required' => true

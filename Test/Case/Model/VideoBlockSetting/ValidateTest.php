@@ -10,7 +10,7 @@
  */
 
 App::uses('NetCommonsValidateTest', 'NetCommons.TestSuite');
-App::uses('VideoBlockSettingFixture', 'Videos.Test/Fixture');
+App::uses('BlockFixture', 'Blocks.Test/Fixture');
 
 /**
  * VideoBlockSetting::validate()のテスト
@@ -26,7 +26,7 @@ class VideoBlockSettingValidateTest extends NetCommonsValidateTest {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.videos.video_block_setting',
+		'plugin.videos.block_setting_for_video',
 	);
 
 /**
@@ -51,6 +51,17 @@ class VideoBlockSettingValidateTest extends NetCommonsValidateTest {
 	protected $_methodName = 'validates';
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		Current::write('Plugin.key', $this->plugin);
+	}
+
+/**
  * ValidationErrorのDataProvider
  *
  * ### 戻り値
@@ -61,12 +72,24 @@ class VideoBlockSettingValidateTest extends NetCommonsValidateTest {
  *  - overwrite 上書きするデータ(省略可)
  *
  * @return array テストデータ
+ * @see VideoBlockSetting::beforeValidate()
+ * @see NetCommonsValidateTest::testValidationError()
  */
 	public function dataProviderValidationError() {
-		$data['VideoBlockSetting'] = (new VideoBlockSettingFixture())->records[0];
+		$data['VideoBlockSetting'] = (new BlockFixture())->records[0];
 
 		//debug($data);
 		return array(
+			array('data' => $data, 'field' => 'language_id', 'value' => 'xxx',
+				'message' => __d('net_commons', 'Invalid request.')),
+			array('data' => $data, 'field' => 'room_id', 'value' => 'xxx',
+				'message' => __d('net_commons', 'Invalid request.')),
+			array('data' => $data, 'field' => 'name', 'value' => null,
+				'message' => sprintf(
+					__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')
+				)
+			),
+			// BlockSettingのvalidateテスト
 			array('data' => $data, 'field' => 'use_like', 'value' => 'dummy',
 				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'use_unlike', 'value' => 'dummy',

@@ -9,8 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('BlockFixture', 'Blocks.Test/Fixture');
 App::uses('NetCommonsDeleteTest', 'NetCommons.TestSuite');
-App::uses('VideoBlockSettingFixture', 'Videos.Test/Fixture');
 App::uses('VideoTestUtil', 'Videos.Test/Case');
 
 /**
@@ -28,8 +28,8 @@ class VideoBlockSettingDeleteVideoBlockSettingTest extends NetCommonsDeleteTest 
  */
 	public $fixtures = array(
 		'plugin.videos.video',
-		'plugin.videos.video_block_setting',
 		'plugin.videos.video_frame_setting',
+		'plugin.videos.block_setting_for_video',
 		'plugin.likes.like',
 		'plugin.likes.likes_user',
 		'plugin.tags.tag',
@@ -99,7 +99,7 @@ class VideoBlockSettingDeleteVideoBlockSettingTest extends NetCommonsDeleteTest 
  * @return array テストデータ
  */
 	public function dataProviderDelete() {
-		$data['VideoBlockSetting'] = (new VideoBlockSettingFixture())->records[0];
+		$data['VideoBlockSetting'] = (new BlockFixture())->records[0];
 		$association = array();
 		//Current::$current['Block']['key'] = 'block_1';
 
@@ -123,7 +123,6 @@ class VideoBlockSettingDeleteVideoBlockSettingTest extends NetCommonsDeleteTest 
 		$data = $this->dataProviderDelete()[0][0];
 
 		return array(
-			array($data, 'Videos.VideoBlockSetting', 'deleteAll'),
 			array($data, 'Tags.TagsContent', 'deleteAll'),
 			array($data, 'Likes.LikesUser', 'deleteAll'),
 			array($data, 'Files.UploadFile', 'deleteAll'),

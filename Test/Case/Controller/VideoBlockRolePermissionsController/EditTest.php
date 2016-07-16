@@ -26,7 +26,7 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
  */
 	public $fixtures = array(
 		'plugin.videos.video',
-		'plugin.videos.video_block_setting',
+		'plugin.videos.block_setting_for_video',
 		'plugin.videos.video_frame_setting',
 	);
 
@@ -81,15 +81,15 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
 				'from' => null,
 				'to' => null,
 				'name' => $blockName,
-			),
-			'VideoBlockSetting' => array(
-				'id' => 2,
-				'block_key' => 'block_2',
-				'use_workflow' => true,
-				'use_comment_approval' => true,
-				'approval_type' => true,
 			)
 		);
+		$data['VideoBlockSetting'] = $data['Block'];
+		$data['VideoBlockSetting'] = Hash::merge($data['VideoBlockSetting'], array(
+			'use_workflow' => '1',
+			'use_comment_approval' => '1',
+			'approval_type' => '1',
+		));
+		//debug($data);
 
 		return $data;
 	}
@@ -103,6 +103,7 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
  *  - return testActionの実行後の結果
  *
  * @return array
+ * @see BlockRolePermissionsControllerEditTest::testEditGet()
  */
 	public function dataProviderEditGet() {
 		return array(

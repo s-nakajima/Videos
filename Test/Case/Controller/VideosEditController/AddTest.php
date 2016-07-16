@@ -28,7 +28,7 @@ class VideosEditControllerAddTest extends WorkflowControllerAddTest {
  */
 	public $fixtures = array(
 		'plugin.videos.video',
-		'plugin.videos.video_block_setting',
+		'plugin.videos.block_setting_for_video',
 		'plugin.videos.video_frame_setting',
 		'plugin.likes.like',
 		'plugin.likes.likes_user',

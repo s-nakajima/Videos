@@ -10,7 +10,7 @@
  */
 
 App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
-App::uses('VideoBlockSettingFixture', 'Videos.Test/Fixture');
+App::uses('BlockFixture', 'Blocks.Test/Fixture');
 
 /**
  * VideoBlockSetting::saveVideoBlockSetting()のテスト
@@ -25,12 +25,7 @@ class VideoBlockSettingSaveVideoBlockSettingTest extends NetCommonsSaveTest {
  *
  * @var array
  */
-	public $fixtures = array(
-		'plugin.videos.video',
-		'plugin.videos.video_block_setting',
-		'plugin.videos.video_frame_setting',
-		'plugin.workflow.workflow_comment',
-	);
+	public $fixtures = array();
 
 /**
  * Plugin name
@@ -62,7 +57,7 @@ class VideoBlockSettingSaveVideoBlockSettingTest extends NetCommonsSaveTest {
  * @return array テストデータ
  */
 	public function dataProviderSave() {
-		$data['VideoBlockSetting'] = (new VideoBlockSettingFixture())->records[0];
+		$data['VideoBlockSetting'] = (new BlockFixture())->records[0];
 
 		$results = array();
 		// * 編集の登録処理
@@ -87,7 +82,7 @@ class VideoBlockSettingSaveVideoBlockSettingTest extends NetCommonsSaveTest {
 		$method = $this->_methodName;
 
 		//テスト実行
-		$result = $this->$model->$method($data, true);
+		$result = $this->$model->$method($data);
 		$this->assertNotEmpty($result);
 	}
 
@@ -125,7 +120,7 @@ class VideoBlockSettingSaveVideoBlockSettingTest extends NetCommonsSaveTest {
 		$this->_mockForReturnFalse($model, $mockModel, $mockMethod);
 
 		$this->setExpectedException('InternalErrorException');
-		$this->$model->$method($data, false);
+		$this->$model->$method($data);
 	}
 
 /**
@@ -160,7 +155,7 @@ class VideoBlockSettingSaveVideoBlockSettingTest extends NetCommonsSaveTest {
 		$method = $this->_methodName;
 
 		$this->_mockForReturnFalse($model, $mockModel, $mockMethod);
-		$result = $this->$model->$method($data, true);
+		$result = $this->$model->$method($data);
 		$this->assertFalse($result);
 	}
 

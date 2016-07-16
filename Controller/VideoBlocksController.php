@@ -89,60 +89,56 @@ class VideoBlocksController extends VideosAppController {
  * @throws Exception
  */
 	public function index() {
+		/** @see BlockBehavior::getBlockIndexSettings() */
+		$options = $this->VideoBlockSetting->getBlockIndexSettings();
+		$pluginOptions = array(
+			'joins' => array (
+				array (
+					'type' => 'LEFT',
+					'table' => '( SELECT' .
+						'     blocks.key,' .
+						'     SUM(files.size) size_byte' .
+						' FROM' .
+						'     blocks blocks,' .
+						'     videos videos,' .
+						'     upload_files files' .
+						' WHERE' .
+						"         blocks.plugin_key = '" . $this->request->params['plugin'] . "'" .
+						'     AND blocks.language_id = ' . Current::read('Language.id') .
+						'     AND blocks.room_id = ' . Current::read('Room.id') .
+						'     AND blocks.id = videos.block_id' .
+						'     AND videos.is_latest = 1' .
+						'     AND videos.key = files.content_key' .
+						'     GROUP BY blocks.key )',
+					'alias' => 'Size',
+					'conditions' => 'VideoBlockSetting.key = Size.key',
+				),
+				array (
+					'type' => 'LEFT',
+					'table' => '( SELECT' .
+						'     blocks.key,' .
+						'     COUNT(*) count' .
+						' FROM' .
+						'     blocks blocks,' .
+						'     videos videos' .
+						' WHERE' .
+						"         blocks.plugin_key = '" . $this->request->params['plugin'] . "'" .
+						'     AND blocks.language_id = ' . Current::read('Language.id') .
+						'     AND blocks.room_id = ' . Current::read('Room.id') .
+						'     AND blocks.id = videos.block_id' .
+						'     AND videos.is_latest = 1 )',
+					'alias' => 'Count',
+					'conditions' => 'VideoBlockSetting.key = Count.key',
+				),
+			),
+			'fields' => array(
+				'*',
+			),
+		);
+		$options['joins'] = array_merge($options['joins'], $pluginOptions['joins']);
+		$options['fields'] = $pluginOptions['fields'];
 		$this->Paginator->settings = array(
-			'VideoBlockSetting' => array(
-				'order' => array('VideoBlockSetting.id' => 'desc'),
-				'joins' => array (
-					array (
-						'type' => 'LEFT',
-						'table' => '( SELECT' .
-									'     blocks.key,' .
-									'     SUM(files.size) size_byte' .
-									' FROM' .
-									'     video_block_settings block_settings,' .
-									'     blocks blocks,' .
-									'     videos videos,' .
-									'     upload_files files' .
-									' WHERE' .
-									'         block_settings.block_key = blocks.key' .
-									'     AND blocks.id = videos.block_id' .
-									"     AND blocks.plugin_key = '" . $this->request->params['plugin'] . "'" .
-									'     AND blocks.language_id = ' . Current::read('Language.id') .
-									'     AND videos.is_latest = 1' .
-									'     AND videos.key = files.content_key' .
-							'     GROUP BY blocks.key )',
-						'alias' => 'Size',
-						'conditions' => 'VideoBlockSetting.block_key = Size.key',
-					),
-					array (
-						'type' => 'LEFT',
-						'table' => '( SELECT' .
-									'     blocks.key,' .
-									'     COUNT(*) count' .
-									' FROM' .
-									'     video_block_settings block_settings,' .
-									'     blocks blocks,' .
-									'     videos videos' .
-									' WHERE' .
-									'         block_settings.block_key = blocks.key' .
-									'     AND blocks.id = videos.block_id' .
-									"     AND blocks.plugin_key = '" . $this->request->params['plugin'] . "'" .
-									'     AND blocks.language_id = ' . Current::read('Language.id') .
-									'     AND videos.is_latest = 1 )',
-						'alias' => 'Count',
-						'conditions' => 'VideoBlockSetting.block_key = Count.key',
-					),
-				),
-				'conditions' => array(
-					'Block.key = VideoBlockSetting.block_key',
-					'Block.language_id' => Current::read('Language.id'),
-					'Block.room_id' => Current::read('Room.id'),
-				),
-				'fields' => array(
-					'*',
-					'Size.size_byte',
-				),
-			)
+			'VideoBlockSetting' => $options
 		);
 
 		if (! $videoBlockSetting = $this->Paginator->paginate('VideoBlockSetting')) {
@@ -165,7 +161,7 @@ class VideoBlocksController extends VideosAppController {
 
 		if ($this->request->is('post')) {
 			//BlockSetting, FrameSetting登録処理
-			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data, true) &&
+			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data) &&
 				$this->VideoFrameSetting->saveVideoFrameSetting($this->data)) {
 				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
@@ -188,7 +184,7 @@ class VideoBlocksController extends VideosAppController {
 	public function edit() {
 		if ($this->request->is('put')) {
 			//登録処理
-			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data, true)) {
+			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data)) {
 				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 			$this->NetCommons->handleValidationError($this->VideoBlockSetting->validationErrors);
