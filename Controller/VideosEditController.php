@@ -118,7 +118,7 @@ class VideosEditController extends VideosAppController {
  */
 	public function edit() {
 		//動画の取得
-		$videoKey = $this->params['pass'][1];
+		$videoKey = $this->params['key'];
 		/** @see WorkflowBehavior::getWorkflowContents() */
 		$video = $this->Video->getWorkflowContents('first', array(
 			'recursive' => 1,

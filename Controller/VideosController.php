@@ -173,7 +173,7 @@ class VideosController extends VideosAppController {
  */
 	public function view() {
 		//動画の取得
-		$videoKey = $this->params['pass'][1];
+		$videoKey = $this->params['key'];
 		/** @see WorkflowBehavior::getWorkflowContents() */
 		$video = $this->Video->getWorkflowContents('first', array(
 			'recursive' => 1,
@@ -238,7 +238,7 @@ class VideosController extends VideosAppController {
  */
 	public function file() {
 		// ここから元コンテンツを取得する処理
-		$key = $this->params['pass'][1];
+		$key = $this->params['key'];
 		$conditions = $this->Video->getConditions();
 
 		$conditions['Video.key'] = $key;
@@ -267,7 +267,7 @@ class VideosController extends VideosAppController {
 	public function download() {
 		// ここから元コンテンツを取得する処理
 		//$this->_prepare();
-		$key = $this->params['pass'][1];
+		$key = $this->params['key'];
 		$conditions = $this->Video->getConditions();
 
 		$conditions['Video.key'] = $key;
