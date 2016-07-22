@@ -83,14 +83,14 @@ class VideoBlockSettingRecords extends BlockSettingMigration {
 				'value' => '0',
 				'type' => BlockSettingBehavior::TYPE_BOOLEAN,
 			),
-			array(
-				'plugin_key' => self::PLUGIN_KEY,
-				'room_id' => null,
-				'block_key' => null,
-				'field_name' => 'total_size',
-				'value' => '0',
-				'type' => BlockSettingBehavior::TYPE_NUMERIC,
-			),
+			//			array(
+			//				'plugin_key' => self::PLUGIN_KEY,
+			//				'room_id' => null,
+			//				'block_key' => null,
+			//				'field_name' => 'total_size',
+			//				'value' => '0',
+			//				'type' => BlockSettingBehavior::TYPE_NUMERIC,
+			//			),
 		),
 	);
 

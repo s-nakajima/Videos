@@ -9,9 +9,9 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('VideosAppModel', 'Videos.Model');
 App::uses('Video', 'Videos.Model');
 App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
+App::uses('BlockBaseModel', 'Blocks.Model');
 
 /**
  * VideoBlockSetting Model
@@ -19,7 +19,7 @@ App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Model
  */
-class VideoBlockSetting extends VideosAppModel {
+class VideoBlockSetting extends BlockBaseModel {
 
 /**
  * Custom database table name
@@ -72,7 +72,7 @@ class VideoBlockSetting extends VideosAppModel {
 			BlockSettingBehavior::FIELD_USE_COMMENT,
 			BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL,
 			'auto_play',
-			'total_size',
+			//'total_size',
 		),
 		'Categories.Category',
 		'NetCommons.OriginalKey',
@@ -164,7 +164,11 @@ class VideoBlockSetting extends VideosAppModel {
 			'conditions' => $conditions,
 			'order' => $this->alias . '.id DESC'
 		));
-		return $videoBlockSetting;
+		if (!$videoBlockSetting) {
+			return $videoBlockSetting;
+		}
+		/** @see BlockSettingBehavior::getBlockSetting() */
+		return Hash::merge($videoBlockSetting, $this->getBlockSetting());
 	}
 
 /**
@@ -185,18 +189,14 @@ class VideoBlockSetting extends VideosAppModel {
 		}
 
 		try {
-			// $useTable = 'blocks';を指定したので blockを保存すると、BlockBehavior::BlockのbeforeSaveで重複登録される
-			if (! $this->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			// 暫定対応：プラグイン側で重複登録の削除はやらない。VideoBlock　モデル追加したら見直す予定
-			// idなし = 新規登録
-			if (!Hash::get($data, $this->alias . '.id')) {
-				// 重複したBlockデータを削除
-				if (! $this->delete($this->id)) {
+			if ($this->id) {
+				if (! $this->save(null, false)) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
+			} else {
+				//BlockBehabiorで登録するため、useTableをfalseにする
+				$this->useTable = false;
+				$this->save(null, false);
 			}
 
 			//トランザクションCommit
