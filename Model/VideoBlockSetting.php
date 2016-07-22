@@ -143,9 +143,8 @@ class VideoBlockSetting extends BlockBaseModel {
 				'name' => __d('videos', 'New channel %s', date('YmdHis')),
 			),
 		));
-		/** @see BlockSettingBehavior::getBlockSetting() */
-		/** @see BlockSettingBehavior::_createBlockSetting() */
-		return Hash::merge($videoBlockSetting, $this->getBlockSetting());
+		/** @see BlockSettingBehavior::createBlockSetting() */
+		return Hash::merge($videoBlockSetting, $this->createBlockSetting());
 	}
 
 /**
