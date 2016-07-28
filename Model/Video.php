@@ -130,7 +130,6 @@ class Video extends VideosAppModel {
 		),
 	);
 
-
 /**
  * Validation rules
  *
