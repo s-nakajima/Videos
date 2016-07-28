@@ -113,23 +113,6 @@ class VideoBlocksController extends VideosAppController {
 					'alias' => 'Size',
 					'conditions' => 'VideoBlockSetting.key = Size.key',
 				),
-				array (
-					'type' => 'LEFT',
-					'table' => '( SELECT' .
-						'     blocks.key,' .
-						'     COUNT(*) count' .
-						' FROM' .
-						'     blocks blocks,' .
-						'     videos videos' .
-						' WHERE' .
-						"         blocks.plugin_key = '" . $this->request->params['plugin'] . "'" .
-						'     AND blocks.language_id = ' . Current::read('Language.id') .
-						'     AND blocks.room_id = ' . Current::read('Room.id') .
-						'     AND blocks.id = videos.block_id' .
-						'     AND videos.is_latest = 1 )',
-					'alias' => 'Count',
-					'conditions' => 'VideoBlockSetting.key = Count.key',
-				),
 			),
 			'fields' => array(
 				'*',

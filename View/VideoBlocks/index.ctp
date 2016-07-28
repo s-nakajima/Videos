@@ -36,8 +36,7 @@
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 							'Block.content_count', __d('videos', 'Number'),
-							//array('sort' => true, 'type' => 'numeric')
-							array('sort' => false, 'type' => 'numeric')
+							array('sort' => true, 'type' => 'numeric')
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 							'Block.public_type', __d('blocks', 'Publishing setting'),
@@ -68,8 +67,7 @@
 								<?php //echo $this->Number->toReadableSize((int)$videoBlockSetting['VideoBlockSetting']['total_size']); ?>
 							</td>
 							<?php echo $this->BlockIndex->tableData(
-								'Block.content_count', (int)$videoBlockSetting['Count']['count'],
-								//'Block.content_count', (int)$videoBlockSetting['Block']['content_count'],
+								'Block.content_count', (int)$videoBlockSetting['Block']['content_count'],
 								array('type' => 'numeric')
 							); ?>
 							<?php echo $this->BlockIndex->tableData(

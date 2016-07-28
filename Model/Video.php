@@ -118,7 +118,18 @@ class Video extends VideosAppModel {
 			'fields' => '',
 			'order' => ''
 		),
+		'Block' => array(
+			'className' => 'Blocks.Block',
+			'foreignKey' => 'block_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'counterCache' => array(
+				'content_count' => array('Video.is_latest' => 1),
+			),
+		),
 	);
+
 
 /**
  * Validation rules
