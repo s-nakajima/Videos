@@ -60,7 +60,7 @@ class VideosSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 |  | '),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'fk_video_frame_settings_frames1_idx' => array('column' => 'frame_key', 'unique' => 0)
+			'frame_key' => array('column' => 'frame_key', 'unique' => 0, 'length' => array('frame_key' => '191'))
 		),
 		'tableParameters' => array('charset' => 'utf8mb4', 'collate' => 'utf8mb4_general_ci', 'engine' => 'InnoDB')
 	);
@@ -90,8 +90,9 @@ class VideosSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 |  | '),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'fk_videos_blocks1_idx' => array('column' => 'block_id', 'unique' => 0)
+			'block_id' => array('column' => array('block_id', 'language_id'), 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8mb4', 'collate' => 'utf8mb4_general_ci', 'engine' => 'InnoDB')
 	);
+
 }
