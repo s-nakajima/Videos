@@ -32,7 +32,7 @@
         },
         {
             "name": "NetCommons Community",
-            "homepage": "https://github.com/NetCommons3/Videos/graphs/contributors"
+            "homepage": "http://www.netcommons.org"
         }
     ],
     "type":        "cakephp-plugin",
