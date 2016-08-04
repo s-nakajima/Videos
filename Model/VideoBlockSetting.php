@@ -149,7 +149,7 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	public function getVideoBlockSetting() {
 		$conditions = array(
-			$this->alias . '.key' => Current::read('Block.key'),
+			$this->alias . '.block_key' => Current::read('Block.key'),
 		);
 
 		$videoBlockSetting = $this->find('first', array(
