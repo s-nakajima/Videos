@@ -216,7 +216,7 @@ class VideoBlockSetting extends VideosAppModel {
 		//トランザクションBegin
 		$this->begin();
 
-		$blockKey = $data[$this->alias]['key'];
+		$blockKey = $data[$this->alias]['block_key'];
 
 		// 多言語コンテンツ削除対応
 		// 各IDの配列
