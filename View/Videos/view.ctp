@@ -99,12 +99,12 @@ echo $this->NetCommonsHtml->script(array(
 				<span class="video-detail-links">
 					<?php /* ダウンロード */ ?>
 					<a href="" authorization-keys-popup-link frame-id="<?php echo Current::read('Frame.id'); ?>"
-						url="<?php echo $this->NetCommonsHtml->url(array(
+					   url="<?php echo NetCommonsUrl::blockUrl(array(
 							'plugin' => 'videos',
 							'controller' => 'videos',
 							'action' => 'download',
 							'key' => $video['Video']['key']
-						)); ?>"
+						), false); ?>"
 						popup-title="<?php echo __d('authorization_keys', 'Compression password'); ?>"
 						popup-label="<?php echo __d('authorization_keys', 'Compression password'); ?>"
 						popup-placeholder="<?php echo __d('authorization_keys', 'please input compression password'); ?>">

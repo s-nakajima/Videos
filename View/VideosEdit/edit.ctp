@@ -109,10 +109,10 @@ $this->NetCommonsHtml->script(array(
 					<?php /* 削除 */ ?>
 					<?php echo $this->NetCommonsForm->create('Video', array(
 						'name' => 'form',
-						'url' => array(
+						'url' => NetCommonsUrl::blockUrl(array(
 							'controller' => 'videos_edit',
 							'action' => 'delete',
-						),
+						)),
 						'type' => 'delete',
 					)); ?>
 						<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
