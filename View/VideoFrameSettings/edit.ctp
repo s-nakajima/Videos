@@ -18,7 +18,7 @@
 		<?php echo $this->element('Blocks.edit_form', array(
 			'model' => 'VideoFrameSetting',
 			'callback' => 'Videos.VideoFrameSettings/edit_form',
-			'cancelUrl' => NetCommonsUrl::backToPageUrl(),
+			'cancelUrl' => NetCommonsUrl::backToPageUrl(true),
 		)); ?>
 	</div>
 </article>

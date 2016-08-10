@@ -99,9 +99,9 @@ class VideoBlocksController extends VideosAppController {
 						'     blocks.key,' .
 						'     SUM(files.size) size_byte' .
 						' FROM' .
-						'     blocks blocks,' .
-						'     videos videos,' .
-						'     upload_files files' .
+						'     ' . $this->VideoBlockSetting->tablePrefix . 'blocks blocks,' .
+						'     ' . $this->VideoBlockSetting->tablePrefix . 'videos videos,' .
+						'     ' . $this->VideoBlockSetting->tablePrefix . 'upload_files files' .
 						' WHERE' .
 						"         blocks.plugin_key = '" . $this->request->params['plugin'] . "'" .
 						'     AND blocks.language_id = ' . Current::read('Language.id') .
