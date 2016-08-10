@@ -109,7 +109,10 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 				'display_number' => $displayNumber,
 			),
 		);
-		$data['VideoBlockSetting'] = $data['Block'];
+		$data['VideoBlockSetting'] = array(
+			'block_key' => $blockKey,
+			'total_size' => '0',
+		);
 		$data['VideoBlockSetting'] = Hash::merge($data['VideoBlockSetting'], array(
 			'use_like' => '1',
 			'use_unlike' => '1',
@@ -146,7 +149,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		unset($data['VideoBlockSetting']['name']);
 		$results[3] = array('method' => 'post', 'data' => $data,
 			'validationError' => array(
-				'field' => 'VideoBlockSetting.name',
+				'field' => 'Block.name',
 				'value' => '',
 				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
 			)
@@ -176,7 +179,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		$results[2] = array('method' => 'put', 'data' => $data, 'validationError' => false);
 		$results[3] = array('method' => 'put', 'data' => $data,
 			'validationError' => array(
-				'field' => 'VideoBlockSetting.name',
+				'field' => 'Block.name',
 				'value' => '',
 				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
 			)
@@ -270,8 +273,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 			),
 			'VideoBlockSetting' => array(
 				//'block_key' => 'block_2',
-				//'block_key' => 'block_1',
-				'key' => 'block_1',
+				'block_key' => 'block_1',
 			),
 		);
 		//Current::$current['Block']['key'] = 'block_2';
