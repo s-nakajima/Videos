@@ -79,18 +79,20 @@ class VideoBlockSetting extends VideosAppModel {
 	);
 
 /**
- * hasOne associations
+ * belongsTo associations
  *
  * @var array
  */
-	public $hasOne = array(
+	public $belongsTo = array(
 		'Block' => array(
 			'className' => 'Blocks.Block',
-			'foreignKey' => 'id',
-			'conditions' => '',
+			'foreignKey' => false,
+			'conditions' => array(
+				'Block.key = VideoBlockSetting.block_key',
+			),
 			'fields' => '',
 			'order' => ''
-		)
+		),
 	);
 
 /**

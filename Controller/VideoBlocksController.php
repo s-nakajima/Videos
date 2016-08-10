@@ -111,7 +111,7 @@ class VideoBlocksController extends VideosAppController {
 						'     AND videos.key = files.content_key' .
 						'     GROUP BY blocks.key )',
 					'alias' => 'Size',
-					'conditions' => 'VideoBlockSetting.key = Size.key',
+					'conditions' => 'VideoBlockSetting.block_key = Size.key',
 				),
 			),
 			'fields' => array(
