@@ -94,6 +94,7 @@ class Videos extends CakeMigration {
 		),
 		'down' => array(
 			'drop_table' => array(
+				'video_block_settings',
 				'video_frame_settings',
 				'videos',
 			),
