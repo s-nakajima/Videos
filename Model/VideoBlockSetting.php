@@ -10,8 +10,8 @@
  */
 
 App::uses('Video', 'Videos.Model');
+App::uses('VideosAppModel', 'Videos.Model');
 App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
-App::uses('BlockBaseModel', 'Blocks.Model');
 
 /**
  * VideoBlockSetting Model
@@ -19,14 +19,14 @@ App::uses('BlockBaseModel', 'Blocks.Model');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Model
  */
-class VideoBlockSetting extends BlockBaseModel {
+class VideoBlockSetting extends VideosAppModel {
 
 /**
  * Custom database table name
  *
  * @var string
  */
-	public $useTable = 'blocks';
+	public $useTable = 'video_settings';
 
 /**
  * Validation rules
@@ -72,7 +72,6 @@ class VideoBlockSetting extends BlockBaseModel {
 			BlockSettingBehavior::FIELD_USE_COMMENT,
 			BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL,
 			'auto_play',
-			//'total_size',
 		),
 		'Categories.Category',
 		'NetCommons.OriginalKey',
@@ -80,18 +79,20 @@ class VideoBlockSetting extends BlockBaseModel {
 	);
 
 /**
- * hasOne associations
+ * belongsTo associations
  *
  * @var array
  */
-	public $hasOne = array(
+	public $belongsTo = array(
 		'Block' => array(
 			'className' => 'Blocks.Block',
-			'foreignKey' => 'id',
-			'conditions' => '',
+			'foreignKey' => false,
+			'conditions' => array(
+				'Block.key = VideoBlockSetting.block_key',
+			),
 			'fields' => '',
 			'order' => ''
-		)
+		),
 	);
 
 /**
@@ -103,33 +104,29 @@ class VideoBlockSetting extends BlockBaseModel {
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
-			'language_id' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => false,
-				),
-			),
-			'room_id' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => false,
-				),
-			),
-			'name' => array(
-				'notBlank' => array(
-					'rule' => array('notBlank'),
-					'message' => sprintf(
-						__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')
-					),
-					'required' => true,
-				),
-			)
-		));
+		if (!parent::beforeValidate($options)) {
+			return false;
+		}
 
-		return parent::beforeValidate($options);
+		if (isset($this->data['Block']['name'])) {
+			$this->Block->validate = array(
+				'name' => array(
+					'notBlank' => array(
+						'rule' => array('notBlank'),
+						'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
+						'required' => true,
+					),
+				)
+			);
+			$this->Block->set($this->data['Block']);
+			if (!$this->Block->validates()) {
+				$this->validationErrors = Hash::merge(
+					$this->validationErrors,
+					$this->Block->validationErrors
+				);
+				return false;
+			}
+		}
 	}
 
 /**
@@ -139,7 +136,7 @@ class VideoBlockSetting extends BlockBaseModel {
  */
 	public function createVideoBlockSetting() {
 		$videoBlockSetting = $this->createAll(array(
-			$this->alias => array(
+			'Block' => array(
 				'name' => __d('videos', 'New channel %s', date('YmdHis')),
 			),
 		));
@@ -154,8 +151,7 @@ class VideoBlockSetting extends BlockBaseModel {
  */
 	public function getVideoBlockSetting() {
 		$conditions = array(
-			$this->alias . '.key' => Current::read('Block.key'),
-			$this->alias . '.language_id' => Current::read('Language.id'),
+			$this->alias . '.block_key' => Current::read('Block.key'),
 		);
 
 		$videoBlockSetting = $this->find('first', array(
@@ -188,14 +184,8 @@ class VideoBlockSetting extends BlockBaseModel {
 		}
 
 		try {
-			if ($this->id) {
-				if (! $this->save(null, false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			} else {
-				//BlockBehabiorで登録するため、useTableをfalseにする
-				$this->useTable = false;
-				$this->save(null, false);
+			if (! $this->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			//トランザクションCommit
@@ -228,7 +218,7 @@ class VideoBlockSetting extends BlockBaseModel {
 		//トランザクションBegin
 		$this->begin();
 
-		$blockKey = $data[$this->alias]['key'];
+		$blockKey = $data[$this->alias]['block_key'];
 
 		// 多言語コンテンツ削除対応
 		// 各IDの配列
@@ -247,11 +237,10 @@ class VideoBlockSetting extends BlockBaseModel {
 		));
 
 		try {
-			// Blockの削除は、BlockBehavior::deleteBlock()で行うため、この時点では削除しない
-			//			// VideoBlockSetting削除
-			//			if (! $this->deleteAll(array($this->alias . '.block_key' => $blockKey), false)) {
-			//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			//			}
+			// VideoSetting削除
+			if (! $this->deleteAll(array($this->alias . '.block_key' => $blockKey), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
 
 			// 動画とサムネイルのデータと物理ファイル削除
 			foreach ($uploadFiles as $uploadFile) {

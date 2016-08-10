@@ -9,8 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('BlockFixture', 'Blocks.Test/Fixture');
 App::uses('NetCommonsDeleteTest', 'NetCommons.TestSuite');
+App::uses('VideoSettingFixture', 'Videos.Test/Fixture');
 App::uses('VideoTestUtil', 'Videos.Test/Case');
 
 /**
@@ -29,6 +29,7 @@ class VideoBlockSettingDeleteVideoBlockSettingTest extends NetCommonsDeleteTest 
 	public $fixtures = array(
 		'plugin.videos.video',
 		'plugin.videos.video_frame_setting',
+		'plugin.videos.video_setting',
 		'plugin.videos.block_setting_for_video',
 		'plugin.likes.like',
 		'plugin.likes.likes_user',
@@ -99,7 +100,7 @@ class VideoBlockSettingDeleteVideoBlockSettingTest extends NetCommonsDeleteTest 
  * @return array テストデータ
  */
 	public function dataProviderDelete() {
-		$data['VideoBlockSetting'] = (new BlockFixture())->records[0];
+		$data['VideoBlockSetting'] = (new VideoSettingFixture())->records[0];
 		$association = array();
 		//Current::$current['Block']['key'] = 'block_1';
 

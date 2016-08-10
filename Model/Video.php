@@ -148,7 +148,7 @@ class Video extends VideosAppModel {
  */
 	public function beforeValidate($options = array()) {
 		/** @see VideoValidationBehavior::setSettingVideo() */
-		$this->setSettingVideo(VideoValidationBehavior::IS_FFMPEG_ENABLE, self::isFfmpegEnable());
+		$this->setSettingVideo(VideoValidationBehavior::IS_FFMPEG_ENABLE, $this->isFfmpegEnable());
 
 		/** @see VideoValidationBehavior::rules() */
 		$this->validate = $this->rules($options);
@@ -279,12 +279,14 @@ class Video extends VideosAppModel {
 				isset($data[$this->alias][Video::VIDEO_FILE_FIELD]['size']) &&
 				$data[$this->alias][Video::VIDEO_FILE_FIELD]['size'] !== 0) {
 
-				// 動画変換のため、計2回saveしているので、MailQueueビヘイビア外す
-				$this->Behaviors->unload('Mails.MailQueue');
+				// 動画変換のため、計2回saveしているので、MailQueueビヘイビア無効化
+				$this->Behaviors->disable('Mails.MailQueue');
 
 				// 動画変換とデータ保存
 				/* @see VideoBehavior::saveConvertVideo() */
 				$this->saveConvertVideo($video);
+
+				$this->Behaviors->enable('Mails.MailQueue');
 			}
 
 			//トランザクションCommit

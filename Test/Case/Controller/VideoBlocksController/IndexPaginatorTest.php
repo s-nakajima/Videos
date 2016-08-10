@@ -26,6 +26,7 @@ class VideoBlocksControllerIndexPaginatorTest extends BlocksControllerPaginatorT
  */
 	public $fixtures = array(
 		'plugin.videos.video',
+		'plugin.videos.video_setting_for_paginator',
 		'plugin.videos.block_setting_for_video',
 	);
 

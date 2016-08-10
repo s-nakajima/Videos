@@ -25,7 +25,9 @@ class VideoBlockSettingSaveVideoBlockSettingTest extends NetCommonsSaveTest {
  *
  * @var array
  */
-	public $fixtures = array();
+	public $fixtures = array(
+		'plugin.videos.video_setting',
+	);
 
 /**
  * Plugin name
