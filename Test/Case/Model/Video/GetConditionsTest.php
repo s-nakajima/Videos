@@ -26,6 +26,7 @@ class VideoGetConditionsTest extends WorkflowGetTest {
  */
 	public $fixtures = array(
 		'plugin.videos.video',
+		'plugin.videos.video_setting',
 		'plugin.videos.block_setting_for_video',
 		'plugin.videos.video_frame_setting',
 		'plugin.workflow.workflow_comment',

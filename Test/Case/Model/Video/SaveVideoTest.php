@@ -32,6 +32,7 @@ class VideoSaveVideoTest extends WorkflowSaveTest {
 		'plugin.categories.category_order',
 		'plugin.site_manager.site_setting',
 		'plugin.videos.video',
+		'plugin.videos.video_setting',
 		'plugin.videos.block_setting_for_video',
 		'plugin.videos.video_frame_setting',
 		'plugin.likes.like',
