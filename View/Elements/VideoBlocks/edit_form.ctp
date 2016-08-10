@@ -19,7 +19,7 @@
 <?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.display_order'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.display_number'); ?>
 
-<?php echo $this->NetCommonsForm->input('VideoBlockSetting.name', array(
+<?php echo $this->NetCommonsForm->input('Block.name', array(
 	'type' => 'text',
 	'label' => __d('videos', 'Channel name'),
 	'required' => true
