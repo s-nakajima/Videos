@@ -82,6 +82,9 @@ class VideoDeleteVideoTest extends WorkflowDeleteTest {
 		// テスト実ファイル配置
 		$this->_testFilePath = APP . WEBROOT_DIR . DS . 'files/upload_file/test/11/';
 		(new VideoTestUtil())->readyTestFile('Videos', 'video1.mp4', $this->_testFilePath);
+
+		// 総容量取得用のblock_key
+		Current::write('Block.key', 'block_1');
 	}
 
 /**
@@ -107,9 +110,6 @@ class VideoDeleteVideoTest extends WorkflowDeleteTest {
  * @see NetCommonsDeleteTest::testDelete()
  */
 	public function dataProviderDelete() {
-		// 総容量取得用のblock_key
-		Current::write('Block.key', 'block_1');
-
 		$data['Video'] = (new VideoFixture())->records[0];
 		$association = array();
 
