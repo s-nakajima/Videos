@@ -181,6 +181,38 @@ class Video extends VideosAppModel {
 	}
 
 /**
+ * 総容量取得
+ *
+ * @return int
+ */
+	public function getTotalSize() {
+		$this->loadModels(array(
+			'UploadFile' => 'Files.UploadFile',
+		));
+
+		$video = $this->find('first', array(
+			'recursive' => -1,
+			'joins' => array (
+				array (
+					'type' => 'LEFT',
+					'table' => $this->UploadFile->table,
+					'alias' => 'UploadFile',
+					'conditions' => 'UploadFile.content_key = Video.key',
+				),
+			),
+			'fields' => array(
+				'SUM(UploadFile.size) AS total_size',
+			),
+			'conditions' => array(
+				'Video.block_id' => Current::read('Block.id'),
+				'Video.is_latest' => true,
+			),
+		));
+
+		return (int)$video[0]['total_size'];
+	}
+
+/**
  * UserIdと権限から参照可能なEntryを取得するCondition配列を返す
  *
  * @return array condition
@@ -253,6 +285,10 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function saveVideo($data, $isEdit = 0) {
+		$this->loadModels(array(
+			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
+		));
+
 		//トランザクションBegin
 		$this->begin();
 
@@ -279,15 +315,14 @@ class Video extends VideosAppModel {
 				isset($data[$this->alias][Video::VIDEO_FILE_FIELD]['size']) &&
 				$data[$this->alias][Video::VIDEO_FILE_FIELD]['size'] !== 0) {
 
-				// 動画変換のため、計2回saveしているので、MailQueueビヘイビア無効化
-				$this->Behaviors->disable('Mails.MailQueue');
-
 				// 動画変換とデータ保存
 				/* @see VideoBehavior::saveConvertVideo() */
 				$this->saveConvertVideo($video);
-
-				$this->Behaviors->enable('Mails.MailQueue');
 			}
+
+			// 総容量更新
+			$totalSize = $this->getTotalSize();
+			$this->VideoBlockSetting->saveTotalSize($totalSize);
 
 			//トランザクションCommit
 			$this->commit();
@@ -312,6 +347,7 @@ class Video extends VideosAppModel {
 			'Like' => 'Likes.Like',
 			'TagsContent' => 'Tags.TagsContent',
 			'UploadFile' => 'Files.UploadFile',
+			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
 		));
 
 		//トランザクションBegin
@@ -356,6 +392,10 @@ class Video extends VideosAppModel {
 			if (! $this->Like->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+
+			// 総容量更新
+			$totalSize = $this->getTotalSize();
+			$this->VideoBlockSetting->saveTotalSize($totalSize);
 
 			//トランザクションCommit
 			$this->commit();

@@ -199,6 +199,31 @@ class VideoBlockSetting extends VideosAppModel {
 	}
 
 /**
+ * 総容量のみ更新
+ *
+ * @param int $totalSize 総容量
+ * @return bool
+ * @throws InternalErrorException
+ */
+	public function saveTotalSize($totalSize) {
+		$videoBlockSetting = $this->getVideoBlockSetting();
+		$this->id = $videoBlockSetting['VideoBlockSetting']['id'];
+
+		// コールバックoff
+		$validate = array(
+			'validate' => false,
+			'callbacks' => false,
+		);
+
+		// 総容量のみ更新
+		if (! $this->saveField('total_size', $totalSize, $validate)) {
+			throw new InternalErrorException('Failed ' . __METHOD__);
+		}
+
+		return true;
+	}
+
+/**
  * VideoBlockSettingデータ削除
  *
  * @param array $data received post data

@@ -32,7 +32,7 @@
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 							'VideoBlockSetting.total_size', __d('videos', 'File capacity'),
-							array('sort' => false, 'type' => 'right')
+							array('sort' => true, 'type' => 'right')
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 							'Block.content_count', __d('videos', 'Number'),
@@ -63,8 +63,7 @@
 								array('editUrl' => array('block_id' => $videoBlockSetting['Block']['id']))
 							); ?>
 							<td class="text-right">
-								<?php echo $this->Number->toReadableSize((int)$videoBlockSetting['Size']['size_byte']); ?>
-								<?php //echo $this->Number->toReadableSize((int)$videoBlockSetting['VideoBlockSetting']['total_size']); ?>
+								<?php echo $this->Number->toReadableSize((int)$videoBlockSetting['VideoBlockSetting']['total_size']); ?>
 							</td>
 							<?php echo $this->BlockIndex->tableData(
 								'Block.content_count', (int)$videoBlockSetting['Block']['content_count'],

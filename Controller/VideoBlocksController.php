@@ -91,35 +91,6 @@ class VideoBlocksController extends VideosAppController {
 	public function index() {
 		/** @see BlockBehavior::getBlockIndexSettings() */
 		$options = $this->VideoBlockSetting->getBlockIndexSettings();
-		$pluginOptions = array(
-			'joins' => array (
-				array (
-					'type' => 'LEFT',
-					'table' => '( SELECT' .
-						'     blocks.key,' .
-						'     SUM(files.size) size_byte' .
-						' FROM' .
-						'     ' . $this->VideoBlockSetting->tablePrefix . 'blocks blocks,' .
-						'     ' . $this->VideoBlockSetting->tablePrefix . 'videos videos,' .
-						'     ' . $this->VideoBlockSetting->tablePrefix . 'upload_files files' .
-						' WHERE' .
-						"         blocks.plugin_key = '" . $this->request->params['plugin'] . "'" .
-						'     AND blocks.language_id = ' . Current::read('Language.id') .
-						'     AND blocks.room_id = ' . Current::read('Room.id') .
-						'     AND blocks.id = videos.block_id' .
-						'     AND videos.is_latest = 1' .
-						'     AND videos.key = files.content_key' .
-						'     GROUP BY blocks.key )',
-					'alias' => 'Size',
-					'conditions' => 'VideoBlockSetting.block_key = Size.key',
-				),
-			),
-			'fields' => array(
-				'*',
-			),
-		);
-		$options['joins'] = array_merge($options['joins'], $pluginOptions['joins']);
-		$options['fields'] = $pluginOptions['fields'];
 		$this->Paginator->settings = array(
 			'VideoBlockSetting' => $options
 		);
