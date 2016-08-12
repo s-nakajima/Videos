@@ -11,6 +11,7 @@
  */
 ?>
 
+<?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.use_workflow'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.use_comment_approval'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.total_size'); ?>
