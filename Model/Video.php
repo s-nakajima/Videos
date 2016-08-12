@@ -242,27 +242,24 @@ class Video extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function countUp($data) {
-		$video['Video'] = $data['Video'];
+		$this->id = $data['Video']['id'];
+		$playNumber = $data['Video']['play_number'];
 		//再生回数 + 1
-		$video['Video']['play_number']++;
+		$playNumber++;
 
 		//トランザクションBegin
 		$this->begin();
 
-		// 値をセット
-		$this->set($video);
-
 		try {
-
 			// コールバックoff
 			$validate = array(
 				'validate' => false,
 				'callbacks' => false,
 			);
 
-			// 動画データ保存
-			if (! $video = $this->save(null, $validate)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			// 再生回数のみ更新
+			if (! $this->saveField('play_number', $playNumber, $validate)) {
+				throw new InternalErrorException('Failed ' . __METHOD__);
 			}
 
 			//トランザクションCommit
@@ -273,7 +270,7 @@ class Video extends VideosAppModel {
 			$this->rollback($ex);
 		}
 
-		return $video[$this->alias]['play_number'];
+		return $playNumber;
 	}
 
 /**
