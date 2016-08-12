@@ -75,6 +75,9 @@ class VideoSaveVideoTest extends WorkflowSaveTest {
 
 		Current::$current['Plugin']['key'] = $this->plugin;
 
+		// 総容量取得用のblock_key
+		Current::write('Block.key', 'block_1');
+
 		// ファイルアップロードの実ファイルが配置されなかったので、強制的に実ファイルを配置
 		// アップロードパスの変更
 		$tmpFolder = new TemporaryFolder();

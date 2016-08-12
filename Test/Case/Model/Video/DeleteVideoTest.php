@@ -104,8 +104,12 @@ class VideoDeleteVideoTest extends WorkflowDeleteTest {
  *  - associationModels: 削除確認の関連モデル array(model => conditions)
  *
  * @return array テストデータ
+ * @see NetCommonsDeleteTest::testDelete()
  */
 	public function dataProviderDelete() {
+		// 総容量取得用のblock_key
+		Current::write('Block.key', 'block_1');
+
 		$data['Video'] = (new VideoFixture())->records[0];
 		$association = array();
 
