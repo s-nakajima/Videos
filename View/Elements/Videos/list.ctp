@@ -66,17 +66,12 @@ if (!isset($style)) {
 			&nbsp;
 			<?php /* カテゴリ */ ?>
 			<?php if ($video['Video']['category_id']) : ?>
-				<?php echo __d('categories', 'Category') ?>:<?php echo $this->Html->link(
-					$video['Category']['name'],
-					$this->NetCommonsHtml->url(
-						array(
-							'controller' => 'videos',
-							'action' => 'index',
-							'frame_id' => Current::read('Frame.id'),
-							'category_id' => $video['Video']['category_id']
-						)
-					)
-				); ?>
+				<?php echo __d('categories', 'Category') ?>:
+				<?php echo $this->NetCommonsHtml->link($video['Category']['name'], array(
+					'controller' => 'videos',
+					'action' => 'index',
+					'category_id' => $video['Video']['category_id']
+				)); ?>
 			<?php endif; ?>
 			<br />
 
