@@ -128,11 +128,16 @@ class VideosController extends VideosAppController {
 		$this->set('filterDropDownLabel', __d('videos', 'All videos'));
 
 		$categoryId = Hash::get($this->request->params['named'], 'category_id', 0);
+		// URLから直入力対策
+		$categoryId = (int)$categoryId;
 		if ($categoryId) {
-			$conditions['Video.category_id'] = $categoryId;
 			$category = $this->Category->findById($categoryId);
-			$this->set('listTitle', __d('categories', 'Category') . ':' . $category['Category']['name']);
-			$this->set('filterDropDownLabel', $category['Category']['name']);
+			// 存在するカテゴリのみ
+			if ($category) {
+				$this->set('listTitle', __d('categories', 'Category') . ':' . $category['Category']['name']);
+				$this->set('filterDropDownLabel', $category['Category']['name']);
+				$conditions['Video.category_id'] = $categoryId;
+			}
 		}
 
 		// 一覧取得
@@ -147,19 +152,25 @@ class VideosController extends VideosAppController {
  */
 	public function tag() {
 		$this->view = 'index';
-
-		// indexとのちがいはtagIdでの絞り込みだけ
-		$tagId = $this->_getNamed('id', 0);
-
-		// タグ名をタイトルに
-		$tag = $this->Video->getTagByTagId($tagId);
-		$this->set('listTitle', __d('tags', 'tag') . ':' . $tag['Tag']['name']);
-
+		$conditions = array();
+		$this->set('listTitle', Current::read('Block.name'));
 		$this->set('filterDropDownLabel', __d('videos', 'All videos'));
 
-		$conditions = array(
-			'Tag.id' => $tagId // これを有効にするにはentry_tag_linkもJOINして検索か。
-		);
+		// indexとのちがいはtagIdでの絞り込みだけ
+		$tagId = Hash::get($this->request->params['named'], 'id', 0);
+		// URLから直入力対策
+		$tagId = (int)$tagId;
+
+		if ($tagId) {
+			// タグ名をタイトルに
+			$tag = $this->Video->getTagByTagId($tagId);
+			// 存在するタグのみ
+			if ($tag) {
+				$this->set('listTitle', __d('tags', 'tag') . ':' . $tag['Tag']['name']);
+				// これを有効にするにはentry_tag_linkもJOINして検索か。
+				$conditions['Tag.id'] = $tagId;
+			}
+		}
 
 		// 一覧取得
 		$results = $this->__list($conditions);
