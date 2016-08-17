@@ -368,7 +368,8 @@ class VideosController extends VideosAppController {
 		$results['displayOrderPaginator'] = key($order) . '.' . $order[key($order)];
 
 		//表示件数
-		if ($limit = $this->_getNamed('limit')) {
+		$limit = Hash::get($this->request->params['named'], 'limit');
+		if ($limit) {
 			$query['limit'] = (int)$limit;
 		} else {
 			$query['limit'] = $videoFrameSetting['VideoFrameSetting']['display_number'];
@@ -402,8 +403,8 @@ class VideosController extends VideosAppController {
  * @return array ソート条件
  */
 	private function __order($videoFrameSetting) {
-		$sort = $this->_getNamed('sort');
-		$direction = $this->_getNamed('direction');
+		$sort = Hash::get($this->request->params['named'], 'sort');
+		$direction = Hash::get($this->request->params['named'], 'direction');
 
 		//ソート
 		if (isset($sort) && isset($direction)) {

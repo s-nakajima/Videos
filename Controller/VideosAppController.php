@@ -22,7 +22,6 @@ App::uses('AppController', 'Controller');
  * @property DownloadComponent $Download
  * @property FileUploadComponent $FileUpload
  * @property MailSetting $MailSetting
- * @property MailQueuesComponent $MailQueues
  * @property NetCommonsComponent $NetCommons
  * @property WorkflowComponent $Workflow
  * @property PermissionComponent $Permission
@@ -30,7 +29,6 @@ App::uses('AppController', 'Controller');
  * @property Video $Video
  * @property VideoBlockSetting $VideoBlockSetting
  * @property VideoFrameSetting $VideoFrameSetting
- * @property VideoMailComponent $VideoMail
  */
 class VideosAppController extends AppController {
 
@@ -43,17 +41,4 @@ class VideosAppController extends AppController {
 		'Pages.PageLayout',
 		'Security',
 	);
-
-/**
- * namedパラメータ取得
- *
- * @param string $name namedパラメータ名
- * @param null $default パラメータが存在しなかったときのデフォルト値
- * @return int|string
- */
-	protected function _getNamed($name, $default = null) {
-		$value = isset($this->request->params['named'][$name]) ?
-			$this->request->params['named'][$name] : $default;
-		return $value;
-	}
 }
