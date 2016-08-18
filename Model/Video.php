@@ -65,12 +65,11 @@ class Video extends VideosAppModel {
 	const FFMPEG_OPTION = '-acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k';
 
 /**
- * #01 for ffmpeg version 0.8.17-4:0.8.17-0ubuntu0.12.04.2
+ * #01 for CentOS, Ubuntu ffmpeg version 0.8.17-4:0.8.17-0ubuntu0.12.04.2
  *
  * @var string ffmpeg サムネイル オプション
  */
 	const FFMPEG_THUMBNAIL_OPTION = '-ss 1 -vframes 1 -f image2';	// #01
-	//const FFMPEG_THUMBNAIL_OPTION = '-f image2 -frames:v 1';
 
 /**
  * @var bool ffmpeg 有効フラグ
