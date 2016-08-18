@@ -12,6 +12,7 @@
 ?>
 
 <?php echo $this->NetCommonsForm->hidden('Block.name'); ?>
+<?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.id'); ?>
 
 <?php echo $this->element('Blocks.block_creatable_setting', array(
 	'settingPermissions' => array(
