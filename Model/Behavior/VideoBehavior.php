@@ -180,11 +180,12 @@ class VideoBehavior extends ModelBehavior {
 		$convertedFilePath = $tmpFolder->path . DS . $videoName . '.jpg';
 
 		// --- サムネイル自動作成
-		// 例) ffmpeg -ss 1 -vframes 1 -i /var/www/html/movies/play/20130901_072755.mp4 -f image2 /var/www/html/movies/play/20130901_072755.jpg
+		// 例) ffmpeg -i /var/www/html/movies/play/20130901_072755.mp4 -ss 1 -vframes 1 -f image2 /var/www/html/movies/play/20130901_072755.jpg
 		// サムネイルは変換後のmp4 から生成する。mts からサムネイルを生成した場合、灰色画像になりうまく生成できなかった。ファイル形式によりサムネイル生成に制限がある可能性があるため。
 		// コマンドインジェクション対策
-		$strCmd = Video::FFMPEG_PATH . ' -ss 1 -vframes 1 -i ' .
-			escapeshellarg($convertPath . $videoName . '.mp4') . ' -f image2 ' .
+		$strCmd = Video::FFMPEG_PATH . ' -i ' .
+			escapeshellarg($convertPath . $videoName . '.mp4') .
+			' ' . Video::FFMPEG_THUMBNAIL_OPTION . ' ' .
 			escapeshellarg($convertedFilePath);
 		exec($strCmd, $arrImage, $retImage);
 
