@@ -97,6 +97,7 @@ class Video extends VideosAppModel {
 				'X-SUBJECT' => 'Video.title',
 				'X-BODY' => 'Video.description',
 			),
+			'isXbodyWysiwyg' => false,
 		),
 		'Mails.MailQueueDelete',
 		'Files.Attachment' => [
