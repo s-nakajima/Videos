@@ -36,6 +36,14 @@ class VideosController extends VideosAppController {
 	const MAX_LIMIT_RELATED_VIDEO = 100;
 
 /**
+ * （編集長以上が使える）ダウンロードリンクを使用する。
+ * 使用しない場合はfalseに書き換える。
+ *
+ * @var bool
+ */
+	const USE_DOWNLOAD_LINK = true;
+
+/**
  * use model
  *
  * @var array
