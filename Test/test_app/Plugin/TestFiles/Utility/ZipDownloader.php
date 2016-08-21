@@ -79,17 +79,17 @@ class ZipDownloader {
 		$this->addFiles[] = $localName;
 	}
 
-/**
- * add from string
- *
- * @param string $localname zipファイルに追加するときのファイル名
- * @param string $contents 追加するファイルの中身
- *
- * @return void
- */
-	public function addFromString($localname, $contents) {
-		$this->addStrings[$localname] = $contents;
-	}
+	///**
+	// * add from string
+	// *
+	// * @param string $localname zipファイルに追加するときのファイル名
+	// * @param string $contents 追加するファイルの中身
+	// *
+	// * @return void
+	// */
+	//	public function addFromString($localname, $contents) {
+	//		$this->addStrings[$localname] = $contents;
+	//	}
 
 /**
  * Download
