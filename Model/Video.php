@@ -54,22 +54,56 @@ class Video extends VideosAppModel {
 	const THUMBNAIL_MIME_TYPE = 'image/jpeg,image/png,image/gif';
 
 /**
+ * ffmpeg パス
+ *
+ * #### サンプルコード
+ * ```php
+ * 	// for CentOS, Ubuntu 12.04LTS
+ *	const FFMPEG_PATH = '/usr/bin/ffmpeg';
+ * 	// for Ubuntu
+ *	const FFMPEG_PATH = '/usr/bin/avconv';
+ * 	// for build
+ * 	// ほぼ全自動ビルド http://www.jifu-labo.net/2015/09/ffmpeg_build/
+ *	const FFMPEG_PATH = '/usr/local/ffmpeg_build/bin/ffmpeg';
+ * ```
+ *
  * @var string ffmpeg パス
  */
-	const FFMPEG_PATH = '/usr/bin/ffmpeg';		// for CentOS, Ubuntu 12.04LTS
-	//const FFMPEG_PATH = '/usr/bin/avconv';	// for Ubuntu
+	const FFMPEG_PATH = '/usr/bin/ffmpeg';
 
 /**
+ * ffmpeg オプション
+ *
+ * #### サンプルコード
+ * ```php
+ * 	// 通常
+ *	const FFMPEG_OPTION = '-acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k';
+ * 	// for ffmpeg version git-2016-05-13-cb928fc 動画の傾き対応
+ *	const FFMPEG_OPTION = '-acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k -vf hflip -metadata:s:v:0 rotate=0';
+ * ```
+ *
  * @var string ffmpeg オプション
  */
 	const FFMPEG_OPTION = '-acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k';
 
 /**
+ * ffmpeg サムネイル オプション
+ *
  * #01 for CentOS, Ubuntu ffmpeg version 0.8.17-4:0.8.17-0ubuntu0.12.04.2
  *
  * @var string ffmpeg サムネイル オプション
  */
 	const FFMPEG_THUMBNAIL_OPTION = '-ss 1 -vframes 1 -f image2';	// #01
+
+/**
+ * mp4を変換する
+ *
+ * 動画ファイルには位置情報等が含まれるため、mp4でもその情報を消すために再度変換している。
+ * 再度変換をさせない場合は、falseに書き換える。
+ *
+ * @var bool mp4を変換する
+ */
+	public $isMp4Convert = true;
 
 /**
  * @var bool ffmpeg 有効フラグ
