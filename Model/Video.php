@@ -174,10 +174,13 @@ class Video extends VideosAppModel {
 			return $this->isFfmpegEnable;
 		}
 
-		$strCmd = 'which ' . self::FFMPEG_PATH . ' 2>&1';
+		// windows対策
+		//$strCmd = 'which ' . self::FFMPEG_PATH . ' 2>&1';
+		$strCmd = self::FFMPEG_PATH . ' -version 2>&1';
 		exec($strCmd, $arr);
 
-		if (isset($arr[0]) && $arr[0] === self::FFMPEG_PATH) {
+		$arr0 = Hash::get($arr, 0);
+		if (strpos($arr0, 'ffmpeg version') !== false) {
 			// コマンドあり
 			$this->isFfmpegEnable = true;
 		} else {
