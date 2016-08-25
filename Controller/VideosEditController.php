@@ -60,7 +60,7 @@ class VideosEditController extends VideosAppController {
 /**
  * beforeFilter
  *
- * @return void
+ * @return bool
  * @see NetCommonsAppController::beforeFilter()
  */
 	public function beforeFilter() {
