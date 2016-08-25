@@ -90,7 +90,7 @@ echo $this->NetCommonsHtml->script(array(
 		</div>
 		<div class="video-detail-links-row">
 			<?php /* ブロック編集許可OK（編集長以上）ならダウンロードできる */ ?>
-			<?php if (Current::permission('block_editable') && VideosController::USE_DOWNLOAD_LINK): ?>
+			<?php if (Current::permission('block_editable') && $useDownloadLink): ?>
 				<span class="video-detail-links">
 					<?php /* ダウンロード */ ?>
 					<a href="" authorization-keys-popup-link frame-id="<?php echo Current::read('Frame.id'); ?>"

@@ -36,12 +36,12 @@ class VideosController extends VideosAppController {
 	const MAX_LIMIT_RELATED_VIDEO = 100;
 
 /**
- * （編集長以上が使える）ダウンロードリンクを使用する。
+ * （編集長以上が使える）ダウンロードリンクを使用する
  * 使用しない場合はfalseに書き換える。
  *
  * @var bool
  */
-	const USE_DOWNLOAD_LINK = true;
+	public $useDownloadLink = false;
 
 /**
  * use model
@@ -123,6 +123,8 @@ class VideosController extends VideosAppController {
 
 		// FFMPEG有効フラグ
 		$this->set('isFfmpegEnable', $this->Video->isFfmpegEnable());
+		// （編集長以上が使える）ダウンロードリンクを使用する
+		$this->set('useDownloadLink', $this->useDownloadLink);
 	}
 
 /**
@@ -284,6 +286,11 @@ class VideosController extends VideosAppController {
  * @see DownloadComponent::doDownload()
  */
 	public function download() {
+		// ダウンロードリンク使わないなら、400
+		if (!$this->useDownloadLink) {
+			return $this->setAction('throwBadRequest');
+		}
+
 		// ここから元コンテンツを取得する処理
 		//$this->_prepare();
 		$key = $this->params['key'];
