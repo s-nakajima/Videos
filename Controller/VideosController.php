@@ -41,7 +41,7 @@ class VideosController extends VideosAppController {
  *
  * @var bool
  */
-	public $useDownloadLink = false;
+	public $useDownloadLink = true;
 
 /**
  * use model
