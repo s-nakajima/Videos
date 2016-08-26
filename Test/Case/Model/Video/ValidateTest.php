@@ -120,6 +120,9 @@ class VideoValidateTest extends NetCommonsValidateTest {
 		}
 		$data = Hash::merge($data, $overwrite);
 
+		// undefind indexが出るため非活性
+		$this->$model->Behaviors->disable('Files.Attachment');
+
 		//validate処理実行
 		$this->$model->set($data);
 		//$result = $this->$model->validates();
@@ -163,7 +166,8 @@ class VideoValidateTest extends NetCommonsValidateTest {
 		$overwrite = array();
 		$overwrite['Video'][Video::VIDEO_FILE_FIELD]['error'] = 1;
 		$result['登録, Ffmpeg=ON:video_file - ファイルなし'] = array('data' => $data, 'field' => Video::VIDEO_FILE_FIELD,
-			'message' => __d('files', 'Please specify the file'),
+			//'message' => __d('files', 'Please specify the file'),
+			'message' => __d('files', 'It is upload disabled file format'),
 			'overwrite' => $overwrite, 'options' => array('add'), 'isFfmpegEnable' => true);
 
 		$overwrite = array();
@@ -184,7 +188,8 @@ class VideoValidateTest extends NetCommonsValidateTest {
 		$overwrite = array();
 		$overwrite['Video'][Video::THUMBNAIL_FIELD]['error'] = 1;
 		$result['登録, Ffmpeg=OFF:thumbnail - ファイルなし'] = array('data' => $data, 'field' => Video::THUMBNAIL_FIELD,
-			'message' => __d('files', 'Please specify the file'),
+			//'message' => __d('files', 'Please specify the file'),
+			'message' => __d('files', 'It is upload disabled file format'),
 			'overwrite' => $overwrite, 'options' => array('add'), 'isFfmpegEnable' => false);
 
 		$overwrite = array();
