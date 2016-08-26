@@ -18,7 +18,7 @@
 		<?php echo $this->BlockTabs->block(BlockTabsHelper::BLOCK_TAB_SETTING); ?>
 
 		<?php echo $this->BlockForm->displayEditForm(array(
-			'model' => 'VideoBlockSetting',
+			'model' => 'VideoSetting',
 			'callback' => 'Videos.VideoBlocks/edit_form',
 			'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 			'displayModified' => true,

@@ -54,7 +54,7 @@ echo $this->NetCommonsHtml->script(array(
 			Video::THUMBNAIL_FIELD,
 			'big',
 		],
-		'isAutoPlay' => $videoBlockSetting['auto_play'],
+		'isAutoPlay' => $videoSetting['auto_play'],
 	)); ?>
 </div>
 
@@ -119,7 +119,7 @@ echo $this->NetCommonsHtml->script(array(
 			</span>
 
 			<?php /* いいね */ ?>
-			<?php echo $this->Like->buttons('Video', $videoBlockSetting, $video); ?>
+			<?php echo $this->Like->buttons('Video', $videoSetting, $video); ?>
 		</div>
 		<div class="form-group video-embed">
 			<?php /* 埋め込みコード(非表示) */ ?>
@@ -158,7 +158,7 @@ echo $this->NetCommonsHtml->script(array(
 				<?php echo $this->element('Videos.Videos/list', array(
 					"video" => $relatedVideo,
 					"style" => 'panel panel-default',
-					"videoBlockSetting" => $videoBlockSetting,
+					"videoSetting" => $videoSetting,
 					"isFfmpegEnable" => $isFfmpegEnable,
 				)); ?>
 			</article>

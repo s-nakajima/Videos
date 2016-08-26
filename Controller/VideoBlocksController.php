@@ -32,7 +32,7 @@ class VideoBlocksController extends VideosAppController {
  * @var array
  */
 	public $uses = array(
-		'Videos.VideoBlockSetting',
+		'Videos.VideoSetting',
 		'Videos.VideoFrameSetting',
 	);
 
@@ -90,17 +90,17 @@ class VideoBlocksController extends VideosAppController {
  */
 	public function index() {
 		/** @see BlockBehavior::getBlockIndexSettings() */
-		$options = $this->VideoBlockSetting->getBlockIndexSettings();
+		$options = $this->VideoSetting->getBlockIndexSettings();
 		$this->Paginator->settings = array(
-			'VideoBlockSetting' => $options
+			'VideoSetting' => $options
 		);
 
-		if (! $videoBlockSetting = $this->Paginator->paginate('VideoBlockSetting')) {
+		if (! $videoSetting = $this->Paginator->paginate('VideoSetting')) {
 			$this->view = 'Blocks.Blocks/not_found';
 			return;
 		}
 
-		$this->set('videoBlockSettings', $videoBlockSetting);
+		$this->set('videoSettings', $videoSetting);
 
 		$this->request->data['Frame'] = Current::read('Frame');
 	}
@@ -115,15 +115,15 @@ class VideoBlocksController extends VideosAppController {
 
 		if ($this->request->is('post')) {
 			//BlockSetting, FrameSetting登録処理
-			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data) &&
+			if ($this->VideoSetting->saveVideoSetting($this->data) &&
 				$this->VideoFrameSetting->saveVideoFrameSetting($this->data)) {
 				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
-			$this->NetCommons->handleValidationError($this->VideoBlockSetting->validationErrors);
+			$this->NetCommons->handleValidationError($this->VideoSetting->validationErrors);
 
 		} else {
 			//表示処理(初期データセット)
-			$this->request->data = $this->VideoBlockSetting->createVideoBlockSetting();
+			$this->request->data = $this->VideoSetting->createVideoSetting();
 			$this->request->data = Hash::merge($this->request->data,
 											$this->VideoFrameSetting->getVideoFrameSetting(true));
 			$this->request->data['Frame'] = Current::read('Frame');
@@ -138,18 +138,18 @@ class VideoBlocksController extends VideosAppController {
 	public function edit() {
 		if ($this->request->is('put')) {
 			//登録処理
-			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->data)) {
+			if ($this->VideoSetting->saveVideoSetting($this->data)) {
 				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
-			$this->NetCommons->handleValidationError($this->VideoBlockSetting->validationErrors);
+			$this->NetCommons->handleValidationError($this->VideoSetting->validationErrors);
 
 		} else {
 			//表示処理(初期データセット)
-			if (! $videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting()) {
+			if (! $videoSetting = $this->VideoSetting->getVideoSetting()) {
 				$this->throwBadRequest();
 				return false;
 			}
-			$this->request->data = Hash::merge($this->request->data, $videoBlockSetting);
+			$this->request->data = Hash::merge($this->request->data, $videoSetting);
 			$this->request->data = Hash::merge($this->request->data,
 											$this->VideoFrameSetting->getVideoFrameSetting(true));
 			$this->request->data['Frame'] = Current::read('Frame');
@@ -165,7 +165,7 @@ class VideoBlocksController extends VideosAppController {
  */
 	public function delete() {
 		if ($this->request->is('delete')) {
-			if ($this->VideoBlockSetting->deleteVideoBlockSetting($this->data)) {
+			if ($this->VideoSetting->deleteVideoSetting($this->data)) {
 				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 		}

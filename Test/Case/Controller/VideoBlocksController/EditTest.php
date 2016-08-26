@@ -109,11 +109,11 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 				'display_number' => $displayNumber,
 			),
 		);
-		$data['VideoBlockSetting'] = array(
+		$data['VideoSetting'] = array(
 			'block_key' => $blockKey,
 			'total_size' => '0',
 		);
-		$data['VideoBlockSetting'] = Hash::merge($data['VideoBlockSetting'], array(
+		$data['VideoSetting'] = Hash::merge($data['VideoSetting'], array(
 			'use_like' => '1',
 			'use_unlike' => '1',
 			'use_comment' => '1',
@@ -144,9 +144,9 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		$results = array();
 		$results[0] = array('method' => 'get');
 		$results[1] = array('method' => 'put');
-		$data['VideoBlockSetting']['name'] = 'Channel name';
+		$data['VideoSetting']['name'] = 'Channel name';
 		$results[2] = array('method' => 'post', 'data' => $data, 'validationError' => false);
-		unset($data['VideoBlockSetting']['name']);
+		unset($data['VideoSetting']['name']);
 		$results[3] = array('method' => 'post', 'data' => $data,
 			'validationError' => array(
 				'field' => 'Block.name',
@@ -197,7 +197,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		//ログイン
 		TestAuthGeneral::login($this);
 
-		$this->_mockForReturnFalse('Videos.VideoBlockSetting', 'getVideoBlockSetting');
+		$this->_mockForReturnFalse('Videos.VideoSetting', 'getVideoSetting');
 
 		$frameId = '6';
 		$blockId = '4';
@@ -229,7 +229,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		//ログイン
 		TestAuthGeneral::login($this);
 
-		$this->_mockForReturnFalse('Videos.VideoBlockSetting', 'getVideoBlockSetting');
+		$this->_mockForReturnFalse('Videos.VideoSetting', 'getVideoSetting');
 
 		$frameId = '6';
 		$blockId = '4';
@@ -271,7 +271,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 				//'id' => '4',
 				'id' => '2',
 			),
-			'VideoBlockSetting' => array(
+			'VideoSetting' => array(
 				//'block_key' => 'block_2',
 				'block_key' => 'block_1',
 			),
@@ -312,7 +312,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		//ログイン
 		TestAuthGeneral::login($this);
 
-		$this->_mockForReturnFalse('Videos.VideoBlockSetting', 'deleteVideoBlockSetting');
+		$this->_mockForReturnFalse('Videos.VideoSetting', 'deleteVideoSetting');
 
 		$frameId = '6';
 		$blockId = '4';
