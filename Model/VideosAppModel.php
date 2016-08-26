@@ -22,7 +22,7 @@ App::uses('AppModel', 'Model');
  * @property ContentComment $ContentComment
  * @property TagsContent $TagsContent
  * @property Like $Like
- * @property VideoBlockSetting $VideoBlockSetting
+ * @property VideoSetting $VideoSetting
  * @property UploadFile $UploadFile
  */
 class VideosAppModel extends AppModel {

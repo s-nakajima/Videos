@@ -1,6 +1,6 @@
 <?php
 /**
- * VideoBlockSetting::deleteVideoBlockSetting()のテスト
+ * VideoSetting::deleteVideoSetting()のテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -14,12 +14,12 @@ App::uses('VideoSettingFixture', 'Videos.Test/Fixture');
 App::uses('VideoTestUtil', 'Videos.Test/Case');
 
 /**
- * VideoBlockSetting::deleteVideoBlockSetting()のテスト
+ * VideoSetting::deleteVideoSetting()のテスト
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
- * @package NetCommons\Videos\Test\Case\Model\VideoBlockSetting
+ * @package NetCommons\Videos\Test\Case\Model\VideoSetting
  */
-class VideoBlockSettingDeleteVideoBlockSettingTest extends NetCommonsDeleteTest {
+class VideoSettingDeleteVideoSettingTest extends NetCommonsDeleteTest {
 
 /**
  * Fixtures
@@ -56,14 +56,14 @@ class VideoBlockSettingDeleteVideoBlockSettingTest extends NetCommonsDeleteTest 
  *
  * @var string
  */
-	protected $_modelName = 'VideoBlockSetting';
+	protected $_modelName = 'VideoSetting';
 
 /**
  * Method name
  *
  * @var string
  */
-	protected $_methodName = 'deleteVideoBlockSetting';
+	protected $_methodName = 'deleteVideoSetting';
 
 /**
  * setUp method
@@ -100,7 +100,7 @@ class VideoBlockSettingDeleteVideoBlockSettingTest extends NetCommonsDeleteTest 
  * @return array テストデータ
  */
 	public function dataProviderDelete() {
-		$data['VideoBlockSetting'] = (new VideoSettingFixture())->records[0];
+		$data['VideoSetting'] = (new VideoSettingFixture())->records[0];
 		$association = array();
 		//Current::$current['Block']['key'] = 'block_1';
 

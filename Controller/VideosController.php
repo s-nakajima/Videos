@@ -52,7 +52,7 @@ class VideosController extends VideosAppController {
 		'Categories.Category',
 		'ContentComments.ContentComment',	// コンテンツコメント
 		'Videos.Video',
-		'Videos.VideoBlockSetting',
+		'Videos.VideoSetting',
 		'Videos.VideoFrameSetting',
 	);
 
@@ -68,8 +68,8 @@ class VideosController extends VideosAppController {
 			'viewVarsKey' => array(
 				'contentKey' => 'video.Video.key',
 				'contentTitleForMail' => 'video.Video.title',
-				'useComment' => 'videoBlockSetting.use_comment',
-				'useCommentApproval' => 'videoBlockSetting.use_comment_approval',
+				'useComment' => 'videoSetting.use_comment',
+				'useCommentApproval' => 'videoSetting.use_comment_approval',
 			),
 		),
 		'Likes.Like',
@@ -94,7 +94,7 @@ class VideosController extends VideosAppController {
 		'ContentComments.ContentComments' => array(
 			'viewVarsKey' => array(
 				'contentKey' => 'video.Video.key',
-				'useComment' => 'videoBlockSetting.use_comment',
+				'useComment' => 'videoSetting.use_comment',
 			),
 			'allow' => array('view'),
 		),
@@ -225,8 +225,8 @@ class VideosController extends VideosAppController {
 		$this->set('relatedVideos', $relatedVideos);
 
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting(); //データあり
-		$this->set('videoBlockSetting', $videoBlockSetting['VideoBlockSetting']);
+		$videoSetting = $this->VideoSetting->getVideoSetting(); //データあり
+		$this->set('videoSetting', $videoSetting['VideoSetting']);
 
 		// クッキー対応
 		$cookie = $this->Cookie->read('video_history');
@@ -400,8 +400,8 @@ class VideosController extends VideosAppController {
 		$results['videos'] = $videos;
 
 		// 利用系(コメント利用、高く評価を利用等)の設定取得
-		$videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting();
-		$results['videoBlockSetting'] = $videoBlockSetting['VideoBlockSetting'];
+		$videoSetting = $this->VideoSetting->getVideoSetting();
+		$results['videoSetting'] = $videoSetting['VideoSetting'];
 
 		// カテゴリ
 		$categories = $this->Category->getCategories(Current::read('Block.id'),

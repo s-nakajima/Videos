@@ -1,6 +1,6 @@
 <?php
 /**
- * VideoBlockSetting::getVideoBlockSetting()のテスト
+ * VideoSetting::createVideoSetting()のテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -9,15 +9,15 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('NetCommonsGetTest', 'NetCommons.TestSuite');
+App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
 
 /**
- * VideoBlockSetting::getVideoBlockSetting()のテスト
+ * VideoSetting::createVideoSetting()のテスト
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
- * @package NetCommons\Videos\Test\Case\Model\VideoBlockSetting
+ * @package NetCommons\Videos\Test\Case\Model\VideoSetting
  */
-class VideoBlockSettingGetVideoBlockSettingTest extends NetCommonsGetTest {
+class VideoSettingCreateVideoSettingTest extends NetCommonsModelTestCase {
 
 /**
  * Fixtures
@@ -41,24 +41,23 @@ class VideoBlockSettingGetVideoBlockSettingTest extends NetCommonsGetTest {
  *
  * @var string
  */
-	protected $_modelName = 'VideoBlockSetting';
+	protected $_modelName = 'VideoSetting';
 
 /**
  * Method name
  *
  * @var string
  */
-	protected $_methodName = 'getVideoBlockSetting';
+	protected $_methodName = 'createVideoSetting';
 
 /**
- * getVideoBlockSetting()のテスト
+ * createVideoSetting()のテスト
  *
  * @return void
  */
-	public function testGetVideoBlockSetting() {
+	public function testCreateVideoSetting() {
 		$model = $this->_modelName;
 		$methodName = $this->_methodName;
-		Current::$current['Block']['key'] = 'block_1';
 
 		//データ生成
 
@@ -67,7 +66,7 @@ class VideoBlockSettingGetVideoBlockSettingTest extends NetCommonsGetTest {
 
 		//チェック
 		//debug($result);
-		$this->assertArrayHasKey('VideoBlockSetting', $result);
+		$this->assertArrayHasKey('VideoSetting', $result);
 		$this->assertArrayHasKey('Block', $result);
 	}
 

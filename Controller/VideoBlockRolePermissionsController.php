@@ -32,7 +32,7 @@ class VideoBlockRolePermissionsController extends VideosAppController {
  * @var array
  */
 	public $uses = array(
-		'Videos.VideoBlockSetting',
+		'Videos.VideoSetting',
 	);
 
 /**
@@ -76,22 +76,22 @@ class VideoBlockRolePermissionsController extends VideosAppController {
 		$this->set('roles', $permissions['Roles']);
 
 		if ($this->request->is('post')) {
-			if ($this->VideoBlockSetting->saveVideoBlockSetting($this->request->data)) {
+			if ($this->VideoSetting->saveVideoSetting($this->request->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
-			$this->NetCommons->handleValidationError($this->VideoBlockSetting->validationErrors);
+			$this->NetCommons->handleValidationError($this->VideoSetting->validationErrors);
 			$this->request->data['BlockRolePermission'] = Hash::merge(
 				$permissions['BlockRolePermissions'],
 				$this->request->data['BlockRolePermission']
 			);
 
 		} else {
-			if (! $videoBlockSetting = $this->VideoBlockSetting->getVideoBlockSetting()) {
+			if (! $videoSetting = $this->VideoSetting->getVideoSetting()) {
 				$this->throwBadRequest();
 				return false;
 			}
-			$this->request->data = Hash::merge($this->request->data, $videoBlockSetting);
+			$this->request->data = Hash::merge($this->request->data, $videoSetting);
 			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
 			$this->request->data['Frame'] = Current::read('Frame');
 		}

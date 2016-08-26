@@ -1,6 +1,6 @@
 <?php
 /**
- * VideoBlockSetting::saveTotalSize()のテスト
+ * VideoSetting::saveTotalSize()のテスト
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @link http://www.netcommons.org NetCommons Project
@@ -11,12 +11,12 @@
 App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
 
 /**
- * VideoBlockSetting::saveTotalSize()のテスト
+ * VideoSetting::saveTotalSize()のテスト
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Test\Case\Model\Video
  */
-class VideoBlockSettingSaveTotalSizeTest extends NetCommonsModelTestCase {
+class VideoSettingSaveTotalSizeTest extends NetCommonsModelTestCase {
 
 /**
  * Fixtures
@@ -40,7 +40,7 @@ class VideoBlockSettingSaveTotalSizeTest extends NetCommonsModelTestCase {
  *
  * @var string
  */
-	protected $_modelName = 'VideoBlockSetting';
+	protected $_modelName = 'VideoSetting';
 
 /**
  * Method name
@@ -64,7 +64,7 @@ class VideoBlockSettingSaveTotalSizeTest extends NetCommonsModelTestCase {
  * saveTotalSize()のテスト
  *
  * @return void
- * @see VideoBlockSetting::saveTotalSize()
+ * @see VideoSetting::saveTotalSize()
  */
 	public function testSaveTotalSize() {
 		$model = $this->_modelName;
@@ -78,9 +78,9 @@ class VideoBlockSettingSaveTotalSizeTest extends NetCommonsModelTestCase {
 		$this->assertTrue($result);
 
 		//チェック
-		$videoBlockSetting = $this->$model->getVideoBlockSetting();
-		//debug($videoBlockSetting);
-		$this->assertEquals($totalSize, $videoBlockSetting['VideoBlockSetting']['total_size']);
+		$videoSetting = $this->$model->getVideoSetting();
+		//debug($videoSetting);
+		$this->assertEquals($totalSize, $videoSetting['VideoSetting']['total_size']);
 	}
 
 /**
@@ -116,7 +116,7 @@ class VideoBlockSettingSaveTotalSizeTest extends NetCommonsModelTestCase {
 		$totalSize = 1111;
 
 		return array(
-			array($totalSize, 'Videos.VideoBlockSetting', 'saveField'),
+			array($totalSize, 'Videos.VideoSetting', 'saveField'),
 		);
 	}
 }

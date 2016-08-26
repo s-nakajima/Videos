@@ -114,7 +114,7 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 			<article>
 				<?php echo $this->element('Videos.Videos/list', array(
 					'video' => $video,
-					'videoBlockSetting' => $videoBlockSetting,
+					'videoSetting' => $videoSetting,
 					'isFfmpegEnable' => $isFfmpegEnable,
 				)); ?>
 			</article>

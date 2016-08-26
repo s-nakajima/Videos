@@ -329,7 +329,7 @@ class Video extends VideosAppModel {
  */
 	public function saveVideo($data, $isEdit = 0) {
 		$this->loadModels(array(
-			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
+			'VideoSetting' => 'Videos.VideoSetting',
 		));
 
 		//トランザクションBegin
@@ -365,7 +365,7 @@ class Video extends VideosAppModel {
 
 			// 総容量更新
 			$totalSize = $this->getTotalSize();
-			$this->VideoBlockSetting->saveTotalSize($totalSize);
+			$this->VideoSetting->saveTotalSize($totalSize);
 
 			//トランザクションCommit
 			$this->commit();
@@ -390,7 +390,7 @@ class Video extends VideosAppModel {
 			'Like' => 'Likes.Like',
 			'TagsContent' => 'Tags.TagsContent',
 			'UploadFile' => 'Files.UploadFile',
-			'VideoBlockSetting' => 'Videos.VideoBlockSetting',
+			'VideoSetting' => 'Videos.VideoSetting',
 		));
 
 		//トランザクションBegin
@@ -438,7 +438,7 @@ class Video extends VideosAppModel {
 
 			// 総容量更新
 			$totalSize = $this->getTotalSize();
-			$this->VideoBlockSetting->saveTotalSize($totalSize);
+			$this->VideoSetting->saveTotalSize($totalSize);
 
 			//トランザクションCommit
 			$this->commit();

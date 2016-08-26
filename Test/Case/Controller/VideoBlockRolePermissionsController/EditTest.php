@@ -52,7 +52,7 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
  */
 	private function __approvalFields() {
 		$data = array(
-			'VideoBlockSetting' => array(
+			'VideoSetting' => array(
 				'use_workflow',
 				'use_comment_approval',
 				'approval_type',
@@ -84,8 +84,8 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
 				'name' => $blockName,
 			)
 		);
-		$data['VideoBlockSetting'] = $data['Block'];
-		$data['VideoBlockSetting'] = Hash::merge($data['VideoBlockSetting'], array(
+		$data['VideoSetting'] = $data['Block'];
+		$data['VideoSetting'] = Hash::merge($data['VideoSetting'], array(
 			'use_workflow' => '1',
 			'use_comment_approval' => '1',
 			'approval_type' => '1',
@@ -123,7 +123,7 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
 		//ログイン
 		TestAuthGeneral::login($this);
 
-		$this->_mockForReturnFalse('Videos.VideoBlockSetting', 'getVideoBlockSetting');
+		$this->_mockForReturnFalse('Videos.VideoSetting', 'getVideoSetting');
 
 		$frameId = '6';
 		$blockId = '4';
@@ -155,7 +155,7 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
 		//ログイン
 		TestAuthGeneral::login($this);
 
-		$this->_mockForReturnFalse('Videos.VideoBlockSetting', 'getVideoBlockSetting');
+		$this->_mockForReturnFalse('Videos.VideoSetting', 'getVideoSetting');
 
 		$frameId = '6';
 		$blockId = '4';
@@ -211,7 +211,7 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
 		TestAuthGeneral::login($this);
 
 		$data = $this->__data();
-		$data['VideoBlockSetting']['use_workflow'] = 'xxx';
+		$data['VideoSetting']['use_workflow'] = 'xxx';
 
 		$frameId = '6';
 		$blockId = '4';

@@ -3,7 +3,7 @@
  * 動画リスト Element
  *   - $video: 動画1件
  *   - $style: css
- *   - $videoBlockSetting: 動画セッティング
+ *   - $videoSetting: 動画セッティング
  *   - $isFfmpegEnable: Ffmpegを使うか
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -84,7 +84,7 @@ if (!isset($style)) {
 			<?php echo $this->ContentComment->count($video, array('class' => 'video-count-icons')); ?>
 
 			<?php /* いいね数 */ ?>
-			<?php echo $this->Like->display($videoBlockSetting, $video); ?>
+			<?php echo $this->Like->display($videoSetting, $video); ?>
 		</div>
 	</div>
 </div>

@@ -1,6 +1,6 @@
 <?php
 /**
- * VideoBlockSetting Model
+ * VideoSetting Model
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -14,19 +14,12 @@ App::uses('VideosAppModel', 'Videos.Model');
 App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
 
 /**
- * VideoBlockSetting Model
+ * VideoSetting Model
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\Videos\Model
  */
-class VideoBlockSetting extends VideosAppModel {
-
-/**
- * Custom database table name
- *
- * @var string
- */
-	public $useTable = 'video_settings';
+class VideoSetting extends VideosAppModel {
 
 /**
  * Validation rules
@@ -47,7 +40,7 @@ class VideoBlockSetting extends VideosAppModel {
  */
 	public $actsAs = array(
 		'Blocks.Block' => array(
-			'name' => 'VideoBlockSetting.name',
+			'name' => 'VideoSetting.name',
 			// save, delete時にloadModels()
 			// delete時にblock_id, block_keyで紐づいてるデータ削除
 			'loadModels' => array(
@@ -88,7 +81,7 @@ class VideoBlockSetting extends VideosAppModel {
 			'className' => 'Blocks.Block',
 			'foreignKey' => false,
 			'conditions' => array(
-				'Block.key = VideoBlockSetting.block_key',
+				'Block.key = VideoSetting.block_key',
 			),
 			'fields' => '',
 			'order' => ''
@@ -130,50 +123,50 @@ class VideoBlockSetting extends VideosAppModel {
 	}
 
 /**
- * VideoBlockSettingデータ新規作成
+ * VideoSettingデータ新規作成
  *
  * @return array
  */
-	public function createVideoBlockSetting() {
-		$videoBlockSetting = $this->createAll(array(
+	public function createVideoSetting() {
+		$videoSetting = $this->createAll(array(
 			'Block' => array(
 				'name' => __d('videos', 'New channel %s', date('YmdHis')),
 			),
 		));
 		/** @see BlockSettingBehavior::createBlockSetting() */
-		return Hash::merge($videoBlockSetting, $this->createBlockSetting());
+		return Hash::merge($videoSetting, $this->createBlockSetting());
 	}
 
 /**
- * VideoBlockSettingデータ取得
+ * VideoSettingデータ取得
  *
  * @return array
  */
-	public function getVideoBlockSetting() {
+	public function getVideoSetting() {
 		$conditions = array(
 			$this->alias . '.block_key' => Current::read('Block.key'),
 		);
 
-		$videoBlockSetting = $this->find('first', array(
+		$videoSetting = $this->find('first', array(
 			'recursive' => 0,
 			'conditions' => $conditions,
 			'order' => $this->alias . '.id DESC'
 		));
-		if (!$videoBlockSetting) {
-			return $videoBlockSetting;
+		if (!$videoSetting) {
+			return $videoSetting;
 		}
 		/** @see BlockSettingBehavior::getBlockSetting() */
-		return Hash::merge($videoBlockSetting, $this->getBlockSetting());
+		return Hash::merge($videoSetting, $this->getBlockSetting());
 	}
 
 /**
- * VideoBlockSettingデータ保存
+ * VideoSettingデータ保存
  *
  * @param array $data received post data
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function saveVideoBlockSetting($data) {
+	public function saveVideoSetting($data) {
 		//トランザクションBegin
 		$this->begin();
 
@@ -206,8 +199,8 @@ class VideoBlockSetting extends VideosAppModel {
  * @throws InternalErrorException
  */
 	public function saveTotalSize($totalSize) {
-		$videoBlockSetting = $this->getVideoBlockSetting();
-		$this->id = $videoBlockSetting['VideoBlockSetting']['id'];
+		$videoSetting = $this->getVideoSetting();
+		$this->id = $videoSetting['VideoSetting']['id'];
 
 		// コールバックoff
 		$validate = array(
@@ -224,13 +217,13 @@ class VideoBlockSetting extends VideosAppModel {
 	}
 
 /**
- * VideoBlockSettingデータ削除
+ * VideoSettingデータ削除
  *
  * @param array $data received post data
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function deleteVideoBlockSetting($data) {
+	public function deleteVideoSetting($data) {
 		$this->loadModels(array(
 			'Like' => 'Likes.Like',
 			'LikesUser' => 'Likes.LikesUser',

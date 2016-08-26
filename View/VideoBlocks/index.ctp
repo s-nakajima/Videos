@@ -31,7 +31,7 @@
 							array('sort' => true, 'editUrl' => true)
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-							'VideoBlockSetting.total_size', __d('videos', 'File capacity'),
+							'VideoSetting.total_size', __d('videos', 'File capacity'),
 							array('sort' => true, 'type' => 'right')
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
@@ -53,31 +53,31 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($videoBlockSettings as $videoBlockSetting) : ?>
-						<?php echo $this->BlockIndex->startTableRow($videoBlockSetting['Block']['id']); ?>
+					<?php foreach ($videoSettings as $videoSetting) : ?>
+						<?php echo $this->BlockIndex->startTableRow($videoSetting['Block']['id']); ?>
 							<?php echo $this->BlockIndex->tableData(
-								'Frame.block_id', $videoBlockSetting['Block']['id']
+								'Frame.block_id', $videoSetting['Block']['id']
 							); ?>
 							<?php echo $this->BlockIndex->tableData(
-								'Block.name', $videoBlockSetting['Block']['name'],
-								array('editUrl' => array('block_id' => $videoBlockSetting['Block']['id']))
+								'Block.name', $videoSetting['Block']['name'],
+								array('editUrl' => array('block_id' => $videoSetting['Block']['id']))
 							); ?>
 							<td class="text-right">
-								<?php echo $this->Number->toReadableSize((int)$videoBlockSetting['VideoBlockSetting']['total_size']); ?>
+								<?php echo $this->Number->toReadableSize((int)$videoSetting['VideoSetting']['total_size']); ?>
 							</td>
 							<?php echo $this->BlockIndex->tableData(
-								'Block.content_count', (int)$videoBlockSetting['Block']['content_count'],
+								'Block.content_count', (int)$videoSetting['Block']['content_count'],
 								array('type' => 'numeric')
 							); ?>
 							<?php echo $this->BlockIndex->tableData(
-								'Block.public_type', $videoBlockSetting
+								'Block.public_type', $videoSetting
 							); ?>
 							<?php echo $this->BlockIndex->tableData(
-								'TrackableUpdater', $videoBlockSetting,
+								'TrackableUpdater', $videoSetting,
 								array('type' => 'handle')
 							); ?>
 							<?php echo $this->BlockIndex->tableData(
-								'Block.modified', $videoBlockSetting['Block']['modified'],
+								'Block.modified', $videoSetting['Block']['modified'],
 								array('type' => 'datetime')
 							); ?>
 						<?php echo $this->BlockIndex->endTableRow(); ?>

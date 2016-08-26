@@ -12,7 +12,7 @@
 ?>
 
 <?php echo $this->NetCommonsForm->hidden('Block.name'); ?>
-<?php echo $this->NetCommonsForm->hidden('VideoBlockSetting.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('VideoSetting.id'); ?>
 
 <?php echo $this->element('Blocks.block_creatable_setting', array(
 	'settingPermissions' => array(
@@ -25,7 +25,7 @@
 )); ?>
 
 <?php echo $this->element('Blocks.block_approval_setting', array(
-	'model' => 'VideoBlockSetting',
+	'model' => 'VideoSetting',
 	'useWorkflow' => 'use_workflow',
 	'useCommentApproval' => 'use_comment_approval',
 	'settingPermissions' => array(

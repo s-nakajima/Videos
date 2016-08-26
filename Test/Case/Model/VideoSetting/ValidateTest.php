@@ -1,6 +1,6 @@
 <?php
 /**
- * VideoBlockSetting::validate()のテスト
+ * VideoSetting::validate()のテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -13,12 +13,12 @@ App::uses('NetCommonsValidateTest', 'NetCommons.TestSuite');
 App::uses('VideoSettingFixture', 'Videos.Test/Fixture');
 
 /**
- * VideoBlockSetting::validate()のテスト
+ * VideoSetting::validate()のテスト
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
- * @package NetCommons\Videos\Test\Case\Model\VideoBlockSetting
+ * @package NetCommons\Videos\Test\Case\Model\VideoSetting
  */
-class VideoBlockSettingValidateTest extends NetCommonsValidateTest {
+class VideoSettingValidateTest extends NetCommonsValidateTest {
 
 /**
  * Fixtures
@@ -42,7 +42,7 @@ class VideoBlockSettingValidateTest extends NetCommonsValidateTest {
  *
  * @var string
  */
-	protected $_modelName = 'VideoBlockSetting';
+	protected $_modelName = 'VideoSetting';
 
 /**
  * Method name
@@ -73,11 +73,11 @@ class VideoBlockSettingValidateTest extends NetCommonsValidateTest {
  *  - overwrite 上書きするデータ(省略可)
  *
  * @return array テストデータ
- * @see VideoBlockSetting::beforeValidate()
+ * @see VideoSetting::beforeValidate()
  * @see NetCommonsValidateTest::testValidationError()
  */
 	public function dataProviderValidationError() {
-		$data['VideoBlockSetting'] = (new VideoSettingFixture())->records[0];
+		$data['VideoSetting'] = (new VideoSettingFixture())->records[0];
 		//$data['Block']['name'] = 'ブロック名';
 
 		//debug($data);

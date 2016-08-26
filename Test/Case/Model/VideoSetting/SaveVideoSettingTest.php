@@ -1,6 +1,6 @@
 <?php
 /**
- * VideoBlockSetting::saveVideoBlockSetting()のテスト
+ * VideoSetting::saveVideoSetting()のテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
@@ -13,12 +13,12 @@ App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
 App::uses('BlockFixture', 'Blocks.Test/Fixture');
 
 /**
- * VideoBlockSetting::saveVideoBlockSetting()のテスト
+ * VideoSetting::saveVideoSetting()のテスト
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
- * @package NetCommons\Videos\Test\Case\Model\VideoBlockSetting
+ * @package NetCommons\Videos\Test\Case\Model\VideoSetting
  */
-class VideoBlockSettingSaveVideoBlockSettingTest extends NetCommonsSaveTest {
+class VideoSettingSaveVideoSettingTest extends NetCommonsSaveTest {
 
 /**
  * Fixtures
@@ -41,14 +41,14 @@ class VideoBlockSettingSaveVideoBlockSettingTest extends NetCommonsSaveTest {
  *
  * @var string
  */
-	protected $_modelName = 'VideoBlockSetting';
+	protected $_modelName = 'VideoSetting';
 
 /**
  * Method name
  *
  * @var string
  */
-	protected $_methodName = 'saveVideoBlockSetting';
+	protected $_methodName = 'saveVideoSetting';
 
 /**
  * Save用DataProvider
@@ -59,15 +59,15 @@ class VideoBlockSettingSaveVideoBlockSettingTest extends NetCommonsSaveTest {
  * @return array テストデータ
  */
 	public function dataProviderSave() {
-		$data['VideoBlockSetting'] = (new BlockFixture())->records[0];
+		$data['VideoSetting'] = (new BlockFixture())->records[0];
 
 		$results = array();
 		// * 編集の登録処理
 		$results[0] = array($data);
 		// * 新規の登録処理
 		$results[1] = array($data);
-		$results[1] = Hash::insert($results[1], '0.VideoBlockSetting.id', null);
-		$results[1] = Hash::remove($results[1], '0.VideoBlockSetting.created_user');
+		$results[1] = Hash::insert($results[1], '0.VideoSetting.id', null);
+		$results[1] = Hash::remove($results[1], '0.VideoSetting.created_user');
 
 		return $results;
 	}
@@ -102,7 +102,7 @@ class VideoBlockSettingSaveVideoBlockSettingTest extends NetCommonsSaveTest {
 		$data = $this->dataProviderSave()[0][0];
 
 		return array(
-			array($data, 'Videos.VideoBlockSetting', 'save'),
+			array($data, 'Videos.VideoSetting', 'save'),
 		);
 	}
 
@@ -139,7 +139,7 @@ class VideoBlockSettingSaveVideoBlockSettingTest extends NetCommonsSaveTest {
 		$data = $this->dataProviderSave()[0][0];
 
 		return array(
-			array($data, 'Videos.VideoBlockSetting'),
+			array($data, 'Videos.VideoSetting'),
 		);
 	}
 
