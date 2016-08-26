@@ -132,7 +132,7 @@ class Video extends VideosAppModel {
 				'X-SUBJECT' => 'Video.title',
 				'X-BODY' => 'Video.description',
 			),
-			'isXbodyWysiwyg' => false,
+			'embedTagsWysiwyg' => array(),
 		),
 		'Mails.MailQueueDelete',
 		'Files.Attachment' => [
