@@ -283,12 +283,17 @@ class VideosController extends VideosAppController {
  *
  * @return CakeResponse
  * @throws NotFoundException 表示できない記事へのアクセス
+ * @throws ForbiddenException アクセス権なし
  * @see DownloadComponent::doDownload()
  */
 	public function download() {
 		// ダウンロードリンク使わないなら、400
 		if (!$this->useDownloadLink) {
 			return $this->setAction('throwBadRequest');
+		}
+		// ブロック編集許可（編集長以上）持っていないなら403
+		if (!Current::permission('block_editable')) {
+			throw new ForbiddenException();
 		}
 
 		// ここから元コンテンツを取得する処理
