@@ -203,7 +203,8 @@ class VideosController extends VideosAppController {
 			)
 		));
 		if (empty($video)) {
-			return $this->throwBadRequest();
+			// 表示できない記事へのアクセスなら404
+			throw new NotFoundException(__('Invalid video entry'));
 		}
 		$this->set('video', $video);
 
@@ -249,6 +250,17 @@ class VideosController extends VideosAppController {
 			// アクセス情報を記録
 			$this->Cookie->write('video_history', $cookie, false, '1 hour');
 		}
+	}
+
+/**
+ * 埋め込み動画表示
+ *
+ * @return CakeResponse
+ */
+	public function embed() {
+		$this->view();
+		$this->Components->unload('Pages.PageLayout');
+		$this->layout = 'Videos.embed';
 	}
 
 /**

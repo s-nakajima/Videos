@@ -125,12 +125,11 @@ echo $this->NetCommonsHtml->script(array(
 			<?php /* 埋め込みコード(非表示) */ ?>
 			<input type="text" class="form-control video-embed-text" value='<iframe width="400" height="300" src="<?php echo $this->NetCommonsHtml->url(
 				[
-					'action' => 'file',
+					'action' => 'embed',
 					'key' => $video['Video']['key'],
-					Video::VIDEO_FILE_FIELD,
 				],
 				true
-			); ?>" frameborder="0" allowfullscreen></iframe>'>
+			); ?>" frameborder="0" scrolling="no" allowfullscreen></iframe>'>
 		</div>
 		<div>
 			<?php /* Tags */ ?>
