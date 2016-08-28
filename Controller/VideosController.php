@@ -203,8 +203,7 @@ class VideosController extends VideosAppController {
 			)
 		));
 		if (empty($video)) {
-			// 表示できない記事へのアクセスなら404
-			throw new NotFoundException(__('Invalid video entry'));
+			return $this->throwBadRequest();
 		}
 		$this->set('video', $video);
 
