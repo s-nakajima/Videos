@@ -21,7 +21,7 @@ echo $this->NetCommonsHtml->script(array(
 	<div class="clearfix">
 		<div class="pull-left">
 			<?php /* ステータス */ ?>
-			<?php echo $this->Workflow->label($video['Video']['status']); ?>
+			<?php echo $this->LinkButton->toList(); ?>
 		</div>
 		<div class="pull-right text-right">
 			<?php
@@ -63,6 +63,8 @@ echo $this->NetCommonsHtml->script(array(
 		<div class="nc-content-list">
 			<?php /* タイトル */ ?>
 			<h1>
+				<?php /* ステータス */ ?>
+				<?php echo $this->Workflow->label($video['Video']['status']); ?>
 				<?php echo $this->TitleIcon->titleIcon($video['Video']['title_icon']); ?>
 				<?php echo h($video['Video']['title']); ?>
 			</h1>
