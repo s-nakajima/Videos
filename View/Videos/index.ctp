@@ -27,7 +27,7 @@ echo $this->NetCommonsHtml->script('/videos/js/videos.js');
 				<span class="dropdown">
 					<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
 						<span class="pull-left nc-drop-down-ellipsis">
-							<?php echo $filterDropDownLabel ?>
+							<?php echo h($filterDropDownLabel) ?>
 						</span>
 						<span class="pull-right">
 							<span class="caret"></span>
