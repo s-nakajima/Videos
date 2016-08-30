@@ -211,7 +211,7 @@ class VideosControllerIndexTest extends WorkflowControllerIndexTest {
 
 		//チェック
 		//debug($this->view);
-		$message = __d('videos', 'Add video');
+		$message = __d('videos', 'video');
 		$this->assertTextContains($message, $this->view);
 	}
 
@@ -245,7 +245,7 @@ class VideosControllerIndexTest extends WorkflowControllerIndexTest {
 		parent::testIndexByEditable($urlOptions, $assert, $exception, $return);
 
 		//チェック
-		$message = __d('videos', 'Add video');
+		$message = __d('videos', 'video');
 		$this->assertTextContains($message, $this->view);
 	}
 
