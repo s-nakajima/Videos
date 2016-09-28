@@ -96,17 +96,6 @@ class Video extends VideosAppModel {
 	const FFMPEG_THUMBNAIL_OPTION = '-ss 1 -vframes 1 -f image2';	// #01
 
 /**
- * mp4を変換する
- *
- * 動画ファイルには位置情報等が含まれるため、mp4でもその情報を消すために再度変換している。
- * また、mp4であってもH264形式になっていない動画もあり、スマートフォンで再生できない機種がでてくるため、変換が必要。
- * それでも再度変換をさせない場合は、falseに書き換える。
- *
- * @var bool mp4を変換する
- */
-	public $isMp4Convert = true;
-
-/**
  * @var bool ffmpeg 有効フラグ
  */
 	public $isFfmpegEnable = null;
