@@ -58,7 +58,7 @@ class VideoFixture extends CakeTestFixture {
 		array(
 			'id' => '1',
 			'block_id' => '2',
-			'category_id' => '0',
+			'category_id' => '1',
 			'key' => 'content_key_1',
 			'language_id' => '2',
 			'status' => '1',
@@ -74,7 +74,7 @@ class VideoFixture extends CakeTestFixture {
 		array(
 			'id' => '2',
 			'block_id' => '2',
-			'category_id' => '0',
+			'category_id' => '1',
 			'key' => 'content_key_1',
 			'language_id' => '2',
 			'status' => '3',
