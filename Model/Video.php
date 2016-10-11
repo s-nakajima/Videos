@@ -77,14 +77,16 @@ class Video extends VideosAppModel {
  * #### サンプルコード
  * ```php
  * 	// 通常
+ *	const FFMPEG_OPTION = '-ar 48000 -vcodec libx264 -r 30 -b 500k -strict -2';
+ * 	// for ffmpeg version git-2016-05-13-cb928fc ダウンロードしながら再生対応
+ *	const FFMPEG_OPTION = '-ar 48000 -vcodec libx264 -r 30 -b 500k  -strict -2 -movflags faststart';
+ * 	// 2016.10.11以前の通常
  *	const FFMPEG_OPTION = '-acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k';
- * 	// for ffmpeg version git-2016-05-13-cb928fc 動画の傾き対応
- *	const FFMPEG_OPTION = '-acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k -vf hflip -metadata:s:v:0 rotate=0';
  * ```
  *
  * @var string ffmpeg オプション
  */
-	const FFMPEG_OPTION = '-acodec libmp3lame -ab 128k -ar 44100 -ac 2 -vcodec libx264 -r 30 -b 500k';
+	const FFMPEG_OPTION = '-ar 48000 -vcodec libx264 -r 30 -b 500k -strict -2';
 
 /**
  * ffmpeg サムネイル オプション
