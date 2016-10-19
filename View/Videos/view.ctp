@@ -35,6 +35,7 @@ echo $this->NetCommonsHtml->script(array(
 			}
 			?>
 		</div>
+	</div>
 </header>
 
 <?php /* 動画 */ ?>
