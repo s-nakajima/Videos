@@ -51,7 +51,7 @@ class UploadFileForVideoFixture extends UploadFileFixture {
 			'size' => 4544587,
 			'download_count' => 11,
 			'total_download_count' => 11,
-			'room_id' => 1,
+			'room_id' => '2',
 			'block_key' => 'Lorem ipsum dolor sit amet',
 		),
 		array( // video
@@ -67,7 +67,7 @@ class UploadFileForVideoFixture extends UploadFileFixture {
 			'size' => 4544587,
 			'download_count' => 12,
 			'total_download_count' => 12,
-			'room_id' => 1,
+			'room_id' => '2',
 			'block_key' => 'Lorem ipsum dolor sit amet',
 		),
 	);
