@@ -71,7 +71,7 @@ class VideosEditControllerAddTest extends WorkflowControllerAddTest {
 		$this->controller->UploadFile = ClassRegistry::init('Files.UploadFile', true);
 		$this->controller->UploadFile->uploadBasePath = $tmpFolder->path . '/';
 		// テスト実ファイル配置
-		$testFilePath = $tmpFolder->path . '/files/upload_file/real_file_name/1/14';
+		$testFilePath = $tmpFolder->path . '/files/upload_file/real_file_name/2/14';
 		$tmpFolder->create($testFilePath);
 		$videoFilePath = APP . 'Plugin' . DS . 'Videos' . DS . 'Test' . DS . 'Fixture' . DS .
 			'video1.mp4';
@@ -103,7 +103,7 @@ class VideosEditControllerAddTest extends WorkflowControllerAddTest {
 				'id' => $blockId,
 				'key' => $blockKey,
 				'language_id' => '2',
-				'room_id' => '1',
+				'room_id' => '2',
 				'plugin_key' => $this->plugin,
 			),
 			'Video' => array(

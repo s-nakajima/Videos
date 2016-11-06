@@ -76,7 +76,7 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
 				'id' => $blockId,
 				'key' => $blockKey,
 				'language_id' => '2',
-				'room_id' => '1',
+				'room_id' => '2',
 				'plugin_key' => $this->plugin,
 				'public_type' => '1',
 				'from' => null,
@@ -216,7 +216,7 @@ class VideoBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCo
 		$frameId = '6';
 		$blockId = '4';
 		$blockKey = 'block_2';
-		$roomId = '1';
+		$roomId = '2';
 		$permissions = $this->_getPermissionData(true, Hash::check($data, '{s}.use_comment_approval'));
 
 		$RolesRoomFixture = new RolesRoomFixture();
