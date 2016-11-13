@@ -36,7 +36,6 @@ class VideoSettingDeleteVideoSettingTest extends NetCommonsDeleteTest {
 		'plugin.tags.tag',
 		'plugin.tags.tags_content',
 		'plugin.content_comments.content_comment',
-		'plugin.frames.frame4frames',
 		'plugin.workflow.workflow_comment',
 		'plugin.mails.mail_setting_fixed_phrase',
 		'plugin.site_manager.site_setting',

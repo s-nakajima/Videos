@@ -40,7 +40,6 @@ class VideoSaveVideoTest extends WorkflowSaveTest {
 		'plugin.tags.tag',
 		'plugin.tags.tags_content',
 		'plugin.content_comments.content_comment',
-		'plugin.frames.frame4frames',
 		'plugin.workflow.workflow_comment',
 	);
 
