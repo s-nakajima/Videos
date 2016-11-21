@@ -145,10 +145,7 @@ class VideoBlocksController extends VideosAppController {
 
 		} else {
 			//表示処理(初期データセット)
-			if (! $videoSetting = $this->VideoSetting->getVideoSetting()) {
-				$this->throwBadRequest();
-				return false;
-			}
+			$videoSetting = $this->VideoSetting->getVideoSetting();
 			$this->request->data = Hash::merge($this->request->data, $videoSetting);
 			$this->request->data = Hash::merge($this->request->data,
 											$this->VideoFrameSetting->getVideoFrameSetting(true));

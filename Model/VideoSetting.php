@@ -141,6 +141,7 @@ class VideoSetting extends VideosAppModel {
  * VideoSettingデータ取得
  *
  * @return array
+ * @throws InternalErrorException
  */
 	public function getVideoSetting() {
 		$conditions = array(
@@ -153,7 +154,7 @@ class VideoSetting extends VideosAppModel {
 			'order' => $this->alias . '.id DESC'
 		));
 		if (!$videoSetting) {
-			return $videoSetting;
+			throw new InternalErrorException('Not found ' . __METHOD__);
 		}
 		/** @see BlockSettingBehavior::getBlockSetting() */
 		return Hash::merge($videoSetting, $this->getBlockSetting());
