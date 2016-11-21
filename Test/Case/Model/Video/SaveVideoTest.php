@@ -40,7 +40,6 @@ class VideoSaveVideoTest extends WorkflowSaveTest {
 		'plugin.tags.tag',
 		'plugin.tags.tags_content',
 		'plugin.content_comments.content_comment',
-		'plugin.frames.frame4frames',
 		'plugin.workflow.workflow_comment',
 	);
 
@@ -91,7 +90,7 @@ class VideoSaveVideoTest extends WorkflowSaveTest {
 		$tmpFilePath = $testFilePath . DS . 'video1.mp4';
 		copy($videoFilePath, $tmpFilePath);
 		// テスト実ファイル配置 2個目
-		$testFilePath = $tmpFolder->path . '/files/upload_file/real_file_name/1/14';
+		$testFilePath = $tmpFolder->path . '/files/upload_file/real_file_name/2/14';
 		$tmpFilePath = $testFilePath . DS . 'ef4ac246226cf2f9896c0d978c71541f.mp4';
 		$tmpFolder->create($testFilePath);
 		copy($videoFilePath, $tmpFilePath);

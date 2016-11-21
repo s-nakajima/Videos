@@ -53,7 +53,7 @@ class VideoBehaviorSaveConvertVideoTest extends NetCommonsModelTestCase {
 		//テストプラグインのロード
 		NetCommonsCakeTestCase::loadTestPlugin($this, 'Videos', 'TestVideos');
 		$this->TestVideoBehaviorModel = ClassRegistry::init('TestVideos.TestVideoBehaviorModel');
-		Current::write('Room.id', 1);
+		Current::write('Room.id', '2');
 	}
 
 /**

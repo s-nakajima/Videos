@@ -36,7 +36,6 @@ class VideosControllerIndexTest extends WorkflowControllerIndexTest {
 		'plugin.content_comments.content_comment',
 		'plugin.categories.category',
 		'plugin.categories.category_order',
-		'plugin.frames.frame4frames',
 	);
 
 /**
