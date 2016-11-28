@@ -27,7 +27,7 @@
 							'Frame.block_id'
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-							'Block.name', __d('videos', 'Channel name'),
+							'BlocksLanguage.name', __d('videos', 'Channel name'),
 							array('sort' => true, 'editUrl' => true)
 						); ?>
 						<?php echo $this->BlockIndex->tableHeader(
@@ -59,7 +59,7 @@
 								'Frame.block_id', $videoSetting['Block']['id']
 							); ?>
 							<?php echo $this->BlockIndex->tableData(
-								'Block.name', $videoSetting['Block']['name'],
+								'BlocksLanguage.name', $videoSetting['BlocksLanguage']['name'],
 								array('editUrl' => array('block_id' => $videoSetting['Block']['id']))
 							); ?>
 							<td class="text-right">

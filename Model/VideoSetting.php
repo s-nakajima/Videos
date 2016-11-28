@@ -101,7 +101,7 @@ class VideoSetting extends VideosAppModel {
 			return false;
 		}
 
-		if (isset($this->data['Block']['name'])) {
+		if (isset($this->data['BlocksLanguage']['name'])) {
 			$this->Block->validate = array(
 				'name' => array(
 					'notBlank' => array(

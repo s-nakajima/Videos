@@ -17,7 +17,7 @@ $this->NetCommonsHtml->script(array(
 
 <article>
 	<?php /* ブロック名表示 */ ?>
-	<?php echo $this->NetCommonsHtml->blockTitle(Current::read('Block.name')); ?>
+	<?php echo $this->NetCommonsHtml->blockTitle(Current::read('BlocksLanguage.name')); ?>
 
 	<div class="panel panel-default">
 		<?php /* ファイル送信は、FormHelperでform作成時、'type' => 'file' 必要。記述すると enctype="multipart/form-data" が追加される */ ?>

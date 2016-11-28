@@ -78,7 +78,7 @@ class VideoSettingValidateTest extends NetCommonsValidateTest {
  */
 	public function dataProviderValidationError() {
 		$data['VideoSetting'] = (new VideoSettingFixture())->records[0];
-		//$data['Block']['name'] = 'ブロック名';
+		//$data['BlocksLanguage']['name'] = 'ブロック名';
 
 		//debug($data);
 		return array(

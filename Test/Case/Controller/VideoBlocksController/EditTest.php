@@ -149,7 +149,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		unset($data['VideoSetting']['name']);
 		$results[3] = array('method' => 'post', 'data' => $data,
 			'validationError' => array(
-				'field' => 'Block.name',
+				'field' => 'BlocksLanguage.name',
 				'value' => '',
 				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
 			)
@@ -179,7 +179,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		$results[2] = array('method' => 'put', 'data' => $data, 'validationError' => false);
 		$results[3] = array('method' => 'put', 'data' => $data,
 			'validationError' => array(
-				'field' => 'Block.name',
+				'field' => 'BlocksLanguage.name',
 				'value' => '',
 				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
 			)

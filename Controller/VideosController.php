@@ -134,7 +134,7 @@ class VideosController extends VideosAppController {
  */
 	public function index() {
 		$conditions = array();
-		$this->set('listTitle', Current::read('Block.name'));
+		$this->set('listTitle', Current::read('BlocksLanguage.name'));
 		$this->set('filterDropDownLabel', __d('videos', 'All videos'));
 
 		$categoryId = Hash::get($this->request->params['named'], 'category_id', 0);
@@ -163,7 +163,7 @@ class VideosController extends VideosAppController {
 	public function tag() {
 		$this->view = 'index';
 		$conditions = array();
-		$this->set('listTitle', Current::read('Block.name'));
+		$this->set('listTitle', Current::read('BlocksLanguage.name'));
 		$this->set('filterDropDownLabel', __d('videos', 'All videos'));
 
 		// indexとのちがいはtagIdでの絞り込みだけ
