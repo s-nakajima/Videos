@@ -94,12 +94,14 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 			'Block' => array(
 				'id' => $blockId,
 				'key' => $blockKey,
-				'language_id' => '2',
 				'room_id' => '2',
 				'plugin_key' => $this->plugin,
 				'public_type' => '1',
 				'from' => null,
 				'to' => null,
+			),
+			'BlocksLanguage' => array(
+				'language_id' => '2',
 				'name' => $blockName,
 			),
 			'VideoFrameSetting' => array(
