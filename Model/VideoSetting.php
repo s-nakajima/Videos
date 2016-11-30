@@ -102,7 +102,10 @@ class VideoSetting extends VideosAppModel {
 		}
 
 		if (isset($this->data['BlocksLanguage']['name'])) {
-			$this->Block->validate = array(
+			$this->loadModels(array(
+				'BlocksLanguage' => 'Blocks.BlocksLanguage',
+			));
+			$this->BlocksLanguage->validate = array(
 				'name' => array(
 					'notBlank' => array(
 						'rule' => array('notBlank'),
@@ -111,11 +114,11 @@ class VideoSetting extends VideosAppModel {
 					),
 				)
 			);
-			$this->Block->set($this->data['Block']);
-			if (!$this->Block->validates()) {
+			$this->BlocksLanguage->set($this->data['BlocksLanguage']);
+			if (!$this->BlocksLanguage->validates()) {
 				$this->validationErrors = Hash::merge(
 					$this->validationErrors,
-					$this->Block->validationErrors
+					$this->BlocksLanguage->validationErrors
 				);
 				return false;
 			}
