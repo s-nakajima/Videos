@@ -285,7 +285,7 @@ class VideosController extends VideosAppController {
 			return $this->Download->doDownload($video['Video']['id']);
 		} else {
 			// 表示できない記事へのアクセスなら404
-			throw new NotFoundException(__('Invalid video entry'));
+			throw new NotFoundException(__d('videos', 'Invalid video entry'));
 		}
 	}
 
@@ -322,7 +322,7 @@ class VideosController extends VideosAppController {
 		// ダウンロード実行
 		if (!$video) {
 			// 表示できない記事へのアクセスなら404
-			throw new NotFoundException(__('Invalid video entry'));
+			throw new NotFoundException(__d('videos', 'Invalid video entry'));
 		}
 
 		// 圧縮用パスワードキーを求める
