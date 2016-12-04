@@ -13,125 +13,138 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Plugin/Videos/Model/VideoBlockSetting.php:134
-msgid "New channel %s"
+#: Videos/Controller/VideosController.php:138;167
+#: Videos/View/Videos/index.ctp:44
+msgid "All videos"
 msgstr ""
 
-#: Plugin/Videos/Model/VideoBlockSetting.php:180
-#: Plugin/Videos/Test/Case/Controller/VideoBlocksController/EditTest.php:148;177
-#: Plugin/Videos/View/Elements/VideoBlocks/edit_form.ctp:24
-#: Plugin/Videos/View/VideoBlocks/index.ctp:33
+#: Videos/Controller/VideosController.php:288;325
+msgid "Invalid video entry"
+msgstr ""
+
+#: Videos/Model/VideoSetting.php:112
+#: Videos/Test/Case/Controller/VideoBlocksController/EditTest.php:156;186
+#: Videos/View/Elements/VideoBlocks/edit_form.ctp:26
+#: Videos/View/VideoBlocks/index.ctp:30
 msgid "Channel name"
 msgstr ""
 
-#: Plugin/Videos/Model/Behavior/VideoValidationBehavior.php:35;89
-#: Plugin/Videos/Test/Case/Controller/VideosEditController/AddTest.php:248
-#: Plugin/Videos/Test/Case/Controller/VideosEditController/EditTest.php:348
+#: Videos/Model/VideoSetting.php:136
+msgid "New channel %s"
+msgstr ""
+
+#: Videos/Model/Behavior/VideoValidationBehavior.php:205
+#: Videos/Test/Case/Controller/VideosEditController/AddTest.php:269
+#: Videos/Test/Case/Controller/VideosEditController/EditTest.php:351
+#: Videos/Test/Case/Model/Video/ValidateTest.php:87
 msgid "title"
 msgstr ""
 
-#: Plugin/Videos/Test/Case/Controller/VideosController/IndexTest.php:109;144;178
-#: Plugin/Videos/View/Videos/index.ctp:31
+#: Videos/Test/Case/Controller/VideosController/IndexTest.php:145
 msgid "Add video"
 msgstr ""
 
-#: Plugin/Videos/View/Elements/VideoBlockRolePermissions/edit_form.ctp:34
-#: Plugin/Videos/View/VideosEdit/edit.ctp:164
+#: Videos/Test/Case/Controller/VideosController/IndexTest.php:213;247
+#: Videos/View/Elements/VideoBlockRolePermissions/edit_form.ctp:35
+#: Videos/View/Videos/index.ctp:103
+#: Videos/View/VideosEdit/edit.ctp:125
 msgid "video"
 msgstr ""
 
-msgid "Video"
-msgstr ""
-
-#: Plugin/Videos/View/Elements/VideoBlocks/delete_form.ctp:18;22
-msgid "channel"
-msgstr ""
-
-#: Plugin/Videos/View/Elements/VideoBlocks/edit_form.ctp:37
-msgid "Automatically play video"
-msgstr ""
-
-#: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:20
-msgid "Display order"
-msgstr ""
-
-#: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:26
-#: Plugin/Videos/View/Videos/index.ctp:58
-msgid "Newest"
-msgstr ""
-
-#: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:27
-#: Plugin/Videos/View/Videos/index.ctp:63
-msgid "By title"
-msgstr ""
-
-#: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:28
-#: Plugin/Videos/View/Videos/index.ctp:68
-msgid "Viewed"
-msgstr ""
-
-#: Plugin/Videos/View/Elements/VideoFrameSettings/edit_form.ctp:29
-#: Plugin/Videos/View/Videos/index.ctp:73
-msgid "Reviews"
-msgstr ""
-
-#: Plugin/Videos/View/Elements/Videos/player.ctp:34
-msgid "To play the video requires a browser that supports the video tag."
-msgstr ""
-
-#: Plugin/Videos/View/VideoBlocks/index.ctp:39
-msgid "File capacity"
-msgstr ""
-
-#: Plugin/Videos/View/VideoMailSettings/edit.ctp:21
-msgid "MailSetting.mail_fixed_phrase_body.popover"
-msgstr ""
-
-#: Plugin/Videos/View/Videos/view.ctp:120
-msgid "Downloads"
-msgstr ""
-
-#: Plugin/Videos/View/Videos/view.ctp:127
-msgid "Embed"
-msgstr ""
-
-#: Plugin/Videos/View/Videos/view.ctp:151
-msgid "Registration Date"
-msgstr ""
-
-#: Plugin/Videos/View/VideosEdit/add.ctp:33;35;51
-#: Plugin/Videos/View/VideosEdit/edit.ctp:31;33
-msgid "support of %s."
-msgstr ""
-
-#: Plugin/Videos/View/VideosEdit/add.ctp:38
-msgid "Video file"
-msgstr ""
-
-#: Plugin/Videos/View/VideosEdit/add.ctp:47
-#: Plugin/Videos/View/VideosEdit/edit.ctp:49
-msgid "Thumbnail"
-msgstr ""
-
-#: Plugin/Videos/View/VideosEdit/add.ctp:58
-#: Plugin/Videos/View/VideosEdit/edit.ctp:88
-msgid "Title"
-msgstr ""
-
-#: Plugin/Videos/View/VideosEdit/add.ctp:64
-#: Plugin/Videos/View/VideosEdit/edit.ctp:105
-msgid "Description"
-msgstr ""
-
-#: Plugin/Videos/View/VideosEdit/edit.ctp:31
-msgid "Please register if you want to change."
-msgstr ""
-
+#: Videos/View/Elements/VideoBlockRolePermissions/edit_form.ctp:19
 msgid "Content creatable roles"
 msgstr ""
 
+#: Videos/View/Elements/VideoBlocks/delete_form.ctp:18;22
+msgid "channel"
+msgstr ""
+
+#: Videos/View/Elements/VideoBlocks/edit_form.ctp:39
+msgid "Automatically play video"
+msgstr ""
+
+#: Videos/View/Elements/VideoFrameSettings/edit_form.ctp:20
+msgid "Display order"
+msgstr ""
+
+#: Videos/View/Elements/VideoFrameSettings/edit_form.ctp:26
+#: Videos/View/Videos/index.ctp:62
+msgid "Newest"
+msgstr ""
+
+#: Videos/View/Elements/VideoFrameSettings/edit_form.ctp:27
+#: Videos/View/Videos/index.ctp:67
+msgid "By title"
+msgstr ""
+
+#: Videos/View/Elements/VideoFrameSettings/edit_form.ctp:28
+#: Videos/View/Videos/index.ctp:72
+msgid "Viewed"
+msgstr ""
+
+#: Videos/View/Elements/VideoFrameSettings/edit_form.ctp:29
+#: Videos/View/Videos/index.ctp:77
+msgid "Reviews"
+msgstr ""
+
+#: Videos/View/Elements/Videos/player.ctp:35
+msgid "To play the video requires a browser that supports the video tag."
+msgstr ""
+
+#: Videos/View/VideoBlocks/index.ctp:34
+msgid "File capacity"
+msgstr ""
+
+#: Videos/View/VideoBlocks/index.ctp:38
 msgid "Number"
 msgstr ""
 
-msgid "All videos"
+#: Videos/View/VideoMailSettings/edit.ctp:24
+msgid "MailSetting.mail_fixed_phrase_body.popover"
 msgstr ""
+
+#: Videos/View/Videos/index.ctp:113
+msgid "Video"
+msgstr ""
+
+#: Videos/View/Videos/view.ctp:72
+msgid "Registration Date"
+msgstr ""
+
+#: Videos/View/Videos/view.ctp:106
+msgid "Downloads"
+msgstr ""
+
+#: Videos/View/Videos/view.ctp:113
+msgid "Embed"
+msgstr ""
+
+#: Videos/View/VideosEdit/add.ctp:39
+#: Videos/View/VideosEdit/edit.ctp:48
+msgid "Title"
+msgstr ""
+
+#: Videos/View/VideosEdit/add.ctp:45;47;61
+#: Videos/View/VideosEdit/edit.ctp:55;57;60
+msgid "support of %s."
+msgstr ""
+
+#: Videos/View/VideosEdit/add.ctp:51
+#: Videos/View/VideosEdit/edit.ctp:64
+msgid "Video file"
+msgstr ""
+
+#: Videos/View/VideosEdit/add.ctp:59
+#: Videos/View/VideosEdit/edit.ctp:70
+msgid "Thumbnail"
+msgstr ""
+
+#: Videos/View/VideosEdit/add.ctp:67
+#: Videos/View/VideosEdit/edit.ctp:77
+msgid "Description"
+msgstr ""
+
+#: Videos/View/VideosEdit/edit.ctp:53;59
+msgid "Please register if you want to change."
+msgstr ""
+
