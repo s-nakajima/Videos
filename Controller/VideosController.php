@@ -141,11 +141,17 @@ class VideosController extends VideosAppController {
 		// URLから直入力対策
 		$categoryId = (int)$categoryId;
 		if ($categoryId) {
-			$category = $this->Category->findById($categoryId);
+			$category = $this->Category->find('first', array(
+				'recursive' => 0,
+				'conditions' => array('Category.id' => $categoryId),
+			));
 			// 存在するカテゴリのみ
 			if ($category) {
-				$this->set('listTitle', __d('categories', 'Category') . ':' . $category['Category']['name']);
-				$this->set('filterDropDownLabel', $category['Category']['name']);
+				$this->set(
+					'listTitle',
+					__d('categories', 'Category') . ':' . $category['CategoriesLanguage']['name']
+				);
+				$this->set('filterDropDownLabel', $category['CategoriesLanguage']['name']);
 				$conditions['Video.category_id'] = $categoryId;
 			}
 		}

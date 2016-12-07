@@ -77,7 +77,7 @@ echo $this->NetCommonsHtml->script(array(
 			<?php /* カテゴリ */ ?>
 			<?php if ($video['Video']['category_id']) : ?>
 				<?php echo __d('categories', 'Category') ?>:
-				<?php echo $this->NetCommonsHtml->link($video['Category']['name'], array(
+				<?php echo $this->NetCommonsHtml->link($video['CategoriesLanguage']['name'], array(
 					'controller' => 'videos',
 					'action' => 'index',
 					'category_id' => $video['Video']['category_id']
