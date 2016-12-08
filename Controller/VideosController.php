@@ -389,6 +389,8 @@ class VideosController extends VideosAppController {
  * @throws Exception Paginatorによる例外
  */
 	private function __list($extraConditions = array()) {
+		$query['recursive'] = 0;
+
 		/* @see WorkflowBehavior::getWorkflowConditions() */
 		$query['conditions'] = $this->Video->getWorkflowConditions([
 			'Video.block_id' => Current::read('Block.id'),

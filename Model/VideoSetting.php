@@ -151,6 +151,9 @@ class VideoSetting extends VideosAppModel {
 			$this->alias . '.block_key' => Current::read('Block.key'),
 		);
 
+		$belongsTo = $this->Block->bindModelBlockLang();
+		$this->bindModel($belongsTo, true);
+
 		$videoSetting = $this->find('first', array(
 			'recursive' => 0,
 			'conditions' => $conditions,
@@ -159,6 +162,7 @@ class VideoSetting extends VideosAppModel {
 		if (!$videoSetting) {
 			throw new InternalErrorException('Not found ' . __METHOD__);
 		}
+
 		/** @see BlockSettingBehavior::getBlockSetting() */
 		return Hash::merge($videoSetting, $this->getBlockSetting());
 	}

@@ -37,6 +37,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		'plugin.content_comments.content_comment',
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.workflow.workflow_comment',
 		'plugin.mails.mail_setting',
 		'plugin.mails.mail_setting_fixed_phrase',
