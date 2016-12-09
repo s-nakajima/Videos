@@ -144,6 +144,7 @@ class Video extends VideosAppModel {
 				'UploadFilesContent' => array(
 					'class' => 'Files.UploadFilesContent',
 					'foreignKey' => 'content_id',
+					'isM17n' => true
 				),
 			),
 		),
