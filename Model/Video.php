@@ -139,7 +139,13 @@ class Video extends VideosAppModel {
 		),
 		//多言語
 		'M17n.M17n' => array(
-			'allUpdateField' => array('category_id')
+			'allUpdateField' => array('category_id'),
+			'associations' => array(
+				'UploadFilesContent' => array(
+					'class' => 'Files.UploadFilesContent',
+					'foreignKey' => 'content_id',
+				),
+			),
 		),
 	);
 
