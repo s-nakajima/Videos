@@ -134,18 +134,24 @@ class VideosController extends VideosAppController {
  */
 	public function index() {
 		$conditions = array();
-		$this->set('listTitle', Current::read('Block.name'));
+		$this->set('listTitle', Current::read('BlocksLanguage.name'));
 		$this->set('filterDropDownLabel', __d('videos', 'All videos'));
 
 		$categoryId = Hash::get($this->request->params['named'], 'category_id', 0);
 		// URLから直入力対策
 		$categoryId = (int)$categoryId;
 		if ($categoryId) {
-			$category = $this->Category->findById($categoryId);
+			$category = $this->Category->find('first', array(
+				'recursive' => 0,
+				'conditions' => array('Category.id' => $categoryId),
+			));
 			// 存在するカテゴリのみ
 			if ($category) {
-				$this->set('listTitle', __d('categories', 'Category') . ':' . $category['Category']['name']);
-				$this->set('filterDropDownLabel', $category['Category']['name']);
+				$this->set(
+					'listTitle',
+					__d('categories', 'Category') . ':' . $category['CategoriesLanguage']['name']
+				);
+				$this->set('filterDropDownLabel', $category['CategoriesLanguage']['name']);
 				$conditions['Video.category_id'] = $categoryId;
 			}
 		}
@@ -163,7 +169,7 @@ class VideosController extends VideosAppController {
 	public function tag() {
 		$this->view = 'index';
 		$conditions = array();
-		$this->set('listTitle', Current::read('Block.name'));
+		$this->set('listTitle', Current::read('BlocksLanguage.name'));
 		$this->set('filterDropDownLabel', __d('videos', 'All videos'));
 
 		// indexとのちがいはtagIdでの絞り込みだけ
@@ -383,6 +389,8 @@ class VideosController extends VideosAppController {
  * @throws Exception Paginatorによる例外
  */
 	private function __list($extraConditions = array()) {
+		$query['recursive'] = 0;
+
 		/* @see WorkflowBehavior::getWorkflowConditions() */
 		$query['conditions'] = $this->Video->getWorkflowConditions([
 			'Video.block_id' => Current::read('Block.id'),

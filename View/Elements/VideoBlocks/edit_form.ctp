@@ -19,8 +19,9 @@
 <?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.frame_key'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.display_order'); ?>
 <?php echo $this->NetCommonsForm->hidden('VideoFrameSetting.display_number'); ?>
+<?php echo $this->NetCommonsForm->hidden('BlocksLanguage.language_id'); ?>
 
-<?php echo $this->NetCommonsForm->input('Block.name', array(
+<?php echo $this->NetCommonsForm->input('BlocksLanguage.name', array(
 	'type' => 'text',
 	'label' => __d('videos', 'Channel name'),
 	'required' => true

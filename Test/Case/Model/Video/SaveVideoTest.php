@@ -30,6 +30,7 @@ class VideoSaveVideoTest extends WorkflowSaveTest {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.site_manager.site_setting',
 		'plugin.videos.video',
 		'plugin.videos.video_setting',

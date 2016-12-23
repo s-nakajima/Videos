@@ -101,8 +101,11 @@ class VideoSetting extends VideosAppModel {
 			return false;
 		}
 
-		if (isset($this->data['Block']['name'])) {
-			$this->Block->validate = array(
+		if (isset($this->data['BlocksLanguage']['name'])) {
+			$this->loadModels(array(
+				'BlocksLanguage' => 'Blocks.BlocksLanguage',
+			));
+			$this->BlocksLanguage->validate = array(
 				'name' => array(
 					'notBlank' => array(
 						'rule' => array('notBlank'),
@@ -111,11 +114,11 @@ class VideoSetting extends VideosAppModel {
 					),
 				)
 			);
-			$this->Block->set($this->data['Block']);
-			if (!$this->Block->validates()) {
+			$this->BlocksLanguage->set($this->data['BlocksLanguage']);
+			if (!$this->BlocksLanguage->validates()) {
 				$this->validationErrors = Hash::merge(
 					$this->validationErrors,
-					$this->Block->validationErrors
+					$this->BlocksLanguage->validationErrors
 				);
 				return false;
 			}
@@ -148,6 +151,9 @@ class VideoSetting extends VideosAppModel {
 			$this->alias . '.block_key' => Current::read('Block.key'),
 		);
 
+		$belongsTo = $this->Block->bindModelBlockLang();
+		$this->bindModel($belongsTo, true);
+
 		$videoSetting = $this->find('first', array(
 			'recursive' => 0,
 			'conditions' => $conditions,
@@ -156,6 +162,7 @@ class VideoSetting extends VideosAppModel {
 		if (!$videoSetting) {
 			throw new InternalErrorException('Not found ' . __METHOD__);
 		}
+
 		/** @see BlockSettingBehavior::getBlockSetting() */
 		return Hash::merge($videoSetting, $this->getBlockSetting());
 	}

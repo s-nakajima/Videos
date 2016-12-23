@@ -37,6 +37,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		'plugin.content_comments.content_comment',
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.workflow.workflow_comment',
 		'plugin.mails.mail_setting',
 		'plugin.mails.mail_setting_fixed_phrase',
@@ -94,12 +95,14 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 			'Block' => array(
 				'id' => $blockId,
 				'key' => $blockKey,
-				'language_id' => '2',
 				'room_id' => '2',
 				'plugin_key' => $this->plugin,
 				'public_type' => '1',
 				'from' => null,
 				'to' => null,
+			),
+			'BlocksLanguage' => array(
+				'language_id' => '2',
 				'name' => $blockName,
 			),
 			'VideoFrameSetting' => array(
@@ -149,7 +152,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		unset($data['VideoSetting']['name']);
 		$results[3] = array('method' => 'post', 'data' => $data,
 			'validationError' => array(
-				'field' => 'Block.name',
+				'field' => 'BlocksLanguage.name',
 				'value' => '',
 				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
 			)
@@ -179,7 +182,7 @@ class VideoBlocksControllerEditTest extends BlocksControllerEditTest {
 		$results[2] = array('method' => 'put', 'data' => $data, 'validationError' => false);
 		$results[3] = array('method' => 'put', 'data' => $data,
 			'validationError' => array(
-				'field' => 'Block.name',
+				'field' => 'BlocksLanguage.name',
 				'value' => '',
 				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('videos', 'Channel name')),
 			)

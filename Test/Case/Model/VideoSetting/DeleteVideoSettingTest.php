@@ -41,6 +41,7 @@ class VideoSettingDeleteVideoSettingTest extends NetCommonsDeleteTest {
 		'plugin.site_manager.site_setting',
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 	);
 
 /**

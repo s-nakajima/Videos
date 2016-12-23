@@ -137,6 +137,17 @@ class Video extends VideosAppModel {
 				'path' => '/:plugin_key/:plugin_key/view/:block_id/:content_key',
 			),
 		),
+		//多言語
+		'M17n.M17n' => array(
+			'commonFields' => array('category_id', 'title_icon'),
+			'associations' => array(
+				'UploadFilesContent' => array(
+					'class' => 'Files.UploadFilesContent',
+					'foreignKey' => 'content_id',
+					'isM17n' => true
+				),
+			),
+		),
 	);
 
 /**
@@ -159,7 +170,10 @@ class Video extends VideosAppModel {
 			'fields' => '',
 			'order' => '',
 			'counterCache' => array(
-				'content_count' => array('Video.is_latest' => 1),
+				'content_count' => array(
+					'Video.is_origin' => true,
+					'Video.is_latest' => true
+				),
 			),
 		),
 	);
@@ -170,6 +184,23 @@ class Video extends VideosAppModel {
  * @var array
  */
 	public $validate = array();
+
+/**
+ * Called before each find operation. Return false if you want to halt the find
+ * call, otherwise return the (modified) query data.
+ *
+ * @param array $query Data used to execute this query, i.e. conditions, order, etc.
+ * @return mixed true if the operation should continue, false if it should abort; or, modified
+ *  $query to continue with new $query
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforefind
+ */
+	public function beforeFind($query) {
+		if (Hash::get($query, 'recursive') > -1 && ! $this->id) {
+			$belongsTo = $this->Category->bindModelCategoryLang('Video.category_id');
+			$this->bindModel($belongsTo, true);
+		}
+		return true;
+	}
 
 /**
  * Called during validation operations, before validation. Please note that custom
