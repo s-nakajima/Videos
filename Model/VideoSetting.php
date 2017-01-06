@@ -45,6 +45,7 @@ class VideoSetting extends VideosAppModel {
 			// delete時にblock_id, block_keyで紐づいてるデータ削除
 			'loadModels' => array(
 				'BlockSetting' => 'Blocks.BlockSetting',
+				'BlocksLanguage' => 'Blocks.BlocksLanguage',
 				'Category' => 'Categories.Category',
 				'CategoryOrder' => 'Categories.CategoryOrder',
 				'ContentComment' => 'ContentComments.ContentComment',
@@ -131,11 +132,15 @@ class VideoSetting extends VideosAppModel {
  * @return array
  */
 	public function createVideoSetting() {
-		$videoSetting = $this->createAll(array(
-			'Block' => array(
+		$videoSetting = $this->createAll();
+		$this->loadModels(array(
+			'BlocksLanguage' => 'Blocks.BlocksLanguage',
+		));
+		$videoSetting = Hash::merge($videoSetting, $this->BlocksLanguage->createAll(array(
+			'BlocksLanguage' => array(
 				'name' => __d('videos', 'New channel %s', date('YmdHis')),
 			),
-		));
+		)));
 		/** @see BlockSettingBehavior::createBlockSetting() */
 		return Hash::merge($videoSetting, $this->createBlockSetting());
 	}
