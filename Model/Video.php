@@ -146,6 +146,12 @@ class Video extends VideosAppModel {
 					'foreignKey' => 'content_id',
 					'isM17n' => true
 				),
+				'TagsContent' => array(
+					'class' => 'Tags.TagsContent',
+					'foreignKey' => 'content_id',
+					'fieldForIdentifyPlugin' => array('field' => 'model', 'value' => 'Video'),
+					'isM17n' => true
+				),
 			),
 		),
 	);
@@ -362,6 +368,8 @@ class Video extends VideosAppModel {
 		} else {
 			$options = array('add');
 		}
+
+		$data['Video']['category_id'] = Hash::get($data, 'Video.category_id', '0');
 
 		//バリデーション
 		$this->set($data);
