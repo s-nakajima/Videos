@@ -40,7 +40,7 @@ class Video extends VideosAppModel {
  */
 	// @codingStandardsIgnoreStart
 	// [.]よる文字連結で複数行にすると syntax error になるため、phpcs(1行100文字制限)を除外
-	const VIDEO_MIME_TYPE = 'video/mpeg,video/mpg,video/avi,video/quicktime,video/x-ms-wmv,video/x-ms-asf,video/x-flv,video/mp4';
+	const VIDEO_MIME_TYPE = 'video/mpeg,video/x-mpeg,video/avi,video/msvideo,video/x-msvideo,video/quicktime,video/x-ms-wmv,video/x-flv,video/mp4';
 	// @codingStandardsIgnoreEnd
 
 /**
