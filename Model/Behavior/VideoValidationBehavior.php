@@ -141,7 +141,7 @@ class VideoValidationBehavior extends ModelBehavior {
 					),
 					'mimetype' => array(
 						'rule' => array('mimeType', explode(',', $mimeType)),
-						'message' => array(__d('files', 'It is upload disabled file format'))
+						'message' => array(__d('files', 'It is upload disabled file format2'))
 					),
 				),
 			));

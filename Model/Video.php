@@ -33,14 +33,14 @@ class Video extends VideosAppModel {
 /**
  * @var string 動画 拡張子
  */
-	const VIDEO_EXTENSION = 'mpeg,mpg,avi,mov,wmv,flv,mp4';
+	const VIDEO_EXTENSION = 'mpeg,mpg,mpe,avi,mov,wmv,asf,flv,mp4';
 
 /**
  * @var string 動画 MIMEタイプ
  */
 	// @codingStandardsIgnoreStart
 	// [.]よる文字連結で複数行にすると syntax error になるため、phpcs(1行100文字制限)を除外
-	const VIDEO_MIME_TYPE = 'video/mpeg,video/x-mpeg,video/avi,video/msvideo,video/x-msvideo,video/quicktime,video/x-ms-wmv,video/x-flv,video/mp4';
+	const VIDEO_MIME_TYPE = 'video/mpeg,video/x-mpeg,video/avi,video/msvideo,video/x-msvideo,video/quicktime,video/x-ms-wmv,video/x-ms-asf,video/x-flv,video/mp4';
 	// @codingStandardsIgnoreEnd
 
 /**
