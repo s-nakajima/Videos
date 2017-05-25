@@ -83,6 +83,8 @@ class VideoSettingSaveVideoSettingTest extends NetCommonsSaveTest {
 		$model = $this->_modelName;
 		$method = $this->_methodName;
 
+		Current::write('Room.id', '2');
+
 		//テスト実行
 		$result = $this->$model->$method($data);
 		$this->assertNotEmpty($result);
